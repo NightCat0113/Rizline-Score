@@ -55,6 +55,9 @@
 *.swp
 *~
 
+# ---- Bot runtime (encrypted score cache, never commit) ----
+/var/
+
 # ---- Python ----
 __pycache__/
 *.py[cod]

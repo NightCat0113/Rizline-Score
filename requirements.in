@@ -1,0 +1,5 @@
+discord.py==2.7.1
+cryptography==50.0.0
+pycryptodome==4.1.0
+pillow==12.3.0
+pytest==9.1.1

@@ -1,0 +1,5045 @@
+{
+  "source": "songs.json + mapping.json + Database.txt + output/default.json; songs.json is canonical for chart constants",
+  "songs": [
+    {
+      "assetId": "PastelLines.RekuMochizuki.0",
+      "title": "Pastel Lines",
+      "artist": "Reku Mochizuki",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.PastelLines.RekuMochizuki.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.0,
+          "hit": 100,
+          "combo": 376,
+          "score": 1002900,
+          "rizHit": 29,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 380,
+          "combo": 1496,
+          "score": 1010400,
+          "rizHit": 104,
+          "designer": "Barbarianerman"
+        },
+        "IN": {
+          "level": 11.4,
+          "hit": 537,
+          "combo": 2124,
+          "score": 1016300,
+          "rizHit": 163,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Gleam.Uske.0",
+      "title": "Gleam feat. ふわまろ",
+      "artist": "U-ske",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Gleam.Uske.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 178,
+          "combo": 688,
+          "score": 1003500,
+          "rizHit": 35,
+          "designer": "Pro Barbarianerman"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 442,
+          "combo": 1744,
+          "score": 1009100,
+          "rizHit": 91,
+          "designer": "Pcat"
+        },
+        "IN": {
+          "level": 12.6,
+          "hit": 810,
+          "combo": 3216,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "Proxima"
+        }
+      }
+    },
+    {
+      "assetId": "PowerAttack.EBIMAYO.0",
+      "title": "Power Attack",
+      "artist": "EBIMAYO",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.PowerAttack.EBIMAYO.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 331,
+          "combo": 1300,
+          "score": 1004600,
+          "rizHit": 46,
+          "designer": "Power Shine"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 689,
+          "combo": 2732,
+          "score": 1011600,
+          "rizHit": 116,
+          "designer": "Power cat"
+        },
+        "IN": {
+          "level": 12.4,
+          "hit": 931,
+          "combo": 3700,
+          "score": 1022500,
+          "rizHit": 225,
+          "designer": "Barbarianerman"
+        }
+      }
+    },
+    {
+      "assetId": "Skyscape.Plum.0",
+      "title": "Skyscape",
+      "artist": "Plum",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Skyscape.Plum.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.0,
+          "hit": 139,
+          "combo": 532,
+          "score": 1003300,
+          "rizHit": 33,
+          "designer": "Skyshine"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 475,
+          "combo": 1876,
+          "score": 1012400,
+          "rizHit": 124,
+          "designer": "Skystar"
+        },
+        "IN": {
+          "level": 11.1,
+          "hit": 644,
+          "combo": 2552,
+          "score": 1016100,
+          "rizHit": 161,
+          "designer": "阿爽"
+        }
+      }
+    },
+    {
+      "assetId": "OnAndOn.ETIA.0",
+      "title": "On And On!!",
+      "artist": "ETIA.",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.OnAndOn.ETIA.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 289,
+          "combo": 1132,
+          "score": 1006600,
+          "rizHit": 66,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 403,
+          "combo": 1588,
+          "score": 1010400,
+          "rizHit": 104,
+          "designer": "阿爽"
+        },
+        "IN": {
+          "level": 13.1,
+          "hit": 896,
+          "combo": 3560,
+          "score": 1019200,
+          "rizHit": 192,
+          "designer": "NerSAN & 阿爽"
+        }
+      }
+    },
+    {
+      "assetId": "Polygons.Riya.0",
+      "title": "Polygons",
+      "artist": "Riya",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Polygons.Riya.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.0,
+          "hit": 165,
+          "combo": 636,
+          "score": 1006600,
+          "rizHit": 66,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 417,
+          "combo": 1644,
+          "score": 1010400,
+          "rizHit": 104,
+          "designer": "Uvernight"
+        },
+        "IN": {
+          "level": 9.5,
+          "hit": 583,
+          "combo": 2308,
+          "score": 1014900,
+          "rizHit": 149,
+          "designer": "Barbarianerman & Uvernight"
+        }
+      }
+    },
+    {
+      "assetId": "Abgrund.ElousFZ.0",
+      "title": "Abgrund",
+      "artist": "ElousΛ.-FZ",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Abgrund.ElousFZ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 280,
+          "combo": 1096,
+          "score": 1007800,
+          "rizHit": 78,
+          "designer": "Proxi.-MA"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 409,
+          "combo": 1612,
+          "score": 1013200,
+          "rizHit": 132,
+          "designer": "Uvernight"
+        },
+        "IN": {
+          "level": 12.3,
+          "hit": 546,
+          "combo": 2160,
+          "score": 1015500,
+          "rizHit": 155,
+          "designer": "阿爽"
+        }
+      }
+    },
+    {
+      "assetId": "JourneyToTheRainbows.Ardolf.0",
+      "title": "Journey To The Rainbows",
+      "artist": "Ardolf",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.JourneyToTheRainbows.Ardolf.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 254,
+          "combo": 992,
+          "score": 1005100,
+          "rizHit": 51,
+          "designer": "TangScend"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 632,
+          "combo": 2504,
+          "score": 1013400,
+          "rizHit": 134,
+          "designer": "TangScend"
+        },
+        "IN": {
+          "level": 12.9,
+          "hit": 857,
+          "combo": 3404,
+          "score": 1017000,
+          "rizHit": 170,
+          "designer": "TangScend"
+        }
+      }
+    },
+    {
+      "assetId": "MidnightFlux.ProjectG.0",
+      "title": "Midnight Flux",
+      "artist": "Project G",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.MidnightFlux.ProjectG.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 414,
+          "combo": 1632,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "CN_115"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 682,
+          "combo": 2704,
+          "score": 1022000,
+          "rizHit": 220,
+          "designer": "小鹏"
+        },
+        "IN": {
+          "level": 12.5,
+          "hit": 740,
+          "combo": 2936,
+          "score": 1025300,
+          "rizHit": 253,
+          "designer": "Gausbon"
+        }
+      }
+    },
+    {
+      "assetId": "NOONEYESMAN.MYUKKE.0",
+      "title": "NO ONE YES MAN",
+      "artist": "MYUKKE.",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.NOONEYESMAN.MYUKKE.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 367,
+          "combo": 1444,
+          "score": 1011800,
+          "rizHit": 118,
+          "designer": "RIGILKENT"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 561,
+          "combo": 2220,
+          "score": 1013100,
+          "rizHit": 131,
+          "designer": "Barbarianerman"
+        },
+        "IN": {
+          "level": 12.4,
+          "hit": 929,
+          "combo": 3692,
+          "score": 1021500,
+          "rizHit": 215,
+          "designer": "Gausbon"
+        }
+      }
+    },
+    {
+      "assetId": "ClockParadox.WyvernP.0",
+      "title": "Clock Paradox",
+      "artist": "WyvernP",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.ClockParadox.WyvernP.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 199,
+          "combo": 772,
+          "score": 1006600,
+          "rizHit": 66,
+          "designer": "Rikko"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 463,
+          "combo": 1828,
+          "score": 1015100,
+          "rizHit": 151,
+          "designer": "Barbarianerman with Harakuma"
+        },
+        "IN": {
+          "level": 12.5,
+          "hit": 794,
+          "combo": 3152,
+          "score": 1028000,
+          "rizHit": 280,
+          "designer": "CN_115 & Gausbon"
+        }
+      }
+    },
+    {
+      "assetId": "FRIEND.DAAN.0",
+      "title": "F℟IEND",
+      "artist": "D_AAN",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.FRIEND.DAAN.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 243,
+          "combo": 948,
+          "score": 1008600,
+          "rizHit": 86,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 529,
+          "combo": 2092,
+          "score": 1015200,
+          "rizHit": 152,
+          "designer": "TangScend"
+        },
+        "IN": {
+          "level": 12.2,
+          "hit": 737,
+          "combo": 2924,
+          "score": 1023400,
+          "rizHit": 234,
+          "designer": "阿爽"
+        }
+      }
+    },
+    {
+      "assetId": "Shattered.ARForest.0",
+      "title": "Shattered",
+      "artist": "ARForest",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Shattered.ARForest.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 315,
+          "combo": 1236,
+          "score": 1007300,
+          "rizHit": 73,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 524,
+          "combo": 2072,
+          "score": 1013300,
+          "rizHit": 133,
+          "designer": "Barbarianerman"
+        },
+        "IN": {
+          "level": 12.4,
+          "hit": 966,
+          "combo": 3840,
+          "score": 1025600,
+          "rizHit": 256,
+          "designer": "南門贰"
+        }
+      }
+    },
+    {
+      "assetId": "SwingSweetTweeDance.Uske.0",
+      "title": "Swing Sweet Twee Dance feat. ななきなな",
+      "artist": "U-ske",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.SwingSweetTweeDance.Uske.0",
+      "aliases": [
+        "swingsweettweedance"
+      ],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 280,
+          "combo": 1096,
+          "score": 1008600,
+          "rizHit": 86,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 636,
+          "combo": 2520,
+          "score": 1013800,
+          "rizHit": 138,
+          "designer": "Proxima"
+        },
+        "IN": {
+          "level": 12.3,
+          "hit": 927,
+          "combo": 3684,
+          "score": 1021200,
+          "rizHit": 212,
+          "designer": "Sky Star Twee Dance"
+        }
+      }
+    },
+    {
+      "assetId": "Vrtuaresort.seatrus.0",
+      "title": "V!rtuaresort",
+      "artist": "seatrus",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Vrtuaresort.seatrus.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 237,
+          "combo": 924,
+          "score": 1007000,
+          "rizHit": 70,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 675,
+          "combo": 2676,
+          "score": 1015700,
+          "rizHit": 157,
+          "designer": "Snorkel & StupiGGy"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 960,
+          "combo": 3816,
+          "score": 1022000,
+          "rizHit": 220,
+          "designer": "TangScend"
+        }
+      }
+    },
+    {
+      "assetId": "Dice20.Daily.0",
+      "title": "Dice 20",
+      "artist": "Daily天利",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Dice20.Daily.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 197,
+          "combo": 764,
+          "score": 1003400,
+          "rizHit": 34,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 406,
+          "combo": 1600,
+          "score": 1006900,
+          "rizHit": 69,
+          "designer": "Pro 198"
+        },
+        "IN": {
+          "level": 12.2,
+          "hit": 829,
+          "combo": 3292,
+          "score": 1011000,
+          "rizHit": 110,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "macrowav.dandeless.0",
+      "title": "macro.wav",
+      "artist": "dandeless",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.macrowav.dandeless.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 333,
+          "combo": 1308,
+          "score": 1006200,
+          "rizHit": 62,
+          "designer": "Barbarianerman.txt"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 409,
+          "combo": 1612,
+          "score": 1010300,
+          "rizHit": 103,
+          "designer": "dawn.txt"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 799,
+          "combo": 3172,
+          "score": 1015800,
+          "rizHit": 158,
+          "designer": "198.txt"
+        }
+      }
+    },
+    {
+      "assetId": "TheNextArcady.SEPHID.0",
+      "title": "The Next Arcady",
+      "artist": "SEPHID",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.TheNextArcady.SEPHID.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 211,
+          "combo": 820,
+          "score": 1010700,
+          "rizHit": 107,
+          "designer": "Pro Barbarianerman"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 529,
+          "combo": 2092,
+          "score": 1020300,
+          "rizHit": 203,
+          "designer": "满天星"
+        },
+        "IN": {
+          "level": 12.9,
+          "hit": 766,
+          "combo": 3040,
+          "score": 1025800,
+          "rizHit": 258,
+          "designer": "TangScend"
+        }
+      }
+    },
+    {
+      "assetId": "SakuraFubuki.Street.0",
+      "title": "Sakura Fubuki",
+      "artist": "Street",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.SakuraFubuki.Street.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 149,
+          "combo": 572,
+          "score": 1004400,
+          "rizHit": 44,
+          "designer": "Ctymax"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 527,
+          "combo": 2084,
+          "score": 1011300,
+          "rizHit": 113,
+          "designer": "TangScend"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 702,
+          "combo": 2784,
+          "score": 1018400,
+          "rizHit": 184,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Tempest.Plum.0",
+      "title": "Tempest",
+      "artist": "Plum",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Tempest.Plum.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 411,
+          "combo": 1620,
+          "score": 1011400,
+          "rizHit": 114,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 841,
+          "combo": 3340,
+          "score": 1023600,
+          "rizHit": 236,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1089,
+          "combo": 4332,
+          "score": 1032600,
+          "rizHit": 326,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "AuthenticGamever.Rukadesunowheretogo.0",
+      "title": "Authentic (Game ver.)",
+      "artist": "Rukadesu & nowhere.to_go",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.AuthenticGamever.Rukadesunowheretogo.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 340,
+          "combo": 1336,
+          "score": 1007200,
+          "rizHit": 72,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 503,
+          "combo": 1988,
+          "score": 1013700,
+          "rizHit": 137,
+          "designer": "满天星"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 896,
+          "combo": 3560,
+          "score": 1020100,
+          "rizHit": 201,
+          "designer": "Barbarianerman & 198"
+        }
+      }
+    },
+    {
+      "assetId": "MilK.morimoriatsushi.0",
+      "title": "MilK",
+      "artist": "モリモリあつし",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.MilK.morimoriatsushi.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 284,
+          "combo": 1112,
+          "score": 1007900,
+          "rizHit": 79,
+          "designer": "StupiGGy"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 415,
+          "combo": 1636,
+          "score": 1012800,
+          "rizHit": 128,
+          "designer": "ShinE"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 752,
+          "combo": 2984,
+          "score": 1020300,
+          "rizHit": 203,
+          "designer": "StupiGGy"
+        }
+      }
+    },
+    {
+      "assetId": "ILLEGALLEGACY.seatrus.0",
+      "title": "ILLEGAL LEGACY",
+      "artist": "seatrus",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.ILLEGALLEGACY.seatrus.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 332,
+          "combo": 1304,
+          "score": 1009100,
+          "rizHit": 91,
+          "designer": "Rikko"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 749,
+          "combo": 2972,
+          "score": 1016000,
+          "rizHit": 160,
+          "designer": "TangScend"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 1030,
+          "combo": 4096,
+          "score": 1016600,
+          "rizHit": 166,
+          "designer": "Gausbon & 百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Bamboo.rissyuu.0",
+      "title": "竹",
+      "artist": "立秋",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Bamboo.rissyuu.0",
+      "aliases": [
+        "bamboo"
+      ],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 299,
+          "combo": 1172,
+          "score": 1003600,
+          "rizHit": 36,
+          "designer": "晨"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 431,
+          "combo": 1700,
+          "score": 1003800,
+          "rizHit": 38,
+          "designer": "晨"
+        },
+        "IN": {
+          "level": 14.2,
+          "hit": 1166,
+          "combo": 4640,
+          "score": 1012200,
+          "rizHit": 122,
+          "designer": "StupiGGy"
+        }
+      }
+    },
+    {
+      "assetId": "RIP.eicateve.0",
+      "title": "R.I.P.",
+      "artist": "eicateve",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.RIP.eicateve.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 287,
+          "combo": 1124,
+          "score": 1010000,
+          "rizHit": 100,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 654,
+          "combo": 2592,
+          "score": 1021900,
+          "rizHit": 219,
+          "designer": "good 猫ning"
+        },
+        "IN": {
+          "level": 14.0,
+          "hit": 1052,
+          "combo": 4184,
+          "score": 1044100,
+          "rizHit": 441,
+          "designer": "good Night, good moRning"
+        }
+      }
+    },
+    {
+      "assetId": "Empire.416.0",
+      "title": "Empire",
+      "artist": "4_16",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Empire.416.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 215,
+          "combo": 836,
+          "score": 1004800,
+          "rizHit": 48,
+          "designer": "Shin_e"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 621,
+          "combo": 2460,
+          "score": 1009900,
+          "rizHit": 99,
+          "designer": "Pro_xima"
+        },
+        "IN": {
+          "level": 13.0,
+          "hit": 918,
+          "combo": 3648,
+          "score": 1020200,
+          "rizHit": 202,
+          "designer": "百九十八 & Pcat"
+        }
+      }
+    },
+    {
+      "assetId": "DropDown.Cosmograph.0",
+      "title": "DropDown",
+      "artist": "Cosmograph",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.DropDown.Cosmograph.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 292,
+          "combo": 1144,
+          "score": 1013400,
+          "rizHit": 134,
+          "designer": "Barbarianerman"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 633,
+          "combo": 2508,
+          "score": 1024400,
+          "rizHit": 244,
+          "designer": "Pro Pcat"
+        },
+        "IN": {
+          "level": 14.0,
+          "hit": 1108,
+          "combo": 4408,
+          "score": 1039900,
+          "rizHit": 399,
+          "designer": "Gausbon feat.汉堡"
+        }
+      }
+    },
+    {
+      "assetId": "Contact.NeutralMoonMK.0",
+      "title": "Contact",
+      "artist": "Neutral Moon & MK",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.Contact.NeutralMoonMK.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 181,
+          "combo": 700,
+          "score": 1003300,
+          "rizHit": 33,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 491,
+          "combo": 1940,
+          "score": 1008600,
+          "rizHit": 86,
+          "designer": "阿爽"
+        },
+        "IN": {
+          "level": 13.4,
+          "hit": 859,
+          "combo": 3412,
+          "score": 1020600,
+          "rizHit": 206,
+          "designer": "NerSAN"
+        }
+      }
+    },
+    {
+      "assetId": "CANDYLAND.Seo.0",
+      "title": "CANDYLAND",
+      "artist": "Seo",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.CANDYLAND.Seo.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 450,
+          "combo": 1776,
+          "score": 1006500,
+          "rizHit": 65,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 972,
+          "combo": 3864,
+          "score": 1016900,
+          "rizHit": 169,
+          "designer": "NerSAN"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 1293,
+          "combo": 5148,
+          "score": 1021500,
+          "rizHit": 215,
+          "designer": "Gausbon"
+        }
+      }
+    },
+    {
+      "assetId": "ArcadeViruZ.AspidCat.0",
+      "title": "Arcade ViruZ",
+      "artist": "Aspid Cat",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.ArcadeViruZ.AspidCat.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 251,
+          "combo": 980,
+          "score": 1005500,
+          "rizHit": 55,
+          "designer": "ShinE"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 441,
+          "combo": 1740,
+          "score": 1009000,
+          "rizHit": 90,
+          "designer": "Proxima"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 947,
+          "combo": 3764,
+          "score": 1030000,
+          "rizHit": 300,
+          "designer": "NerSAN"
+        }
+      }
+    },
+    {
+      "assetId": "LINKLINS.Halv.0",
+      "title": "LINK x LIN#S",
+      "artist": "Halv",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.LINKLINS.Halv.0",
+      "aliases": [
+        "linklins"
+      ],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 204,
+          "combo": 792,
+          "score": 1006400,
+          "rizHit": 64,
+          "designer": "RIGIL x K#NT"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 431,
+          "combo": 1700,
+          "score": 1013200,
+          "rizHit": 132,
+          "designer": "Barbarianerman"
+        },
+        "IN": {
+          "level": 11.3,
+          "hit": 708,
+          "combo": 2808,
+          "score": 1018800,
+          "rizHit": 188,
+          "designer": "NerSAN x Pcat"
+        }
+      }
+    },
+    {
+      "assetId": "LEONIDS.SaMZIngTitanChaos.0",
+      "title": "LEONIDS",
+      "artist": "SaMZIng / Titan Chaos",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.LEONIDS.SaMZIngTitanChaos.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 237,
+          "combo": 924,
+          "score": 1004800,
+          "rizHit": 48,
+          "designer": "✦满天星✦"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 584,
+          "combo": 2312,
+          "score": 1010500,
+          "rizHit": 105,
+          "designer": "✦ShinE✦"
+        },
+        "IN": {
+          "level": 12.9,
+          "hit": 745,
+          "combo": 2956,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "✦百九十八✦"
+        }
+      }
+    },
+    {
+      "assetId": "FORTALiCE.ZxNX.0",
+      "title": "FORTALiCE",
+      "artist": "ZxNX",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.FORTALiCE.ZxNX.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 537,
+          "combo": 2124,
+          "score": 1008400,
+          "rizHit": 84,
+          "designer": "StupiGGy"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 634,
+          "combo": 2512,
+          "score": 1012100,
+          "rizHit": 121,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 12.8,
+          "hit": 987,
+          "combo": 3924,
+          "score": 1018300,
+          "rizHit": 183,
+          "designer": "PROXiMA"
+        }
+      }
+    },
+    {
+      "assetId": "TurningPOINT.Junk.0",
+      "title": "Turning POINT",
+      "artist": "Junk",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.TurningPOINT.Junk.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 288,
+          "combo": 1128,
+          "score": 1007600,
+          "rizHit": 76,
+          "designer": "ProXIMA"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 568,
+          "combo": 2248,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "HaraKUMA"
+        },
+        "IN": {
+          "level": 13.1,
+          "hit": 826,
+          "combo": 3280,
+          "score": 1018200,
+          "rizHit": 182,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "ReversedZenith.Synzak.0",
+      "title": "Reversed Zenith",
+      "artist": "硝酸生菜",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ReversedZenith.Synzak.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 467,
+          "combo": 1844,
+          "score": 1008700,
+          "rizHit": 87,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 592,
+          "combo": 2344,
+          "score": 1012000,
+          "rizHit": 120,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 12.9,
+          "hit": 969,
+          "combo": 3852,
+          "score": 1015200,
+          "rizHit": 152,
+          "designer": "ReversedArah"
+        }
+      }
+    },
+    {
+      "assetId": "ParadialResonator.RekuMochizuki.0",
+      "title": "Paradial Resonator",
+      "artist": "Reku Mochizuki",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.ParadialResonator.RekuMochizuki.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 375,
+          "combo": 1476,
+          "score": 1006600,
+          "rizHit": 66,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 639,
+          "combo": 2532,
+          "score": 1015200,
+          "rizHit": 152,
+          "designer": "HaraKuma"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 840,
+          "combo": 3336,
+          "score": 1022400,
+          "rizHit": 224,
+          "designer": "Proton Xollider"
+        }
+      }
+    },
+    {
+      "assetId": "RestrictedAccess.Knighthood.0",
+      "title": "Restricted Access",
+      "artist": "Knighthood",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.RestrictedAccess.Knighthood.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 338,
+          "combo": 1328,
+          "score": 1007100,
+          "rizHit": 71,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 798,
+          "combo": 3168,
+          "score": 1019600,
+          "rizHit": 196,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 14.5,
+          "hit": 1260,
+          "combo": 5016,
+          "score": 1030000,
+          "rizHit": 300,
+          "designer": "地爆天星"
+        }
+      }
+    },
+    {
+      "assetId": "TheLastPage.ARForest.0",
+      "title": "The Last Page",
+      "artist": "ARForest",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.TheLastPage.ARForest.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 220,
+          "combo": 856,
+          "score": 1008800,
+          "rizHit": 88,
+          "designer": "ShinE"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 425,
+          "combo": 1676,
+          "score": 1018200,
+          "rizHit": 182,
+          "designer": "HaraKuma"
+        },
+        "IN": {
+          "level": 12.6,
+          "hit": 809,
+          "combo": 3212,
+          "score": 1026200,
+          "rizHit": 262,
+          "designer": "阿爽 & 百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "SuperUniverseKnighthoodRemix.Knighthood.0",
+      "title": "Super Universe (Knighthood Remix)",
+      "artist": "Knighthood",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.5,
+          "hit": 540,
+          "combo": 2136,
+          "score": 1010700,
+          "rizHit": 107,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 726,
+          "combo": 2880,
+          "score": 1013800,
+          "rizHit": 138,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 14.8,
+          "hit": 1477,
+          "combo": 5884,
+          "score": 1031400,
+          "rizHit": 314,
+          "designer": "满天星"
+        }
+      }
+    },
+    {
+      "assetId": "LavenderLeaffeatLexi.VauBoy.0",
+      "title": "Lavender Leaf (feat. Lexi)",
+      "artist": "Vau Boy",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.LavenderLeaffeatLexi.VauBoy.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 465,
+          "combo": 1836,
+          "score": 1009700,
+          "rizHit": 97,
+          "designer": "Gypsophila"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 634,
+          "combo": 2512,
+          "score": 1008200,
+          "rizHit": 82,
+          "designer": "HaraKuma"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 1225,
+          "combo": 4876,
+          "score": 1017900,
+          "rizHit": 179,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Enneaquest.SEPHID.0",
+      "title": "Enneaquest",
+      "artist": "SEPHID",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.Enneaquest.SEPHID.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 308,
+          "combo": 1208,
+          "score": 1008600,
+          "rizHit": 86,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 523,
+          "combo": 2068,
+          "score": 1013100,
+          "rizHit": 131,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.8,
+          "hit": 818,
+          "combo": 3248,
+          "score": 1019400,
+          "rizHit": 194,
+          "designer": "HaraKuma"
+        }
+      }
+    },
+    {
+      "assetId": "ColorfulFlavor.Cansol.0",
+      "title": "Colorful Flavor",
+      "artist": "Cansol",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.ColorfulFlavor.Cansol.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 454,
+          "combo": 1792,
+          "score": 1008100,
+          "rizHit": 81,
+          "designer": "Colorful Star"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 750,
+          "combo": 2976,
+          "score": 1009300,
+          "rizHit": 93,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 1336,
+          "combo": 5320,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "Nightful ShinE"
+        }
+      }
+    },
+    {
+      "assetId": "Abiogenesis.Juggernaut.0",
+      "title": "Abiogenesis",
+      "artist": "Juggernaut.",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Abiogenesis.Juggernaut.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 159,
+          "combo": 612,
+          "score": 1005100,
+          "rizHit": 51,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 493,
+          "combo": 1948,
+          "score": 1016900,
+          "rizHit": 169,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 11.9,
+          "hit": 671,
+          "combo": 2660,
+          "score": 1022500,
+          "rizHit": 225,
+          "designer": "HaraKuma"
+        }
+      }
+    },
+    {
+      "assetId": "Revenant.Juggernaut.0",
+      "title": "Revenant",
+      "artist": "Juggernaut.",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Revenant.Juggernaut.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 548,
+          "combo": 2168,
+          "score": 1011800,
+          "rizHit": 118,
+          "designer": "HaraKuma"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 868,
+          "combo": 3448,
+          "score": 1015900,
+          "rizHit": 159,
+          "designer": "满天星"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1175,
+          "combo": 4676,
+          "score": 1017400,
+          "rizHit": 174,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Antler.Juggernaut.0",
+      "title": "Antler",
+      "artist": "Juggernaut.",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Antler.Juggernaut.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 311,
+          "combo": 1220,
+          "score": 1011300,
+          "rizHit": 113,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 780,
+          "combo": 3096,
+          "score": 1022600,
+          "rizHit": 226,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1605,
+          "combo": 6396,
+          "score": 1041000,
+          "rizHit": 410,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "PuppetShow.MeatyRabbit.0",
+      "title": "Puppet Show",
+      "artist": "MeatyRabbit",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.PuppetShow.MeatyRabbit.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.0,
+          "hit": 174,
+          "combo": 672,
+          "score": 1005200,
+          "rizHit": 52,
+          "designer": "Puppet Shine"
+        },
+        "HD": {
+          "level": 5.5,
+          "hit": 274,
+          "combo": 1072,
+          "score": 1005700,
+          "rizHit": 57,
+          "designer": "Puppet Kuma"
+        },
+        "IN": {
+          "level": 10.0,
+          "hit": 402,
+          "combo": 1584,
+          "score": 1009600,
+          "rizHit": 96,
+          "designer": "Puppet cat"
+        }
+      }
+    },
+    {
+      "assetId": "Contortion.PTB10.0",
+      "title": "Contortion",
+      "artist": "PTB10",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.Contortion.PTB10.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 308,
+          "combo": 1208,
+          "score": 1005400,
+          "rizHit": 54,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 538,
+          "combo": 2128,
+          "score": 1010000,
+          "rizHit": 100,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.8,
+          "hit": 677,
+          "combo": 2684,
+          "score": 1014800,
+          "rizHit": 148,
+          "designer": "Harakuma"
+        }
+      }
+    },
+    {
+      "assetId": "BringMeBack.Zekk.0",
+      "title": "Bring Me Back",
+      "artist": "Zekk",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.BringMeBack.Zekk.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 423,
+          "combo": 1668,
+          "score": 1005700,
+          "rizHit": 57,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 580,
+          "combo": 2296,
+          "score": 1009100,
+          "rizHit": 91,
+          "designer": "HaraKuma"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1301,
+          "combo": 5180,
+          "score": 1018100,
+          "rizHit": 181,
+          "designer": "Bring You Dawn"
+        }
+      }
+    },
+    {
+      "assetId": "Hullbreaker.Maozon.0",
+      "title": "Hullbreaker",
+      "artist": "Maozon",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Hullbreaker.Maozon.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 446,
+          "combo": 1760,
+          "score": 1010500,
+          "rizHit": 105,
+          "designer": "超坏星"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 654,
+          "combo": 2592,
+          "score": 1015800,
+          "rizHit": 158,
+          "designer": "破坏熊"
+        },
+        "IN": {
+          "level": 12.8,
+          "hit": 1075,
+          "combo": 4276,
+          "score": 1023500,
+          "rizHit": 235,
+          "designer": "破浪者"
+        }
+      }
+    },
+    {
+      "assetId": "DBirth.Sakuzyo.0",
+      "title": "D-Birth",
+      "artist": "Sakuzyo (Violin: Katali)",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.DBirth.Sakuzyo.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 318,
+          "combo": 1248,
+          "score": 1007800,
+          "rizHit": 78,
+          "designer": "H-Kuma"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 769,
+          "combo": 3052,
+          "score": 1026500,
+          "rizHit": 265,
+          "designer": "E-Shin"
+        },
+        "IN": {
+          "level": 14.0,
+          "hit": 1052,
+          "combo": 4184,
+          "score": 1032400,
+          "rizHit": 324,
+          "designer": "S-满天星"
+        }
+      }
+    },
+    {
+      "assetId": "NightTheater.wakadori.0",
+      "title": "NightTheater",
+      "artist": "わかどり",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.NightTheater.wakadori.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 223,
+          "combo": 868,
+          "score": 1007600,
+          "rizHit": 76,
+          "designer": "MidnightTheater"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 652,
+          "combo": 2584,
+          "score": 1019500,
+          "rizHit": 195,
+          "designer": "ObscurityTheater"
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1056,
+          "combo": 4200,
+          "score": 1033000,
+          "rizHit": 330,
+          "designer": "LuminousTheater"
+        }
+      }
+    },
+    {
+      "assetId": "Grimheart.Puru.0",
+      "title": "Grimheart",
+      "artist": "Puru",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.Grimheart.Puru.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 221,
+          "combo": 860,
+          "score": 1008800,
+          "rizHit": 88,
+          "designer": "♥ShinE♥"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 311,
+          "combo": 1220,
+          "score": 1009800,
+          "rizHit": 98,
+          "designer": "♥冻原♥"
+        },
+        "IN": {
+          "level": 11.6,
+          "hit": 671,
+          "combo": 2660,
+          "score": 1022000,
+          "rizHit": 220,
+          "designer": "♥百九十八♥"
+        }
+      }
+    },
+    {
+      "assetId": "Encrux.Sobrem.0",
+      "title": "Encrux",
+      "artist": "Sobrem",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Encrux.Sobrem.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 277,
+          "combo": 1084,
+          "score": 1008200,
+          "rizHit": 82,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 632,
+          "combo": 2504,
+          "score": 1024000,
+          "rizHit": 240,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 741,
+          "combo": 2940,
+          "score": 1021400,
+          "rizHit": 214,
+          "designer": "猫熊"
+        }
+      }
+    },
+    {
+      "assetId": "slichertz.Sobrem.0",
+      "title": "slic.hertz",
+      "artist": "Sobrem",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.slichertz.Sobrem.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 429,
+          "combo": 1692,
+          "score": 1010600,
+          "rizHit": 106,
+          "designer": "猫熊"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 636,
+          "combo": 2520,
+          "score": 1015200,
+          "rizHit": 152,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 13.0,
+          "hit": 978,
+          "combo": 3888,
+          "score": 1025000,
+          "rizHit": 250,
+          "designer": "满天星"
+        }
+      }
+    },
+    {
+      "assetId": "Giselle.Sobrem.0",
+      "title": "Giselle",
+      "artist": "Sobrem a.k.a. Widowmaker",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Giselle.Sobrem.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 311,
+          "combo": 1220,
+          "score": 1008300,
+          "rizHit": 83,
+          "designer": "\"NerSAN,\""
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 996,
+          "combo": 3960,
+          "score": 1022300,
+          "rizHit": 223,
+          "designer": "\"ShinE,\""
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1088,
+          "combo": 4328,
+          "score": 1020300,
+          "rizHit": 203,
+          "designer": "\"百九十八,\""
+        }
+      }
+    },
+    {
+      "assetId": "ViciousMockery.Kryexe.0",
+      "title": "Vicious Mockery",
+      "artist": "Kry.exe",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.ViciousMockery.Kryexe.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.5,
+          "hit": 764,
+          "combo": 3032,
+          "score": 1009800,
+          "rizHit": 98,
+          "designer": "Dawn.exe"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1286,
+          "combo": 5120,
+          "score": 1021200,
+          "rizHit": 212,
+          "designer": "Kuma.exe"
+        },
+        "IN": {
+          "level": 14.8,
+          "hit": 1826,
+          "combo": 7280,
+          "score": 1026700,
+          "rizHit": 267,
+          "designer": "198.exe"
+        }
+      }
+    },
+    {
+      "assetId": "BRAVEROAD.umavsMorimoriAtsushi.0",
+      "title": "BRAVE：ROAD",
+      "artist": "uma vs. モリモリあつし",
+      "discName": "Disc 1",
+      "illustrationId": "illustration.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "aliases": [],
+      "charts": {
+        "HD": {
+          "level": 9.5,
+          "hit": 996,
+          "combo": 3960,
+          "score": 1028900,
+          "rizHit": 289,
+          "designer": "咏歌"
+        },
+        "IN": {
+          "level": 14.2,
+          "hit": 1213,
+          "combo": 4828,
+          "score": 1039700,
+          "rizHit": 397,
+          "designer": "普灵"
+        },
+        "AT": {
+          "level": 15.1,
+          "hit": 1692,
+          "combo": 6744,
+          "score": 1056400,
+          "rizHit": 564,
+          "designer": "咏歌 vs. 普灵"
+        }
+      }
+    },
+    {
+      "assetId": "Afterdark.Sta.0",
+      "title": "Afterdark",
+      "artist": "Sta",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Afterdark.Sta.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 320,
+          "combo": 1256,
+          "score": 1007800,
+          "rizHit": 78,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 518,
+          "combo": 2048,
+          "score": 1012800,
+          "rizHit": 128,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 12.0,
+          "hit": 748,
+          "combo": 2968,
+          "score": 1018600,
+          "rizHit": 186,
+          "designer": "猫熊"
+        }
+      }
+    },
+    {
+      "assetId": "SoutenStasKeyKaimix.MeineMeinung.0",
+      "title": "蒼天 (Sta's Key-Kai mix)",
+      "artist": "Meine Meinung",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.SoutenStasKeyKaimix.MeineMeinung.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 301,
+          "combo": 1180,
+          "score": 1014900,
+          "rizHit": 149,
+          "designer": "HaraKuma"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 566,
+          "combo": 2240,
+          "score": 1024000,
+          "rizHit": 240,
+          "designer": "NerSAN"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 848,
+          "combo": 3368,
+          "score": 1039500,
+          "rizHit": 395,
+          "designer": "晨"
+        }
+      }
+    },
+    {
+      "assetId": "ConwaysChild.Sta.0",
+      "title": "Conway's Child",
+      "artist": "Sta",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ConwaysChild.Sta.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 491,
+          "combo": 1940,
+          "score": 1008500,
+          "rizHit": 85,
+          "designer": "■南問贰■"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 1005,
+          "combo": 3996,
+          "score": 1022300,
+          "rizHit": 223,
+          "designer": "■Ner□SAN■"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1260,
+          "combo": 5016,
+          "score": 1024100,
+          "rizHit": 241,
+          "designer": "百■九□十■八"
+        }
+      }
+    },
+    {
+      "assetId": "Crimsonate.BlackYfeatRisaYuzuki.0",
+      "title": "Crimsonate",
+      "artist": "BlackY feat. Risa Yuzuki",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Crimsonate.BlackYfeatRisaYuzuki.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 181,
+          "combo": 700,
+          "score": 1005800,
+          "rizHit": 58,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 525,
+          "combo": 2076,
+          "score": 1012500,
+          "rizHit": 125,
+          "designer": "Proxima"
+        },
+        "IN": {
+          "level": 13.1,
+          "hit": 868,
+          "combo": 3448,
+          "score": 1026600,
+          "rizHit": 266,
+          "designer": "红豆倪"
+        }
+      }
+    },
+    {
+      "assetId": "Sthenno.BlackY.0",
+      "title": "Sthenno",
+      "artist": "BlackY",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Sthenno.BlackY.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 521,
+          "combo": 2060,
+          "score": 1019400,
+          "rizHit": 194,
+          "designer": "NersaN"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 921,
+          "combo": 3660,
+          "score": 1034000,
+          "rizHit": 340,
+          "designer": "α Centauri A"
+        },
+        "IN": {
+          "level": 14.2,
+          "hit": 1283,
+          "combo": 5108,
+          "score": 1048700,
+          "rizHit": 487,
+          "designer": "金丝熊"
+        }
+      }
+    },
+    {
+      "assetId": "Kaguya.BlackY.0",
+      "title": "Kaguya",
+      "artist": "BlackY",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Kaguya.BlackY.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 459,
+          "combo": 1812,
+          "score": 1012300,
+          "rizHit": 123,
+          "designer": "α Centauri B"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 742,
+          "combo": 2944,
+          "score": 1011500,
+          "rizHit": 115,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 1385,
+          "combo": 5516,
+          "score": 1024700,
+          "rizHit": 247,
+          "designer": "竹九八"
+        }
+      }
+    },
+    {
+      "assetId": "DotLinefeatななひら.A39沙包Pななひら.0",
+      "title": "Dot-Line (feat. ななひら)",
+      "artist": "A-39 / 沙包P / ななひら",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.DotLinefeatななひら.A39沙包Pななひら.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 393,
+          "combo": 1548,
+          "score": 1014200,
+          "rizHit": 142,
+          "designer": "D-31"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 783,
+          "combo": 3108,
+          "score": 1023600,
+          "rizHit": 236,
+          "designer": "N-23"
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1093,
+          "combo": 4348,
+          "score": 1042400,
+          "rizHit": 424,
+          "designer": "Kiwi"
+        }
+      }
+    },
+    {
+      "assetId": "光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "title": "光 (阿卡姆巫师 Remix)",
+      "artist": "姜米條 Remixed by 阿卡姆巫师",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.0,
+          "hit": 176,
+          "combo": 680,
+          "score": 1009400,
+          "rizHit": 94,
+          "designer": "ShinE"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 357,
+          "combo": 1404,
+          "score": 1014200,
+          "rizHit": 142,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 11.0,
+          "hit": 496,
+          "combo": 1960,
+          "score": 1024500,
+          "rizHit": 245,
+          "designer": "HiKari"
+        }
+      }
+    },
+    {
+      "assetId": "LostFuture.AspidCat.0",
+      "title": "Lost Future",
+      "artist": "Aspid Cat",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.LostFuture.AspidCat.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 412,
+          "combo": 1624,
+          "score": 1010400,
+          "rizHit": 104,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 592,
+          "combo": 2344,
+          "score": 1017600,
+          "rizHit": 176,
+          "designer": "猫熊"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 1157,
+          "combo": 4604,
+          "score": 1027200,
+          "rizHit": 272,
+          "designer": "Ner infected by \"Arcade ViruZ\""
+        }
+      }
+    },
+    {
+      "assetId": "Relieve.响星幂ElroyJanKortanidze.0",
+      "title": "Relieve",
+      "artist": "响 & 星幂Elroy & Jan Kortanidze",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.Relieve.响星幂ElroyJanKortanidze.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 265,
+          "combo": 1036,
+          "score": 1006000,
+          "rizHit": 60,
+          "designer": "Junesnow feat.百九十八"
+        },
+        "HD": {
+          "level": 5.5,
+          "hit": 522,
+          "combo": 2064,
+          "score": 1009600,
+          "rizHit": 96,
+          "designer": "Junesnow feat.百九十八"
+        },
+        "IN": {
+          "level": 9.0,
+          "hit": 776,
+          "combo": 3080,
+          "score": 1012700,
+          "rizHit": 127,
+          "designer": "Uvernight with 百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Alexandrite.onoken.0",
+      "title": "Alexandrite",
+      "artist": "onoken",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Alexandrite.onoken.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 410,
+          "combo": 1616,
+          "score": 1009900,
+          "rizHit": 99,
+          "designer": "猫熊"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 722,
+          "combo": 2864,
+          "score": 1015800,
+          "rizHit": 158,
+          "designer": "猫熊"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1026,
+          "combo": 4080,
+          "score": 1025500,
+          "rizHit": 255,
+          "designer": "Emerald after Dawn"
+        }
+      }
+    },
+    {
+      "assetId": "Hydra.JamesLandinoXAkiraComplex.0",
+      "title": "Hydra",
+      "artist": "James Landino X Akira Complex",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Hydra.JamesLandinoXAkiraComplex.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 433,
+          "combo": 1708,
+          "score": 1008700,
+          "rizHit": 87,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 899,
+          "combo": 3572,
+          "score": 1020200,
+          "rizHit": 202,
+          "designer": "临时工"
+        },
+        "IN": {
+          "level": 14.6,
+          "hit": 1317,
+          "combo": 5244,
+          "score": 1028300,
+          "rizHit": 283,
+          "designer": "Nine-Headed"
+        }
+      }
+    },
+    {
+      "assetId": "漂流.THESxPLAYKIVΛ.0",
+      "title": "漂流",
+      "artist": "THE SxPLAY & KIVΛ",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.漂流.THESxPLAYKIVΛ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 288,
+          "combo": 1128,
+          "score": 1011500,
+          "rizHit": 115,
+          "designer": "潜水猫"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 509,
+          "combo": 2012,
+          "score": 1021600,
+          "rizHit": 216,
+          "designer": "溺水猫"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 829,
+          "combo": 3292,
+          "score": 1030600,
+          "rizHit": 306,
+          "designer": "扁舟"
+        }
+      }
+    },
+    {
+      "assetId": "CometCoaster.DJNorikenaran.0",
+      "title": "Comet Coaster",
+      "artist": "DJ Noriken & aran",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.CometCoaster.DJNorikenaran.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 304,
+          "combo": 1192,
+          "score": 1005300,
+          "rizHit": 53,
+          "designer": "CometHara"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 666,
+          "combo": 2640,
+          "score": 1013100,
+          "rizHit": 131,
+          "designer": "KumaCoaster"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 1177,
+          "combo": 4684,
+          "score": 1023100,
+          "rizHit": 231,
+          "designer": "Proton Xollider"
+        }
+      }
+    },
+    {
+      "assetId": "DOMINATOR.NOMA.0",
+      "title": "DOMINATOR",
+      "artist": "NOMA",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.DOMINATOR.NOMA.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 428,
+          "combo": 1688,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 704,
+          "combo": 2792,
+          "score": 1011100,
+          "rizHit": 111,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 14.5,
+          "hit": 1431,
+          "combo": 5700,
+          "score": 1025300,
+          "rizHit": 253,
+          "designer": "NersanX"
+        }
+      }
+    },
+    {
+      "assetId": "天灵灵地灵灵.iKzfeat小可学妹.0",
+      "title": "天灵灵地灵灵",
+      "artist": "iKz feat.小可学妹",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.天灵灵地灵灵.iKzfeat小可学妹.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 392,
+          "combo": 1544,
+          "score": 1007900,
+          "rizHit": 79,
+          "designer": "道士Pro"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 583,
+          "combo": 2308,
+          "score": 1012300,
+          "rizHit": 123,
+          "designer": "ShinE灵灵"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1341,
+          "combo": 5340,
+          "score": 1028500,
+          "rizHit": 285,
+          "designer": "道士九八"
+        }
+      }
+    },
+    {
+      "assetId": "sAtElLites.SIRIUS.0",
+      "title": "sAtElLites",
+      "artist": "SIRIUS",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.sAtElLites.SIRIUS.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 344,
+          "combo": 1352,
+          "score": 1010300,
+          "rizHit": 103,
+          "designer": "NeRsAn"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 623,
+          "combo": 2468,
+          "score": 1020400,
+          "rizHit": 204,
+          "designer": "nErSaN"
+        },
+        "IN": {
+          "level": 12.0,
+          "hit": 880,
+          "combo": 3496,
+          "score": 1033300,
+          "rizHit": 333,
+          "designer": "百9十8"
+        }
+      }
+    },
+    {
+      "assetId": "Intruder.Riya.0",
+      "title": "Intruder",
+      "artist": "Riya",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Intruder.Riya.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 295,
+          "combo": 1156,
+          "score": 1006300,
+          "rizHit": 63,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 489,
+          "combo": 1932,
+          "score": 1013800,
+          "rizHit": 138,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 724,
+          "combo": 2872,
+          "score": 1017600,
+          "rizHit": 176,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "Psychometry.HyuN.0",
+      "title": "Psychometry",
+      "artist": "HyuN",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Psychometry.HyuN.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 277,
+          "combo": 1084,
+          "score": 1007200,
+          "rizHit": 72,
+          "designer": "NerS"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 671,
+          "combo": 2660,
+          "score": 1013700,
+          "rizHit": 137,
+          "designer": "NerS"
+        },
+        "IN": {
+          "level": 13.4,
+          "hit": 809,
+          "combo": 3212,
+          "score": 1017600,
+          "rizHit": 176,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "ElectricComet.Meram1n.0",
+      "title": "Electric Comet",
+      "artist": "Meram1n",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ElectricComet.Meram1n.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 348,
+          "combo": 1368,
+          "score": 1006700,
+          "rizHit": 67,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 779,
+          "combo": 3092,
+          "score": 1013900,
+          "rizHit": 139,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1016,
+          "combo": 4040,
+          "score": 1021100,
+          "rizHit": 211,
+          "designer": "1LecTrify"
+        }
+      }
+    },
+    {
+      "assetId": "Eschatology.TatshScarlette.0",
+      "title": "Eschatology",
+      "artist": "Tatsh & Scarlette",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Eschatology.TatshScarlette.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 468,
+          "combo": 1848,
+          "score": 1020000,
+          "rizHit": 200,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 795,
+          "combo": 3156,
+          "score": 1034900,
+          "rizHit": 349,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 14.2,
+          "hit": 1124,
+          "combo": 4472,
+          "score": 1041300,
+          "rizHit": 413,
+          "designer": "NИLL"
+        }
+      }
+    },
+    {
+      "assetId": "PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "title": "너를 그리는 밤하늘의 이야기\n(Planetarium) prod. Scarlette",
+      "artist": "kuripurin & Kyue & MYULee",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 274,
+          "combo": 1072,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "UMa-δ"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 423,
+          "combo": 1668,
+          "score": 1007800,
+          "rizHit": 78,
+          "designer": "UMa-δ"
+        },
+        "IN": {
+          "level": 12.1,
+          "hit": 897,
+          "combo": 3564,
+          "score": 1015700,
+          "rizHit": 157,
+          "designer": "스페이드 (Spade)"
+        }
+      }
+    },
+    {
+      "assetId": "AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "title": "Avataar ~Reincarnation of Kalpa~",
+      "artist": "Scarlette a.k.a. CrYmson",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 388,
+          "combo": 1528,
+          "score": 1024200,
+          "rizHit": 242,
+          "designer": "NИLL ~Reconfiguration of ShinE~"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 682,
+          "combo": 2704,
+          "score": 1042500,
+          "rizHit": 425,
+          "designer": "NИLL ~Reconfiguration of ShinE~"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1042,
+          "combo": 4144,
+          "score": 1062000,
+          "rizHit": 620,
+          "designer": "Junesnow a.k.a. 满天星"
+        }
+      }
+    },
+    {
+      "assetId": "FrozenHeart.A39沙包P.0",
+      "title": "Frozen Heart",
+      "artist": "A-39 / 沙包P",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.FrozenHeart.A39沙包P.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 533,
+          "combo": 2108,
+          "score": 1008800,
+          "rizHit": 88,
+          "designer": "D-31 / 闪耀D"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 949,
+          "combo": 3772,
+          "score": 1015100,
+          "rizHit": 151,
+          "designer": "D-31 / 闪耀D"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 1616,
+          "combo": 6440,
+          "score": 1026800,
+          "rizHit": 268,
+          "designer": "N\\erry Xmas 2024"
+        }
+      }
+    },
+    {
+      "assetId": "RuleTheWorld.VauBoy.0",
+      "title": "Rule The World",
+      "artist": "Vau Boy",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.RuleTheWorld.VauBoy.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 374,
+          "combo": 1472,
+          "score": 1007200,
+          "rizHit": 72,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 667,
+          "combo": 2644,
+          "score": 1012900,
+          "rizHit": 129,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.3,
+          "hit": 1124,
+          "combo": 4472,
+          "score": 1018900,
+          "rizHit": 189,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "amethyst.かねこちはる.0",
+      "title": "amethyst",
+      "artist": "かねこちはる",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.amethyst.かねこちはる.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 283,
+          "combo": 1108,
+          "score": 1004800,
+          "rizHit": 48,
+          "designer": "猫熊"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 501,
+          "combo": 1980,
+          "score": 1008700,
+          "rizHit": 87,
+          "designer": "猫熊"
+        },
+        "IN": {
+          "level": 12.8,
+          "hit": 1111,
+          "combo": 4420,
+          "score": 1018800,
+          "rizHit": 188,
+          "designer": "amethystinE"
+        }
+      }
+    },
+    {
+      "assetId": "Alfheimsfaith.影虎.0",
+      "title": "Alfheim's faith",
+      "artist": "影虎。",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Alfheimsfaith.影虎.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 302,
+          "combo": 1184,
+          "score": 1008600,
+          "rizHit": 86,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 622,
+          "combo": 2464,
+          "score": 1018200,
+          "rizHit": 182,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 978,
+          "combo": 3888,
+          "score": 1027700,
+          "rizHit": 277,
+          "designer": "Ner as 光猫。"
+        }
+      }
+    },
+    {
+      "assetId": "翠杜.隣の庭は青い庭師Aoi.0",
+      "title": "翠杜",
+      "artist": "隣の庭は青い(庭師+Aoi)",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.翠杜.隣の庭は青い庭師Aoi.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 415,
+          "combo": 1636,
+          "score": 1013200,
+          "rizHit": 132,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 798,
+          "combo": 3168,
+          "score": 1022100,
+          "rizHit": 221,
+          "designer": "猫熊"
+        },
+        "IN": {
+          "level": 14.7,
+          "hit": 1481,
+          "combo": 5900,
+          "score": 1035900,
+          "rizHit": 359,
+          "designer": "Junesnow"
+        }
+      }
+    },
+    {
+      "assetId": "felysfinalremix.onoken.0",
+      "title": "felys -final remix-",
+      "artist": "onoken",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.felysfinalremix.onoken.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 325,
+          "combo": 1276,
+          "score": 1003900,
+          "rizHit": 39,
+          "designer": "猫熊"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 591,
+          "combo": 2340,
+          "score": 1004800,
+          "rizHit": 48,
+          "designer": "猫熊"
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1063,
+          "combo": 4228,
+          "score": 1017000,
+          "rizHit": 170,
+          "designer": "seeds -for art-"
+        }
+      }
+    },
+    {
+      "assetId": "Destr0yer.Sakuzyo.0",
+      "title": "Destr0yer",
+      "artist": "Sakuzyo feat. Nikki Simmons",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Destr0yer.Sakuzyo.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 426,
+          "combo": 1680,
+          "score": 1010100,
+          "rizHit": 101,
+          "designer": "X0llider"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 653,
+          "combo": 2588,
+          "score": 1014400,
+          "rizHit": 144,
+          "designer": "Pr0xima"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 1126,
+          "combo": 4480,
+          "score": 1022200,
+          "rizHit": 222,
+          "designer": "Junesn0w"
+        }
+      }
+    },
+    {
+      "assetId": "crystallized.Camellia.0",
+      "title": "crystallized",
+      "artist": "Camellia",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.crystallized.Camellia.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 500,
+          "combo": 1976,
+          "score": 1019200,
+          "rizHit": 192,
+          "designer": "UMa-δ"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 1003,
+          "combo": 3988,
+          "score": 1033700,
+          "rizHit": 337,
+          "designer": "UMa-δ"
+        },
+        "IN": {
+          "level": 14.5,
+          "hit": 1231,
+          "combo": 4900,
+          "score": 1044100,
+          "rizHit": 441,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "驟雨の狭間.Silentroom.0",
+      "title": "驟雨の狭間",
+      "artist": "Silentroom",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.驟雨の狭間.Silentroom.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 587,
+          "combo": 2324,
+          "score": 1018400,
+          "rizHit": 184,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1417,
+          "combo": 5644,
+          "score": 1042000,
+          "rizHit": 420,
+          "designer": "NerSAN"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1849,
+          "combo": 7372,
+          "score": 1042000,
+          "rizHit": 420,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "CosmosCapsule.AsTroyBakami.0",
+      "title": "Cosmos Capsule",
+      "artist": "AsTroy & Bakami",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.CosmosCapsule.AsTroyBakami.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 419,
+          "combo": 1652,
+          "score": 1010200,
+          "rizHit": 102,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 885,
+          "combo": 3516,
+          "score": 1022400,
+          "rizHit": 224,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1180,
+          "combo": 4696,
+          "score": 1026400,
+          "rizHit": 264,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "enchantedlove.linearring.0",
+      "title": "enchanted love",
+      "artist": "linear ring",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.enchantedlove.linearring.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 241,
+          "combo": 940,
+          "score": 1013900,
+          "rizHit": 139,
+          "designer": "shine"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 425,
+          "combo": 1676,
+          "score": 1023700,
+          "rizHit": 237,
+          "designer": "shine"
+        },
+        "IN": {
+          "level": 12.6,
+          "hit": 446,
+          "combo": 1760,
+          "score": 1020900,
+          "rizHit": 209,
+          "designer": "Ner the Enchanter"
+        }
+      }
+    },
+    {
+      "assetId": "CrazyAudiophile.Supa7onyz.0",
+      "title": "Crazy Audiophile",
+      "artist": "Supa7onyz",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.CrazyAudiophile.Supa7onyz.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 264,
+          "combo": 1032,
+          "score": 1006300,
+          "rizHit": 63,
+          "designer": "ShinE"
+        },
+        "HD": {
+          "level": 5.5,
+          "hit": 802,
+          "combo": 3184,
+          "score": 1017900,
+          "rizHit": 179,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.9,
+          "hit": 995,
+          "combo": 3956,
+          "score": 1020100,
+          "rizHit": 201,
+          "designer": "Pcat"
+        }
+      }
+    },
+    {
+      "assetId": "419kB.ariiol.0",
+      "title": "419kB",
+      "artist": "ariiol",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.419kB.ariiol.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 317,
+          "combo": 1244,
+          "score": 1007600,
+          "rizHit": 76,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 612,
+          "combo": 2424,
+          "score": 1015400,
+          "rizHit": 154,
+          "designer": "ShinE"
+        },
+        "IN": {
+          "level": 13.4,
+          "hit": 914,
+          "combo": 3632,
+          "score": 1021100,
+          "rizHit": 211,
+          "designer": "Megrez"
+        }
+      }
+    },
+    {
+      "assetId": "VICIOUS.MEMODEMO.0",
+      "title": "VICIOUS",
+      "artist": "MEMODEMO",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.VICIOUS.MEMODEMO.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 324,
+          "combo": 1272,
+          "score": 1006000,
+          "rizHit": 60,
+          "designer": "NERSAN"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 659,
+          "combo": 2612,
+          "score": 1013800,
+          "rizHit": 138,
+          "designer": "NERSAN"
+        },
+        "IN": {
+          "level": 13.1,
+          "hit": 760,
+          "combo": 3016,
+          "score": 1018300,
+          "rizHit": 183,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "CrushAlcohol.shadow_bling.0",
+      "title": "Crush Alcohol",
+      "artist": "shadow_bling",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.CrushAlcohol.shadow_bling.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 396,
+          "combo": 1560,
+          "score": 1006200,
+          "rizHit": 62,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 670,
+          "combo": 2656,
+          "score": 1010700,
+          "rizHit": 107,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 1227,
+          "combo": 4884,
+          "score": 1021500,
+          "rizHit": 215,
+          "designer": "DOn'T DRIVe DrUNK"
+        }
+      }
+    },
+    {
+      "assetId": "YellowShiningfeat成田なる.にーえぬ.0",
+      "title": "Yellow Shining!! feat. 成田なる",
+      "artist": "にーえぬ",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.YellowShiningfeat成田なる.にーえぬ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 284,
+          "combo": 1112,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "光猫"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 532,
+          "combo": 2104,
+          "score": 1010200,
+          "rizHit": 102,
+          "designer": "光猫"
+        },
+        "IN": {
+          "level": 12.0,
+          "hit": 816,
+          "combo": 3240,
+          "score": 1014100,
+          "rizHit": 141,
+          "designer": "Winter ShinE!! feat. 冬陽しん"
+        }
+      }
+    },
+    {
+      "assetId": "Abatement.SNKSMizku.0",
+      "title": "Abatement",
+      "artist": "SNKS & Mizku",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Abatement.SNKSMizku.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 542,
+          "combo": 2144,
+          "score": 1008200,
+          "rizHit": 82,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 1127,
+          "combo": 4484,
+          "score": 1014100,
+          "rizHit": 141,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1340,
+          "combo": 5336,
+          "score": 1011700,
+          "rizHit": 117,
+          "designer": "UMa-δ & HaraKuma"
+        }
+      }
+    },
+    {
+      "assetId": "インフェルノシティ.Ponchifeatはぁち.0",
+      "title": "インフェルノシティ",
+      "artist": "Ponchi♪ feat. はぁち",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.インフェルノシティ.Ponchifeatはぁち.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 438,
+          "combo": 1728,
+          "score": 1015300,
+          "rizHit": 153,
+          "designer": "ネルサン"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 684,
+          "combo": 2712,
+          "score": 1028100,
+          "rizHit": 281,
+          "designer": "ネルサン"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1202,
+          "combo": 4784,
+          "score": 1046700,
+          "rizHit": 467,
+          "designer": "In Hell"
+        }
+      }
+    },
+    {
+      "assetId": "NonameRequiem.打打だいず.0",
+      "title": "No-name Requiem",
+      "artist": "打打だいず",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.NonameRequiem.打打だいず.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 398,
+          "combo": 1568,
+          "score": 1009200,
+          "rizHit": 92,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 848,
+          "combo": 3368,
+          "score": 1016800,
+          "rizHit": 168,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 14.8,
+          "hit": 1780,
+          "combo": 7096,
+          "score": 1027500,
+          "rizHit": 275,
+          "designer": "满天星"
+        }
+      }
+    },
+    {
+      "assetId": "ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "title": "Change the Game feat. 松永依織",
+      "artist": "REDALiCE & USAO",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 391,
+          "combo": 1540,
+          "score": 1006400,
+          "rizHit": 64,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 698,
+          "combo": 2768,
+          "score": 1017100,
+          "rizHit": 171,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 1140,
+          "combo": 4536,
+          "score": 1020100,
+          "rizHit": 201,
+          "designer": "Ner *Squeeze the Cat*"
+        }
+      }
+    },
+    {
+      "assetId": "TVSSHARK.tpazolite.0",
+      "title": "T+ VS SHARK",
+      "artist": "t+pazolite",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.TVSSHARK.tpazolite.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 511,
+          "combo": 2020,
+          "score": 1010100,
+          "rizHit": 101,
+          "designer": "UMa-δ"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 972,
+          "combo": 3864,
+          "score": 1014200,
+          "rizHit": 142,
+          "designer": "UMa-δ"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 1531,
+          "combo": 6100,
+          "score": 1020700,
+          "rizHit": 207,
+          "designer": "OMG! it's a SHINE!"
+        }
+      }
+    },
+    {
+      "assetId": "FutureDownloader.Kobaryo.0",
+      "title": "Future Downloader",
+      "artist": "Kobaryo",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.FutureDownloader.Kobaryo.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 833,
+          "combo": 3308,
+          "score": 1012900,
+          "rizHit": 129,
+          "designer": "满天星"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1248,
+          "combo": 4968,
+          "score": 1020200,
+          "rizHit": 202,
+          "designer": "满天星"
+        },
+        "IN": {
+          "level": 14.9,
+          "hit": 1789,
+          "combo": 7132,
+          "score": 1025400,
+          "rizHit": 254,
+          "designer": "198GB"
+        }
+      }
+    },
+    {
+      "assetId": "Rapture.RoyMikelate.0",
+      "title": "Rapture",
+      "artist": "Roy Mikelate",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Rapture.RoyMikelate.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 305,
+          "combo": 1196,
+          "score": 1009700,
+          "rizHit": 97,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 577,
+          "combo": 2284,
+          "score": 1016700,
+          "rizHit": 167,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 12.1,
+          "hit": 1058,
+          "combo": 4208,
+          "score": 1037800,
+          "rizHit": 378,
+          "designer": "Pat Brick Man Mr.N Lite"
+        }
+      }
+    },
+    {
+      "assetId": "Echooveryou.Apo11oprogram.0",
+      "title": "Echo over you...",
+      "artist": "Apo11o program",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Echooveryou.Apo11oprogram.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 273,
+          "combo": 1068,
+          "score": 1009600,
+          "rizHit": 96,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 541,
+          "combo": 2140,
+          "score": 1018500,
+          "rizHit": 185,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 11.7,
+          "hit": 676,
+          "combo": 2680,
+          "score": 1023000,
+          "rizHit": 230,
+          "designer": "...you with NevER fading melodies."
+        }
+      }
+    },
+    {
+      "assetId": "FairysCrown.Powerless.0",
+      "title": "Fairy's Crown",
+      "artist": "Powerless",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.FairysCrown.Powerless.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 386,
+          "combo": 1520,
+          "score": 1004500,
+          "rizHit": 45,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 752,
+          "combo": 2984,
+          "score": 1008700,
+          "rizHit": 87,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.4,
+          "hit": 1099,
+          "combo": 4372,
+          "score": 1014800,
+          "rizHit": 148,
+          "designer": "HaraKuma"
+        }
+      }
+    },
+    {
+      "assetId": "GravesAncientMemories.Juggernaut.0",
+      "title": "Graves -Ancient Memories-",
+      "artist": "Juggernaut.",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.GravesAncientMemories.Juggernaut.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 385,
+          "combo": 1516,
+          "score": 1016300,
+          "rizHit": 163,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 782,
+          "combo": 3104,
+          "score": 1036200,
+          "rizHit": 362,
+          "designer": "NerSAN"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1164,
+          "combo": 4632,
+          "score": 1044800,
+          "rizHit": 448,
+          "designer": "Reminiscence - Dim Megrez -"
+        }
+      }
+    },
+    {
+      "assetId": "Cloudsclearand.Qutabire.0",
+      "title": "Clouds clear and...",
+      "artist": "Qutabire",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Cloudsclearand.Qutabire.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 307,
+          "combo": 1204,
+          "score": 1009500,
+          "rizHit": 95,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 590,
+          "combo": 2336,
+          "score": 1015900,
+          "rizHit": 159,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 953,
+          "combo": 3788,
+          "score": 1017000,
+          "rizHit": 170,
+          "designer": "...and ShinE emerges"
+        }
+      }
+    },
+    {
+      "assetId": "NLAMTA.Tsynphonia.0",
+      "title": "NLAMTA",
+      "artist": "Tsynphonia",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.NLAMTA.Tsynphonia.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 546,
+          "combo": 2160,
+          "score": 1014500,
+          "rizHit": 145,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 845,
+          "combo": 3356,
+          "score": 1012200,
+          "rizHit": 122,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1625,
+          "combo": 6476,
+          "score": 1033500,
+          "rizHit": 335,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "Antikythera.technoplanet.0",
+      "title": "Antikythera",
+      "artist": "technoplanet",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Antikythera.technoplanet.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 880,
+          "combo": 3496,
+          "score": 1012100,
+          "rizHit": 121,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 1425,
+          "combo": 5676,
+          "score": 1017400,
+          "rizHit": 174,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 14.7,
+          "hit": 2001,
+          "combo": 7980,
+          "score": 1030000,
+          "rizHit": 300,
+          "designer": "- 神衛 -"
+        }
+      }
+    },
+    {
+      "assetId": "Idol.VizzenMonstDeath.0",
+      "title": "Idol",
+      "artist": "Vizzen & MonstDeath",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Idol.VizzenMonstDeath.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 190,
+          "combo": 736,
+          "score": 1001700,
+          "rizHit": 17,
+          "designer": "HaraKuma"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 362,
+          "combo": 1424,
+          "score": 1002400,
+          "rizHit": 24,
+          "designer": "HaraKuma"
+        },
+        "IN": {
+          "level": 12.1,
+          "hit": 799,
+          "combo": 3172,
+          "score": 1011500,
+          "rizHit": 115,
+          "designer": "南門贰_Official"
+        }
+      }
+    },
+    {
+      "assetId": "夢厭coneleganza.大前司.0",
+      "title": "夢厭 con eleganza",
+      "artist": "大前司",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.夢厭coneleganza.大前司.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 266,
+          "combo": 1040,
+          "score": 1004600,
+          "rizHit": 46,
+          "designer": "Megrez"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 597,
+          "combo": 2364,
+          "score": 1010900,
+          "rizHit": 109,
+          "designer": "Megrez"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 1228,
+          "combo": 4888,
+          "score": 1027800,
+          "rizHit": 278,
+          "designer": "Nightmare of Evil Rubbers"
+        }
+      }
+    },
+    {
+      "assetId": "SpeedUp.DarTokki.0",
+      "title": "Speed Up!",
+      "artist": "DarTokki",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.SpeedUp.DarTokki.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 411,
+          "combo": 1620,
+          "score": 1012200,
+          "rizHit": 122,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 534,
+          "combo": 2112,
+          "score": 1015000,
+          "rizHit": 150,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 752,
+          "combo": 2984,
+          "score": 1023300,
+          "rizHit": 233,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "GREATGREAT.Zris.0",
+      "title": "GREAT GREAT",
+      "artist": "Zris",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.GREATGREAT.Zris.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 414,
+          "combo": 1632,
+          "score": 1004400,
+          "rizHit": 44,
+          "designer": "NER NER"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 613,
+          "combo": 2428,
+          "score": 1007000,
+          "rizHit": 70,
+          "designer": "NER NER"
+        },
+        "IN": {
+          "level": 13.2,
+          "hit": 1165,
+          "combo": 4636,
+          "score": 1011800,
+          "rizHit": 118,
+          "designer": "SHINE SHINE"
+        }
+      }
+    },
+    {
+      "assetId": "天地開闢.kuro.0",
+      "title": "天地開闢",
+      "artist": "kuro",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.天地開闢.kuro.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 448,
+          "combo": 1768,
+          "score": 1006200,
+          "rizHit": 62,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 941,
+          "combo": 3740,
+          "score": 1016600,
+          "rizHit": 166,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 1039,
+          "combo": 4132,
+          "score": 1015900,
+          "rizHit": 159,
+          "designer": "盘古"
+        }
+      }
+    },
+    {
+      "assetId": "水槽に沈む街.kuro.0",
+      "title": "水槽に沈む街",
+      "artist": "kuro",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.水槽に沈む街.kuro.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 397,
+          "combo": 1564,
+          "score": 1007800,
+          "rizHit": 78,
+          "designer": "Junesnow"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 523,
+          "combo": 2068,
+          "score": 1012800,
+          "rizHit": 128,
+          "designer": "Junesnow"
+        },
+        "IN": {
+          "level": 13.0,
+          "hit": 967,
+          "combo": 3844,
+          "score": 1021900,
+          "rizHit": 219,
+          "designer": "ShinE"
+        }
+      }
+    },
+    {
+      "assetId": "Inevitability.kuro.0",
+      "title": "Inevitability",
+      "artist": "kuro",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Inevitability.kuro.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 508,
+          "combo": 2008,
+          "score": 1013000,
+          "rizHit": 130,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 923,
+          "combo": 3668,
+          "score": 1017000,
+          "rizHit": 170,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 14.6,
+          "hit": 1941,
+          "combo": 7740,
+          "score": 1035300,
+          "rizHit": 353,
+          "designer": "SPΔDE"
+        }
+      }
+    },
+    {
+      "assetId": "FadeAway.DeBisco.0",
+      "title": "Fade Away",
+      "artist": "DeBisco",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.FadeAway.DeBisco.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 212,
+          "combo": 824,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "Su1fuR"
+        },
+        "HD": {
+          "level": 5.0,
+          "hit": 319,
+          "combo": 1252,
+          "score": 1013400,
+          "rizHit": 134,
+          "designer": "Su1fuR"
+        },
+        "IN": {
+          "level": 10.5,
+          "hit": 693,
+          "combo": 2748,
+          "score": 1025100,
+          "rizHit": 251,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "8BLUE.ariiolPIKASONIC.0",
+      "title": "8BLUE",
+      "artist": "ariiol & PIKASONIC",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.8BLUE.ariiolPIKASONIC.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 227,
+          "combo": 884,
+          "score": 1004200,
+          "rizHit": 42,
+          "designer": "百九十8"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 545,
+          "combo": 2156,
+          "score": 1008200,
+          "rizHit": 82,
+          "designer": "百九十8"
+        },
+        "IN": {
+          "level": 12.2,
+          "hit": 624,
+          "combo": 2472,
+          "score": 1010800,
+          "rizHit": 108,
+          "designer": "Junesnow"
+        }
+      }
+    },
+    {
+      "assetId": "VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "title": "Vaelumir's Call",
+      "artist": "Emissär wûl Elverhøjj (Fahr, Raphiiel, Sylphix)",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 475,
+          "combo": 1876,
+          "score": 1012800,
+          "rizHit": 128,
+          "designer": "Pcat"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 642,
+          "combo": 2544,
+          "score": 1016200,
+          "rizHit": 162,
+          "designer": "Pcat"
+        },
+        "IN": {
+          "level": 12.6,
+          "hit": 953,
+          "combo": 3788,
+          "score": 1021800,
+          "rizHit": 218,
+          "designer": "HaraKuma"
+        }
+      }
+    },
+    {
+      "assetId": "GreatnessEarth.Axya.0",
+      "title": "Greatness Earth",
+      "artist": "Axya",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.GreatnessEarth.Axya.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 479,
+          "combo": 1892,
+          "score": 1011400,
+          "rizHit": 114,
+          "designer": "NerSAN"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 675,
+          "combo": 2676,
+          "score": 1015000,
+          "rizHit": 150,
+          "designer": "NerSAN"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1143,
+          "combo": 4548,
+          "score": 1021200,
+          "rizHit": 212,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "LAIGN.KiufeatNikkiSimons.0",
+      "title": "LAIGN",
+      "artist": "Kiu feat. Nikki Simmons",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.LAIGN.KiufeatNikkiSimons.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 578,
+          "combo": 2288,
+          "score": 1011700,
+          "rizHit": 117,
+          "designer": "天体演算程序 <Ver. 31>"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 835,
+          "combo": 3316,
+          "score": 1017500,
+          "rizHit": 175,
+          "designer": "质子对撞设备 <Code: Xollider>"
+        },
+        "IN": {
+          "level": 14.7,
+          "hit": 1303,
+          "combo": 5188,
+          "score": 1025700,
+          "rizHit": 257,
+          "designer": "光速驱动装置 <Type - D>"
+        }
+      }
+    },
+    {
+      "assetId": "溶けてゆく.A39.0",
+      "title": "溶けてゆく",
+      "artist": "A-39",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.溶けてゆく.A39.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 208,
+          "combo": 808,
+          "score": 1007700,
+          "rizHit": 77,
+          "designer": "Snowy UMa"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 337,
+          "combo": 1324,
+          "score": 1010900,
+          "rizHit": 109,
+          "designer": "Snowy UMa"
+        },
+        "IN": {
+          "level": 13.0,
+          "hit": 1172,
+          "combo": 4664,
+          "score": 1037300,
+          "rizHit": 373,
+          "designer": "\"Never Embrace those Runaways.\""
+        }
+      }
+    },
+    {
+      "assetId": "Hyperwave.LOFTIER.0",
+      "title": "Hyperwave",
+      "artist": "LOFTIER",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.Hyperwave.LOFTIER.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 298,
+          "combo": 1168,
+          "score": 1008400,
+          "rizHit": 84,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 505,
+          "combo": 1996,
+          "score": 1013300,
+          "rizHit": 133,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.1,
+          "hit": 804,
+          "combo": 3192,
+          "score": 1026600,
+          "rizHit": 266,
+          "designer": "晨"
+        }
+      }
+    },
+    {
+      "assetId": "森奥虚跡.ShiBa.0",
+      "title": "森奥虚跡",
+      "artist": "ShiBa",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.森奥虚跡.ShiBa.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 481,
+          "combo": 1900,
+          "score": 1012500,
+          "rizHit": 125,
+          "designer": "≀≀深山≀老林≀≀"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 822,
+          "combo": 3264,
+          "score": 1018800,
+          "rizHit": 188,
+          "designer": "≀≀深山≀老林≀≀"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1109,
+          "combo": 4412,
+          "score": 1031700,
+          "rizHit": 317,
+          "designer": "≀≀百九≀十八≀≀"
+        }
+      }
+    },
+    {
+      "assetId": "BurstyLollipop.Tanchiky.0",
+      "title": "Bursty Lollipop",
+      "artist": "Tanchiky",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.BurstyLollipop.Tanchiky.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 390,
+          "combo": 1536,
+          "score": 1007100,
+          "rizHit": 71,
+          "designer": "Minimalism"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 597,
+          "combo": 2364,
+          "score": 1009700,
+          "rizHit": 97,
+          "designer": "Minimalism"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 955,
+          "combo": 3796,
+          "score": 1018600,
+          "rizHit": 186,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "ULTRASYNERGYMATRIX.Tanchiky.0",
+      "title": "ULTRA SYNERGY MATRIX",
+      "artist": "Tanchiky",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 389,
+          "combo": 1532,
+          "score": 1006500,
+          "rizHit": 65,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 685,
+          "combo": 2716,
+          "score": 1014800,
+          "rizHit": 148,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1519,
+          "combo": 6052,
+          "score": 1049600,
+          "rizHit": 496,
+          "designer": "Nuclear Engine Redcat"
+        }
+      }
+    },
+    {
+      "assetId": "QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "title": "QUATTUORUX",
+      "artist": "打打だいず Vs. Tanchiky Vs. からめる",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 709,
+          "combo": 2812,
+          "score": 1013300,
+          "rizHit": 133,
+          "designer": "UMa-δ"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 952,
+          "combo": 3784,
+          "score": 1017600,
+          "rizHit": 176,
+          "designer": "UMa-δ"
+        },
+        "IN": {
+          "level": 14.5,
+          "hit": 1571,
+          "combo": 6260,
+          "score": 1030100,
+          "rizHit": 301,
+          "designer": "冬陽しん Vs. ShinE Vs. あかつき"
+        }
+      }
+    },
+    {
+      "assetId": "テウメッサ.LisicA.0",
+      "title": "テウメッサ",
+      "artist": "LisicA",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.テウメッサ.LisicA.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 436,
+          "combo": 1720,
+          "score": 1016000,
+          "rizHit": 160,
+          "designer": "ネルサン"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 873,
+          "combo": 3468,
+          "score": 1043200,
+          "rizHit": 432,
+          "designer": "ネルサン"
+        },
+        "IN": {
+          "level": 14.2,
+          "hit": 1147,
+          "combo": 4564,
+          "score": 1044100,
+          "rizHit": 441,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "ZEUS666.ルゼ.0",
+      "title": "ZEUS † 666",
+      "artist": "ルゼ",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.ZEUS666.ルゼ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 462,
+          "combo": 1824,
+          "score": 1008900,
+          "rizHit": 89,
+          "designer": "1†98"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 798,
+          "combo": 3168,
+          "score": 1016500,
+          "rizHit": 165,
+          "designer": "1†98"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1483,
+          "combo": 5908,
+          "score": 1025200,
+          "rizHit": 252,
+          "designer": "NER † 333"
+        }
+      }
+    },
+    {
+      "assetId": "PierrotFixer.ルゼ.0",
+      "title": "Pierrot Fixer",
+      "artist": "ルゼ",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.PierrotFixer.ルゼ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 867,
+          "combo": 3444,
+          "score": 1014100,
+          "rizHit": 141,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1340,
+          "combo": 5336,
+          "score": 1018900,
+          "rizHit": 189,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 14.9,
+          "hit": 2222,
+          "combo": 8864,
+          "score": 1028800,
+          "rizHit": 288,
+          "designer": "in circus wagon"
+        }
+      }
+    },
+    {
+      "assetId": "HoukagoOVERDRIVE.Rukadesu.0",
+      "title": "Houkago OVERDRIVE!!!!! (Game ver.)",
+      "artist": "Rukadesu",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.HoukagoOVERDRIVE.Rukadesu.0",
+      "aliases": [
+        "houkagooverdrive"
+      ],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 267,
+          "combo": 1044,
+          "score": 1005000,
+          "rizHit": 50,
+          "designer": "Su1fuR"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 578,
+          "combo": 2288,
+          "score": 1012200,
+          "rizHit": 122,
+          "designer": "Su1fuR"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 886,
+          "combo": 3520,
+          "score": 1019000,
+          "rizHit": 190,
+          "designer": "南門贰"
+        }
+      }
+    },
+    {
+      "assetId": "あのね.ナナツカゼ.0",
+      "title": "あのね",
+      "artist": "ナナツカゼ",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.あのね.ナナツカゼ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.0,
+          "hit": 311,
+          "combo": 1220,
+          "score": 1010600,
+          "rizHit": 106,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 532,
+          "combo": 2104,
+          "score": 1016600,
+          "rizHit": 166,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 11.8,
+          "hit": 782,
+          "combo": 3104,
+          "score": 1020100,
+          "rizHit": 201,
+          "designer": "UMa-δ"
+        }
+      }
+    },
+    {
+      "assetId": "TalesofDelonix.Zris.0",
+      "title": "Tales of Delonix",
+      "artist": "Zris",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.TalesofDelonix.Zris.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 232,
+          "combo": 904,
+          "score": 1005600,
+          "rizHit": 56,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 6.0,
+          "hit": 394,
+          "combo": 1552,
+          "score": 1010300,
+          "rizHit": 103,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 12.7,
+          "hit": 950,
+          "combo": 3776,
+          "score": 1031800,
+          "rizHit": 318,
+          "designer": "深山老林"
+        }
+      }
+    },
+    {
+      "assetId": "Spiritworks.XomuZxNX.0",
+      "title": "Spiritworks",
+      "artist": "Xomu & ZxNX",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Spiritworks.XomuZxNX.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 338,
+          "combo": 1328,
+          "score": 1011100,
+          "rizHit": 111,
+          "designer": "Richard"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 558,
+          "combo": 2208,
+          "score": 1021100,
+          "rizHit": 211,
+          "designer": "Richard"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 931,
+          "combo": 3700,
+          "score": 1034500,
+          "rizHit": 345,
+          "designer": "百九十八"
+        }
+      }
+    },
+    {
+      "assetId": "地区ShangriLA.Drazically.0",
+      "title": "地区 Shangri-LA",
+      "artist": "Drazically",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.地区ShangriLA.Drazically.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.5,
+          "hit": 424,
+          "combo": 1672,
+          "score": 1009200,
+          "rizHit": 92,
+          "designer": "代号 δ-Megrez"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 822,
+          "combo": 3264,
+          "score": 1016900,
+          "rizHit": 169,
+          "designer": "代号 δ-Megrez"
+        },
+        "IN": {
+          "level": 14.7,
+          "hit": 1546,
+          "combo": 6160,
+          "score": 1025900,
+          "rizHit": 259,
+          "designer": "代号 SPΔDE"
+        }
+      }
+    },
+    {
+      "assetId": "よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "title": "よさり 月蛍澄み昇りて",
+      "artist": "かゆき feat. 燈露",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 536,
+          "combo": 2120,
+          "score": 1011200,
+          "rizHit": 112,
+          "designer": "南門贰"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 716,
+          "combo": 2840,
+          "score": 1016500,
+          "rizHit": 165,
+          "designer": "南門贰"
+        },
+        "IN": {
+          "level": 14.0,
+          "hit": 1167,
+          "combo": 4644,
+          "score": 1026700,
+          "rizHit": 267,
+          "designer": "Megrez"
+        }
+      }
+    },
+    {
+      "assetId": "HeadBONKache.saaaftMCiwataBros.0",
+      "title": "Head BONK ache",
+      "artist": "saaa ft. MC iwata Bros.",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.HeadBONKache.saaaftMCiwataBros.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 459,
+          "combo": 1812,
+          "score": 1013100,
+          "rizHit": 131,
+          "designer": "!ABYSS!"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 702,
+          "combo": 2784,
+          "score": 1018000,
+          "rizHit": 180,
+          "designer": "!ABYSS!"
+        },
+        "IN": {
+          "level": 13.7,
+          "hit": 1218,
+          "combo": 4848,
+          "score": 1032200,
+          "rizHit": 322,
+          "designer": "百 ˗`ˏ九 ˎ´˗八"
+        }
+      }
+    },
+    {
+      "assetId": "AbsolutionPulse.nmy.0",
+      "title": "Absolution Pulse",
+      "artist": "nm-y",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.AbsolutionPulse.nmy.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.5,
+          "hit": 690,
+          "combo": 2736,
+          "score": 1014400,
+          "rizHit": 144,
+          "designer": "ne-r"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1242,
+          "combo": 4944,
+          "score": 1020000,
+          "rizHit": 200,
+          "designer": "ne-r"
+        },
+        "IN": {
+          "level": 14.7,
+          "hit": 1793,
+          "combo": 7148,
+          "score": 1035500,
+          "rizHit": 355,
+          "designer": "19-8"
+        }
+      }
+    },
+    {
+      "assetId": "WATER.A39沙包P.0",
+      "title": "WATER",
+      "artist": "A-39 / 沙包P",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.WATER.A39沙包P.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 221,
+          "combo": 860,
+          "score": 1004100,
+          "rizHit": 41,
+          "designer": "ABYSS in WATER"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 483,
+          "combo": 1908,
+          "score": 1007300,
+          "rizHit": 73,
+          "designer": "ABYSS in WATER"
+        },
+        "IN": {
+          "level": 12.5,
+          "hit": 1071,
+          "combo": 4260,
+          "score": 1031200,
+          "rizHit": 312,
+          "designer": "逆流に巻き込まれ"
+        }
+      }
+    },
+    {
+      "assetId": "LifeisPIANO.Junk.0",
+      "title": "Life is PIANO",
+      "artist": "Junk",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.LifeisPIANO.Junk.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 283,
+          "combo": 1108,
+          "score": 1008200,
+          "rizHit": 82,
+          "designer": "Max3957"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 439,
+          "combo": 1732,
+          "score": 1011900,
+          "rizHit": 119,
+          "designer": "Max3957"
+        },
+        "IN": {
+          "level": 13.0,
+          "hit": 851,
+          "combo": 3380,
+          "score": 1023800,
+          "rizHit": 238,
+          "designer": "ShinE"
+        }
+      }
+    },
+    {
+      "assetId": "NeverSayGoodbye.黒魔.0",
+      "title": "Never Say Goodbye",
+      "artist": "黒魔",
+      "discName": "Disc 2",
+      "illustrationId": "illustration.NeverSayGoodbye.黒魔.0",
+      "aliases": [],
+      "charts": {
+        "HD": {
+          "level": 9.5,
+          "hit": 1201,
+          "combo": 4780,
+          "score": 1048100,
+          "rizHit": 481,
+          "designer": "咏歌"
+        },
+        "IN": {
+          "level": 14.3,
+          "hit": 1655,
+          "combo": 6596,
+          "score": 1062500,
+          "rizHit": 625,
+          "designer": "童铃"
+        },
+        "AT": {
+          "level": 15.2,
+          "hit": 2410,
+          "combo": 9616,
+          "score": 1099900,
+          "rizHit": 999,
+          "designer": "咏歌 / 童铃"
+        }
+      }
+    },
+    {
+      "assetId": "SnowDesert.WyvernP.0",
+      "title": "Snow Desert",
+      "artist": "WyvernP",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.SnowDesert.WyvernP.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.0,
+          "hit": 231,
+          "combo": 900,
+          "score": 1009200,
+          "rizHit": 92,
+          "designer": "Whiteout. 3957"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 414,
+          "combo": 1632,
+          "score": 1015300,
+          "rizHit": 153,
+          "designer": "Whiteout. 3957"
+        },
+        "IN": {
+          "level": 12.5,
+          "hit": 685,
+          "combo": 2716,
+          "score": 1022300,
+          "rizHit": 223,
+          "designer": "Whiteout. Abyss"
+        }
+      }
+    },
+    {
+      "assetId": "Concvssion.Halv.0",
+      "title": "Concvssion",
+      "artist": "Halv",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Concvssion.Halv.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 469,
+          "combo": 1852,
+          "score": 1009000,
+          "rizHit": 90,
+          "designer": "Su1fuR"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 783,
+          "combo": 3108,
+          "score": 1018700,
+          "rizHit": 187,
+          "designer": "Su1fuR"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 1295,
+          "combo": 5156,
+          "score": 1025400,
+          "rizHit": 254,
+          "designer": "Concvssion (2026 \"Nasty-Energy\" Remix)"
+        }
+      }
+    },
+    {
+      "assetId": "直ST.TrinaLydia.0",
+      "title": "直 -ST.-",
+      "artist": "Trina Lydia",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.直ST.TrinaLydia.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 407,
+          "combo": 1604,
+          "score": 1008500,
+          "rizHit": 85,
+          "designer": "Easy_sun"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 757,
+          "combo": 3004,
+          "score": 1015200,
+          "rizHit": 152,
+          "designer": "易阳 -ES.-"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 1219,
+          "combo": 4852,
+          "score": 1019200,
+          "rizHit": 192,
+          "designer": "真月"
+        }
+      }
+    },
+    {
+      "assetId": "ヘーブンリースカイ.Jehezukiel.0",
+      "title": "ヘーブンリー・スカイ",
+      "artist": "Jehezukiel",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.ヘーブンリースカイ.Jehezukiel.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 331,
+          "combo": 1300,
+          "score": 1011700,
+          "rizHit": 117,
+          "designer": "MBZJ"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 567,
+          "combo": 2244,
+          "score": 1018900,
+          "rizHit": 189,
+          "designer": "MBZJ"
+        },
+        "IN": {
+          "level": 13.4,
+          "hit": 901,
+          "combo": 3580,
+          "score": 1030500,
+          "rizHit": 305,
+          "designer": "ヘブンリー・マックス"
+        }
+      }
+    },
+    {
+      "assetId": "Astral.TitanChaos.0",
+      "title": "Astral",
+      "artist": "Titan Chaos",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Astral.TitanChaos.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 2.5,
+          "hit": 443,
+          "combo": 1748,
+          "score": 1010000,
+          "rizHit": 100,
+          "designer": "Mbzj3957"
+        },
+        "HD": {
+          "level": 7.0,
+          "hit": 577,
+          "combo": 2284,
+          "score": 1012000,
+          "rizHit": 120,
+          "designer": "Mbzj3957"
+        },
+        "IN": {
+          "level": 13.6,
+          "hit": 1017,
+          "combo": 4044,
+          "score": 1022800,
+          "rizHit": 228,
+          "designer": "SrY-ABYSS"
+        }
+      }
+    },
+    {
+      "assetId": "Quaoar.Camellia.0",
+      "title": "Quaoar",
+      "artist": "Camellia",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.Quaoar.Camellia.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 408,
+          "combo": 1608,
+          "score": 1008900,
+          "rizHit": 89,
+          "designer": "Hi 小3957"
+        },
+        "HD": {
+          "level": 8.5,
+          "hit": 676,
+          "combo": 2680,
+          "score": 1017000,
+          "rizHit": 170,
+          "designer": "Hi 小3957"
+        },
+        "IN": {
+          "level": 14.5,
+          "hit": 1622,
+          "combo": 6464,
+          "score": 1027400,
+          "rizHit": 274,
+          "designer": "Megrez"
+        }
+      }
+    },
+    {
+      "assetId": "千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "title": "千星光輪依頼症",
+      "artist": "KNYORG ft. 無機ビョウ",
+      "discName": "EX - T.S.",
+      "illustrationId": "illustration.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.5,
+          "hit": 706,
+          "combo": 2800,
+          "score": 1021700,
+          "rizHit": 217,
+          "designer": "Ner✦SAN"
+        },
+        "HD": {
+          "level": 10.5,
+          "hit": 1084,
+          "combo": 4312,
+          "score": 1032100,
+          "rizHit": 321,
+          "designer": "Ner✦SAN"
+        },
+        "IN": {
+          "level": 14.8,
+          "hit": 1822,
+          "combo": 7264,
+          "score": 1049800,
+          "rizHit": 498,
+          "designer": "神✦衛"
+        }
+      }
+    }
+  ]
+}

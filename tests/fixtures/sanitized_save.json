@@ -1,0 +1,4480 @@
+{
+  "v": 1,
+  "username": "NightXWind",
+  "totalRks": 169.87094300561506,
+  "myBest": [
+    {
+      "trackAssetId": "track.419kB.ariiol.0",
+      "difficultyClassName": "EZ",
+      "score": 1007600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.419kB.ariiol.0",
+      "difficultyClassName": "HD",
+      "score": 1015400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.419kB.ariiol.0",
+      "difficultyClassName": "IN",
+      "score": 1021100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.8BLUE.ariiolPIKASONIC.0",
+      "difficultyClassName": "EZ",
+      "score": 1004200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.8BLUE.ariiolPIKASONIC.0",
+      "difficultyClassName": "HD",
+      "score": 1008200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.8BLUE.ariiolPIKASONIC.0",
+      "difficultyClassName": "IN",
+      "score": 1010800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abatement.SNKSMizku.0",
+      "difficultyClassName": "EZ",
+      "score": 1008200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abatement.SNKSMizku.0",
+      "difficultyClassName": "HD",
+      "score": 1014100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abatement.SNKSMizku.0",
+      "difficultyClassName": "IN",
+      "score": 1011700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abgrund.ElousFZ.0",
+      "difficultyClassName": "EZ",
+      "score": 1007800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abgrund.ElousFZ.0",
+      "difficultyClassName": "HD",
+      "score": 1013200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abgrund.ElousFZ.0",
+      "difficultyClassName": "IN",
+      "score": 1015500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abiogenesis.Juggernaut.0",
+      "difficultyClassName": "EZ",
+      "score": 1005100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abiogenesis.Juggernaut.0",
+      "difficultyClassName": "HD",
+      "score": 1016900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Abiogenesis.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "score": 1022500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "EZ",
+      "score": 1014400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "HD",
+      "score": 1020000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "IN",
+      "score": 1035100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Afterdark.Sta.0",
+      "difficultyClassName": "EZ",
+      "score": 1007800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Afterdark.Sta.0",
+      "difficultyClassName": "HD",
+      "score": 1012800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Afterdark.Sta.0",
+      "difficultyClassName": "IN",
+      "score": 1018600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alexandrite.onoken.0",
+      "difficultyClassName": "EZ",
+      "score": 1009900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alexandrite.onoken.0",
+      "difficultyClassName": "HD",
+      "score": 1015800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alexandrite.onoken.0",
+      "difficultyClassName": "IN",
+      "score": 1025500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alfheimsfaith.影虎.0",
+      "difficultyClassName": "EZ",
+      "score": 1008600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alfheimsfaith.影虎.0",
+      "difficultyClassName": "HD",
+      "score": 1018200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Alfheimsfaith.影虎.0",
+      "difficultyClassName": "IN",
+      "score": 1027700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antikythera.technoplanet.0",
+      "difficultyClassName": "EZ",
+      "score": 1012100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antikythera.technoplanet.0",
+      "difficultyClassName": "HD",
+      "score": 1017400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antikythera.technoplanet.0",
+      "difficultyClassName": "IN",
+      "score": 1029900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antler.Juggernaut.0",
+      "difficultyClassName": "EZ",
+      "score": 1011300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antler.Juggernaut.0",
+      "difficultyClassName": "HD",
+      "score": 1022600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Antler.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "score": 1040900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ArcadeViruZ.AspidCat.0",
+      "difficultyClassName": "EZ",
+      "score": 1005500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ArcadeViruZ.AspidCat.0",
+      "difficultyClassName": "HD",
+      "score": 1009000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ArcadeViruZ.AspidCat.0",
+      "difficultyClassName": "IN",
+      "score": 1030000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "EZ",
+      "score": 1010000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "HD",
+      "score": 1012000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "IN",
+      "score": 1022800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AuthenticGamever.Rukadesunowheretogo.0",
+      "difficultyClassName": "EZ",
+      "score": 1007200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AuthenticGamever.Rukadesunowheretogo.0",
+      "difficultyClassName": "HD",
+      "score": 1013700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AuthenticGamever.Rukadesunowheretogo.0",
+      "difficultyClassName": "IN",
+      "score": 1020100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "difficultyClassName": "EZ",
+      "score": 1024200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "difficultyClassName": "HD",
+      "score": 1042500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "difficultyClassName": "IN",
+      "score": 1061600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "difficultyClassName": "AT",
+      "score": 1055000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "difficultyClassName": "HD",
+      "score": 1028900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "difficultyClassName": "IN",
+      "score": 1039700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Bamboo.rissyuu.0",
+      "difficultyClassName": "EZ",
+      "score": 1003600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Bamboo.rissyuu.0",
+      "difficultyClassName": "HD",
+      "score": 1003800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Bamboo.rissyuu.0",
+      "difficultyClassName": "IN",
+      "score": 1012200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Bamboo.rissyuu.1",
+      "difficultyClassName": "SP",
+      "score": 1015600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BringMeBack.Zekk.0",
+      "difficultyClassName": "EZ",
+      "score": 1005700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BringMeBack.Zekk.0",
+      "difficultyClassName": "HD",
+      "score": 1009100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BringMeBack.Zekk.0",
+      "difficultyClassName": "IN",
+      "score": 1018100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "EZ",
+      "score": 1007100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "HD",
+      "score": 1009700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "IN",
+      "score": 1018600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CANDYLAND.Seo.0",
+      "difficultyClassName": "EZ",
+      "score": 1006500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CANDYLAND.Seo.0",
+      "difficultyClassName": "HD",
+      "score": 1016900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CANDYLAND.Seo.0",
+      "difficultyClassName": "IN",
+      "score": 1021500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "difficultyClassName": "EZ",
+      "score": 1006400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "difficultyClassName": "HD",
+      "score": 1017100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "difficultyClassName": "IN",
+      "score": 1020100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ClockParadox.WyvernP.0",
+      "difficultyClassName": "EZ",
+      "score": 1006600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ClockParadox.WyvernP.0",
+      "difficultyClassName": "HD",
+      "score": 1015100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ClockParadox.WyvernP.0",
+      "difficultyClassName": "IN",
+      "score": 1028000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Cloudsclearand.Qutabire.0",
+      "difficultyClassName": "EZ",
+      "score": 1009500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Cloudsclearand.Qutabire.0",
+      "difficultyClassName": "HD",
+      "score": 1015900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Cloudsclearand.Qutabire.0",
+      "difficultyClassName": "IN",
+      "score": 1017000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ColorfulFlavor.Cansol.0",
+      "difficultyClassName": "EZ",
+      "score": 1008100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ColorfulFlavor.Cansol.0",
+      "difficultyClassName": "HD",
+      "score": 1009300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ColorfulFlavor.Cansol.0",
+      "difficultyClassName": "IN",
+      "score": 1012600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CometCoaster.DJNorikenaran.0",
+      "difficultyClassName": "EZ",
+      "score": 1005300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CometCoaster.DJNorikenaran.0",
+      "difficultyClassName": "HD",
+      "score": 1013100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CometCoaster.DJNorikenaran.0",
+      "difficultyClassName": "IN",
+      "score": 1022800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "EZ",
+      "score": 1009000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "HD",
+      "score": 1018700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "IN",
+      "score": 1025400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contact.NeutralMoonMK.0",
+      "difficultyClassName": "EZ",
+      "score": 1003300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contact.NeutralMoonMK.0",
+      "difficultyClassName": "HD",
+      "score": 1008600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contact.NeutralMoonMK.0",
+      "difficultyClassName": "IN",
+      "score": 1020600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contortion.PTB10.0",
+      "difficultyClassName": "EZ",
+      "score": 1005400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contortion.PTB10.0",
+      "difficultyClassName": "HD",
+      "score": 1010000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Contortion.PTB10.0",
+      "difficultyClassName": "IN",
+      "score": 1014800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ConwaysChild.Sta.0",
+      "difficultyClassName": "EZ",
+      "score": 1008500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ConwaysChild.Sta.0",
+      "difficultyClassName": "HD",
+      "score": 1022300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ConwaysChild.Sta.0",
+      "difficultyClassName": "IN",
+      "score": 1024000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CosmosCapsule.AsTroyBakami.0",
+      "difficultyClassName": "EZ",
+      "score": 1010200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CosmosCapsule.AsTroyBakami.0",
+      "difficultyClassName": "HD",
+      "score": 1022400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CosmosCapsule.AsTroyBakami.0",
+      "difficultyClassName": "IN",
+      "score": 1026400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrazyAudiophile.Supa7onyz.0",
+      "difficultyClassName": "EZ",
+      "score": 1006300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrazyAudiophile.Supa7onyz.0",
+      "difficultyClassName": "HD",
+      "score": 1017900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrazyAudiophile.Supa7onyz.0",
+      "difficultyClassName": "IN",
+      "score": 1020100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Crimsonate.BlackYfeatRisaYuzuki.0",
+      "difficultyClassName": "EZ",
+      "score": 1005800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Crimsonate.BlackYfeatRisaYuzuki.0",
+      "difficultyClassName": "HD",
+      "score": 1012500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Crimsonate.BlackYfeatRisaYuzuki.0",
+      "difficultyClassName": "IN",
+      "score": 1026500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrushAlcohol.shadow_bling.0",
+      "difficultyClassName": "EZ",
+      "score": 1006200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrushAlcohol.shadow_bling.0",
+      "difficultyClassName": "HD",
+      "score": 1010700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.CrushAlcohol.shadow_bling.0",
+      "difficultyClassName": "IN",
+      "score": 1021500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DBirth.Sakuzyo.0",
+      "difficultyClassName": "EZ",
+      "score": 1007800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DBirth.Sakuzyo.0",
+      "difficultyClassName": "HD",
+      "score": 1026500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DBirth.Sakuzyo.0",
+      "difficultyClassName": "IN",
+      "score": 1032400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DOMINATOR.NOMA.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DOMINATOR.NOMA.0",
+      "difficultyClassName": "HD",
+      "score": 1011100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DOMINATOR.NOMA.0",
+      "difficultyClassName": "IN",
+      "score": 1025000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Destr0yer.Sakuzyo.0",
+      "difficultyClassName": "EZ",
+      "score": 1010100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Destr0yer.Sakuzyo.0",
+      "difficultyClassName": "HD",
+      "score": 1014400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Destr0yer.Sakuzyo.0",
+      "difficultyClassName": "IN",
+      "score": 1022000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Dice20.Daily.0",
+      "difficultyClassName": "EZ",
+      "score": 1003400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Dice20.Daily.0",
+      "difficultyClassName": "HD",
+      "score": 1006900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Dice20.Daily.0",
+      "difficultyClassName": "IN",
+      "score": 1011000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DotLinefeatななひら.A39沙包Pななひら.0",
+      "difficultyClassName": "EZ",
+      "score": 1014200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DotLinefeatななひら.A39沙包Pななひら.0",
+      "difficultyClassName": "HD",
+      "score": 1023600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DotLinefeatななひら.A39沙包Pななひら.0",
+      "difficultyClassName": "IN",
+      "score": 1042400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DotLinefeatななひら.A39沙包Pななひら.1",
+      "difficultyClassName": "SP",
+      "score": 1024500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DropDown.Cosmograph.0",
+      "difficultyClassName": "EZ",
+      "score": 1013400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DropDown.Cosmograph.0",
+      "difficultyClassName": "HD",
+      "score": 1024400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.DropDown.Cosmograph.0",
+      "difficultyClassName": "IN",
+      "score": 1039900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Echooveryou.Apo11oprogram.0",
+      "difficultyClassName": "EZ",
+      "score": 1009600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Echooveryou.Apo11oprogram.0",
+      "difficultyClassName": "HD",
+      "score": 1018500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Echooveryou.Apo11oprogram.0",
+      "difficultyClassName": "IN",
+      "score": 1023000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ElectricComet.Meram1n.0",
+      "difficultyClassName": "EZ",
+      "score": 1006700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ElectricComet.Meram1n.0",
+      "difficultyClassName": "HD",
+      "score": 1013900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ElectricComet.Meram1n.0",
+      "difficultyClassName": "IN",
+      "score": 1021000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Empire.416.0",
+      "difficultyClassName": "EZ",
+      "score": 1004800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Empire.416.0",
+      "difficultyClassName": "HD",
+      "score": 1009900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Empire.416.0",
+      "difficultyClassName": "IN",
+      "score": 1020200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Encrux.Sobrem.0",
+      "difficultyClassName": "EZ",
+      "score": 1008200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Encrux.Sobrem.0",
+      "difficultyClassName": "HD",
+      "score": 1024000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Encrux.Sobrem.0",
+      "difficultyClassName": "IN",
+      "score": 1021400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Enneaquest.SEPHID.0",
+      "difficultyClassName": "EZ",
+      "score": 1008600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Enneaquest.SEPHID.0",
+      "difficultyClassName": "HD",
+      "score": 1013100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Enneaquest.SEPHID.0",
+      "difficultyClassName": "IN",
+      "score": 1019400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Eschatology.TatshScarlette.0",
+      "difficultyClassName": "EZ",
+      "score": 1020000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Eschatology.TatshScarlette.0",
+      "difficultyClassName": "HD",
+      "score": 1034900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Eschatology.TatshScarlette.0",
+      "difficultyClassName": "IN",
+      "score": 1041300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FORTALiCE.ZxNX.0",
+      "difficultyClassName": "EZ",
+      "score": 1008400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FORTALiCE.ZxNX.0",
+      "difficultyClassName": "HD",
+      "score": 1012100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FORTALiCE.ZxNX.0",
+      "difficultyClassName": "IN",
+      "score": 1018300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FRIEND.DAAN.0",
+      "difficultyClassName": "EZ",
+      "score": 1008600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FRIEND.DAAN.0",
+      "difficultyClassName": "HD",
+      "score": 1015200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FRIEND.DAAN.0",
+      "difficultyClassName": "IN",
+      "score": 1023400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FadeAway.DeBisco.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FadeAway.DeBisco.0",
+      "difficultyClassName": "HD",
+      "score": 1013400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FadeAway.DeBisco.0",
+      "difficultyClassName": "IN",
+      "score": 1025100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FairysCrown.Powerless.0",
+      "difficultyClassName": "EZ",
+      "score": 1004500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FairysCrown.Powerless.0",
+      "difficultyClassName": "HD",
+      "score": 1008700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FairysCrown.Powerless.0",
+      "difficultyClassName": "IN",
+      "score": 1014800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FrozenHeart.A39沙包P.0",
+      "difficultyClassName": "EZ",
+      "score": 1008800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FrozenHeart.A39沙包P.0",
+      "difficultyClassName": "HD",
+      "score": 1015100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FrozenHeart.A39沙包P.0",
+      "difficultyClassName": "IN",
+      "score": 1026800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FutureDownloader.Kobaryo.0",
+      "difficultyClassName": "EZ",
+      "score": 1012900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FutureDownloader.Kobaryo.0",
+      "difficultyClassName": "HD",
+      "score": 1020200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.FutureDownloader.Kobaryo.0",
+      "difficultyClassName": "IN",
+      "score": 1025000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GREATGREAT.Zris.0",
+      "difficultyClassName": "EZ",
+      "score": 1004400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GREATGREAT.Zris.0",
+      "difficultyClassName": "HD",
+      "score": 1007000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GREATGREAT.Zris.0",
+      "difficultyClassName": "IN",
+      "score": 1011800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Giselle.Sobrem.0",
+      "difficultyClassName": "EZ",
+      "score": 1008300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Giselle.Sobrem.0",
+      "difficultyClassName": "HD",
+      "score": 1022300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Giselle.Sobrem.0",
+      "difficultyClassName": "IN",
+      "score": 1020300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Gleam.Uske.0",
+      "difficultyClassName": "EZ",
+      "score": 1003500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Gleam.Uske.0",
+      "difficultyClassName": "HD",
+      "score": 1009100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Gleam.Uske.0",
+      "difficultyClassName": "IN",
+      "score": 1012600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GravesAncientMemories.Juggernaut.0",
+      "difficultyClassName": "EZ",
+      "score": 1016300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GravesAncientMemories.Juggernaut.0",
+      "difficultyClassName": "HD",
+      "score": 1036200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GravesAncientMemories.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "score": 1044100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GreatnessEarth.Axya.0",
+      "difficultyClassName": "EZ",
+      "score": 1011400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GreatnessEarth.Axya.0",
+      "difficultyClassName": "HD",
+      "score": 1015000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.GreatnessEarth.Axya.0",
+      "difficultyClassName": "IN",
+      "score": 1021200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Grimheart.Puru.0",
+      "difficultyClassName": "EZ",
+      "score": 1008800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Grimheart.Puru.0",
+      "difficultyClassName": "HD",
+      "score": 1009800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Grimheart.Puru.0",
+      "difficultyClassName": "IN",
+      "score": 1022000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "EZ",
+      "score": 1013100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "HD",
+      "score": 1018000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "IN",
+      "score": 1032200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "EZ",
+      "score": 1005000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "HD",
+      "score": 1012200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "IN",
+      "score": 1018900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hullbreaker.Maozon.0",
+      "difficultyClassName": "EZ",
+      "score": 1010500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hullbreaker.Maozon.0",
+      "difficultyClassName": "HD",
+      "score": 1015800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hullbreaker.Maozon.0",
+      "difficultyClassName": "IN",
+      "score": 1023500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hydra.JamesLandinoXAkiraComplex.0",
+      "difficultyClassName": "EZ",
+      "score": 1008700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hydra.JamesLandinoXAkiraComplex.0",
+      "difficultyClassName": "HD",
+      "score": 1020200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hydra.JamesLandinoXAkiraComplex.0",
+      "difficultyClassName": "IN",
+      "score": 1028000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hyperwave.LOFTIER.0",
+      "difficultyClassName": "EZ",
+      "score": 1008400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hyperwave.LOFTIER.0",
+      "difficultyClassName": "HD",
+      "score": 1013300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Hyperwave.LOFTIER.0",
+      "difficultyClassName": "IN",
+      "score": 1026600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ILLEGALLEGACY.seatrus.0",
+      "difficultyClassName": "EZ",
+      "score": 1009100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ILLEGALLEGACY.seatrus.0",
+      "difficultyClassName": "HD",
+      "score": 1016000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ILLEGALLEGACY.seatrus.0",
+      "difficultyClassName": "IN",
+      "score": 1016600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Idol.VizzenMonstDeath.0",
+      "difficultyClassName": "EZ",
+      "score": 1001700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Idol.VizzenMonstDeath.0",
+      "difficultyClassName": "HD",
+      "score": 1002400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Idol.VizzenMonstDeath.0",
+      "difficultyClassName": "IN",
+      "score": 1011500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Inevitability.kuro.0",
+      "difficultyClassName": "EZ",
+      "score": 1013000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Inevitability.kuro.0",
+      "difficultyClassName": "HD",
+      "score": 1017000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Inevitability.kuro.0",
+      "difficultyClassName": "IN",
+      "score": 1035100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Inevitability.kuro.1",
+      "difficultyClassName": "SP",
+      "score": 1029400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Intruder.Riya.0",
+      "difficultyClassName": "EZ",
+      "score": 1006300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Intruder.Riya.0",
+      "difficultyClassName": "HD",
+      "score": 1013800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Intruder.Riya.0",
+      "difficultyClassName": "IN",
+      "score": 1017600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.JourneyToTheRainbows.Ardolf.0",
+      "difficultyClassName": "EZ",
+      "score": 1005100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.JourneyToTheRainbows.Ardolf.0",
+      "difficultyClassName": "HD",
+      "score": 1013400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.JourneyToTheRainbows.Ardolf.0",
+      "difficultyClassName": "IN",
+      "score": 1017000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Kaguya.BlackY.0",
+      "difficultyClassName": "EZ",
+      "score": 1012300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Kaguya.BlackY.0",
+      "difficultyClassName": "HD",
+      "score": 1011500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Kaguya.BlackY.0",
+      "difficultyClassName": "IN",
+      "score": 1024700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LAIGN.KiufeatNikkiSimons.0",
+      "difficultyClassName": "EZ",
+      "score": 1011700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LAIGN.KiufeatNikkiSimons.0",
+      "difficultyClassName": "HD",
+      "score": 1017500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LAIGN.KiufeatNikkiSimons.0",
+      "difficultyClassName": "IN",
+      "score": 1025000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LEONIDS.SaMZIngTitanChaos.0",
+      "difficultyClassName": "EZ",
+      "score": 1004800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LEONIDS.SaMZIngTitanChaos.0",
+      "difficultyClassName": "HD",
+      "score": 1010500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LEONIDS.SaMZIngTitanChaos.0",
+      "difficultyClassName": "IN",
+      "score": 1012600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LINKLINS.Halv.0",
+      "difficultyClassName": "EZ",
+      "score": 1006400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LINKLINS.Halv.0",
+      "difficultyClassName": "HD",
+      "score": 1013200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LINKLINS.Halv.0",
+      "difficultyClassName": "IN",
+      "score": 1018800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LavenderLeaffeatLexi.VauBoy.0",
+      "difficultyClassName": "EZ",
+      "score": 1009700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LavenderLeaffeatLexi.VauBoy.0",
+      "difficultyClassName": "HD",
+      "score": 1008200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LavenderLeaffeatLexi.VauBoy.0",
+      "difficultyClassName": "IN",
+      "score": 1017900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "EZ",
+      "score": 1008200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "HD",
+      "score": 1011900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "IN",
+      "score": 1023800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LostFuture.AspidCat.0",
+      "difficultyClassName": "EZ",
+      "score": 1010400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LostFuture.AspidCat.0",
+      "difficultyClassName": "HD",
+      "score": 1017600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.LostFuture.AspidCat.0",
+      "difficultyClassName": "IN",
+      "score": 1027200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MidnightFlux.ProjectG.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MidnightFlux.ProjectG.0",
+      "difficultyClassName": "HD",
+      "score": 1022000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MidnightFlux.ProjectG.0",
+      "difficultyClassName": "IN",
+      "score": 1025300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MilK.morimoriatsushi.0",
+      "difficultyClassName": "EZ",
+      "score": 1007900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MilK.morimoriatsushi.0",
+      "difficultyClassName": "HD",
+      "score": 1012800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.MilK.morimoriatsushi.0",
+      "difficultyClassName": "IN",
+      "score": 1020300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NLAMTA.Tsynphonia.0",
+      "difficultyClassName": "EZ",
+      "score": 1014500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NLAMTA.Tsynphonia.0",
+      "difficultyClassName": "HD",
+      "score": 1012200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NLAMTA.Tsynphonia.0",
+      "difficultyClassName": "IN",
+      "score": 1033500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NOONEYESMAN.MYUKKE.0",
+      "difficultyClassName": "EZ",
+      "score": 1011800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NOONEYESMAN.MYUKKE.0",
+      "difficultyClassName": "HD",
+      "score": 1013100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NOONEYESMAN.MYUKKE.0",
+      "difficultyClassName": "IN",
+      "score": 1021500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "AT",
+      "score": 1094300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "HD",
+      "score": 1048100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "IN",
+      "score": 1062400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NightTheater.wakadori.0",
+      "difficultyClassName": "EZ",
+      "score": 1007600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NightTheater.wakadori.0",
+      "difficultyClassName": "HD",
+      "score": 1019500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NightTheater.wakadori.0",
+      "difficultyClassName": "IN",
+      "score": 1032900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NonameRequiem.打打だいず.0",
+      "difficultyClassName": "EZ",
+      "score": 1009200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NonameRequiem.打打だいず.0",
+      "difficultyClassName": "HD",
+      "score": 1016800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.NonameRequiem.打打だいず.0",
+      "difficultyClassName": "IN",
+      "score": 1027000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.OnAndOn.ETIA.0",
+      "difficultyClassName": "EZ",
+      "score": 1006600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.OnAndOn.ETIA.0",
+      "difficultyClassName": "HD",
+      "score": 1010400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.OnAndOn.ETIA.0",
+      "difficultyClassName": "IN",
+      "score": 1019200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ParadialResonator.RekuMochizuki.0",
+      "difficultyClassName": "EZ",
+      "score": 1006600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ParadialResonator.RekuMochizuki.0",
+      "difficultyClassName": "HD",
+      "score": 1015200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ParadialResonator.RekuMochizuki.0",
+      "difficultyClassName": "IN",
+      "score": 1022400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PastelLines.RekuMochizuki.0",
+      "difficultyClassName": "EZ",
+      "score": 1002900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PastelLines.RekuMochizuki.0",
+      "difficultyClassName": "HD",
+      "score": 1010400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PastelLines.RekuMochizuki.0",
+      "difficultyClassName": "IN",
+      "score": 1016300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "EZ",
+      "score": 1014100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "HD",
+      "score": 1018900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "IN",
+      "score": 1027600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "difficultyClassName": "HD",
+      "score": 1007800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "difficultyClassName": "IN",
+      "score": 1015700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Polygons.Riya.0",
+      "difficultyClassName": "EZ",
+      "score": 1006600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Polygons.Riya.0",
+      "difficultyClassName": "HD",
+      "score": 1010400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Polygons.Riya.0",
+      "difficultyClassName": "IN",
+      "score": 1014900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PowerAttack.EBIMAYO.0",
+      "difficultyClassName": "EZ",
+      "score": 1004600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PowerAttack.EBIMAYO.0",
+      "difficultyClassName": "HD",
+      "score": 1011600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PowerAttack.EBIMAYO.0",
+      "difficultyClassName": "IN",
+      "score": 1022500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Psychometry.HyuN.0",
+      "difficultyClassName": "EZ",
+      "score": 1007200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Psychometry.HyuN.0",
+      "difficultyClassName": "HD",
+      "score": 1013700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Psychometry.HyuN.0",
+      "difficultyClassName": "IN",
+      "score": 1017600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PuppetShow.MeatyRabbit.0",
+      "difficultyClassName": "EZ",
+      "score": 1005200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PuppetShow.MeatyRabbit.0",
+      "difficultyClassName": "HD",
+      "score": 1005700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.PuppetShow.MeatyRabbit.0",
+      "difficultyClassName": "IN",
+      "score": 1009600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "EZ",
+      "score": 1013300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "HD",
+      "score": 1017600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "IN",
+      "score": 1030100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "EZ",
+      "score": 1008900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "HD",
+      "score": 1017000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "IN",
+      "score": 1027100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RIP.eicateve.0",
+      "difficultyClassName": "EZ",
+      "score": 1010000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RIP.eicateve.0",
+      "difficultyClassName": "HD",
+      "score": 1021900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RIP.eicateve.0",
+      "difficultyClassName": "IN",
+      "score": 1044100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Rapture.RoyMikelate.0",
+      "difficultyClassName": "EZ",
+      "score": 1009700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Rapture.RoyMikelate.0",
+      "difficultyClassName": "HD",
+      "score": 1016700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Rapture.RoyMikelate.0",
+      "difficultyClassName": "IN",
+      "score": 1037800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Relieve.响星幂ElroyJanKortanidze.0",
+      "difficultyClassName": "EZ",
+      "score": 1006000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Relieve.响星幂ElroyJanKortanidze.0",
+      "difficultyClassName": "HD",
+      "score": 1009600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Relieve.响星幂ElroyJanKortanidze.0",
+      "difficultyClassName": "IN",
+      "score": 1012700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RestrictedAccess.Knighthood.0",
+      "difficultyClassName": "EZ",
+      "score": 1007100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RestrictedAccess.Knighthood.0",
+      "difficultyClassName": "HD",
+      "score": 1019600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RestrictedAccess.Knighthood.0",
+      "difficultyClassName": "IN",
+      "score": 1029600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Revenant.Juggernaut.0",
+      "difficultyClassName": "EZ",
+      "score": 1011800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Revenant.Juggernaut.0",
+      "difficultyClassName": "HD",
+      "score": 1015900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Revenant.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "score": 1017400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ReversedZenith.Synzak.0",
+      "difficultyClassName": "EZ",
+      "score": 1008700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ReversedZenith.Synzak.0",
+      "difficultyClassName": "HD",
+      "score": 1012000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ReversedZenith.Synzak.0",
+      "difficultyClassName": "IN",
+      "score": 1015200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RuleTheWorld.VauBoy.0",
+      "difficultyClassName": "EZ",
+      "score": 1007200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RuleTheWorld.VauBoy.0",
+      "difficultyClassName": "HD",
+      "score": 1012900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.RuleTheWorld.VauBoy.0",
+      "difficultyClassName": "IN",
+      "score": 1018900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SakuraFubuki.Street.0",
+      "difficultyClassName": "EZ",
+      "score": 1004400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SakuraFubuki.Street.0",
+      "difficultyClassName": "HD",
+      "score": 1011300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SakuraFubuki.Street.0",
+      "difficultyClassName": "IN",
+      "score": 1018400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Shattered.ARForest.0",
+      "difficultyClassName": "EZ",
+      "score": 1007300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Shattered.ARForest.0",
+      "difficultyClassName": "HD",
+      "score": 1013300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Shattered.ARForest.0",
+      "difficultyClassName": "IN",
+      "score": 1025600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Skyscape.Plum.0",
+      "difficultyClassName": "EZ",
+      "score": 1003300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Skyscape.Plum.0",
+      "difficultyClassName": "HD",
+      "score": 1012400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Skyscape.Plum.0",
+      "difficultyClassName": "IN",
+      "score": 1016100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "EZ",
+      "score": 1009200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "HD",
+      "score": 1015300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "IN",
+      "score": 1022300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SoutenStasKeyKaimix.MeineMeinung.0",
+      "difficultyClassName": "EZ",
+      "score": 1014900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SoutenStasKeyKaimix.MeineMeinung.0",
+      "difficultyClassName": "HD",
+      "score": 1024000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SoutenStasKeyKaimix.MeineMeinung.0",
+      "difficultyClassName": "IN",
+      "score": 1039500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SpeedUp.DarTokki.0",
+      "difficultyClassName": "EZ",
+      "score": 1012200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SpeedUp.DarTokki.0",
+      "difficultyClassName": "HD",
+      "score": 1015000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SpeedUp.DarTokki.0",
+      "difficultyClassName": "IN",
+      "score": 1023300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "EZ",
+      "score": 1011100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "HD",
+      "score": 1021100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "IN",
+      "score": 1034500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Sthenno.BlackY.0",
+      "difficultyClassName": "EZ",
+      "score": 1019400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Sthenno.BlackY.0",
+      "difficultyClassName": "HD",
+      "score": 1034000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Sthenno.BlackY.0",
+      "difficultyClassName": "IN",
+      "score": 1048700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "difficultyClassName": "EZ",
+      "score": 1010700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "difficultyClassName": "HD",
+      "score": 1013800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "difficultyClassName": "IN",
+      "score": 1030800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SwingSweetTweeDance.Uske.0",
+      "difficultyClassName": "EZ",
+      "score": 1008600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SwingSweetTweeDance.Uske.0",
+      "difficultyClassName": "HD",
+      "score": 1013800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.SwingSweetTweeDance.Uske.0",
+      "difficultyClassName": "IN",
+      "score": 1021200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TVSSHARK.tpazolite.0",
+      "difficultyClassName": "EZ",
+      "score": 1010100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TVSSHARK.tpazolite.0",
+      "difficultyClassName": "HD",
+      "score": 1014200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TVSSHARK.tpazolite.0",
+      "difficultyClassName": "IN",
+      "score": 1020500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "HD",
+      "score": 1010300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "IN",
+      "score": 1031800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Tempest.Plum.0",
+      "difficultyClassName": "EZ",
+      "score": 1011400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Tempest.Plum.0",
+      "difficultyClassName": "HD",
+      "score": 1023600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Tempest.Plum.0",
+      "difficultyClassName": "IN",
+      "score": 1032600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheLastPage.ARForest.0",
+      "difficultyClassName": "EZ",
+      "score": 1008800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheLastPage.ARForest.0",
+      "difficultyClassName": "HD",
+      "score": 1018200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheLastPage.ARForest.0",
+      "difficultyClassName": "IN",
+      "score": 1026400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheNextArcady.SEPHID.0",
+      "difficultyClassName": "EZ",
+      "score": 1010700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheNextArcady.SEPHID.0",
+      "difficultyClassName": "HD",
+      "score": 1020300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TheNextArcady.SEPHID.0",
+      "difficultyClassName": "IN",
+      "score": 1025800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TurningPOINT.Junk.0",
+      "difficultyClassName": "EZ",
+      "score": 1007600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TurningPOINT.Junk.0",
+      "difficultyClassName": "HD",
+      "score": 1012600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.TurningPOINT.Junk.0",
+      "difficultyClassName": "IN",
+      "score": 1018200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "EZ",
+      "score": 1006500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "HD",
+      "score": 1014800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "IN",
+      "score": 1049600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VICIOUS.MEMODEMO.0",
+      "difficultyClassName": "EZ",
+      "score": 1006000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VICIOUS.MEMODEMO.0",
+      "difficultyClassName": "HD",
+      "score": 1013800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VICIOUS.MEMODEMO.0",
+      "difficultyClassName": "IN",
+      "score": 1018300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "difficultyClassName": "EZ",
+      "score": 1012800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "difficultyClassName": "HD",
+      "score": 1016200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "difficultyClassName": "IN",
+      "score": 1021800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ViciousMockery.Kryexe.0",
+      "difficultyClassName": "EZ",
+      "score": 1009800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ViciousMockery.Kryexe.0",
+      "difficultyClassName": "HD",
+      "score": 1021200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ViciousMockery.Kryexe.0",
+      "difficultyClassName": "IN",
+      "score": 1026700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Vrtuaresort.seatrus.0",
+      "difficultyClassName": "EZ",
+      "score": 1007000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Vrtuaresort.seatrus.0",
+      "difficultyClassName": "HD",
+      "score": 1015700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.Vrtuaresort.seatrus.0",
+      "difficultyClassName": "IN",
+      "score": 1022000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "EZ",
+      "score": 1004100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "HD",
+      "score": 1007300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "IN",
+      "score": 1031200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.YellowShiningfeat成田なる.にーえぬ.0",
+      "difficultyClassName": "EZ",
+      "score": 1005600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.YellowShiningfeat成田なる.にーえぬ.0",
+      "difficultyClassName": "HD",
+      "score": 1010200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.YellowShiningfeat成田なる.にーえぬ.0",
+      "difficultyClassName": "IN",
+      "score": 1014100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "EZ",
+      "score": 1008900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "HD",
+      "score": 1016500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "IN",
+      "score": 1025000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.amethyst.かねこちはる.0",
+      "difficultyClassName": "EZ",
+      "score": 1004800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.amethyst.かねこちはる.0",
+      "difficultyClassName": "HD",
+      "score": 1008700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.amethyst.かねこちはる.0",
+      "difficultyClassName": "IN",
+      "score": 1018700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.crystallized.Camellia.0",
+      "difficultyClassName": "EZ",
+      "score": 1019200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.crystallized.Camellia.0",
+      "difficultyClassName": "HD",
+      "score": 1033700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.crystallized.Camellia.0",
+      "difficultyClassName": "IN",
+      "score": 1043800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.enchantedlove.linearring.0",
+      "difficultyClassName": "EZ",
+      "score": 1013900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.enchantedlove.linearring.0",
+      "difficultyClassName": "HD",
+      "score": 1023700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.enchantedlove.linearring.0",
+      "difficultyClassName": "IN",
+      "score": 1020900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.felysfinalremix.onoken.0",
+      "difficultyClassName": "EZ",
+      "score": 1003900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.felysfinalremix.onoken.0",
+      "difficultyClassName": "HD",
+      "score": 1004800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.felysfinalremix.onoken.0",
+      "difficultyClassName": "IN",
+      "score": 1017000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.macrowav.dandeless.0",
+      "difficultyClassName": "EZ",
+      "score": 1006200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.macrowav.dandeless.0",
+      "difficultyClassName": "HD",
+      "score": 1010300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.macrowav.dandeless.0",
+      "difficultyClassName": "IN",
+      "score": 1015800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.sAtElLites.SIRIUS.0",
+      "difficultyClassName": "EZ",
+      "score": 1010300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.sAtElLites.SIRIUS.0",
+      "difficultyClassName": "HD",
+      "score": 1020400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.sAtElLites.SIRIUS.0",
+      "difficultyClassName": "IN",
+      "score": 1033300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.slichertz.Sobrem.0",
+      "difficultyClassName": "EZ",
+      "score": 1010600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.slichertz.Sobrem.0",
+      "difficultyClassName": "HD",
+      "score": 1015200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.slichertz.Sobrem.0",
+      "difficultyClassName": "IN",
+      "score": 1025000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "EZ",
+      "score": 1010600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "HD",
+      "score": 1016600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "IN",
+      "score": 1020100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "EZ",
+      "score": 1011200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "HD",
+      "score": 1016500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "IN",
+      "score": 1026700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.インフェルノシティ.Ponchifeatはぁち.0",
+      "difficultyClassName": "EZ",
+      "score": 1015300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.インフェルノシティ.Ponchifeatはぁち.0",
+      "difficultyClassName": "HD",
+      "score": 1028100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.インフェルノシティ.Ponchifeatはぁち.0",
+      "difficultyClassName": "IN",
+      "score": 1046600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "EZ",
+      "score": 1016000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "HD",
+      "score": 1043200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "IN",
+      "score": 1043700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "EZ",
+      "score": 1011700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "HD",
+      "score": 1018900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "IN",
+      "score": 1030500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "difficultyClassName": "EZ",
+      "score": 1009400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "difficultyClassName": "HD",
+      "score": 1014200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "difficultyClassName": "IN",
+      "score": 1024500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "EZ",
+      "score": 1021700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "HD",
+      "score": 1032100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "IN",
+      "score": 1049600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "EZ",
+      "score": 1009200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "HD",
+      "score": 1016900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "IN",
+      "score": 1025400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.夢厭coneleganza.大前司.0",
+      "difficultyClassName": "EZ",
+      "score": 1004600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.夢厭coneleganza.大前司.0",
+      "difficultyClassName": "HD",
+      "score": 1010900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.夢厭coneleganza.大前司.0",
+      "difficultyClassName": "IN",
+      "score": 1027800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天地開闢.kuro.0",
+      "difficultyClassName": "EZ",
+      "score": 1006200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天地開闢.kuro.0",
+      "difficultyClassName": "HD",
+      "score": 1016600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天地開闢.kuro.0",
+      "difficultyClassName": "IN",
+      "score": 1015900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天灵灵地灵灵.iKzfeat小可学妹.0",
+      "difficultyClassName": "EZ",
+      "score": 1007900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天灵灵地灵灵.iKzfeat小可学妹.0",
+      "difficultyClassName": "HD",
+      "score": 1012300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.天灵灵地灵灵.iKzfeat小可学妹.0",
+      "difficultyClassName": "IN",
+      "score": 1028500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "EZ",
+      "score": 1012500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "HD",
+      "score": 1018800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "IN",
+      "score": 1031600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.水槽に沈む街.kuro.0",
+      "difficultyClassName": "EZ",
+      "score": 1007800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.水槽に沈む街.kuro.0",
+      "difficultyClassName": "HD",
+      "score": 1012800,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.水槽に沈む街.kuro.0",
+      "difficultyClassName": "IN",
+      "score": 1021900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.溶けてゆく.A39.0",
+      "difficultyClassName": "EZ",
+      "score": 1007700,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.溶けてゆく.A39.0",
+      "difficultyClassName": "HD",
+      "score": 1010900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.溶けてゆく.A39.0",
+      "difficultyClassName": "IN",
+      "score": 1037300,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.漂流.THESxPLAYKIVΛ.0",
+      "difficultyClassName": "EZ",
+      "score": 1011500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.漂流.THESxPLAYKIVΛ.0",
+      "difficultyClassName": "HD",
+      "score": 1021600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.漂流.THESxPLAYKIVΛ.0",
+      "difficultyClassName": "IN",
+      "score": 1030600,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "EZ",
+      "score": 1008500,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "HD",
+      "score": 1015200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "IN",
+      "score": 1019200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.翠杜.隣の庭は青い庭師Aoi.0",
+      "difficultyClassName": "EZ",
+      "score": 1013200,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.翠杜.隣の庭は青い庭師Aoi.0",
+      "difficultyClassName": "HD",
+      "score": 1022100,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.翠杜.隣の庭は青い庭師Aoi.0",
+      "difficultyClassName": "IN",
+      "score": 1035900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.驟雨の狭間.Silentroom.0",
+      "difficultyClassName": "EZ",
+      "score": 1018400,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.驟雨の狭間.Silentroom.0",
+      "difficultyClassName": "HD",
+      "score": 1042000,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    },
+    {
+      "trackAssetId": "track.驟雨の狭間.Silentroom.0",
+      "difficultyClassName": "IN",
+      "score": 1041900,
+      "completeRate": 120.00000762939453,
+      "isFullCombo": true,
+      "isClear": true
+    }
+  ],
+  "levelsRks": [
+    {
+      "trackId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "AT",
+      "rks": 177.00203872700126
+    },
+    {
+      "trackId": "track.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "difficultyClassName": "AT",
+      "rks": 176.51808737673767
+    },
+    {
+      "trackId": "track.FutureDownloader.Kobaryo.0",
+      "difficultyClassName": "IN",
+      "rks": 174.10079902434444
+    },
+    {
+      "trackId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "IN",
+      "rks": 174.03144457651953
+    },
+    {
+      "trackId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "IN",
+      "rks": 173.3000020980835
+    },
+    {
+      "trackId": "track.NonameRequiem.打打だいず.0",
+      "difficultyClassName": "IN",
+      "rks": 173.3000020980835
+    },
+    {
+      "trackId": "track.ViciousMockery.Kryexe.0",
+      "difficultyClassName": "IN",
+      "rks": 173.3000020980835
+    },
+    {
+      "trackId": "track.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "difficultyClassName": "IN",
+      "rks": 173.3000020980835
+    },
+    {
+      "trackId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "IN",
+      "rks": 172.1999979019165
+    },
+    {
+      "trackId": "track.翠杜.隣の庭は青い庭師Aoi.0",
+      "difficultyClassName": "IN",
+      "rks": 172.1999979019165
+    },
+    {
+      "trackId": "track.Antikythera.technoplanet.0",
+      "difficultyClassName": "IN",
+      "rks": 172.1999979019165
+    },
+    {
+      "trackId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "IN",
+      "rks": 172.1421238869194
+    },
+    {
+      "trackId": "track.LAIGN.KiufeatNikkiSimons.0",
+      "difficultyClassName": "IN",
+      "rks": 172.02499790418716
+    },
+    {
+      "trackId": "track.Inevitability.kuro.0",
+      "difficultyClassName": "IN",
+      "rks": 171.100004196167
+    },
+    {
+      "trackId": "track.Hydra.JamesLandinoXAkiraComplex.0",
+      "difficultyClassName": "IN",
+      "rks": 171.100004196167
+    },
+    {
+      "trackId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "IN",
+      "rks": 170.0
+    },
+    {
+      "trackId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "IN",
+      "rks": 170.0
+    },
+    {
+      "trackId": "track.crystallized.Camellia.0",
+      "difficultyClassName": "IN",
+      "rks": 170.0
+    },
+    {
+      "trackId": "track.DOMINATOR.NOMA.0",
+      "difficultyClassName": "IN",
+      "rks": 170.0
+    },
+    {
+      "trackId": "track.RestrictedAccess.Knighthood.0",
+      "difficultyClassName": "IN",
+      "rks": 170.0
+    },
+    {
+      "trackId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "IN",
+      "rks": 168.899995803833
+    },
+    {
+      "trackId": "track.Destr0yer.Sakuzyo.0",
+      "difficultyClassName": "IN",
+      "rks": 168.899995803833
+    },
+    {
+      "trackId": "track.MilK.morimoriatsushi.0",
+      "difficultyClassName": "IN",
+      "rks": 168.899995803833
+    },
+    {
+      "trackId": "track.TVSSHARK.tpazolite.0",
+      "difficultyClassName": "IN",
+      "rks": 168.899995803833
+    },
+    {
+      "trackId": "track.CANDYLAND.Seo.0",
+      "difficultyClassName": "IN",
+      "rks": 168.899995803833
+    },
+    {
+      "trackId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "IN",
+      "rks": 167.8000020980835
+    },
+    {
+      "trackId": "track.Revenant.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "rks": 167.8000020980835
+    },
+    {
+      "trackId": "track.AvataarReincarnationofKalpa.ScarletteakaCrYmson.0",
+      "difficultyClassName": "IN",
+      "rks": 167.8000020980835
+    },
+    {
+      "trackId": "track.GravesAncientMemories.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "rks": 167.8000020980835
+    },
+    {
+      "trackId": "track.Abatement.SNKSMizku.0",
+      "difficultyClassName": "IN",
+      "rks": 167.8000020980835
+    },
+    {
+      "trackId": "track.ConwaysChild.Sta.0",
+      "difficultyClassName": "IN",
+      "rks": 167.61822243464195
+    },
+    {
+      "trackId": "track.Eschatology.TatshScarlette.0",
+      "difficultyClassName": "IN",
+      "rks": 166.6999979019165
+    },
+    {
+      "trackId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "IN",
+      "rks": 166.6999979019165
+    },
+    {
+      "trackId": "track.Bamboo.rissyuu.0",
+      "difficultyClassName": "IN",
+      "rks": 166.6999979019165
+    },
+    {
+      "trackId": "track.BRAVEROAD.umavsMorimoriAtsushi.0",
+      "difficultyClassName": "IN",
+      "rks": 166.6999979019165
+    },
+    {
+      "trackId": "track.Sthenno.BlackY.0",
+      "difficultyClassName": "IN",
+      "rks": 166.6999979019165
+    },
+    {
+      "trackId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "IN",
+      "rks": 165.600004196167
+    },
+    {
+      "trackId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "IN",
+      "rks": 165.600004196167
+    },
+    {
+      "trackId": "track.驟雨の狭間.Silentroom.0",
+      "difficultyClassName": "IN",
+      "rks": 165.600004196167
+    },
+    {
+      "trackId": "track.インフェルノシティ.Ponchifeatはぁち.0",
+      "difficultyClassName": "IN",
+      "rks": 165.600004196167
+    },
+    {
+      "trackId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "IN",
+      "rks": 164.5
+    },
+    {
+      "trackId": "track.DropDown.Cosmograph.0",
+      "difficultyClassName": "IN",
+      "rks": 164.5
+    },
+    {
+      "trackId": "track.RIP.eicateve.0",
+      "difficultyClassName": "IN",
+      "rks": 164.5
+    },
+    {
+      "trackId": "track.DBirth.Sakuzyo.0",
+      "difficultyClassName": "IN",
+      "rks": 164.5
+    },
+    {
+      "trackId": "track.CosmosCapsule.AsTroyBakami.0",
+      "difficultyClassName": "IN",
+      "rks": 163.399995803833
+    },
+    {
+      "trackId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "IN",
+      "rks": 163.399995803833
+    },
+    {
+      "trackId": "track.Tempest.Plum.0",
+      "difficultyClassName": "IN",
+      "rks": 163.399995803833
+    },
+    {
+      "trackId": "track.NLAMTA.Tsynphonia.0",
+      "difficultyClassName": "IN",
+      "rks": 163.399995803833
+    },
+    {
+      "trackId": "track.SakuraFubuki.Street.0",
+      "difficultyClassName": "IN",
+      "rks": 163.399995803833
+    },
+    {
+      "trackId": "track.ArcadeViruZ.AspidCat.0",
+      "difficultyClassName": "IN",
+      "rks": 162.3000020980835
+    },
+    {
+      "trackId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "IN",
+      "rks": 162.3000020980835
+    },
+    {
+      "trackId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "IN",
+      "rks": 162.3000020980835
+    },
+    {
+      "trackId": "track.Vrtuaresort.seatrus.0",
+      "difficultyClassName": "IN",
+      "rks": 162.3000020980835
+    },
+    {
+      "trackId": "track.ColorfulFlavor.Cansol.0",
+      "difficultyClassName": "IN",
+      "rks": 162.3000020980835
+    },
+    {
+      "trackId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "IN",
+      "rks": 161.1999979019165
+    },
+    {
+      "trackId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "IN",
+      "rks": 161.1999979019165
+    },
+    {
+      "trackId": "track.ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+      "difficultyClassName": "IN",
+      "rks": 161.1999979019165
+    },
+    {
+      "trackId": "track.Kaguya.BlackY.0",
+      "difficultyClassName": "IN",
+      "rks": 161.1999979019165
+    },
+    {
+      "trackId": "track.ILLEGALLEGACY.seatrus.0",
+      "difficultyClassName": "IN",
+      "rks": 161.1999979019165
+    },
+    {
+      "trackId": "track.Alfheimsfaith.影虎.0",
+      "difficultyClassName": "IN",
+      "rks": 161.14963025555892
+    },
+    {
+      "trackId": "track.CometCoaster.DJNorikenaran.0",
+      "difficultyClassName": "IN",
+      "rks": 160.8999979019165
+    },
+    {
+      "trackId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "IN",
+      "rks": 160.100004196167
+    },
+    {
+      "trackId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "IN",
+      "rks": 160.100004196167
+    },
+    {
+      "trackId": "track.CrushAlcohol.shadow_bling.0",
+      "difficultyClassName": "IN",
+      "rks": 160.100004196167
+    },
+    {
+      "trackId": "track.LostFuture.AspidCat.0",
+      "difficultyClassName": "IN",
+      "rks": 160.100004196167
+    },
+    {
+      "trackId": "track.FrozenHeart.A39沙包P.0",
+      "difficultyClassName": "IN",
+      "rks": 160.100004196167
+    },
+    {
+      "trackId": "track.SoutenStasKeyKaimix.MeineMeinung.0",
+      "difficultyClassName": "IN",
+      "rks": 160.06495264879206
+    },
+    {
+      "trackId": "track.NightTheater.wakadori.0",
+      "difficultyClassName": "IN",
+      "rks": 159.0
+    },
+    {
+      "trackId": "track.DotLinefeatななひら.A39沙包Pななひら.0",
+      "difficultyClassName": "IN",
+      "rks": 159.0
+    },
+    {
+      "trackId": "track.felysfinalremix.onoken.0",
+      "difficultyClassName": "IN",
+      "rks": 159.0
+    },
+    {
+      "trackId": "track.Antler.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "rks": 159.0
+    },
+    {
+      "trackId": "track.Giselle.Sobrem.0",
+      "difficultyClassName": "IN",
+      "rks": 159.0
+    },
+    {
+      "trackId": "track.Psychometry.HyuN.0",
+      "difficultyClassName": "IN",
+      "rks": 157.899995803833
+    },
+    {
+      "trackId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "IN",
+      "rks": 157.899995803833
+    },
+    {
+      "trackId": "track.Contact.NeutralMoonMK.0",
+      "difficultyClassName": "IN",
+      "rks": 157.899995803833
+    },
+    {
+      "trackId": "track.419kB.ariiol.0",
+      "difficultyClassName": "IN",
+      "rks": 157.899995803833
+    },
+    {
+      "trackId": "track.FairysCrown.Powerless.0",
+      "difficultyClassName": "IN",
+      "rks": 157.899995803833
+    },
+    {
+      "trackId": "track.GreatnessEarth.Axya.0",
+      "difficultyClassName": "IN",
+      "rks": 156.8000020980835
+    },
+    {
+      "trackId": "track.Alexandrite.onoken.0",
+      "difficultyClassName": "IN",
+      "rks": 156.8000020980835
+    },
+    {
+      "trackId": "track.天灵灵地灵灵.iKzfeat小可学妹.0",
+      "difficultyClassName": "IN",
+      "rks": 156.8000020980835
+    },
+    {
+      "trackId": "track.ElectricComet.Meram1n.0",
+      "difficultyClassName": "IN",
+      "rks": 156.8000020980835
+    },
+    {
+      "trackId": "track.GREATGREAT.Zris.0",
+      "difficultyClassName": "IN",
+      "rks": 155.6999979019165
+    },
+    {
+      "trackId": "track.漂流.THESxPLAYKIVΛ.0",
+      "difficultyClassName": "IN",
+      "rks": 155.6999979019165
+    },
+    {
+      "trackId": "track.SpeedUp.DarTokki.0",
+      "difficultyClassName": "IN",
+      "rks": 155.6999979019165
+    },
+    {
+      "trackId": "track.夢厭coneleganza.大前司.0",
+      "difficultyClassName": "IN",
+      "rks": 155.6999979019165
+    },
+    {
+      "trackId": "track.Hyperwave.LOFTIER.0",
+      "difficultyClassName": "IN",
+      "rks": 154.600004196167
+    },
+    {
+      "trackId": "track.Crimsonate.BlackYfeatRisaYuzuki.0",
+      "difficultyClassName": "IN",
+      "rks": 154.600004196167
+    },
+    {
+      "trackId": "track.VICIOUS.MEMODEMO.0",
+      "difficultyClassName": "IN",
+      "rks": 154.600004196167
+    },
+    {
+      "trackId": "track.溶けてゆく.A39.0",
+      "difficultyClassName": "IN",
+      "rks": 153.5
+    },
+    {
+      "trackId": "track.水槽に沈む街.kuro.0",
+      "difficultyClassName": "IN",
+      "rks": 153.5
+    },
+    {
+      "trackId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "IN",
+      "rks": 153.5
+    },
+    {
+      "trackId": "track.slichertz.Sobrem.0",
+      "difficultyClassName": "IN",
+      "rks": 153.5
+    },
+    {
+      "trackId": "track.CrazyAudiophile.Supa7onyz.0",
+      "difficultyClassName": "IN",
+      "rks": 152.399995803833
+    },
+    {
+      "trackId": "track.Contortion.PTB10.0",
+      "difficultyClassName": "IN",
+      "rks": 151.3000020980835
+    },
+    {
+      "trackId": "track.Enneaquest.SEPHID.0",
+      "difficultyClassName": "IN",
+      "rks": 151.3000020980835
+    },
+    {
+      "trackId": "track.Hullbreaker.Maozon.0",
+      "difficultyClassName": "IN",
+      "rks": 151.3000020980835
+    },
+    {
+      "trackId": "track.amethyst.かねこちはる.0",
+      "difficultyClassName": "IN",
+      "rks": 151.3000020980835
+    },
+    {
+      "trackId": "track.Cloudsclearand.Qutabire.0",
+      "difficultyClassName": "IN",
+      "rks": 150.1999979019165
+    },
+    {
+      "trackId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "IN",
+      "rks": 150.1999979019165
+    },
+    {
+      "trackId": "track.天地開闢.kuro.0",
+      "difficultyClassName": "IN",
+      "rks": 150.1999979019165
+    },
+    {
+      "trackId": "track.Encrux.Sobrem.0",
+      "difficultyClassName": "IN",
+      "rks": 150.1999979019165
+    },
+    {
+      "trackId": "track.VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+      "difficultyClassName": "IN",
+      "rks": 149.100004196167
+    },
+    {
+      "trackId": "track.TheLastPage.ARForest.0",
+      "difficultyClassName": "IN",
+      "rks": 149.0509769573286
+    },
+    {
+      "trackId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "IN",
+      "rks": 148.0
+    },
+    {
+      "trackId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "IN",
+      "rks": 148.0
+    },
+    {
+      "trackId": "track.PowerAttack.EBIMAYO.0",
+      "difficultyClassName": "IN",
+      "rks": 146.899995803833
+    },
+    {
+      "trackId": "track.RuleTheWorld.VauBoy.0",
+      "difficultyClassName": "IN",
+      "rks": 145.8000020980835
+    },
+    {
+      "trackId": "track.8BLUE.ariiolPIKASONIC.0",
+      "difficultyClassName": "IN",
+      "rks": 144.6999979019165
+    },
+    {
+      "trackId": "track.Idol.VizzenMonstDeath.0",
+      "difficultyClassName": "IN",
+      "rks": 143.600004196167
+    },
+    {
+      "trackId": "track.Rapture.RoyMikelate.0",
+      "difficultyClassName": "IN",
+      "rks": 143.600004196167
+    },
+    {
+      "trackId": "track.PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+      "difficultyClassName": "IN",
+      "rks": 143.600004196167
+    },
+    {
+      "trackId": "track.YellowShiningfeat成田なる.にーえぬ.0",
+      "difficultyClassName": "IN",
+      "rks": 142.5
+    },
+    {
+      "trackId": "track.Afterdark.Sta.0",
+      "difficultyClassName": "IN",
+      "rks": 142.5
+    },
+    {
+      "trackId": "track.sAtElLites.SIRIUS.0",
+      "difficultyClassName": "IN",
+      "rks": 141.94954128440367
+    },
+    {
+      "trackId": "track.Abiogenesis.Juggernaut.0",
+      "difficultyClassName": "IN",
+      "rks": 141.399995803833
+    },
+    {
+      "trackId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "IN",
+      "rks": 140.3000020980835
+    },
+    {
+      "trackId": "track.Echooveryou.Apo11oprogram.0",
+      "difficultyClassName": "IN",
+      "rks": 139.1999979019165
+    },
+    {
+      "trackId": "track.Grimheart.Puru.0",
+      "difficultyClassName": "IN",
+      "rks": 138.100004196167
+    },
+    {
+      "trackId": "track.PastelLines.RekuMochizuki.0",
+      "difficultyClassName": "IN",
+      "rks": 135.899995803833
+    },
+    {
+      "trackId": "track.LINKLINS.Halv.0",
+      "difficultyClassName": "IN",
+      "rks": 134.8000020980835
+    },
+    {
+      "trackId": "track.光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
+      "difficultyClassName": "IN",
+      "rks": 131.5
+    },
+    {
+      "trackId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "HD",
+      "rks": 126.0
+    },
+    {
+      "trackId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "HD",
+      "rks": 126.0
+    },
+    {
+      "trackId": "track.FadeAway.DeBisco.0",
+      "difficultyClassName": "IN",
+      "rks": 126.0
+    },
+    {
+      "trackId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "HD",
+      "rks": 126.0
+    },
+    {
+      "trackId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "HD",
+      "rks": 126.0
+    },
+    {
+      "trackId": "track.PuppetShow.MeatyRabbit.0",
+      "difficultyClassName": "IN",
+      "rks": 120.5
+    },
+    {
+      "trackId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "HD",
+      "rks": 115.0
+    },
+    {
+      "trackId": "track.NeverSayGoodbye.黒魔.0",
+      "difficultyClassName": "HD",
+      "rks": 115.0
+    },
+    {
+      "trackId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "HD",
+      "rks": 115.0
+    },
+    {
+      "trackId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "HD",
+      "rks": 115.0
+    },
+    {
+      "trackId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "HD",
+      "rks": 115.0
+    },
+    {
+      "trackId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "HD",
+      "rks": 109.5
+    },
+    {
+      "trackId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "HD",
+      "rks": 109.5
+    },
+    {
+      "trackId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "HD",
+      "rks": 104.0
+    },
+    {
+      "trackId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "HD",
+      "rks": 104.0
+    },
+    {
+      "trackId": "track.Kaguya.BlackY.0",
+      "difficultyClassName": "HD",
+      "rks": 99.5724523118391
+    },
+    {
+      "trackId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "HD",
+      "rks": 98.5
+    },
+    {
+      "trackId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "HD",
+      "rks": 98.5
+    },
+    {
+      "trackId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "HD",
+      "rks": 98.5
+    },
+    {
+      "trackId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "HD",
+      "rks": 98.5
+    },
+    {
+      "trackId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "HD",
+      "rks": 93.0
+    },
+    {
+      "trackId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "HD",
+      "rks": 93.0
+    },
+    {
+      "trackId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "HD",
+      "rks": 87.5
+    },
+    {
+      "trackId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "HD",
+      "rks": 87.5
+    },
+    {
+      "trackId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "HD",
+      "rks": 87.5
+    },
+    {
+      "trackId": "track.千星光輪依頼症.KNYORGft無機ビョウ.0",
+      "difficultyClassName": "EZ",
+      "rks": 82.0
+    },
+    {
+      "trackId": "track.SuperUniverseKnighthoodRemix.Knighthood.0",
+      "difficultyClassName": "EZ",
+      "rks": 82.0
+    },
+    {
+      "trackId": "track.AbsolutionPulse.nmy.0",
+      "difficultyClassName": "EZ",
+      "rks": 82.0
+    },
+    {
+      "trackId": "track.地区ShangriLA.Drazically.0",
+      "difficultyClassName": "EZ",
+      "rks": 82.0
+    },
+    {
+      "trackId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "HD",
+      "rks": 82.0
+    },
+    {
+      "trackId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "HD",
+      "rks": 76.5
+    },
+    {
+      "trackId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "HD",
+      "rks": 76.5
+    },
+    {
+      "trackId": "track.PierrotFixer.ルゼ.0",
+      "difficultyClassName": "EZ",
+      "rks": 76.5
+    },
+    {
+      "trackId": "track.FutureDownloader.Kobaryo.0",
+      "difficultyClassName": "EZ",
+      "rks": 75.1797118847539
+    },
+    {
+      "trackId": "track.Concvssion.Halv.0",
+      "difficultyClassName": "EZ",
+      "rks": 71.0
+    },
+    {
+      "trackId": "track.テウメッサ.LisicA.0",
+      "difficultyClassName": "EZ",
+      "rks": 71.0
+    },
+    {
+      "trackId": "track.QUATTUORUX.打打だいずVsTanchikyVsからめる.0",
+      "difficultyClassName": "EZ",
+      "rks": 71.0
+    },
+    {
+      "trackId": "track.ヘーブンリースカイ.Jehezukiel.0",
+      "difficultyClassName": "EZ",
+      "rks": 65.5
+    },
+    {
+      "trackId": "track.HeadBONKache.saaaftMCiwataBros.0",
+      "difficultyClassName": "EZ",
+      "rks": 65.5
+    },
+    {
+      "trackId": "track.よさり月蛍澄み昇りて.かゆきfeat燈露.0",
+      "difficultyClassName": "EZ",
+      "rks": 65.5
+    },
+    {
+      "trackId": "track.森奥虚跡.ShiBa.0",
+      "difficultyClassName": "EZ",
+      "rks": 65.5
+    },
+    {
+      "trackId": "track.直ST.TrinaLydia.0",
+      "difficultyClassName": "EZ",
+      "rks": 60.0
+    },
+    {
+      "trackId": "track.ZEUS666.ルゼ.0",
+      "difficultyClassName": "EZ",
+      "rks": 60.0
+    },
+    {
+      "trackId": "track.Quaoar.Camellia.0",
+      "difficultyClassName": "EZ",
+      "rks": 54.5
+    },
+    {
+      "trackId": "track.Spiritworks.XomuZxNX.0",
+      "difficultyClassName": "EZ",
+      "rks": 54.5
+    },
+    {
+      "trackId": "track.Bamboo.rissyuu.0",
+      "difficultyClassName": "EZ",
+      "rks": 54.5
+    },
+    {
+      "trackId": "track.LifeisPIANO.Junk.0",
+      "difficultyClassName": "EZ",
+      "rks": 49.0
+    },
+    {
+      "trackId": "track.SnowDesert.WyvernP.0",
+      "difficultyClassName": "EZ",
+      "rks": 43.5
+    },
+    {
+      "trackId": "track.HoukagoOVERDRIVE.Rukadesu.0",
+      "difficultyClassName": "EZ",
+      "rks": 43.5
+    },
+    {
+      "trackId": "track.BurstyLollipop.Tanchiky.0",
+      "difficultyClassName": "EZ",
+      "rks": 43.5
+    },
+    {
+      "trackId": "track.Astral.TitanChaos.0",
+      "difficultyClassName": "EZ",
+      "rks": 38.0
+    },
+    {
+      "trackId": "track.felysfinalremix.onoken.0",
+      "difficultyClassName": "EZ",
+      "rks": 38.0
+    },
+    {
+      "trackId": "track.WATER.A39沙包P.0",
+      "difficultyClassName": "EZ",
+      "rks": 38.0
+    },
+    {
+      "trackId": "track.TalesofDelonix.Zris.0",
+      "difficultyClassName": "EZ",
+      "rks": 38.0
+    },
+    {
+      "trackId": "track.ULTRASYNERGYMATRIX.Tanchiky.0",
+      "difficultyClassName": "EZ",
+      "rks": 38.0
+    },
+    {
+      "trackId": "track.あのね.ナナツカゼ.0",
+      "difficultyClassName": "EZ",
+      "rks": 32.5
+    },
+    {
+      "trackId": "track.PastelLines.RekuMochizuki.0",
+      "difficultyClassName": "EZ",
+      "rks": 21.5
+    },
+    {
+      "trackId": "track.RIP.eicateve.0",
+      "difficultyClassName": "HD",
+      "rks": 0.0
+    }
+  ]
+}
