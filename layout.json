@@ -1,0 +1,340 @@
+{
+  "layoutColors": [
+    {
+      "id": "layout.00001",
+      "bgColor1": "#7FD4FFFF",
+      "bgColor2": "#7FD4FFFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00002",
+      "bgColor1": "#E153A0FF",
+      "bgColor2": "#E153A0FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00003",
+      "bgColor1": "#47CA8BFF",
+      "bgColor2": "#47CA8BFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00004",
+      "bgColor1": "#FFAE59FF",
+      "bgColor2": "#FFAE59FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00005",
+      "bgColor1": "#65A9CCFF",
+      "bgColor2": "#E6DD00FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00006",
+      "bgColor1": "#12D6DEFF",
+      "bgColor2": "#F70FFFFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00007",
+      "bgColor1": "#ADC5D9FF",
+      "bgColor2": "#E62490FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00008",
+      "bgColor1": "#F9C161FF",
+      "bgColor2": "#F48C85FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00009",
+      "bgColor1": "#01E9BDFF",
+      "bgColor2": "#007BDEFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00010",
+      "bgColor1": "#E9A5A5FF",
+      "bgColor2": "#81C1D9FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00011",
+      "bgColor1": "#4BC0E1FF",
+      "bgColor2": "#4BC0E1FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00012",
+      "bgColor1": "#FA78A9FF",
+      "bgColor2": "#FA78A9FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00013",
+      "bgColor1": "#10ABEEFF",
+      "bgColor2": "#10ABEEFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00014",
+      "bgColor1": "#CE4B7BFF",
+      "bgColor2": "#CE4B7BFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00015",
+      "bgColor1": "#E69D55FF",
+      "bgColor2": "#E69D55FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00016",
+      "bgColor1": "#000000FF",
+      "bgColor2": "#000000FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00017",
+      "bgColor1": "#000000FF",
+      "bgColor2": "#000000FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00018",
+      "bgColor1": "#000000FF",
+      "bgColor2": "#000000FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00019",
+      "bgColor1": "#000000FF",
+      "bgColor2": "#000000FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00020",
+      "bgColor1": "#D9AB21FF",
+      "bgColor2": "#D9AB21FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00021",
+      "bgColor1": "#CCCA3CFF",
+      "bgColor2": "#CCCA3CFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00022",
+      "bgColor1": "#18ABFFFF",
+      "bgColor2": "#2CE6DBFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00023",
+      "bgColor1": "#FF544FFF",
+      "bgColor2": "#FAD126FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00024",
+      "bgColor1": "#F088E4FF",
+      "bgColor2": "#F46285FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00025",
+      "bgColor1": "#EC8A6CFF",
+      "bgColor2": "#ED709DFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00026",
+      "bgColor1": "#1C91E1FF",
+      "bgColor2": "#5865B9FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00027",
+      "bgColor1": "#D9C881FF",
+      "bgColor2": "#E152E0FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00028",
+      "bgColor1": "#7BD98AFF",
+      "bgColor2": "#0BCBFAFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00029",
+      "bgColor1": "#8FD900FF",
+      "bgColor2": "#8FD900FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00030",
+      "bgColor1": "#F4F7FAFF",
+      "bgColor2": "#C3CEE1FF",
+      "fgColor": "#75848DFF"
+    },
+    {
+      "id": "layout.00031",
+      "bgColor1": "#EBEBEBFF",
+      "bgColor2": "#D9D9D9FF",
+      "fgColor": "#555555FF"
+    },
+    {
+      "id": "layout.00032",
+      "bgColor1": "#00D9C5FF",
+      "bgColor2": "#0BAD9EFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00033",
+      "bgColor1": "#3FBEEEFF",
+      "bgColor2": "#32A7ECFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00034",
+      "bgColor1": "#FF034EFF",
+      "bgColor2": "#FF034EFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00035",
+      "bgColor1": "#FFFFFFFF",
+      "bgColor2": "#FFFFFFFF",
+      "fgColor": "#F4364CFF"
+    },
+    {
+      "id": "layout.00036",
+      "bgColor1": "#000000FF",
+      "bgColor2": "#000000FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00037",
+      "bgColor1": "#F6F6F6FF",
+      "bgColor2": "#F6F6F6FF",
+      "fgColor": "#373737FF"
+    },
+    {
+      "id": "layout.00038",
+      "bgColor1": "#73CECBFF",
+      "bgColor2": "#73CECBFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00039",
+      "bgColor1": "#4C807FFF",
+      "bgColor2": "#4C807FFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00040",
+      "bgColor1": "#F45591FF",
+      "bgColor2": "#F45591FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00041",
+      "bgColor1": "#B74E8EFF",
+      "bgColor2": "#B74E8EFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00042",
+      "bgColor1": "#102134FF",
+      "bgColor2": "#102134FF",
+      "fgColor": "#F7CACEFF"
+    },
+    {
+      "id": "layout.00043",
+      "bgColor1": "#8B5FCBFF",
+      "bgColor2": "#8B5FCBFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00044",
+      "bgColor1": "#2C2B59FF",
+      "bgColor2": "#050433FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00045",
+      "bgColor1": "#1D0037FF",
+      "bgColor2": "#0D0018FF",
+      "fgColor": "#BBC16BFF"
+    },
+    {
+      "id": "layout.00046",
+      "bgColor1": "#9BD3FAFF",
+      "bgColor2": "#4794F1FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00047",
+      "bgColor1": "#162A2AFF",
+      "bgColor2": "#162A2AFF",
+      "fgColor": "#03EAFEFF"
+    },
+    {
+      "id": "layout.00048",
+      "bgColor1": "#9BD3FAFF",
+      "bgColor2": "#9BD3FAFF",
+      "fgColor": "#000000FF"
+    },
+    {
+      "id": "layout.00050",
+      "bgColor1": "#4D0000FF",
+      "bgColor2": "#160000FF",
+      "fgColor": "#FF5151FF"
+    },
+    {
+      "id": "layout.00051",
+      "bgColor1": "#1B1B1BFF",
+      "bgColor2": "#1B1B1BFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00052",
+      "bgColor1": "#239AC3FF",
+      "bgColor2": "#A1ADB1FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00053",
+      "bgColor1": "#1A20FFFF",
+      "bgColor2": "#1A20FFFF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00054",
+      "bgColor1": "#00B0F0FF",
+      "bgColor2": "#0D5C78FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00055",
+      "bgColor1": "#00BBFFFF",
+      "bgColor2": "#BEEDFFFF",
+      "fgColor": "#F4FFB6FF"
+    },
+    {
+      "id": "layout.00056",
+      "bgColor1": "#575759FF",
+      "bgColor2": "#B5B5B5FF",
+      "fgColor": "#FFFFFFFF"
+    },
+    {
+      "id": "layout.00057",
+      "bgColor1": "#A0A4E9FF",
+      "bgColor2": "#3B2A6FFF",
+      "fgColor": "#FFFF00FF"
+    }
+  ]
+}

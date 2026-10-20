@@ -1,0 +1,274 @@
+{
+  "new_gamer": {
+    "title1": "Inexperienced",
+    "title2": "Newcomer"
+  },
+  "little_pigeon": {
+    "title1": "Newly Winged",
+    "title2": "Pigeon"
+  },
+  "pastel_lines": {
+    "title1": "Pastel",
+    "title2": "Line"
+  },
+  "best_noob": {
+    "title1": "Dark Horse",
+    "title2": "Newcomer"
+  },
+  "journey_rainbow": {
+    "title1": "Rainbowly",
+    "title2": "Journey"
+  },
+  "macro_wav": {
+    "title1": "Beeping",
+    "title2": "Brain"
+  },
+  "arcade_viruz": {
+    "title1": "Infected",
+    "title2": "Arcade"
+  },
+  "link_lines": {
+    "title1": "Connecting",
+    "title2": "Heart"
+  },
+  "leonids": {
+    "title1": "Starry",
+    "title2": "Leo"
+  },
+  "zan_nen": {
+    "title1": "99%",
+    "title2": "Perfectionist"
+  },
+  "cho_zan_nen": {
+    "title1": "99.99%",
+    "title2": "Perfectionist"
+  },
+  "ah_this": {
+    "title1": "What?",
+    "title2": "No…"
+  },
+  "generous_player": {
+    "title1": "Generous",
+    "title2": "Lunch"
+  },
+  "achievement_enthusiast": {
+    "title1": "Spontaneous",
+    "title2": "Collector"
+  },
+  "tomaru_n_janee_zo": {
+    "title1": "Unyielding",
+    "title2": "Challenger"
+  },
+  "vicious_mockery": {
+    "title1": "Pandora's",
+    "title2": "Box"
+  },
+  "brave_road": {
+    "title1": "Embark",
+    "title2": "Brave"
+  },
+  "debut_ready": {
+    "title1": "Prominent",
+    "title2": "Figure"
+  },
+  "unknown_signal": {
+    "title1": "Unknown Cosmos",
+    "title2": "Signal"
+  },
+  "thanks_patronage": {
+    "title1": "Collector's",
+    "title2": "Small Step"
+  },
+  "disc1_unlock": {
+    "title1": "Diligent",
+    "title2": "Adventurer"
+  },
+  "disc1_clear": {
+    "title1": "Mighty",
+    "title2": "Survivalist"
+  },
+  "disc1_conquer": {
+    "title1": "Transcendent",
+    "title2": "Conqueror"
+  },
+  "ap_brat": {
+    "title1": "Ranked",
+    "title2": "BRAVE"
+  },
+  "offset_adjustment": {
+    "title1": "Headache-Inducing",
+    "title2": "Offset"
+  },
+  "offset_fixed": {
+    "title1": "Finally",
+    "title2": "Last Version"
+  },
+  "easier_track": {
+    "title1": "Gotta Be",
+    "title2": "Next Track"
+  },
+  "little_profit": {
+    "title1": "Little",
+    "title2": "Accumulation"
+  },
+  "huge_profit": {
+    "title1": "For a Better Life",
+    "title2": "Express"
+  },
+  "a_fortune": {
+    "title1": "Stuffed",
+    "title2": "Piggy Bank"
+  },
+  "dot_line": {
+    "title1": "Otherworld",
+    "title2": "Voice"
+  },
+  "hikari_remix": {
+    "title1": "New",
+    "title2": "Light"
+  },
+  "lost_future": {
+    "title1": "Chaotic",
+    "title2": "Timeline"
+  },
+  "yellow_shining": {
+    "title1": "Golden-Dyed",
+    "title2": "Night"
+  },
+  "frozen_heart": {
+    "title1": "Blizzard and",
+    "title2": "Dawn"
+  },
+  "inevitability": {
+    "title1": "Giddy",
+    "title2": "Taiyaki"
+  },
+  "so_fast": {
+    "title1": "Behold My",
+    "title2": "Shadowless Hand"
+  },
+  "so_slow": {
+    "title1": "Slow-Motion",
+    "title2": "Both Hands"
+  },
+  "achievement_connoisseur": {
+    "title1": "Boiling",
+    "title2": "Enthusiast"
+  },
+  "first_leg": {
+    "title1": "Smoothly Flying",
+    "title2": "Pigeon"
+  },
+  "in_direction": {
+    "title1": "Windily Soaring",
+    "title2": "Pigeon"
+  },
+  "halfway_point": {
+    "title1": "Spreading Wings",
+    "title2": "Pigeon"
+  },
+  "new_journey": {
+    "title1": "Cloudward Surging",
+    "title2": "Pigeon"
+  },
+  "what_the": {
+    "title1": "What the",
+    "title2": "Meaning"
+  },
+  "8blue": {
+    "title1": "Not Really",
+    "title2": "Bubble Machine"
+  },
+  "greatness_earth": {
+    "title1": "Surprisingly",
+    "title2": "Fishing Master"
+  },
+  "laign": {
+    "title1": "FTL",
+    "title2": "Drive"
+  },
+  "achievement_master": {
+    "title1": "Glasses-Wearing",
+    "title2": "Expert"
+  },
+  "toketeyuku": {
+    "title1": "Melting",
+    "title2": "Snowflake"
+  },
+  "pierrot_fixer": {
+    "title1": "Behind-the-Scenes",
+    "title2": "Manipulator"
+  },
+  "rks_40": {
+    "title1": "From Yoso's",
+    "title2": "Praise"
+  },
+  "rks_70": {
+    "title1": "From Nami's",
+    "title2": "Adoration"
+  },
+  "rks_100": {
+    "title1": "From Moutlush's",
+    "title2": "Recognition"
+  },
+  "rks_120": {
+    "title1": "From Bayees's",
+    "title2": "Appreciation"
+  },
+  "rks_140": {
+    "title1": "From Carmen's",
+    "title2": "Commendation"
+  },
+  "rks_150": {
+    "title1": "From Tonebell's",
+    "title2": "Amazement"
+  },
+  "rks_160": {
+    "title1": "From Pling's",
+    "title2": "Affirmation"
+  },
+  "rks_165": {
+    "title1": "From Kiwi's",
+    "title2": "Hug"
+  },
+  "rks_170": {
+    "title1": "Highest",
+    "title2": "Honor"
+  },
+  "tales_of_delonix": {
+    "title1": "Fiery",
+    "title2": "Delonix"
+  },
+  "shangri_la": {
+    "title1": "Inner",
+    "title2": "Sun and moon"
+  },
+  "absolution_pulse": {
+    "title1": "Absolutely",
+    "title2": "Pulse"
+  },
+  "never_say_goodbye": {
+    "title1": "Never-fading",
+    "title2": "Promise"
+  },
+  "ap_nsgat": {
+    "title1": "Crossing Eternity",
+    "title2": "Color"
+  },
+  "disc2_unlock": {
+    "title1": "Diligent",
+    "title2": "Little Painter"
+  },
+  "disc2_clear": {
+    "title1": "Excellent",
+    "title2": "Palette Artisan"
+  },
+  "disc2_conquer": {
+    "title1": "Genius Like",
+    "title2": "Art Maestro"
+  },
+  "senboshi_halo_iraishou": {
+    "title1": "Realized",
+    "title2": "Ideal"
+  }
+}
