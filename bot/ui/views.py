@@ -8,7 +8,7 @@ BIND_PUBLIC_REPLY = (
     "Use a test account. Discord keeps this conversation, and the bot cannot delete your messages.\n"
     "Your passcode is sent to the computer running the bot, used once to fetch your save, and then discarded. "
     "The session token stays in memory until /unbind or a restart. "
-    "An encrypted cache of your username, RKS, and chart results is stored until it expires. "
+    "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
     "Encryption does not protect that data if the computer running the bot is compromised.\n\n"
     "Reply with your account email, or send `cancel`."
 )
@@ -18,7 +18,7 @@ BIND_DM_INTRO = (
     "Use a test account. Discord keeps this conversation, and the bot cannot delete your messages.\n"
     "Your passcode is sent to the computer running the bot, used once to fetch your save, and then discarded. "
     "The session token stays in memory until /unbind or a restart. "
-    "An encrypted cache of your username, RKS, and chart results is stored until it expires. "
+    "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
     "Encryption does not protect that data if the computer running the bot is compromised.\n\n"
     "Reply with your account email, or send `cancel`."
 )

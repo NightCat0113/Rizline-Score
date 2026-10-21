@@ -110,14 +110,18 @@ class SongIndex:
         return None, hits
 
 
-def illustration_path(
-    song: Song,
+def illustration_file(
+    illustration_id: str,
     hires_dir: Path,
     low_dir: Path,
     *,
     prefer_low: bool = False,
 ) -> Path | None:
-    stem = song.illustration_id or f"illustration.{song.asset_id}"
+    stem = illustration_id.strip()
+    if not stem:
+        return None
+    if not stem.startswith("illustration."):
+        stem = f"illustration.{stem}"
     low = [low_dir / f"{stem}.png", low_dir / f"{stem}_2.png"]
     high = [hires_dir / f"{stem}.HiRes.png", hires_dir / f"{stem}.HiRes_2.png"]
     candidates = low + high if prefer_low else high + low
@@ -125,6 +129,21 @@ def illustration_path(
         if path.is_file() and path.stat().st_size <= 8_000_000:
             return path
     return None
+
+
+def illustration_path(
+    song: Song,
+    hires_dir: Path,
+    low_dir: Path,
+    *,
+    prefer_low: bool = False,
+) -> Path | None:
+    return illustration_file(
+        song.illustration_id or f"illustration.{song.asset_id}",
+        hires_dir,
+        low_dir,
+        prefer_low=prefer_low,
+    )
 
 
 def attachment_name(song: Song) -> str:

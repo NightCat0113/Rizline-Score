@@ -51,7 +51,7 @@ The only hardcoded host was `https://service.rhyths.net` (`DEFAULT_BASE_URL`). `
 - The bot calls the client with `require_pinned_host=True` and `https://service.rhyths.net` only. Non-443 ports, userinfo, query strings, and fragments are rejected. `allow_http_localhost` exists only so tests can bind `127.0.0.1`; `bot/` does not reference it.
 - The CLI still accepts `--base-url` for the old HTTPS-only workflow, and now uses the same redirect and proxy rules.
 - Save responses are not debug-logged. Debug text is passed through `redact()` and `scrub()` for exact secret strings of length 4 or more.
-- The bot never writes `*_gameData.json`. It derives `username`, `totalRks`, `myBest`, and `levelsRks`, then drops the rest.
+- The bot never writes `*_gameData.json`. It derives `username`, `totalRks`, `myBest`, `levelsRks`, and the profile-card fields `avatarId`, `avatarPos`, `bioId1`, `bioId2`, and `backgroundId`, then drops the rest.
 
 ## 2. Credential and token exposure
 

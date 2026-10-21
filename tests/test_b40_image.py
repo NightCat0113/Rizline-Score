@@ -1,9 +1,11 @@
 import io
+import json
 from pathlib import Path
 
 from PIL import Image
 
 from bot.models import ChartInfo, Song
+from bot.services.profile import local_profile, player_title
 from bot.services.songdata import SongIndex
 from bot.ui.b40_image import MAX_PNG_BYTES, render_b40
 
@@ -68,7 +70,7 @@ def test_b40_png_draws_a_missing_jacket(tmp_path: Path):
     assert len(data) < MAX_PNG_BYTES
     with Image.open(io.BytesIO(data)) as image:
         assert image.format == "PNG"
-        assert image.size[0] > 200
+        assert image.size[0] >= 3000
         assert image.size[1] > 120
 
 
@@ -108,3 +110,37 @@ def test_b40_png_shrinks_when_the_cap_is_tiny(tmp_path: Path):
         font_path=FONT,
     )
     assert len(data) < len(full)
+
+
+def test_local_profile_matches_username(tmp_path: Path):
+    save = {
+        "username": "NightXWind",
+        "totalRks": 1,
+        "userId": "hidden-user",
+        "mails": [{"body": "hidden-mail"}],
+        "rizcard": {
+            "avatarId": "illustration.Song.0",
+            "bioId1": "bio.spbio00049.1",
+            "bioId2": "bio.exbio00007.2",
+            "backgroundId": "illustration.Other.0",
+            "createTime": "hidden-time",
+        },
+        "myBest": [],
+        "levelsRks": [],
+    }
+    (tmp_path / "NightXWind_gameData.json").write_text(json.dumps(save), encoding="utf-8")
+    (tmp_path / "Other_gameData.json").write_text(
+        json.dumps({**save, "username": "Someone"}),
+        encoding="utf-8",
+    )
+    found = local_profile(tmp_path, "NightXWind")
+    assert found["avatarId"] == "illustration.Song.0"
+    assert found["bioId1"] == "bio.spbio00049.1"
+    assert "hidden-mail" not in json.dumps(found)
+    assert "hidden-user" not in json.dumps(found)
+    assert local_profile(tmp_path, "Missing") == {}
+
+
+def test_player_title_comes_from_bio_json():
+    assert player_title("bio.spbio00049.1", "bio.exbio00007.2", ROOT) == "Musical Cat"
+    assert player_title("ach.[leonids].title1", "", ROOT) == "Starry"

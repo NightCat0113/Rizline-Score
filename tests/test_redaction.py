@@ -58,11 +58,26 @@ def test_derive_drops_personal_save_fields():
             }
         ],
         "levelsRks": [{"trackId": "track.Song.0", "difficultyClassName": "IN", "rks": 12.5}],
+        "rizcard": {
+            "avatarId": "illustration.Song.0",
+            "avatarPos": {"x": 0.2, "y": 0.4, "z": 1.5},
+            "bioId1": "bio.exbio00007.1",
+            "bioId2": "bio.exbio00007.2",
+            "backgroundId": "illustration.Other.0",
+            "createTime": "secret-created-at",
+            "layoutId": "layout.secret",
+        },
     }
     cache = derive_minimal_cache(save)
     rendered = json.dumps(cache)
     assert cache["v"] == 1
+    assert cache["avatarId"] == "illustration.Song.0"
+    assert cache["bioId1"] == "bio.exbio00007.1"
+    assert cache["backgroundId"] == "illustration.Other.0"
+    assert cache["avatarPos"]["z"] == 1.5
     assert "secret-mail-body" not in rendered
     assert "user-id-value" not in rendered
+    assert "secret-created-at" not in rendered
+    assert "layout.secret" not in rendered
     assert "mails" not in cache
     assert save["mails"]

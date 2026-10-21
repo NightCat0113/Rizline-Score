@@ -12,6 +12,7 @@ from discord.ext import commands
 
 from bot.commands.songs import _DIFFICULTIES, autocomplete_songs
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
+from bot.services.profile import local_profile
 from bot.services.rks import build_records, select_top40
 from bot.services.songdata import attachment_name, illustration_path
 from bot.store.crypto import TamperError
@@ -134,6 +135,19 @@ class ScoresCog(commands.Cog):
         special, ordinary, overflow = select_top40(records)
         username = str(cache.get("username") or "Player")
         total = float(cache.get("totalRks") or 0)
+        card = dict(cache)
+        if not card.get("avatarId") and not card.get("bioId1") and not card.get("bioId2"):
+            found = local_profile(interaction.client.settings.repo_root, username)
+            if found:
+                card.update(found)
+                try:
+                    interaction.client.db.put_cache(
+                        interaction.user.id,
+                        card,
+                        interaction.client.settings.cache_ttl,
+                    )
+                except Exception as exc:
+                    logger.error("profile cache update failed type=%s", type(exc).__name__)
         try:
             png = await asyncio.to_thread(
                 render_b40,
@@ -147,6 +161,8 @@ class ScoresCog(commands.Cog):
                 illust_dir=interaction.client.settings.illust_dir,
                 font_path=interaction.client.settings.repo_root
                 / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+                repo_root=interaction.client.settings.repo_root,
+                card=card,
             )
         except Exception as exc:
             logger.error("b40 image failed type=%s", type(exc).__name__)

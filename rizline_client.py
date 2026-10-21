@@ -380,12 +380,36 @@ def derive_minimal_cache(save: dict) -> dict:
         total = as_float(save.get("totalRks") or 0)
     except (TypeError, ValueError):
         total = 0.0
+    card = save.get("rizcard") if isinstance(save.get("rizcard"), dict) else {}
+
+    def card_text(*names: str) -> str:
+        for source in (card, save):
+            for name in names:
+                value = source.get(name)
+                if isinstance(value, str) and value.strip():
+                    return value.strip()
+        return ""
+
+    pos_raw = card.get("avatarPos") if isinstance(card.get("avatarPos"), dict) else save.get("avatarPos")
+    pos = pos_raw if isinstance(pos_raw, dict) else {}
+
+    def pos_num(name: str, default: float) -> float:
+        try:
+            return float(pos.get(name))
+        except (TypeError, ValueError):
+            return default
+
     return {
         "v": 1,
         "username": username if isinstance(username, str) else "",
         "totalRks": total,
         "myBest": bests,
         "levelsRks": levels,
+        "avatarId": card_text("avatarId"),
+        "avatarPos": {"x": pos_num("x", 0.0), "y": pos_num("y", 0.0), "z": pos_num("z", 1.0)},
+        "bioId1": card_text("bioId1"),
+        "bioId2": card_text("bioId2"),
+        "backgroundId": card_text("backgroundId"),
     }
 
 
