@@ -466,16 +466,19 @@ def _card_image(
     score = int(row.get("score") or 0)
     song = _song_for(index, row)
     chart = song.charts.get(diff) if song else None
-    full_score = chart is not None and chart.score > 0 and score >= chart.score - 1
+    chart_score = chart.score if chart is not None and chart.score > 0 else 0
+    full_score = chart_score > 0 and score >= chart_score - 1
+    score_text = f"{score}/{chart_score}" if chart_score else str(score)
     score_y = card_h - _px(scale, 30)
+    rank = f"#{int(row.get('sourceRank') or 0)}"
+    rank_w = int(draw.textlength(rank, font=fonts["rank"]))
+    score_limit = text_right - rank_w - _px(scale, 8) - text_x
     draw.text(
         (text_x, score_y),
-        str(score),
+        _clip(score_text, fonts["score"], score_limit, draw),
         font=fonts["score"],
         fill=(*_GOLD, 255) if full_score else (196, 154, 106, 255),
     )
-    rank = f"#{int(row.get('sourceRank') or 0)}"
-    rank_w = int(draw.textlength(rank, font=fonts["rank"]))
     draw.text((text_right - rank_w, score_y + _px(scale, 3)), rank, font=fonts["rank"], fill=(85, 85, 85, 255))
     return card
 
