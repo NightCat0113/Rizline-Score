@@ -65,7 +65,7 @@ def test_derive_drops_personal_save_fields():
             "bioId2": "bio.exbio00007.2",
             "backgroundId": "illustration.Other.0",
             "createTime": "secret-created-at",
-            "layoutId": "layout.secret",
+            "layoutId": "layout.00056",
         },
     }
     cache = derive_minimal_cache(save)
@@ -74,10 +74,10 @@ def test_derive_drops_personal_save_fields():
     assert cache["avatarId"] == "illustration.Song.0"
     assert cache["bioId1"] == "bio.exbio00007.1"
     assert cache["backgroundId"] == "illustration.Other.0"
+    assert cache["layoutId"] == "layout.00056"
     assert cache["avatarPos"]["z"] == 1.5
     assert "secret-mail-body" not in rendered
     assert "user-id-value" not in rendered
     assert "secret-created-at" not in rendered
-    assert "layout.secret" not in rendered
     assert "mails" not in cache
     assert save["mails"]

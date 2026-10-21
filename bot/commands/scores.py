@@ -136,10 +136,12 @@ class ScoresCog(commands.Cog):
         username = str(cache.get("username") or "Player")
         total = float(cache.get("totalRks") or 0)
         card = dict(cache)
-        if not card.get("avatarId") and not card.get("bioId1") and not card.get("bioId2"):
+        if not card.get("layoutId") or not card.get("avatarId"):
             found = local_profile(interaction.client.settings.repo_root, username)
             if found:
-                card.update(found)
+                for key, value in found.items():
+                    if not card.get(key):
+                        card[key] = value
                 try:
                     interaction.client.db.put_cache(
                         interaction.user.id,

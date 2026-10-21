@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image
 
 from bot.models import ChartInfo, Song
-from bot.services.profile import local_profile, player_title
+from bot.services.profile import layout_colors, local_profile, player_title
 from bot.services.songdata import SongIndex
 from bot.ui.b40_image import MAX_PNG_BYTES, render_b40
 
@@ -139,6 +139,14 @@ def test_local_profile_matches_username(tmp_path: Path):
     assert "hidden-mail" not in json.dumps(found)
     assert "hidden-user" not in json.dumps(found)
     assert local_profile(tmp_path, "Missing") == {}
+
+
+def test_layout_00056_bar_is_grey():
+    left, right, ink = layout_colors("layout.00056", ROOT)
+    assert left == (0x57, 0x57, 0x59)
+    assert right == (0xB5, 0xB5, 0xB5)
+    assert ink == (255, 255, 255)
+    assert layout_colors("layout.missing", ROOT)[0] == (255, 255, 255)
 
 
 def test_player_title_comes_from_bio_json():

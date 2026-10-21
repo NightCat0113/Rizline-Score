@@ -410,6 +410,7 @@ def derive_minimal_cache(save: dict) -> dict:
         "bioId1": card_text("bioId1"),
         "bioId2": card_text("bioId2"),
         "backgroundId": card_text("backgroundId"),
+        "layoutId": card_text("layoutId"),
     }
 
 

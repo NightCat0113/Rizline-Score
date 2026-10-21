@@ -8,7 +8,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-from bot.services.profile import player_title
+from bot.services.profile import layout_colors, player_title
 from bot.services.rks import strip_track_prefix
 from bot.services.songdata import SongIndex, illustration_file, illustration_path
 
@@ -124,15 +124,16 @@ def _draw(
         "score": _load_font(font_path, _px(scale, 17)),
         "rank": _load_font(font_path, _px(scale, 13)),
         "rks_big": _load_font(font_path, _px(scale, 24)),
-        "watermark": _load_font(font_path, _px(scale, 18)),
+        "watermark": _load_font(font_path, _px(scale, 30)),
         "bio": _load_font(font_path, _px(scale, 20)),
     }
     profile_root = repo_root or font_path.parent
     avatar = _open_art(str(card.get("avatarId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
     banner = _open_art(str(card.get("backgroundId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
     title = player_title(str(card.get("bioId1") or ""), str(card.get("bioId2") or ""), profile_root)
+    colors = layout_colors(str(card.get("layoutId") or ""), profile_root)
     pos = card.get("avatarPos") if isinstance(card.get("avatarPos"), dict) else {}
-    header = _player_header(username, total_rks, fonts, scale, avatar, banner, title, pos)
+    header = _player_header(username, total_rks, fonts, scale, avatar, banner, title, pos, colors)
     image.alpha_composite(header, ((width - header.width) // 2, pad))
 
     draw = ImageDraw.Draw(image)
@@ -233,31 +234,47 @@ def _player_header(
     banner_art: Image.Image | None,
     title: str,
     avatar_pos: dict,
+    colors: tuple[tuple[int, int, int], tuple[int, int, int], tuple[int, int, int]],
 ) -> Image.Image:
     width, height = _px(scale, 680), _px(scale, 118)
+    bg1, bg2, ink = colors
     body = Image.new("RGBA", (width, height), (255, 255, 255, 255))
     band_h = int(height * 0.64)
-    band = _name_band(banner_art, width - _px(scale, 70), band_h)
-    body.paste(band, (_px(scale, 70), 0))
+    body.paste(_horizontal_gradient(width, height - band_h, bg1, bg2), (0, band_h))
     draw = ImageDraw.Draw(body)
-    name = _clip(username, fonts["name"], width - _px(scale, 250), draw)
-    draw.text((_px(scale, 136), _px(scale, 14)), name, font=fonts["name"], fill=(255, 255, 255, 255))
-
     number = f"{total_rks:.4f}"
     number_w = int(draw.textlength(number, font=fonts["rks_big"]))
     rks_x = width - _px(scale, 28) - number_w
-    rks_y = band_h + _px(scale, 8)
     mark = "RKS"
+    mark_box = fonts["watermark"].getbbox(mark)
+    mark_h = max(1, mark_box[3] - mark_box[1])
     mark_w = int(draw.textlength(mark, font=fonts["watermark"]))
-    draw.text((rks_x + number_w - mark_w, rks_y - _px(scale, 2)), mark, font=fonts["watermark"], fill=(210, 210, 210, 255))
+    mark_x = rks_x + number_w - mark_w + _px(scale, 6)
+    mark_y = int(band_h - mark_h / 8 - mark_box[1])
+    # Page color is the layout ink at #80, then CSS opacity 0.7. Draw on a
+    # clear layer and composite it, or the pill mask later turns the white solid.
+    ghost = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    ImageDraw.Draw(ghost).text(
+        (mark_x, mark_y),
+        mark,
+        font=fonts["watermark"],
+        fill=(*ink, 90),
+    )
+    body.alpha_composite(ghost)
+    band = _name_band(banner_art, width - _px(scale, 70), band_h)
+    body.paste(band, (_px(scale, 70), 0))
+    name = _clip(username, fonts["name"], width - _px(scale, 250), draw)
+    draw.text((_px(scale, 136), _px(scale, 14)), name, font=fonts["name"], fill=(255, 255, 255, 255))
+
+    rks_y = band_h + _px(scale, 8)
     if title:
         draw.text(
             (_px(scale, 136), rks_y),
             _clip(title, fonts["bio"], rks_x - _px(scale, 150), draw),
             font=fonts["bio"],
-            fill=(85, 85, 85, 255),
+            fill=(*ink, 255),
         )
-    draw.text((rks_x, rks_y), number, font=fonts["rks_big"], fill=(45, 45, 45, 255))
+    draw.text((rks_x, rks_y), number, font=fonts["rks_big"], fill=(*ink, 255))
 
     mask = Image.new("L", (width, height), 0)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=255)
@@ -280,6 +297,21 @@ def _player_header(
     framed.paste(avatar, (_px(scale, 4), _px(scale, 4)), avatar)
     header.alpha_composite(framed, (_px(scale, 4), (height - framed.height) // 2))
     return header
+
+
+def _horizontal_gradient(
+    width: int,
+    height: int,
+    left: tuple[int, int, int],
+    right: tuple[int, int, int],
+) -> Image.Image:
+    row = Image.new("RGBA", (max(width, 1), 1))
+    pixels = row.load()
+    span = max(width - 1, 1)
+    for x in range(width):
+        blend = x / span
+        pixels[x, 0] = tuple(int(start + (end - start) * blend) for start, end in zip(left, right)) + (255,)
+    return row.resize((width, max(height, 1)))
 
 
 def _name_band(artwork: Image.Image | None, width: int, height: int) -> Image.Image:

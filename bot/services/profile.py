@@ -14,7 +14,7 @@ _BIO_ID = re.compile(r"^bio\.([^.]+)\.(1|2)$")
 _ACH_ID = re.compile(r"^ach\.\[([^\]]+)\]\.(title1|title2)$")
 
 
-_CARD_KEYS = ("avatarId", "avatarPos", "bioId1", "bioId2", "backgroundId")
+_CARD_KEYS = ("avatarId", "avatarPos", "bioId1", "bioId2", "backgroundId", "layoutId")
 
 
 def local_profile(repo_root: Path, username: str) -> dict:
@@ -38,6 +38,35 @@ def local_profile(repo_root: Path, username: str) -> dict:
             continue
         return {key: derived[key] for key in _CARD_KEYS}
     return {}
+
+
+def layout_colors(layout_id: str, repo_root: Path) -> tuple[tuple[int, int, int], tuple[int, int, int], tuple[int, int, int]]:
+    """Bottom-bar colors from layout.json. Falls back to the page's white bar."""
+    white = (255, 255, 255)
+    ink = (51, 51, 51)
+    payload = _load_json(repo_root / "layout.json")
+    rows = payload.get("layoutColors") if isinstance(payload, dict) else None
+    if isinstance(rows, list):
+        for row in rows:
+            if isinstance(row, dict) and row.get("id") == layout_id:
+                return (
+                    _hex_color(row.get("bgColor1"), white),
+                    _hex_color(row.get("bgColor2"), white),
+                    _hex_color(row.get("fgColor"), ink),
+                )
+    return white, white, ink
+
+
+def _hex_color(value: object, default: tuple[int, int, int]) -> tuple[int, int, int]:
+    if not isinstance(value, str):
+        return default
+    text = value.strip().lstrip("#")
+    if len(text) not in (6, 8):
+        return default
+    try:
+        return tuple(int(text[index : index + 2], 16) for index in (0, 2, 4))
+    except ValueError:
+        return default
 
 
 def player_title(bio_id1: str, bio_id2: str, repo_root: Path) -> str:
