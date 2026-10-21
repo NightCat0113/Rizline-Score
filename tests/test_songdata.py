@@ -30,6 +30,20 @@ def test_pastel_lines_resolves_with_designer():
     assert 100 < song.length_seconds < 140
     assert song.illustrator == "山山奇"
     assert song.series_index is None
+    bamboo, _bamboo_alternatives = index.resolve("竹")
+    assert bamboo is not None
+    sp = bamboo.charts["SP"]
+    assert sp.level_text == "竹"
+    assert sp.track_id == "Bamboo.rissyuu.1"
+    assert sp.hit == 1048
+    assert sp.combo == 4168
+    assert sp.score == 1015600
+    assert sp.riz_hit == 156
+    assert sp.designer.startswith("竹竹")
+    dot = index.by_asset["DotLinefeatななひら.A39沙包Pななひら.0"]
+    assert dot.charts["SP"].designer == "Dot --> Line"
+    inevitability = index.by_asset["Inevitability.kuro.0"]
+    assert inevitability.charts["SP"].designer == "→↘↓↙←"
     turning, _alternatives = index.resolve("Turning POINT")
     assert turning is not None
     assert turning.series_index == 10001

@@ -13,22 +13,22 @@ from bot.services.songdata import illustration_path
 
 MAX_PNG_BYTES = 8_000_000
 _SCALES = (2.0, 1.5, 1.0)
-_ORDER = ("EZ", "HD", "IN", "AT")
+_ORDER = ("EZ", "HD", "IN", "AT", "SP")
 _DIFF_COLORS = {
     "EZ": (87, 228, 196),
     "HD": (253, 186, 97),
     "IN": (254, 134, 97),
     "AT": (76, 54, 75),
+    "SP": (0, 0, 0),
 }
-_LIGHT_DIFFS = {"EZ", "HD"}
 _GOLD = (214, 164, 38)
 _INK = (28, 28, 32)
 _MUTED = (90, 90, 98)
 _WIDTH = 980
 _PAD = 28
 _HEADER_H = 188
-_ROW_H = 100
-_ROW_CIRCLE = 64
+_ROW_H = 116
+_ROW_CIRCLE = 92
 _GAP = 12
 
 
@@ -86,10 +86,11 @@ def _draw(
     fonts = {
         "title": _load_font(font_path, _px(scale, 30)),
         "artist": _load_font(font_path, _px(scale, 18)),
-        "meta": _load_font(font_path, _px(scale, 16)),
-        "pill": _load_font(font_path, _px(scale, 14)),
+        "meta": _load_font(font_path, _px(scale, 13)),
+        "pill": _load_font(font_path, _px(scale, 22)),
         "body": _load_font(font_path, _px(scale, 15)),
-        "score": _load_font(font_path, _px(scale, 22)),
+        "level": _load_font(font_path, _px(scale, 20)),
+        "score": _load_font(font_path, _px(scale, 30)),
         "small": _load_font(font_path, _px(scale, 14)),
     }
     draw = ImageDraw.Draw(image)
@@ -135,21 +136,28 @@ def _header(
     image.alpha_composite(_circle_art(artwork, circle, _px(scale, 6)), (left + inset, top + inset))
     text_x = left + inset + circle + _px(scale, 18)
     text_w = right - height // 3 - text_x
-    title_y = top + _px(scale, 18)
-    draw.text((text_x, title_y), _clip(song.title or "—", fonts["title"], text_w, draw), font=fonts["title"], fill=(*_INK, 255))
-    draw.text(
-        (text_x, title_y + _px(scale, 36)),
-        _clip(song.artist or "—", fonts["artist"], text_w, draw),
-        font=fonts["artist"],
-        fill=(*_MUTED, 255),
-    )
-    for index, line in enumerate(_meta_lines(song)):
-        draw.text(
-            (text_x, title_y + _px(scale, 66 + index * 24)),
-            _clip(line, fonts["meta"], text_w, draw),
-            font=fonts["meta"],
-            fill=(*_INK, 255),
-        )
+    title = _clip(song.title or "—", fonts["title"], text_w, draw)
+    artist = _clip(song.artist or "—", fonts["artist"], text_w, draw)
+    details = [(_clip(line, fonts["meta"], text_w, draw), fonts["meta"]) for line in _meta_lines(song)]
+    title_box = fonts["title"].getbbox(title)
+    artist_box = fonts["artist"].getbbox(artist)
+    pair_gap = _px(scale, 1)
+    section_gap = _px(scale, 10)
+    detail_gap = _px(scale, 3)
+    title_h = title_box[3] - title_box[1]
+    artist_h = artist_box[3] - artist_box[1]
+    detail_h = sum(getattr(font, "size", detail_gap) for _, font in details)
+    if details:
+        detail_h += detail_gap * (len(details) - 1)
+    block_h = title_h + pair_gap + artist_h + (section_gap + detail_h if details else 0)
+    ink_y = top + max(_px(scale, 8), (height - block_h) // 2)
+    draw.text((text_x, ink_y - title_box[1]), title, font=fonts["title"], fill=(*_INK, 255), anchor="lt")
+    artist_ink = ink_y + title_h + pair_gap
+    draw.text((text_x, artist_ink - artist_box[1]), artist, font=fonts["artist"], fill=(*_MUTED, 255), anchor="lt")
+    line_y = artist_ink + artist_h + section_gap
+    for text, font in details:
+        draw.text((text_x, line_y), text, font=font, fill=(*_INK, 255), anchor="lt")
+        line_y += getattr(font, "size", detail_gap) + detail_gap
     _outline(draw, left, top, right, top + height, (0, 178, 236, 255), _px(scale, 4))
 
 
@@ -170,33 +178,80 @@ def _chart_row(
 ) -> None:
     _paste_panel(image, left, top, right - left, height, height // 2)
     circle = _px(scale, _ROW_CIRCLE)
-    inset = _px(scale, 10)
+    inset = max(_px(scale, 8), (height - circle) // 2)
     color = _DIFF_COLORS.get(difficulty, (107, 70, 193))
-    ink = _INK if difficulty in _LIGHT_DIFFS else (255, 255, 255)
-    _difficulty_circle(draw, left + inset, top + (height - circle) // 2, circle, difficulty, chart.level, color, ink, fonts)
-    text_x = left + inset + circle + _px(scale, 14)
-    text_right = right - _px(scale, 24)
-    max_rks = 11 * chart.level + 10.5
-    max_label = f"Max RKS {max_rks:.1f}"
-    max_w = int(draw.textlength(max_label, font=fonts["body"]))
-    draw.text((text_right - max_w, top + _px(scale, 12)), max_label, font=fonts["body"], fill=(*_INK, 255))
-    charter = f"Charter {chart.designer or '—'}"
-    charter_w = text_right - max_w - _px(scale, 12) - text_x
-    draw.text((text_x, top + _px(scale, 12)), _clip(charter, fonts["body"], charter_w, draw), font=fonts["body"], fill=(*_INK, 255))
+    _difficulty_circle(
+        draw,
+        left + inset,
+        top + (height - circle) // 2,
+        circle,
+        difficulty,
+        chart.level_text or f"{chart.level:.1f}",
+        color,
+        (255, 255, 255),
+        fonts,
+    )
+    text_x = left + inset + circle + _px(scale, 16)
+    text_right = right - _px(scale, 22)
+    split = text_x + int((text_right - text_x) * 0.56)
+    draw.line(
+        [(split, top + _px(scale, 18)), (split, top + height - _px(scale, 18))],
+        fill=(170, 170, 176, 255),
+        width=max(2, _px(scale, 2)),
+    )
 
-    stats = f"Hit {chart.hit:,}  ·  Combo {chart.combo:,}  ·  RizHit {chart.riz_hit:,}"
-    draw.text((text_x, top + _px(scale, 34)), _clip(stats, fonts["small"], text_right - text_x, draw), font=fonts["small"], fill=(*_MUTED, 255))
-
+    max_rks = None if chart.level <= 0 else 11 * chart.level + 10.5
     player = _player_score(best)
     shown = f"{player:,}" if player is not None else "—"
     chart_score = f"{chart.score:,}" if chart.score > 0 else "—"
-    score_text = f"{shown} / {chart_score}"
+    score_text = f"Score {shown} / {chart_score}"
     full = player is not None and chart.score > 0 and player >= chart.score - 1
-    score_y = top + _px(scale, 56)
-    draw.text((text_x, score_y), score_text, font=fonts["score"], fill=(*_GOLD, 255) if full else (196, 154, 106, 255))
-    detail = _personal_line(best) if best else "No record"
-    detail_x = text_x + int(draw.textlength(score_text, font=fonts["score"])) + _px(scale, 14)
-    draw.text((detail_x, score_y + _px(scale, 6)), _clip(detail, fonts["small"], text_right - detail_x, draw), font=fonts["small"], fill=(*_MUTED, 255))
+    rks_text, rks_full = _rks_line(best, max_rks)
+    column_right = split - _px(scale, 14)
+    column_w = column_right - text_x
+    lines = (
+        (
+            _clip(score_text, fonts["score"], column_w, draw),
+            fonts["score"],
+            (*_GOLD, 255) if full else (196, 154, 106, 255),
+        ),
+        (
+            _clip(_result_line(best), fonts["small"], column_w, draw),
+            fonts["small"],
+            (*_MUTED, 255),
+        ),
+        (
+            _clip(rks_text, fonts["small"], column_w, draw),
+            fonts["small"],
+            (*_GOLD, 255) if rks_full else (196, 154, 106, 255),
+        ),
+    )
+    gap = _px(scale, 6)
+    block_w = max(draw.textlength(text, font=font) for text, font, _ in lines)
+    block_h = sum(getattr(font, "size", _px(scale, 14)) for _, font, _ in lines) + gap * (len(lines) - 1)
+    line_x = text_x + max(0, (column_w - block_w) / 2)
+    line_y = top + max(_px(scale, 8), (height - block_h) // 2)
+    for text, font, fill in lines:
+        draw.text((line_x, line_y), text, font=font, fill=fill, anchor="lt")
+        line_y += getattr(font, "size", _px(scale, 14)) + gap
+
+    facts = [
+        f"Hit {chart.hit:,}",
+        f"RizHit {chart.riz_hit:,}",
+        f"Combo {chart.combo:,}",
+        f"Charter {chart.designer or '—'}",
+    ]
+    line_x = split + _px(scale, 16)
+    line_top = top + _px(scale, 12)
+    step = _px(scale, 24)
+    for index, fact in enumerate(facts):
+        limit = text_right - line_x
+        draw.text(
+            (line_x, line_top + index * step),
+            _clip(fact, fonts["small"], limit, draw),
+            font=fonts["small"],
+            fill=(*_INK, 255),
+        )
     if highlighted:
         _outline(draw, left, top, right, top + height, (0, 178, 236, 255), _px(scale, 4))
 
@@ -220,7 +275,9 @@ def _empty_row(
     )
 
 
-def _personal_line(best: dict) -> str:
+def _result_line(best: dict | None) -> str:
+    if best is None or _player_score(best) is None:
+        return "No record"
     if best.get("isFullCombo"):
         status = "FC"
     elif best.get("isClear"):
@@ -231,11 +288,18 @@ def _personal_line(best: dict) -> str:
         accuracy = f"{float(best.get('completeRate')):.2f}%"
     except (TypeError, ValueError):
         accuracy = "—"
-    parts = [f"Accuracy {accuracy}", status]
-    rks = best.get("rks")
-    if isinstance(rks, (int, float)):
-        parts.append(f"RKS {float(rks):.3f}")
-    return "  ·  ".join(parts)
+    return f"Accuracy {accuracy}  ·  {status}"
+
+
+def _rks_line(best: dict | None, max_rks: float | None) -> tuple[str, bool]:
+    rks = best.get("rks") if best else None
+    has_rks = isinstance(rks, (int, float))
+    if max_rks is None:
+        return (f"RKS {float(rks):.3f}" if has_rks else "RKS —"), False
+    cap = f"{max_rks:.3f}"
+    if not has_rks:
+        return f"RKS — / {cap}", False
+    return f"RKS {float(rks):.3f} / {cap}", float(rks) >= max_rks - 1e-3
 
 
 def _player_score(best: dict | None) -> int | None:
@@ -253,9 +317,9 @@ def _meta_lines(song: Song) -> list[str]:
         parts.append(f"BPM {_fmt_bpm(song.bpm)}")
     if song.length_seconds:
         parts.append(f"Length {_fmt_length(song.length_seconds)}")
-    if song.illustrator:
-        parts.append(f"Illustrator {song.illustrator}")
     lines = ["   ·   ".join(parts)] if parts else []
+    if song.illustrator:
+        lines.append(f"Illustrator {song.illustrator}")
     if song.disc_name:
         disc = song.disc_name if song.disc_name.lower().startswith("disc") else f"Disc {song.disc_name}"
         lines.append(disc)
@@ -290,7 +354,7 @@ def _difficulty_circle(
     top: int,
     size: int,
     difficulty: str,
-    level: float,
+    level: str,
     color: tuple[int, int, int],
     ink: tuple[int, int, int],
     fonts: dict[str, ImageFont.ImageFont],
@@ -300,8 +364,8 @@ def _difficulty_circle(
     draw.ellipse(box, outline=(255, 255, 255, 255), width=max(2, size // 28))
     center_x = left + size // 2
     center_y = top + size // 2
-    draw.text((center_x, center_y - size // 8), difficulty, font=fonts["pill"], fill=(*ink, 255), anchor="mm")
-    draw.text((center_x, center_y + size // 7), f"{level:.1f}", font=fonts["body"], fill=(*ink, 255), anchor="mm")
+    draw.text((center_x, center_y - size // 7), difficulty, font=fonts["pill"], fill=(*ink, 255), anchor="mm")
+    draw.text((center_x, center_y + size // 6), level, font=fonts["level"], fill=(*ink, 255), anchor="mm")
 
 
 def _paste_panel(image: Image.Image, left: int, top: int, width: int, height: int, radius: int) -> None:

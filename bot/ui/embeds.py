@@ -5,12 +5,12 @@ from __future__ import annotations
 import discord
 
 from bot.models import Song
-from bot.services.rks import bests_for_song, score_counts, top_levels
+from bot.services.rks import bests_for_song, chart_track_ids, score_counts, top_levels
 from bot.services.songdata import SongIndex
 
 
 COLOR = 0x61D8FF
-_ORDER = ("EZ", "HD", "IN", "AT")
+_ORDER = ("EZ", "HD", "IN", "AT", "SP")
 
 
 def _fmt_score(value: object) -> str:
@@ -44,7 +44,7 @@ def _chart_value(song: Song, difficulty: str, personal: dict | None) -> str:
     chart = song.charts[difficulty]
     designer = chart.designer or "—"
     lines = [
-        f"Level {chart.level:g} · Designer {designer}",
+        f"Level {chart.level_text or f'{chart.level:g}'} · Designer {designer}",
         f"Hit {chart.hit:,} · Combo {chart.combo:,} · Max {_fmt_score(chart.score)}",
     ]
     if personal:
@@ -66,7 +66,7 @@ def song_embed(
     )
     if song.disc_name:
         embed.add_field(name="Disc", value=song.disc_name, inline=True)
-    personal = bests_for_song(cache, song.asset_id) if cache else {}
+    personal = bests_for_song(cache, song.asset_id, chart_track_ids(song)) if cache else {}
     difficulties = [difficulty] if difficulty else [name for name in _ORDER if name in song.charts]
     if difficulty and difficulty not in song.charts:
         embed.add_field(name=difficulty, value="This song has no chart at that difficulty.", inline=False)

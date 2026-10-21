@@ -14,6 +14,8 @@ class ChartInfo:
     score: int
     riz_hit: int
     designer: str
+    level_text: str = ""
+    track_id: str = ""
 
 
 @dataclass(frozen=True)

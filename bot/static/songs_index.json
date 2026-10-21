@@ -887,6 +887,16 @@
           "score": 1012200,
           "rizHit": 122,
           "designer": "StupiGGy"
+        },
+        "SP": {
+          "level": 0,
+          "levelText": "竹",
+          "trackId": "Bamboo.rissyuu.1",
+          "hit": 1048,
+          "combo": 4168,
+          "score": 1015600,
+          "rizHit": 156,
+          "designer": "竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹竹"
         }
       },
       "bpm": 150.0,
@@ -2407,6 +2417,16 @@
           "score": 1042400,
           "rizHit": 424,
           "designer": "Kiwi"
+        },
+        "SP": {
+          "level": 0,
+          "levelText": "Ⅲ",
+          "trackId": "DotLinefeatななひら.A39沙包Pななひら.1",
+          "hit": 596,
+          "combo": 2360,
+          "score": 1024500,
+          "rizHit": 245,
+          "designer": "Dot --> Line"
         }
       },
       "bpm": 175.0,
@@ -4391,6 +4411,16 @@
           "score": 1035300,
           "rizHit": 353,
           "designer": "SPΔDE"
+        },
+        "SP": {
+          "level": 0,
+          "levelText": "米",
+          "trackId": "Inevitability.kuro.1",
+          "hit": 1228,
+          "combo": 4888,
+          "score": 1030500,
+          "rizHit": 305,
+          "designer": "→↘↓↙←"
         }
       },
       "bpm": 157.0,

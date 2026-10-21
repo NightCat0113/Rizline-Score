@@ -11,7 +11,7 @@ from bot.models import ChartInfo, Song
 
 
 logger = logging.getLogger("rizline.bot")
-_DIFFS = ("EZ", "HD", "IN", "AT")
+_DIFFS = ("EZ", "HD", "IN", "AT", "SP")
 
 
 def normalize(value: str) -> str:
@@ -47,6 +47,8 @@ class SongIndex:
                     score=int(chart.get("score") or 0),
                     riz_hit=int(chart.get("rizHit") or 0),
                     designer=str(chart.get("designer") or ""),
+                    level_text=str(chart.get("levelText") or ""),
+                    track_id=str(chart.get("trackId") or ""),
                 )
             bpm = row.get("bpm")
             length = row.get("length")

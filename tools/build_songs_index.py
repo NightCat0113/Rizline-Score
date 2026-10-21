@@ -73,7 +73,7 @@ _BPM_RE = re.compile(r'"bPM"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 _TIME_RE = re.compile(br'"time"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 
 
-def load_default(path: Path) -> tuple[dict, dict, dict, dict, dict]:
+def load_default(path: Path) -> tuple[dict, dict, dict, dict, dict, dict]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     designers: dict[tuple[str, str], str] = {}
     for chart in payload.get("charts") or []:
@@ -103,7 +103,21 @@ def load_default(path: Path) -> tuple[dict, dict, dict, dict, dict]:
         artist = str(item.get("artist") or "").strip()
         if illustration_id and artist:
             illustrators[illustration_id] = artist
-    return designers, discs, illustrations, illustrators, series
+    sp_charts: dict[str, dict] = {}
+    for level in payload.get("discOLevels") or []:
+        if str(level.get("difficultyName") or "") != "SP":
+            continue
+        music_id = str(level.get("musicId") or "")
+        chart_ids = [str(chart_id) for chart_id in level.get("chartIds") or [] if chart_id]
+        if not music_id or not chart_ids:
+            continue
+        sp_charts[music_id] = {
+            "trackId": str(level.get("id") or ""),
+            "levelText": str(level.get("difficultyText") or ""),
+            "chartId": chart_ids[0],
+            "designerKey": str(level.get("designerInfoKey") or ""),
+        }
+    return designers, discs, illustrations, illustrators, series, sp_charts
 
 
 def read_bpm(path: Path) -> float | None:
@@ -165,6 +179,71 @@ def song_length(charts_dir: Path, asset_id: str, bpm: float | None) -> float | N
     return round(beats * 60.0 / bpm, 1)
 
 
+def disco_display_names(root: Path) -> dict[str, str]:
+    file_list = root / "download" / "fileList.json"
+    bundle_name = "dfc26ebdd285d9dc61f6ee898b722aa9.bundle"
+    if file_list.is_file():
+        try:
+            pairs = json.loads(file_list.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pairs = []
+        for pair in pairs:
+            if isinstance(pair, list) and len(pair) >= 2 and pair[0] == "local.en" and isinstance(pair[1], str):
+                bundle_name = pair[1]
+                break
+    path = root / "download" / "bundles" / bundle_name
+    if not path.is_file():
+        return {}
+    try:
+        import UnityPy
+    except ImportError:
+        return {}
+    names: dict[str, str] = {}
+    for obj in UnityPy.load(str(path)).objects:
+        if obj.type.name != "TextAsset":
+            continue
+        for line in str(obj.read().m_Script).splitlines():
+            if not line.startswith("discoDisplay."):
+                continue
+            key, separator, value = line.partition("=")
+            if separator and value:
+                names[key] = value
+    return names
+
+
+def sp_chart_record(charts_dir: Path, spec: dict | None, designers: dict[str, str] | None = None) -> dict | None:
+    if not spec:
+        return None
+    chart_id = str(spec.get("chartId") or "")
+    path = charts_dir / f"{chart_id}.json"
+    hit = combo = score = riz_hit = 0
+    if path.is_file():
+        from Riz_bundle import (
+            apply_rizcol_ranges_to_notes,
+            compute_hit_combo_score,
+            extract_notes_from_chart_obj,
+            extract_rizcol_from_chart_obj,
+        )
+
+        chart = json.loads(path.read_text(encoding="utf-8"))
+        notes = extract_notes_from_chart_obj(chart)
+        rizcol = extract_rizcol_from_chart_obj(chart)
+        if rizcol and notes:
+            notes = apply_rizcol_ranges_to_notes(rizcol, notes)
+        hit, combo, score = compute_hit_combo_score(notes)
+        riz_hit = max(0, (score - 1_000_000) // 100)
+    return {
+        "level": 0,
+        "levelText": str(spec.get("levelText") or ""),
+        "trackId": str(spec.get("trackId") or ""),
+        "hit": hit,
+        "combo": combo,
+        "score": score,
+        "rizHit": riz_hit,
+        "designer": (designers or {}).get(str(spec.get("designerKey") or ""), ""),
+    }
+
+
 def load_database(path: Path) -> tuple[dict, dict]:
     designers: dict[tuple[str, str], str] = {}
     discs: dict[str, str] = {}
@@ -209,17 +288,19 @@ def main() -> int:
     illustrations: dict[str, str] = {}
     illustrators: dict[str, str] = {}
     series: dict[str, int] = {}
+    sp_charts: dict[str, dict] = {}
     sources = ["songs.json", "mapping.json"]
     if database_path.is_file():
         designers, discs = load_database(database_path)
         sources.append("Database.txt")
     if default_path.is_file():
-        default_designers, default_discs, illustrations, illustrators, series = load_default(default_path)
+        default_designers, default_discs, illustrations, illustrators, series, sp_charts = load_default(default_path)
         designers.update(default_designers)
         discs.update(default_discs)
         sources.append("output/default.json")
     if charts_dir.is_dir():
         sources.append("output/charts")
+    sp_designers = disco_display_names(ROOT) if sp_charts else {}
 
     built: list[dict] = []
     missing_rows = 0
@@ -269,6 +350,9 @@ def main() -> int:
             name = SERIES_NAMES.get(series_index, "")
             if name:
                 item["seriesName"] = name
+        sp_chart = sp_chart_record(charts_dir, sp_charts.get(str(asset_id)), sp_designers)
+        if sp_chart is not None:
+            charts["SP"] = sp_chart
         built.append(item)
 
     by_title = {normalize(item["title"]): item for item in built}

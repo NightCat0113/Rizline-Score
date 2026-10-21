@@ -13,7 +13,7 @@ from discord.ext import commands
 from bot.commands.songs import _DIFFICULTIES, autocomplete_songs
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
 from bot.services.profile import local_profile
-from bot.services.rks import bests_for_song, build_records, select_top40
+from bot.services.rks import bests_for_song, build_records, chart_track_ids, select_top40
 from bot.services.songdata import attachment_name, illustration_path
 from bot.store.crypto import TamperError
 from bot.ui.b40_image import render_b40
@@ -86,7 +86,7 @@ class ScoresCog(commands.Cog):
             png = await asyncio.to_thread(
                 render_song,
                 song=song,
-                personal=bests_for_song(cache, song.asset_id),
+                personal=bests_for_song(cache, song.asset_id, chart_track_ids(song)),
                 highlight=diff,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,
@@ -154,21 +154,7 @@ class ScoresCog(commands.Cog):
         special, ordinary, overflow = select_top40(records)
         username = str(cache.get("username") or "Player")
         total = float(cache.get("totalRks") or 0)
-        card = dict(cache)
-        if not card.get("layoutId") or not card.get("avatarId"):
-            found = local_profile(interaction.client.settings.repo_root, username)
-            if found:
-                for key, value in found.items():
-                    if not card.get(key):
-                        card[key] = value
-                try:
-                    interaction.client.db.put_cache(
-                        interaction.user.id,
-                        card,
-                        interaction.client.settings.cache_ttl,
-                    )
-                except Exception as exc:
-                    logger.error("profile cache update failed type=%s", type(exc).__name__)
+        card = self._with_local_card(interaction, cache, username)
         try:
             png = await asyncio.to_thread(
                 render_b40,
@@ -199,3 +185,28 @@ class ScoresCog(commands.Cog):
             file=discord.File(io.BytesIO(png), filename="b40.png"),
             ephemeral=True,
         )
+
+    @app_commands.command(name="rizcard", description="Show your Rizcard")
+    @dm_only()
+    async def rizcard(self, interaction: discord.Interaction) -> None:
+        await interaction.response.send_message("Rizcard is turned off.", ephemeral=True)
+
+    def _with_local_card(self, interaction: discord.Interaction, cache: dict, username: str) -> dict:
+        card = dict(cache)
+        if card.get("layoutId") and card.get("avatarId"):
+            return card
+        found = local_profile(interaction.client.settings.repo_root, username)
+        if not found:
+            return card
+        for key, value in found.items():
+            if not card.get(key):
+                card[key] = value
+        try:
+            interaction.client.db.put_cache(
+                interaction.user.id,
+                card,
+                interaction.client.settings.cache_ttl,
+            )
+        except Exception as exc:
+            logger.error("profile cache update failed type=%s", type(exc).__name__)
+        return card

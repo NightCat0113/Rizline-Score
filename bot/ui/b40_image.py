@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import io
+import json
+import math
 import random
 from pathlib import Path
 
@@ -71,6 +73,474 @@ def render_b40(
         if len(last) <= max_bytes:
             return last
     return last
+
+
+_FILE_INDEX: dict[str, dict[str, str]] = {}
+_LAYOUT_FRAMES: dict[tuple[str, str], Image.Image | None] = {}
+
+
+def load_layout_frame(repo_root: Path, layout_id: str) -> Image.Image | None:
+    """Cropped layout texture from the local catalog bundle, or None."""
+    key = (str(repo_root), layout_id.strip())
+    if key not in _LAYOUT_FRAMES:
+        _LAYOUT_FRAMES[key] = _read_layout_frame(repo_root, layout_id)
+    image = _LAYOUT_FRAMES[key]
+    return None if image is None else image.copy()
+
+
+def render_rizcard(
+    *,
+    username: str,
+    total_rks: float,
+    illust_hires_dir: Path,
+    illust_dir: Path,
+    font_path: Path,
+    repo_root: Path | None = None,
+    card: dict | None = None,
+    scale: float = 2.0,
+) -> bytes:
+    del total_rks
+    profile = card or {}
+    profile_root = repo_root or font_path.parent
+    avatar = _open_art(str(profile.get("avatarId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
+    banner = _open_art(str(profile.get("backgroundId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
+    title = player_title(str(profile.get("bioId1") or ""), str(profile.get("bioId2") or ""), profile_root)
+    colors = layout_colors(str(profile.get("layoutId") or ""), profile_root)
+    pos = profile.get("avatarPos") if isinstance(profile.get("avatarPos"), dict) else {}
+    frame = load_layout_frame(profile_root, str(profile.get("layoutId") or ""))
+    image = _rizcard_image(
+        username or "Player",
+        font_path,
+        scale,
+        avatar,
+        banner,
+        title,
+        pos,
+        colors[2],
+        frame,
+    )
+    return _png_within(image, MAX_PNG_BYTES)
+
+
+def _rizcard_image(
+    username: str,
+    font_path: Path,
+    scale: float,
+    avatar_art: Image.Image | None,
+    banner_art: Image.Image | None,
+    title: str,
+    avatar_pos: dict,
+    ink: tuple[int, int, int],
+    frame: Image.Image | None,
+) -> Image.Image:
+    if frame is None:
+        return _plain_rizcard(username, font_path, scale, avatar_art, banner_art, title, avatar_pos, ink)
+    card_w, card_h = frame.size
+    canvas = Image.new("RGBA", frame.size, (0, 0, 0, 0))
+    art = _card_art(banner_art, card_w, card_h)
+    art.putalpha(_card_silhouette(frame))
+    canvas.alpha_composite(art)
+    canvas.alpha_composite(frame)
+    pill = _title_pill(frame)
+    portrait = _portrait_slot(frame)
+    if pill is None:
+        footer_top, footer_bottom = _footer_band(frame.copy())
+        title_x = card_w // 2
+        title_y = (footer_top + footer_bottom) // 2
+        title_span = max(8, footer_bottom - footer_top)
+        pill_left, pill_right = card_w // 5, card_w - card_w // 5
+    else:
+        title_x, title_y, title_span, pill_left, pill_right = pill
+    draw = ImageDraw.Draw(canvas)
+    title_size = max(18, int(title_span * 0.55))
+    name_size = max(title_size + 8, int(title_span * 1.05))
+    _draw_username(
+        draw,
+        username,
+        _load_font(font_path, name_size),
+        card_w,
+        *_name_anchor(card_w, title_x, title_y, title_span, pill_left, pill_right),
+    )
+    _cover_with_frame(canvas, frame)
+    _draw_title(draw, title, _load_font(font_path, title_size), title_x, title_y, pill_right - pill_left, ink)
+    _place_portrait(canvas, avatar_art, avatar_pos, (portrait[0], portrait[1]), portrait[2], ring=True)
+    return canvas
+
+
+def _plain_rizcard(
+    username: str,
+    font_path: Path,
+    scale: float,
+    avatar_art: Image.Image | None,
+    banner_art: Image.Image | None,
+    title: str,
+    avatar_pos: dict,
+    ink: tuple[int, int, int],
+) -> Image.Image:
+    card_w, card_h = _px(scale, 600), _px(scale, 860)
+    canvas = _card_art(banner_art, card_w, card_h)
+    mask = Image.new("L", (card_w, card_h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, card_w - 1, card_h - 1), radius=_px(scale, 28), fill=255)
+    canvas.putalpha(mask)
+    fonts = _rizcard_fonts(font_path, card_w)
+    draw = ImageDraw.Draw(canvas)
+    footer_top = int(card_h * 0.88)
+    pad = card_w // 28
+    _draw_username(draw, username, fonts["name"], card_w, card_w - pad, footer_top - pad, "rs")
+    _draw_title(draw, title, fonts["bio"], card_w // 2, (footer_top + card_h - card_w // 28) // 2, card_w, ink)
+    _place_portrait(
+        canvas,
+        avatar_art,
+        avatar_pos,
+        (int(card_w * 0.098), int(card_h * 0.085)),
+        max(8, _px(scale, 92)),
+    )
+    return canvas
+
+
+def _rizcard_fonts(font_path: Path, card_w: int) -> dict[str, ImageFont.ImageFont]:
+    return {
+        "name": _load_font(font_path, max(12, card_w * 26 // 600)),
+        "bio": _load_font(font_path, max(12, card_w * 18 // 600)),
+    }
+
+
+def _card_art(banner_art: Image.Image | None, width: int, height: int) -> Image.Image:
+    if banner_art is None:
+        return Image.new("RGBA", (width, height), (24, 26, 34, 255))
+    return _cover(banner_art, width, height).convert("RGBA")
+
+
+def _draw_username(
+    draw: ImageDraw.ImageDraw,
+    username: str,
+    font: ImageFont.ImageFont,
+    card_w: int,
+    x: int,
+    y: int,
+    anchor: str,
+) -> None:
+    name = _clip(username, font, int(card_w * 0.62), draw)
+    draw.text(
+        (x, y),
+        name,
+        font=font,
+        anchor=anchor,
+        fill=(255, 255, 255, 255),
+        stroke_width=max(2, getattr(font, "size", 28) // 28),
+        stroke_fill=(24, 22, 32, 255),
+    )
+
+
+def _name_anchor(
+    card_w: int,
+    title_x: int,
+    title_y: int,
+    title_span: int,
+    pill_left: int,
+    pill_right: int,
+) -> tuple[int, int, str]:
+    on_right = title_x >= card_w * 0.5
+    gap = max(24, int(title_span * 1.35))
+    tuck = max(12, title_span // 2)
+    if on_right:
+        return min(card_w - 16, pill_right + tuck), title_y - title_span // 2 - gap, "rs"
+    return max(16, pill_left - tuck), title_y - title_span // 2 - gap, "ls"
+
+
+def _portrait_slot(frame: Image.Image) -> tuple[int, int, int]:
+    """Portrait sits beside this layout's lanyard hole. The large round window is the illustration."""
+    width, height = frame.size
+    diameter = max(8, int(width * 0.148))
+    hole = _lanyard_hole(frame)
+    if hole is None:
+        return int(width * 0.171), int(height * 0.144), diameter
+    hole_x, hole_y, _hole_d = hole
+    dx = int(diameter * 0.41)
+    dy = int(diameter * 0.59)
+    center_x = hole_x + dx if hole_x < width * 0.5 else hole_x - dx
+    return center_x, hole_y + dy, diameter
+
+
+def _lanyard_hole(frame: Image.Image) -> tuple[int, int, int] | None:
+    pixels = frame.load()
+    width, height = frame.size
+    best: tuple[int, int, int] | None = None
+    for cy in range(20, int(height * 0.28), 4):
+        for cx in range(20, int(width * 0.55), 4):
+            red, green, blue, alpha = pixels[cx, cy]
+            if alpha < 200 or (red + green + blue) / 3 > 45:
+                continue
+            inner = 0
+            ring = 0
+            for step in range(12):
+                radians = step * math.pi / 6
+                ix = int(cx + 10 * math.cos(radians))
+                iy = int(cy + 10 * math.sin(radians))
+                if 0 <= ix < width and 0 <= iy < height:
+                    sample = pixels[ix, iy]
+                    if sample[3] > 180 and (sample[0] + sample[1] + sample[2]) / 3 < 80:
+                        inner += 1
+                bright = False
+                for radius in (22, 28):
+                    ox = int(cx + radius * math.cos(radians))
+                    oy = int(cy + radius * math.sin(radians))
+                    if 0 <= ox < width and 0 <= oy < height:
+                        sample = pixels[ox, oy]
+                        if sample[3] > 180 and (sample[0] + sample[1] + sample[2]) / 3 > 170:
+                            bright = True
+                if bright:
+                    ring += 1
+            if inner >= 8 and ring >= 7:
+                score = ring * 10 + inner
+                if best is None or score > best[0] or (score == best[0] and cy < best[2]):
+                    best = (score, cx, cy)
+    if best is None:
+        return None
+    return best[1], best[2], 56
+
+
+def _draw_title(
+    draw: ImageDraw.ImageDraw,
+    title: str,
+    font: ImageFont.ImageFont,
+    center_x: int,
+    center_y: int,
+    max_width: int,
+    ink: tuple[int, int, int],
+) -> None:
+    label = _clip(title or "—", font, max(8, max_width), draw)
+    draw.text(
+        (center_x, center_y),
+        label,
+        font=font,
+        anchor="mm",
+        fill=(*ink, 255),
+        stroke_width=max(1, getattr(font, "size", 28) // 32),
+        stroke_fill=(24, 22, 32, 255),
+    )
+
+
+def _cover_with_frame(canvas: Image.Image, frame: Image.Image) -> None:
+    """Put the solid layout pieces back over the name so the folded corner clips it."""
+    cover = frame.copy()
+    cover.putalpha(cover.getchannel("A").point(lambda value: 255 if value >= 200 else 0))
+    canvas.alpha_composite(cover)
+
+
+def _place_portrait(
+    canvas: Image.Image,
+    avatar_art: Image.Image | None,
+    avatar_pos: dict,
+    center: tuple[int, int],
+    diameter: int,
+    *,
+    ring: bool = True,
+) -> None:
+    avatar = _avatar(avatar_art, diameter, avatar_pos)
+    if not ring:
+        canvas.alpha_composite(avatar, (center[0] - diameter // 2, center[1] - diameter // 2))
+        return
+    band = max(2, diameter // 40)
+    framed = Image.new("RGBA", (diameter + band * 2, diameter + band * 2), (0, 0, 0, 0))
+    ImageDraw.Draw(framed).ellipse((0, 0, framed.width - 1, framed.height - 1), fill=(255, 255, 255, 255))
+    framed.paste(avatar, (band, band), avatar)
+    canvas.alpha_composite(framed, (center[0] - framed.width // 2, center[1] - framed.height // 2))
+
+
+def _read_layout_frame(repo_root: Path, layout_id: str) -> Image.Image | None:
+    stem = layout_id.strip()
+    if not stem:
+        return None
+    if not stem.startswith("layout."):
+        stem = f"layout.{stem}"
+    index = _bundle_index(repo_root)
+    bundle_name = index.get(f"{stem}.HiRes") or index.get(stem)
+    if not bundle_name:
+        return None
+    path = repo_root / "download" / "bundles" / bundle_name
+    if not path.is_file():
+        return None
+    try:
+        import UnityPy
+    except ImportError:
+        return None
+    try:
+        env = UnityPy.load(str(path))
+    except Exception:
+        return None
+    best: Image.Image | None = None
+    best_area = 0
+    for obj in env.objects:
+        if obj.type.name != "Texture2D":
+            continue
+        try:
+            data = obj.read()
+            image = getattr(data, "image", None)
+        except Exception:
+            continue
+        if image is None:
+            continue
+        area = image.width * image.height
+        if area > best_area:
+            best = image
+            best_area = area
+    if best is None:
+        return None
+    return _crop_side_margins(best.convert("RGBA"))
+
+
+def _bundle_index(repo_root: Path) -> dict[str, str]:
+    path = repo_root / "download" / "fileList.json"
+    key = str(path)
+    cached = _FILE_INDEX.get(key)
+    if cached is not None:
+        return cached
+    index: dict[str, str] = {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        _FILE_INDEX[key] = index
+        return index
+    if isinstance(payload, list):
+        for entry in payload:
+            if (
+                isinstance(entry, list)
+                and len(entry) >= 2
+                and isinstance(entry[0], str)
+                and isinstance(entry[1], str)
+                and entry[1].endswith(".bundle")
+            ):
+                index.setdefault(entry[0], entry[1])
+    _FILE_INDEX[key] = index
+    return index
+
+
+def _crop_side_margins(image: Image.Image) -> Image.Image:
+    alpha = image.getchannel("A")
+    width, height = alpha.size
+    pixels = alpha.load()
+
+    def _opaque(x: int) -> bool:
+        for y in range(0, height, 2):
+            if pixels[x, y] > 16:
+                return True
+        return False
+
+    left = 0
+    while left < width and not _opaque(left):
+        left += 1
+    right = width - 1
+    while right > left and not _opaque(right):
+        right -= 1
+    if left >= right:
+        return image
+    return image.crop((left, 0, right + 1, height))
+
+
+def _card_silhouette(layout: Image.Image) -> Image.Image:
+    alpha = layout.getchannel("A")
+    width, height = alpha.size
+    top = alpha.crop((0, 0, width, max(1, height // 7)))
+    if top.getextrema()[1] < 16:
+        return Image.new("L", (width, height), 255)
+    exterior = alpha.point(lambda value: 0 if value < 16 else 255)
+    if exterior.getpixel((0, 0)) == 0:
+        ImageDraw.floodfill(exterior, (0, 0), 64, thresh=0)
+    return exterior.point(lambda value: 0 if value == 64 else 255)
+
+
+def _title_pill(layout: Image.Image) -> tuple[int, int, int, int, int] | None:
+    """Grey title capsule: center x, center y, height, left, right. Each layout places this differently."""
+    image = layout.copy()
+    pixels = image.load()
+    width, height = image.size
+    runs: list[tuple[int, int, int]] = []
+    for y in range(int(height * 0.72), height - 2):
+        best: tuple[int, int, int] | None = None
+        in_run = False
+        start = 0
+        for x in range(0, width, 2):
+            red, green, blue, alpha = pixels[x, y]
+            luma = (red + green + blue) / 3
+            grey = alpha > 220 and 90 <= luma <= 125 and abs(red - green) < 12 and abs(green - blue) < 12
+            if grey and not in_run:
+                in_run = True
+                start = x
+            elif not grey and in_run:
+                span = x - start
+                if best is None or span > best[0]:
+                    best = (span, start, x)
+                in_run = False
+        if in_run:
+            span = width - start
+            if best is None or span > best[0]:
+                best = (span, start, width)
+        if best is not None and width * 0.18 < best[0] < width * 0.70:
+            runs.append((y, best[1], best[2]))
+    if len(runs) < 8:
+        return None
+    best_run = [runs[0]]
+    current = [runs[0]]
+    for previous, row in zip(runs, runs[1:]):
+        if row[0] == previous[0] + 1:
+            current.append(row)
+        else:
+            if len(current) > len(best_run):
+                best_run = current
+            current = [row]
+    if len(current) > len(best_run):
+        best_run = current
+    if len(best_run) < 8:
+        return None
+    top, bottom = best_run[0][0], best_run[-1][0]
+    _y, left, right = best_run[len(best_run) // 2]
+    return (left + right) // 2, (top + bottom) // 2, bottom - top + 1, left, right
+
+
+def _footer_band(layout: Image.Image) -> tuple[int, int]:
+    alpha = layout.getchannel("A")
+    width, height = alpha.size
+    pixels = alpha.load()
+    ratios: list[float] = []
+    for y in range(height):
+        opaque = 0
+        samples = 0
+        for x in range(0, width, 8):
+            samples += 1
+            if pixels[x, y] > 200:
+                opaque += 1
+        ratios.append(opaque / samples)
+    bottom = height - 1
+    while bottom > 0 and ratios[bottom] < 0.45:
+        bottom -= 1
+    top = bottom
+    while top > 0 and ratios[top] >= 0.45:
+        top -= 1
+    if bottom - top < 8:
+        return int(height * 0.90), int(height * 0.98)
+    return top + 1, bottom
+
+
+def _png_within(image: Image.Image, max_bytes: int) -> bytes:
+    data = _save_png(image)
+    if len(data) <= max_bytes:
+        return data
+    for factor in (0.75, 0.5, 0.35):
+        resized = image.resize(
+            (max(1, int(image.width * factor)), max(1, int(image.height * factor))),
+            Image.Resampling.LANCZOS,
+        )
+        data = _save_png(resized)
+        if len(data) <= max_bytes:
+            return data
+    return data
+
+
+def _save_png(image: Image.Image) -> bytes:
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG", optimize=True)
+    return buffer.getvalue()
 
 
 def _encode(image: Image.Image) -> bytes:

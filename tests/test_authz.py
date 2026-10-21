@@ -98,5 +98,6 @@ def test_slash_commands_register_without_network(tmp_path):
         "score",
         "profile",
         "b40",
+        "rizcard",
         "reload-data",
     }

@@ -11,7 +11,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from bot.security.authz import dm_only
-from bot.services.rks import bests_for_song
+from bot.services.rks import bests_for_song, chart_track_ids
 from bot.services.songdata import attachment_name, illustration_path
 from bot.ui.embeds import COLOR, ambiguous_embed, song_embed
 from bot.ui.song_image import render_song
@@ -20,7 +20,7 @@ from bot.ui.song_image import render_song
 logger = logging.getLogger("rizline.bot")
 
 _DIFFICULTIES = [
-    app_commands.Choice(name=name, value=name) for name in ("EZ", "HD", "IN", "AT")
+    app_commands.Choice(name=name, value=name) for name in ("EZ", "HD", "IN", "AT", "SP")
 ]
 
 
@@ -82,7 +82,7 @@ class SongsCog(commands.Cog):
             png = await asyncio.to_thread(
                 render_song,
                 song=song,
-                personal=bests_for_song(cache, song.asset_id) if cache else {},
+                personal=bests_for_song(cache, song.asset_id, chart_track_ids(song)) if cache else {},
                 highlight=diff,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,

@@ -7,7 +7,7 @@ from PIL import Image
 from bot.models import ChartInfo, Song
 from bot.services.profile import layout_colors, local_profile, player_title
 from bot.services.songdata import SongIndex
-from bot.ui.b40_image import MAX_PNG_BYTES, render_b40
+from bot.ui.b40_image import MAX_PNG_BYTES, load_layout_frame, render_b40, render_rizcard
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -110,6 +110,30 @@ def test_b40_png_shrinks_when_the_cap_is_tiny(tmp_path: Path):
         font_path=FONT,
     )
     assert len(data) < len(full)
+
+
+def test_rizcard_png_is_the_header():
+    data = render_rizcard(
+        username="Tester",
+        total_rks=12.5,
+        illust_hires_dir=ROOT / "output" / "illust_HiRes",
+        illust_dir=ROOT / "output" / "illust",
+        font_path=FONT,
+        repo_root=ROOT,
+        card={"layoutId": "layout.00056", "bioId1": "bio.spbio00049.1", "bioId2": "bio.exbio00007.2"},
+    )
+    assert data.startswith(b"\x89PNG\r\n\x1a\n")
+    frame = load_layout_frame(ROOT, "layout.00056")
+    with Image.open(io.BytesIO(data)) as image:
+        assert image.format == "PNG"
+        assert image.mode == "RGBA"
+        assert image.height > image.width
+        assert image.getpixel((0, 0))[3] == 0
+        if frame is not None:
+            assert image.size == frame.size
+            y = frame.height // 2
+            x = next(i for i in range(frame.width) if frame.getpixel((i, y))[3] == 255)
+            assert image.getpixel((x, y))[:3] == frame.getpixel((x, y))[:3]
 
 
 def test_local_profile_matches_username(tmp_path: Path):

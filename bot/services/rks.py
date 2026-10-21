@@ -221,8 +221,22 @@ def select_top40(records: list[dict]) -> tuple[list[dict], list[dict], list[dict
     return candidates, ordinary, overflow
 
 
-def bests_for_song(cache: dict, asset_id: str) -> dict[str, dict]:
+def chart_track_ids(song: object) -> tuple[str, ...]:
+    asset_id = str(getattr(song, "asset_id", "") or "")
+    charts = getattr(song, "charts", {}) or {}
+    return tuple(
+        chart.track_id
+        for chart in charts.values()
+        if getattr(chart, "track_id", "") and chart.track_id != asset_id
+    )
+
+
+def bests_for_song(cache: dict, asset_id: str, track_ids: tuple[str, ...] = ()) -> dict[str, dict]:
     wanted = {asset_id, f"track.{asset_id}"}
+    for track_id in track_ids:
+        if track_id and track_id != asset_id:
+            wanted.add(track_id)
+            wanted.add(f"track.{track_id}")
     rks_by: dict[str, float] = {}
     for level in cache.get("levelsRks") or []:
         if not isinstance(level, dict):
