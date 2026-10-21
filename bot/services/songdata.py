@@ -48,6 +48,9 @@ class SongIndex:
                     riz_hit=int(chart.get("rizHit") or 0),
                     designer=str(chart.get("designer") or ""),
                 )
+            bpm = row.get("bpm")
+            length = row.get("length")
+            series = row.get("seriesIndex")
             songs.append(
                 Song(
                     asset_id=str(row.get("assetId") or ""),
@@ -57,6 +60,11 @@ class SongIndex:
                     illustration_id=str(row.get("illustrationId") or ""),
                     aliases=tuple(str(alias) for alias in row.get("aliases") or []),
                     charts=charts,
+                    bpm=float(bpm) if isinstance(bpm, (int, float)) and float(bpm) > 0 else None,
+                    length_seconds=float(length) if isinstance(length, (int, float)) and float(length) > 0 else None,
+                    illustrator=str(row.get("illustrator") or ""),
+                    series_index=int(series) if isinstance(series, int) and series != -1 else None,
+                    series_name=str(row.get("seriesName") or ""),
                 )
             )
         index = cls(songs, source)

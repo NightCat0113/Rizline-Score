@@ -13,11 +13,12 @@ from discord.ext import commands
 from bot.commands.songs import _DIFFICULTIES, autocomplete_songs
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
 from bot.services.profile import local_profile
-from bot.services.rks import build_records, select_top40
+from bot.services.rks import bests_for_song, build_records, select_top40
 from bot.services.songdata import attachment_name, illustration_path
 from bot.store.crypto import TamperError
 from bot.ui.b40_image import render_b40
 from bot.ui.embeds import COLOR, ambiguous_embed, profile_embed, score_embed
+from bot.ui.song_image import render_song
 
 
 logger = logging.getLogger("rizline.bot")
@@ -79,19 +80,37 @@ class ScoresCog(commands.Cog):
             await interaction.response.send_message(embed=embed, ephemeral=True)
             return
         diff = difficulty.value if difficulty else None
-        image = illustration_path(
-            song,
-            interaction.client.settings.illust_hires_dir,
-            interaction.client.settings.illust_dir,
+        await interaction.response.defer(ephemeral=True)
+        settings = interaction.client.settings
+        try:
+            png = await asyncio.to_thread(
+                render_song,
+                song=song,
+                personal=bests_for_song(cache, song.asset_id),
+                highlight=diff,
+                illust_hires_dir=settings.illust_hires_dir,
+                illust_dir=settings.illust_dir,
+                font_path=settings.repo_root / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+            )
+        except Exception as exc:
+            logger.error("song image failed type=%s", type(exc).__name__)
+            image = illustration_path(song, settings.illust_hires_dir, settings.illust_dir)
+            filename = attachment_name(song) if image else None
+            embed = score_embed(song, cache, diff, image_name=filename)
+            kwargs: dict = {"embed": embed, "ephemeral": True}
+            if image and filename:
+                kwargs["file"] = discord.File(image, filename=filename)
+            await interaction.followup.send(**kwargs)
+            return
+        embed = discord.Embed(title=song.title, color=COLOR)
+        username = cache.get("username") or "Your scores"
+        embed.set_footer(text=str(username))
+        embed.set_image(url="attachment://song.png")
+        await interaction.followup.send(
+            embed=embed,
+            file=discord.File(io.BytesIO(png), filename="song.png"),
+            ephemeral=True,
         )
-        filename = attachment_name(song) if image else None
-        kwargs: dict = {
-            "embed": score_embed(song, cache, diff, image_name=filename),
-            "ephemeral": True,
-        }
-        if image and filename:
-            kwargs["file"] = discord.File(image, filename=filename)
-        await interaction.response.send_message(**kwargs)
 
     @app_commands.command(name="profile", description="Show RKS and top charts")
     @app_commands.describe(user="Another person who turned sharing on")

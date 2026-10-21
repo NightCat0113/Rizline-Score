@@ -25,6 +25,11 @@ class Song:
     illustration_id: str
     aliases: tuple[str, ...] = ()
     charts: dict[str, ChartInfo] = field(default_factory=dict)
+    bpm: float | None = None
+    length_seconds: float | None = None
+    illustrator: str = ""
+    series_index: int | None = None
+    series_name: str = ""
 
 
 @dataclass

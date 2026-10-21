@@ -2,14 +2,22 @@
 
 from __future__ import annotations
 
+import asyncio
+import io
+import logging
+
 import discord
 from discord import app_commands
 from discord.ext import commands
 
 from bot.security.authz import dm_only
+from bot.services.rks import bests_for_song
 from bot.services.songdata import attachment_name, illustration_path
-from bot.ui.embeds import ambiguous_embed, song_embed
+from bot.ui.embeds import COLOR, ambiguous_embed, song_embed
+from bot.ui.song_image import render_song
 
+
+logger = logging.getLogger("rizline.bot")
 
 _DIFFICULTIES = [
     app_commands.Choice(name=name, value=name) for name in ("EZ", "HD", "IN", "AT")
@@ -67,14 +75,41 @@ class SongsCog(commands.Cog):
         except Exception:
             cache = None
         diff = difficulty.value if difficulty else None
-        image = illustration_path(
-            song,
-            interaction.client.settings.illust_hires_dir,
-            interaction.client.settings.illust_dir,
+        ephemeral = cache is not None
+        await interaction.response.defer(ephemeral=ephemeral)
+        settings = interaction.client.settings
+        try:
+            png = await asyncio.to_thread(
+                render_song,
+                song=song,
+                personal=bests_for_song(cache, song.asset_id) if cache else {},
+                highlight=diff,
+                illust_hires_dir=settings.illust_hires_dir,
+                illust_dir=settings.illust_dir,
+                font_path=settings.repo_root / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+            )
+        except Exception as exc:
+            logger.error("song image failed type=%s", type(exc).__name__)
+            await _send_text_song(interaction, song, cache, diff, ephemeral)
+            return
+        embed = discord.Embed(title=song.title, color=COLOR)
+        embed.set_image(url="attachment://song.png")
+        await interaction.followup.send(
+            embed=embed,
+            file=discord.File(io.BytesIO(png), filename="song.png"),
+            ephemeral=ephemeral,
         )
-        filename = attachment_name(song) if image else None
-        embed = song_embed(song, cache=cache, difficulty=diff, image_name=filename)
-        kwargs: dict = {"embed": embed, "ephemeral": cache is not None}
-        if image and filename:
-            kwargs["file"] = discord.File(image, filename=filename)
-        await interaction.response.send_message(**kwargs)
+
+
+async def _send_text_song(interaction, song, cache, diff: str | None, ephemeral: bool) -> None:
+    image = illustration_path(
+        song,
+        interaction.client.settings.illust_hires_dir,
+        interaction.client.settings.illust_dir,
+    )
+    filename = attachment_name(song) if image else None
+    embed = song_embed(song, cache=cache, difficulty=diff, image_name=filename)
+    kwargs: dict = {"embed": embed, "ephemeral": ephemeral}
+    if image and filename:
+        kwargs["file"] = discord.File(image, filename=filename)
+    await interaction.followup.send(**kwargs)

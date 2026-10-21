@@ -9,6 +9,7 @@ all_cache.json is not merged: its cargo query includes extra SP columns.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -20,6 +21,30 @@ from bot.services.songdata import normalize  # noqa: E402
 
 
 DIFFICULTIES = ("EZ", "HD", "IN", "AT")
+# Names are the titles on the official track-series banners. The banner file
+# number matches seriesIndex; the # printed on some later banners does not.
+SERIES_NAMES = {
+    1: "Juggernaut",
+    2: "Diverse System",
+    3: "Sobrem",
+    4: "Tone Sphere",
+    5: "BlackY",
+    6: "Cytus & Muse Dash",
+    7: "KALPA",
+    8: "Rotaeno",
+    9: "宇宙ラジヲ 2024",
+    10: "HARDCORE TANO*C",
+    11: "DEEMO",
+    12: "Phigros",
+    13: "kuro",
+    14: "Cosmos Panorama",
+    15: "Tanchiky",
+    16: "ルゼ & LisicA",
+    17: "Diachronic Resonance",
+    18: "ASTRAL",
+    10001: "Paradigm: Reboot",
+    10002: "去远方",
+}
 ALIASES = {
     "houkagooverdrive": "Houkago OVERDRIVE!!!!! (Game ver.)",
     "linklins": "LINK x LIN＃S",
@@ -44,7 +69,11 @@ def parse_int(value: object) -> int:
     return int(round(parse_float(value)))
 
 
-def load_default(path: Path) -> tuple[dict, dict, dict]:
+_BPM_RE = re.compile(r'"bPM"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
+_TIME_RE = re.compile(br'"time"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
+
+
+def load_default(path: Path) -> tuple[dict, dict, dict, dict, dict]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     designers: dict[tuple[str, str], str] = {}
     for chart in payload.get("charts") or []:
@@ -58,13 +87,82 @@ def load_default(path: Path) -> tuple[dict, dict, dict]:
         designers[(music_id, level)] = str(chart.get("designer") or "")
     discs: dict[str, str] = {}
     illustrations: dict[str, str] = {}
+    series: dict[str, int] = {}
     for level in payload.get("levels") or []:
         music_id = str(level.get("musicId") or level.get("id") or "")
         if not music_id:
             continue
         discs[music_id] = str(level.get("discName") or "")
         illustrations[music_id] = str(level.get("illustrationId") or "")
-    return designers, discs, illustrations
+        raw_series = level.get("seriesIndex")
+        if isinstance(raw_series, int):
+            series[music_id] = raw_series
+    illustrators: dict[str, str] = {}
+    for item in payload.get("illustrations") or []:
+        illustration_id = str(item.get("id") or "")
+        artist = str(item.get("artist") or "").strip()
+        if illustration_id and artist:
+            illustrators[illustration_id] = artist
+    return designers, discs, illustrations, illustrators, series
+
+
+def read_bpm(path: Path) -> float | None:
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            head = handle.read(8192)
+    except OSError:
+        return None
+    match = _BPM_RE.search(head)
+    if match is None:
+        return None
+    value = round(float(match.group(1)), 2)
+    return value if value > 0 else None
+
+
+def song_bpm(charts_dir: Path, asset_id: str) -> float | None:
+    for difficulty in DIFFICULTIES:
+        path = charts_dir / f"chart.{asset_id}.{difficulty}.json"
+        if not path.is_file():
+            continue
+        bpm = read_bpm(path)
+        if bpm is not None:
+            return bpm
+    return None
+
+
+def chart_end_beats(path: Path) -> float:
+    best = 0.0
+    try:
+        handle = path.open("rb")
+    except OSError:
+        return 0.0
+    with handle:
+        previous = b""
+        while True:
+            chunk = handle.read(1024 * 1024)
+            if not chunk:
+                break
+            data = previous + chunk
+            for match in _TIME_RE.finditer(data):
+                best = max(best, float(match.group(1)))
+            previous = data[-48:]
+    return best
+
+
+def song_length(charts_dir: Path, asset_id: str, bpm: float | None) -> float | None:
+    if not bpm:
+        return None
+    charts = [
+        path
+        for difficulty in DIFFICULTIES
+        if (path := charts_dir / f"chart.{asset_id}.{difficulty}.json").is_file()
+    ]
+    if not charts:
+        return None
+    beats = chart_end_beats(min(charts, key=lambda item: item.stat().st_size))
+    if beats <= 0:
+        return None
+    return round(beats * 60.0 / bpm, 1)
 
 
 def load_database(path: Path) -> tuple[dict, dict]:
@@ -90,6 +188,7 @@ def main() -> int:
     mapping_path = ROOT / "mapping.json"
     default_path = ROOT / "output" / "default.json"
     database_path = ROOT / "Database.txt"
+    charts_dir = ROOT / "output" / "charts"
     output_path = ROOT / "bot" / "static" / "songs_index.json"
 
     songs = json.loads(songs_path.read_text(encoding="utf-8"))
@@ -108,15 +207,19 @@ def main() -> int:
     designers: dict[tuple[str, str], str] = {}
     discs: dict[str, str] = {}
     illustrations: dict[str, str] = {}
+    illustrators: dict[str, str] = {}
+    series: dict[str, int] = {}
     sources = ["songs.json", "mapping.json"]
     if database_path.is_file():
         designers, discs = load_database(database_path)
         sources.append("Database.txt")
     if default_path.is_file():
-        default_designers, default_discs, illustrations = load_default(default_path)
+        default_designers, default_discs, illustrations, illustrators, series = load_default(default_path)
         designers.update(default_designers)
         discs.update(default_discs)
         sources.append("output/default.json")
+    if charts_dir.is_dir():
+        sources.append("output/charts")
 
     built: list[dict] = []
     missing_rows = 0
@@ -140,17 +243,33 @@ def main() -> int:
                 "rizHit": parse_int(row.get(f"{difficulty} RizHit")),
                 "designer": designers.get((str(asset_id), difficulty), ""),
             }
-        built.append(
-            {
-                "assetId": str(asset_id),
-                "title": str(row.get("Title") or title),
-                "artist": str(row.get("Artist") or ""),
-                "discName": discs.get(str(asset_id)) or str(row.get("discName") or ""),
-                "illustrationId": illustrations.get(str(asset_id)) or f"illustration.{asset_id}",
-                "aliases": [],
-                "charts": charts,
-            }
-        )
+        illustration_id = illustrations.get(str(asset_id)) or f"illustration.{asset_id}"
+        # No local file records an "original" flag. Add it here if a source appears.
+        item = {
+            "assetId": str(asset_id),
+            "title": str(row.get("Title") or title),
+            "artist": str(row.get("Artist") or ""),
+            "discName": discs.get(str(asset_id)) or str(row.get("discName") or ""),
+            "illustrationId": illustration_id,
+            "aliases": [],
+            "charts": charts,
+        }
+        bpm = song_bpm(charts_dir, str(asset_id))
+        if bpm is not None:
+            item["bpm"] = bpm
+        length = song_length(charts_dir, str(asset_id), bpm)
+        if length is not None:
+            item["length"] = length
+        illustrator = illustrators.get(illustration_id, "")
+        if illustrator:
+            item["illustrator"] = illustrator
+        series_index = series.get(str(asset_id))
+        if isinstance(series_index, int) and series_index != -1:
+            item["seriesIndex"] = series_index
+            name = SERIES_NAMES.get(series_index, "")
+            if name:
+                item["seriesName"] = name
+        built.append(item)
 
     by_title = {normalize(item["title"]): item for item in built}
     for alias, target in ALIASES.items():
