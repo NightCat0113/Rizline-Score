@@ -19,6 +19,21 @@ class ChartInfo:
 
 
 @dataclass(frozen=True)
+class SeriesVolume:
+    label: str
+    preorder_ends: str
+    song_ids: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class TrackSeries:
+    series_index: int
+    name: str
+    bio_id: str = ""
+    volumes: tuple[SeriesVolume, ...] = ()
+
+
+@dataclass(frozen=True)
 class Song:
     asset_id: str
     title: str

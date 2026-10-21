@@ -5567,7 +5567,7 @@
       "length": 138.0,
       "illustrator": "群青kurara feat. Jimwaz",
       "seriesIndex": 18,
-      "seriesName": "ASTRAL"
+      "seriesName": "Astral Streams"
     },
     {
       "assetId": "Quaoar.Camellia.0",
@@ -5606,7 +5606,7 @@
       "length": 165.9,
       "illustrator": "群青kurara feat. Jimwaz",
       "seriesIndex": 18,
-      "seriesName": "ASTRAL"
+      "seriesName": "Astral Streams"
     },
     {
       "assetId": "千星光輪依頼症.KNYORGft無機ビョウ.0",
@@ -5645,7 +5645,315 @@
       "length": 161.2,
       "illustrator": "群青kurara feat. Jimwaz",
       "seriesIndex": 18,
-      "seriesName": "ASTRAL"
+      "seriesName": "Astral Streams"
+    }
+  ],
+  "series": [
+    {
+      "seriesIndex": 1,
+      "name": "Juggernaut",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Abiogenesis.Juggernaut.0",
+            "Revenant.Juggernaut.0",
+            "Antler.Juggernaut.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 2,
+      "name": "Diverse System",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "BringMeBack.Zekk.0",
+            "Hullbreaker.Maozon.0",
+            "DBirth.Sakuzyo.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 3,
+      "name": "Sobrem",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Encrux.Sobrem.0",
+            "slichertz.Sobrem.0",
+            "Giselle.Sobrem.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 4,
+      "name": "Tone Sphere",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Afterdark.Sta.0",
+            "SoutenStasKeyKaimix.MeineMeinung.0",
+            "ConwaysChild.Sta.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 5,
+      "name": "BlackY",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Crimsonate.BlackYfeatRisaYuzuki.0",
+            "Sthenno.BlackY.0",
+            "Kaguya.BlackY.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 6,
+      "name": "Cytus & Muse Dash",
+      "volumes": [
+        {
+          "label": "Cytus II",
+          "songs": [
+            "Alexandrite.onoken.0",
+            "Hydra.JamesLandinoXAkiraComplex.0",
+            "漂流.THESxPLAYKIVΛ.0"
+          ],
+          "preorderEnds": "2026-05-28"
+        },
+        {
+          "label": "Muse Dash",
+          "songs": [
+            "CometCoaster.DJNorikenaran.0",
+            "DOMINATOR.NOMA.0",
+            "天灵灵地灵灵.iKzfeat小可学妹.0"
+          ],
+          "preorderEnds": "2026-04-22"
+        }
+      ]
+    },
+    {
+      "seriesIndex": 7,
+      "name": "KALPA",
+      "volumes": [
+        {
+          "label": "VOL. 1",
+          "songs": [
+            "Psychometry.HyuN.0",
+            "ElectricComet.Meram1n.0",
+            "Eschatology.TatshScarlette.0"
+          ]
+        },
+        {
+          "label": "VOL. 2",
+          "songs": [
+            "PlanetariumprodScarlette.kuripurinKyueMYULee.0",
+            "AvataarReincarnationofKalpa.ScarletteakaCrYmson.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 8,
+      "name": "Rotaeno",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "amethyst.かねこちはる.0",
+            "Alfheimsfaith.影虎.0",
+            "翠杜.隣の庭は青い庭師Aoi.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 9,
+      "name": "宇宙ラジヲ 2024",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "CrazyAudiophile.Supa7onyz.0",
+            "419kB.ariiol.0",
+            "VICIOUS.MEMODEMO.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 10,
+      "name": "HARDCORE TANO*C",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "ChangetheGamefeat松永依織.REDALiCEUSAO.0",
+            "TVSSHARK.tpazolite.0",
+            "FutureDownloader.Kobaryo.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 11,
+      "name": "DEEMO",
+      "volumes": [
+        {
+          "label": "VOL. 1",
+          "songs": [
+            "Echooveryou.Apo11oprogram.0",
+            "FairysCrown.Powerless.0",
+            "GravesAncientMemories.Juggernaut.0"
+          ]
+        },
+        {
+          "label": "VOL. 2",
+          "songs": [
+            "Cloudsclearand.Qutabire.0",
+            "NLAMTA.Tsynphonia.0",
+            "Antikythera.technoplanet.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 12,
+      "name": "Phigros",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "SpeedUp.DarTokki.0",
+            "SnowDesert.WyvernP.0",
+            "Concvssion.Halv.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 13,
+      "name": "kuro",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "天地開闢.kuro.0",
+            "水槽に沈む街.kuro.0",
+            "Inevitability.kuro.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 14,
+      "name": "Cosmos Panorama",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
+            "GreatnessEarth.Axya.0",
+            "LAIGN.KiufeatNikkiSimons.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 15,
+      "name": "Tanchiky",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "BurstyLollipop.Tanchiky.0",
+            "ULTRASYNERGYMATRIX.Tanchiky.0",
+            "QUATTUORUX.打打だいずVsTanchikyVsからめる.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 16,
+      "name": "ルゼ & LisicA",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "テウメッサ.LisicA.0",
+            "ZEUS666.ルゼ.0",
+            "PierrotFixer.ルゼ.0"
+          ]
+        }
+      ]
+    },
+    {
+      "seriesIndex": 17,
+      "name": "Diachronic Resonance",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "TalesofDelonix.Zris.0",
+            "Spiritworks.XomuZxNX.0",
+            "地区ShangriLA.Drazically.0"
+          ],
+          "preorderEnds": "2026-06-05"
+        }
+      ]
+    },
+    {
+      "seriesIndex": 18,
+      "name": "Astral Streams",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Astral.TitanChaos.0",
+            "Quaoar.Camellia.0",
+            "千星光輪依頼症.KNYORGft無機ビョウ.0"
+          ],
+          "preorderEnds": "2026-10-09"
+        }
+      ]
+    },
+    {
+      "seriesIndex": 10001,
+      "name": "Paradigm: Reboot",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "TurningPOINT.Junk.0",
+            "ReversedZenith.Synzak.0",
+            "RestrictedAccess.Knighthood.0"
+          ],
+          "preorderEnds": "2026-04-22"
+        }
+      ]
+    },
+    {
+      "seriesIndex": 10002,
+      "name": "去远方",
+      "volumes": [
+        {
+          "label": "",
+          "songs": [
+            "Relieve.响星幂ElroyJanKortanidze.0"
+          ]
+        }
+      ]
     }
   ]
 }

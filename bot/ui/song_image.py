@@ -8,6 +8,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from bot.models import ChartInfo, Song
+from bot.services.seriesdata import series_mark
 from bot.services.songdata import illustration_path
 
 
@@ -138,7 +139,12 @@ def _header(
     text_w = right - height // 3 - text_x
     title = _clip(song.title or "—", fonts["title"], text_w, draw)
     artist = _clip(song.artist or "—", fonts["artist"], text_w, draw)
-    details = [(_clip(line, fonts["meta"], text_w, draw), fonts["meta"]) for line in _meta_lines(song)]
+    alias_label = " · ".join(name.strip() for name in song.aliases if name and name.strip())
+    alias_gap = _px(scale, 14)
+    detail_limit = text_w
+    if alias_label:
+        detail_limit = max(_px(scale, 80), int(text_w * 0.62) - alias_gap)
+    details = [(_clip(line, fonts["meta"], detail_limit, draw), fonts["meta"]) for line in _meta_lines(song)]
     title_box = fonts["title"].getbbox(title)
     artist_box = fonts["artist"].getbbox(artist)
     pair_gap = _px(scale, 1)
@@ -155,10 +161,51 @@ def _header(
     artist_ink = ink_y + title_h + pair_gap
     draw.text((text_x, artist_ink - artist_box[1]), artist, font=fonts["artist"], fill=(*_MUTED, 255), anchor="lt")
     line_y = artist_ink + artist_h + section_gap
+    detail_top = line_y
     for text, font in details:
         draw.text((text_x, line_y), text, font=font, fill=(*_INK, 255), anchor="lt")
         line_y += getattr(font, "size", detail_gap) + detail_gap
+    if alias_label and details:
+        _alias_column(
+            draw,
+            alias_label,
+            fonts["meta"],
+            text_x + detail_limit + alias_gap // 2,
+            text_x + text_w,
+            detail_top,
+            detail_h,
+            scale,
+        )
     _outline(draw, left, top, right, top + height, (0, 178, 236, 255), _px(scale, 4))
+
+
+def _alias_column(
+    draw: ImageDraw.ImageDraw,
+    label: str,
+    font: ImageFont.ImageFont,
+    split_x: int,
+    text_right: int,
+    top: int,
+    height: int,
+    scale: float,
+) -> None:
+    draw.line(
+        [(split_x, top), (split_x, top + height)],
+        fill=(170, 170, 176, 255),
+        width=max(2, _px(scale, 2)),
+    )
+    gap = _px(scale, 14)
+    alias_x = split_x + gap
+    clipped = _clip(label, font, text_right - alias_x, draw)
+    box = font.getbbox(clipped)
+    alias_h = box[3] - box[1]
+    draw.text(
+        (alias_x, top + height / 2 - alias_h / 2 - box[1]),
+        clipped,
+        font=font,
+        fill=(*_INK, 255),
+        anchor="lt",
+    )
 
 
 def _chart_row(
@@ -324,7 +371,7 @@ def _meta_lines(song: Song) -> list[str]:
         disc = song.disc_name if song.disc_name.lower().startswith("disc") else f"Disc {song.disc_name}"
         lines.append(disc)
     if song.series_index is not None:
-        series = f"Track Series {song.series_index}"
+        series = f"Track Series {series_mark(song.series_index)}"
         if song.series_name:
             series = f"{series} - {song.series_name}"
         lines.append(series)

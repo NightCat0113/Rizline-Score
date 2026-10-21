@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import discord
 
-from bot.models import Song
+from bot.models import Song, TrackSeries
 from bot.services.rks import bests_for_song, chart_track_ids, score_counts, top_levels
 from bot.services.songdata import SongIndex
+from bot.services.seriesdata import series_mark
+from bot.ui.series_image import chart_levels
 
 
 COLOR = 0x61D8FF
@@ -115,6 +117,34 @@ def profile_embed(cache: dict, index: SongIndex) -> discord.Embed:
     for number, row in enumerate(top_levels(cache, index, limit=5), start=1):
         lines.append(f"**{number}.** {row['title']} `{row['diff']}` · RKS {row['rks']:.2f}")
     embed.add_field(name="Top charts", value="\n".join(lines) or "No ranked charts yet.", inline=False)
+    return embed
+
+
+def series_embed(
+    series: TrackSeries,
+    songs: dict[str, Song],
+    tag: str,
+    image_name: str | None = None,
+) -> discord.Embed:
+    mark = f"Track Series {series_mark(series.series_index)}"
+    embed = discord.Embed(title=series.name or mark, color=COLOR)
+    embed.description = f"{mark}\n{tag}" if tag else mark
+    for index, volume in enumerate(series.volumes, start=1):
+        lines: list[str] = []
+        if volume.preorder_ends:
+            lines.append(f"Preorder ends {volume.preorder_ends}")
+        for song_id in volume.song_ids:
+            song = songs.get(song_id)
+            if song is None:
+                lines.append(song_id)
+                continue
+            artist = f" — {song.artist}" if song.artist else ""
+            levels = chart_levels(song)
+            lines.append(f"{song.title}{artist}" + (f"\n{levels}" if levels else ""))
+        label = volume.label or ("Songs" if len(series.volumes) == 1 else f"Volume {index}")
+        embed.add_field(name=label[:256], value="\n".join(lines)[:1024] or "—", inline=False)
+    if image_name:
+        embed.set_image(url=f"attachment://{image_name}")
     return embed
 
 

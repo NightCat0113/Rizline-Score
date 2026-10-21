@@ -57,6 +57,7 @@ class Settings:
     songs_index_path: Path
     illust_hires_dir: Path
     illust_dir: Path
+    series_dir: Path
 
     @property
     def cache_ttl(self) -> timedelta:
@@ -96,6 +97,7 @@ class Settings:
             songs_index_path=repo_root / "bot" / "static" / "songs_index.json",
             illust_hires_dir=repo_root / "output" / "illust_HiRes",
             illust_dir=repo_root / "output" / "illust",
+            series_dir=repo_root / "output" / "series",
         )
 
     @classmethod

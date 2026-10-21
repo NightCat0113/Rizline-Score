@@ -7,7 +7,8 @@ import logging
 import re
 from pathlib import Path
 
-from bot.models import ChartInfo, Song
+from bot.models import ChartInfo, SeriesVolume, Song, TrackSeries
+from bot.services.seriesdata import series_mark
 
 
 logger = logging.getLogger("rizline.bot")
@@ -19,9 +20,11 @@ def normalize(value: str) -> str:
 
 
 class SongIndex:
-    def __init__(self, songs: list[Song], source: str) -> None:
+    def __init__(self, songs: list[Song], source: str, series: list[TrackSeries] | None = None) -> None:
         self.songs = songs
         self.source = source
+        self.series = list(series or [])
+        self.series_by_index = {item.series_index: item for item in self.series}
         self.by_asset = {song.asset_id: song for song in songs}
         self.by_norm: dict[str, Song] = {}
         for song in songs:
@@ -69,9 +72,58 @@ class SongIndex:
                     series_name=str(row.get("seriesName") or ""),
                 )
             )
-        index = cls(songs, source)
-        logger.info("Loaded %s songs (%s)", len(index.songs), source)
+        index = cls(songs, source, _load_series(payload.get("series") or []))
+        logger.info("Loaded %s songs and %s series (%s)", len(index.songs), len(index.series), source)
         return index
+
+    def search_series(self, query: str, limit: int = 25) -> list[TrackSeries]:
+        ordered = sorted(self.series, key=lambda item: item.series_index)
+        cleaned = query.strip()
+        if not cleaned:
+            return ordered[:limit]
+        marked = self._series_by_mark(cleaned)
+        if marked is not None:
+            return [marked]
+        needle = normalize(cleaned)
+        if not needle:
+            return []
+        exact: list[TrackSeries] = []
+        starts: list[TrackSeries] = []
+        contains: list[TrackSeries] = []
+        for item in ordered:
+            name = normalize(item.name)
+            if name == needle:
+                exact.append(item)
+            elif name.startswith(needle):
+                starts.append(item)
+            elif needle in name:
+                contains.append(item)
+        return (exact + starts + contains)[:limit]
+
+    def resolve_series(self, query: str) -> tuple[TrackSeries | None, list[TrackSeries]]:
+        cleaned = query.strip()
+        marked = self._series_by_mark(cleaned)
+        if marked is not None:
+            return marked, []
+        hits = self.search_series(cleaned, limit=5)
+        if len(hits) == 1:
+            return hits[0], []
+        needle = normalize(cleaned)
+        exact = [item for item in hits if normalize(item.name) == needle]
+        if len(exact) == 1:
+            return exact[0], []
+        return None, hits
+
+    def _series_by_mark(self, query: str) -> TrackSeries | None:
+        cleaned = query.strip()
+        internal = cleaned[1:] if cleaned[:1].lower() == "i" else ""
+        if internal.isdigit() and int(internal) in self.series_by_index:
+            return self.series_by_index[int(internal)]
+        wanted = "SP" if cleaned.lower() == "sp" else cleaned
+        for item in self.series:
+            if series_mark(item.series_index) == wanted:
+                return item
+        return None
 
     def search(self, query: str, limit: int = 25) -> list[Song]:
         cleaned = query.strip()
@@ -118,6 +170,37 @@ class SongIndex:
         if len(exact) == 1:
             return exact[0], []
         return None, hits
+
+
+def _load_series(rows: list) -> list[TrackSeries]:
+    series: list[TrackSeries] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        index = row.get("seriesIndex")
+        if isinstance(index, bool) or not isinstance(index, int):
+            continue
+        volumes: list[SeriesVolume] = []
+        for volume in row.get("volumes") or []:
+            if not isinstance(volume, dict):
+                continue
+            song_ids = tuple(str(song_id) for song_id in volume.get("songs") or [] if song_id)
+            volumes.append(
+                SeriesVolume(
+                    label=str(volume.get("label") or ""),
+                    preorder_ends=str(volume.get("preorderEnds") or ""),
+                    song_ids=song_ids,
+                )
+            )
+        series.append(
+            TrackSeries(
+                series_index=index,
+                name=str(row.get("name") or ""),
+                bio_id=str(row.get("bioId") or ""),
+                volumes=tuple(volumes),
+            )
+        )
+    return series
 
 
 def illustration_file(

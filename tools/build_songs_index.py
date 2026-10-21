@@ -17,12 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bot.services.seriesdata import bio_ids_from_locale, build_series_records  # noqa: E402
 from bot.services.songdata import normalize  # noqa: E402
 
 
 DIFFICULTIES = ("EZ", "HD", "IN", "AT")
-# Names are the titles on the official track-series banners. The banner file
-# number matches seriesIndex; the # printed on some later banners does not.
+# Names are the English titles on the official banners. seriesIndex 12 is
+# Phigros and is printed as SP, so the banner number after that is seriesIndex - 1.
 SERIES_NAMES = {
     1: "Juggernaut",
     2: "Diverse System",
@@ -41,7 +42,7 @@ SERIES_NAMES = {
     15: "Tanchiky",
     16: "ルゼ & LisicA",
     17: "Diachronic Resonance",
-    18: "ASTRAL",
+    18: "Astral Streams",
     10001: "Paradigm: Reboot",
     10002: "去远方",
 }
@@ -69,6 +70,11 @@ def parse_int(value: object) -> int:
     return int(round(parse_float(value)))
 
 
+_SERIES_ART_RE = re.compile(
+    r"^series(?P<kind>Poster|Banner)\.(?P<number>\d+)(?:\.(?P<lang>[A-Za-z][\w-]*))?$"
+)
+_ENGLISH_SPRITE = re.compile(r"(?i)(?:^|[^a-z])en$")
+_OTHER_SPRITE = re.compile(r"(?i)zh|hans|hant|pigeon|(?:^|[^a-z])(?:jp|ja|cn)$")
 _BPM_RE = re.compile(r'"bPM"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 _TIME_RE = re.compile(br'"time"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 
@@ -177,6 +183,274 @@ def song_length(charts_dir: Path, asset_id: str, bpm: float | None) -> float | N
     if beats <= 0:
         return None
     return round(beats * 60.0 / bpm, 1)
+
+
+def locale_script(root: Path) -> str:
+    file_list = root / "download" / "fileList.json"
+    bundle_name = "dfc26ebdd285d9dc61f6ee898b722aa9.bundle"
+    if file_list.is_file():
+        try:
+            pairs = json.loads(file_list.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            pairs = []
+        for pair in pairs:
+            if isinstance(pair, list) and len(pair) >= 2 and pair[0] == "local.en" and isinstance(pair[1], str):
+                bundle_name = pair[1]
+                break
+    path = root / "download" / "bundles" / bundle_name
+    if not path.is_file():
+        return ""
+    try:
+        import UnityPy
+    except ImportError:
+        return ""
+    for obj in UnityPy.load(str(path)).objects:
+        if obj.type.name != "TextAsset":
+            continue
+        data = obj.read()
+        if getattr(data, "m_Name", "") not in {"", "en"}:
+            continue
+        script = data.m_Script
+        if isinstance(script, (bytes, bytearray)):
+            return bytes(script).decode("utf-8-sig", errors="replace")
+        return str(script or "")
+    return ""
+
+
+def export_series_art(root: Path) -> int:
+    file_list = root / "download" / "fileList.json"
+    bundles = root / "download" / "bundles"
+    destination = root / "output" / "series"
+    if not file_list.is_file():
+        print("fileList.json is missing; skipped series art")
+        return 0
+    try:
+        import UnityPy
+    except ImportError:
+        print("UnityPy is missing; skipped series art")
+        return 0
+    try:
+        pairs = json.loads(file_list.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Could not read fileList.json: {type(exc).__name__}")
+        return 0
+    destination.mkdir(parents=True, exist_ok=True)
+    chosen: dict[str, tuple[int, str, Path]] = {}
+    for pair in pairs:
+        if not (isinstance(pair, list) and len(pair) >= 2 and isinstance(pair[0], str) and isinstance(pair[1], str)):
+            continue
+        key = pair[0].strip()
+        match = _SERIES_ART_RE.fullmatch(key)
+        if match is None:
+            continue
+        bundle = bundles / pair[1].strip()
+        if not bundle.is_file():
+            print(f"Skipping {key}: bundle missing")
+            continue
+        lang = (match.group("lang") or "").lower()
+        rank = 0 if lang == "en" else 1 if not lang else 2
+        canonical = f"series{match.group('kind')}.{match.group('number')}"
+        current = chosen.get(canonical)
+        if current is None or rank < current[0]:
+            chosen[canonical] = (rank, key, bundle)
+    exported = 0
+    for canonical, (_rank, key, bundle) in chosen.items():
+        image = _largest_bundle_image(bundle)
+        if image is None:
+            print(f"Skipping {key}: no image")
+            continue
+        image.save(destination / f"{canonical}.png")
+        exported += 1
+        print(f"Exported {canonical} from {key}")
+    exported += _export_embedded_posters(bundles, destination)
+    print(f"Exported {exported} series images to {destination.name}.")
+    return exported
+
+
+def _largest_bundle_image(bundle: Path):
+    try:
+        import UnityPy
+    except ImportError:
+        return None
+    try:
+        environment = UnityPy.load(str(bundle))
+    except Exception as exc:
+        print(f"Skipping {bundle.name}: {type(exc).__name__}")
+        return None
+    best = None
+    best_area = 0
+    for obj in environment.objects:
+        if obj.type.name not in {"Sprite", "Texture2D"}:
+            continue
+        try:
+            image = obj.read().image
+        except Exception:
+            continue
+        if image is None:
+            continue
+        area = image.width * image.height
+        if area > best_area:
+            best = image
+            best_area = area
+    return best
+
+
+def _export_embedded_posters(bundles: Path, destination: Path) -> int:
+    """Series 14 and later store the poster on the series prefab, not as seriesPoster.00014."""
+    try:
+        import UnityPy
+    except ImportError:
+        return 0
+    large = sorted(
+        (path for path in bundles.iterdir() if path.is_file() and path.stat().st_size >= 90_000_000),
+        key=lambda path: path.stat().st_size,
+        reverse=True,
+    )
+    for bundle_path in large:
+        try:
+            environment = UnityPy.load(str(bundle_path))
+        except Exception:
+            continue
+        bundle = environment.files.get(next(iter(environment.files), ""))
+        if bundle is None:
+            continue
+        for name, item in getattr(bundle, "files", {}).items():
+            if str(name).endswith(".resS"):
+                environment.register_cab(str(name), item)
+        by_id = {obj.path_id: obj for obj in environment.objects}
+        default = _default_tree(by_id)
+        if default is None:
+            continue
+        exported = 0
+        for config in default.get("seriesConfigs") or []:
+            if not isinstance(config, dict):
+                continue
+            index = config.get("seriesIndex")
+            poster = config.get("poster") if isinstance(config.get("poster"), dict) else {}
+            poster_id = poster.get("m_PathID")
+            if not isinstance(index, int) or index < 14 or not poster_id:
+                continue
+            sprite_id, sprite_name = _poster_sprite_id(by_id, int(poster_id))
+            sprite = by_id.get(sprite_id) if sprite_id else None
+            if sprite is None:
+                print(f"Skipping seriesPoster.{index:05d}: sprite missing")
+                continue
+            try:
+                image = sprite.read().image
+            except Exception as exc:
+                print(f"Skipping seriesPoster.{index:05d}: {type(exc).__name__}")
+                continue
+            if image is None:
+                continue
+            filename = f"seriesPoster.{index:05d}.png"
+            image.save(destination / filename)
+            exported += 1
+            print(f"Exported {filename} ({sprite_name})")
+        return exported
+    print("Embedded series posters were not found")
+    return 0
+
+
+def _default_tree(by_id: dict):
+    for obj in by_id.values():
+        if obj.type.name != "MonoBehaviour":
+            continue
+        try:
+            tree = obj.read_typetree()
+        except Exception:
+            continue
+        if tree.get("m_Name") == "Default" and isinstance(tree.get("seriesConfigs"), list):
+            return tree
+    return None
+
+
+def _sprite_rank(name: str) -> int:
+    if _ENGLISH_SPRITE.search(name.strip()):
+        return 0
+    if _OTHER_SPRITE.search(name):
+        return 2
+    return 1
+
+
+def _poster_sprite_id(by_id: dict, game_pid: int) -> tuple[int | None, str]:
+    game = by_id.get(game_pid)
+    if game is None or game.type.name != "GameObject":
+        return None, ""
+    try:
+        components = game.read_typetree().get("m_Component") or []
+    except Exception:
+        return None, ""
+    transform_id = None
+    for component in components:
+        ref = component.get("component") or {}
+        candidate = by_id.get(ref.get("m_PathID"))
+        if candidate is not None and candidate.type.name in {"Transform", "RectTransform"}:
+            transform_id = ref.get("m_PathID")
+            break
+    if transform_id is None:
+        return None, ""
+    return _poster_sprite_under(by_id, int(transform_id), "")
+
+
+def _consider_sprite(by_id: dict, sprite_id, best: tuple[int, int, str] | None) -> tuple[int, int, str] | None:
+    if not sprite_id:
+        return best
+    sprite = by_id.get(int(sprite_id))
+    name = ""
+    if sprite is not None:
+        try:
+            name = str(sprite.read_typetree().get("m_Name") or "")
+        except Exception:
+            name = ""
+    rank = _sprite_rank(name)
+    if best is None or rank < best[0]:
+        return (rank, int(sprite_id), name)
+    return best
+
+
+def _poster_sprite_under(by_id: dict, transform_id: int, parent_name: str) -> tuple[int | None, str]:
+    best: tuple[int, int, str] | None = None
+
+    def walk(current_id: int, parent: str) -> None:
+        nonlocal best
+        transform = by_id.get(current_id)
+        if transform is None:
+            return
+        try:
+            tree = transform.read_typetree()
+        except Exception:
+            return
+        game = by_id.get((tree.get("m_GameObject") or {}).get("m_PathID"))
+        name = ""
+        if game is not None:
+            try:
+                game_tree = game.read_typetree()
+            except Exception:
+                game_tree = {}
+            name = str(game_tree.get("m_Name") or "")
+            if name == "Image" and parent == "Poster":
+                for component in game_tree.get("m_Component") or []:
+                    ref = component.get("component") or {}
+                    behaviour = by_id.get(ref.get("m_PathID"))
+                    if behaviour is None or behaviour.type.name != "MonoBehaviour":
+                        continue
+                    try:
+                        behaviour_tree = behaviour.read_typetree()
+                    except Exception:
+                        continue
+                    best = _consider_sprite(by_id, (behaviour_tree.get("m_Sprite") or {}).get("m_PathID"), best)
+                    for entry in behaviour_tree.get("spriteFiles") or []:
+                        image = entry.get("image") if isinstance(entry, dict) else None
+                        best = _consider_sprite(by_id, (image or {}).get("m_PathID"), best)
+        for child in tree.get("m_Children") or []:
+            child_id = (child or {}).get("m_PathID")
+            if child_id:
+                walk(int(child_id), name)
+
+    walk(transform_id, parent_name)
+    if best is None:
+        return None, ""
+    return best[1], best[2]
 
 
 def disco_display_names(root: Path) -> dict[str, str]:
@@ -365,12 +639,22 @@ def main() -> int:
             item["aliases"].append(alias)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    configs = []
+    if default_path.is_file():
+        try:
+            raw_configs = json.loads(default_path.read_text(encoding="utf-8")).get("seriesConfigs") or []
+            configs = raw_configs if isinstance(raw_configs, list) else []
+        except (OSError, json.JSONDecodeError):
+            configs = []
+    series = build_series_records(configs, built, SERIES_NAMES, bio_ids_from_locale(locale_script(ROOT)))
     payload = {
         "source": " + ".join(sources) + "; songs.json is canonical for chart constants",
         "songs": built,
+        "series": series,
     }
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {len(built)} songs to {output_path.name}. Unmatched mapping rows: {missing_rows}.")
+    print(f"Wrote {len(built)} songs and {len(series)} series to {output_path.name}. Unmatched mapping rows: {missing_rows}.")
+    export_series_art(ROOT)
     return 0
 
 
