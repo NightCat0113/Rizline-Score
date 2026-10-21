@@ -5,32 +5,24 @@ from __future__ import annotations
 
 BIND_PUBLIC_REPLY = (
     "Bind a Rizline account in this DM.\n"
-    "Use a test account. Discord keeps this conversation, and the bot cannot delete your messages.\n"
+    "Use a test account. The email and passcode go into a form and are not posted in this DM.\n"
     "Your passcode is sent to the computer running the bot, used once to fetch your save, and then discarded. "
     "The session token stays in memory until /unbind or a restart. "
     "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
-    "Encryption does not protect that data if the computer running the bot is compromised.\n\n"
-    "Reply with your account email, or send `cancel`."
+    "Encryption does not protect that data if the computer running the bot is compromised."
 )
 
-BIND_DM_INTRO = (
-    "Bind a Rizline account to this bot.\n"
-    "Use a test account. Discord keeps this conversation, and the bot cannot delete your messages.\n"
-    "Your passcode is sent to the computer running the bot, used once to fetch your save, and then discarded. "
-    "The session token stays in memory until /unbind or a restart. "
-    "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
-    "Encryption does not protect that data if the computer running the bot is compromised.\n\n"
-    "Reply with your account email, or send `cancel`."
-)
-
-BIND_ASK_SECRET = (
-    "Reply with the passcode, or send `code` to request an email verification code. "
-    "The passcode is not saved. Send `cancel` to stop."
-)
-
-BIND_ASK_CODE = (
+BIND_CONTINUE = "Continue"
+BIND_MODAL_TITLE = "Bind Rizline account"
+BIND_EMAIL_LABEL = "Email"
+BIND_PASSCODE_LABEL = "Passcode"
+BIND_PASSCODE_HINT = "Type code to request an email code"
+BIND_CODE_TITLE = "Verification code"
+BIND_CODE_LABEL = "Code"
+BIND_ENTER_CODE = "Enter code"
+BIND_CODE_READY = (
     "If that account can receive mail, a verification code was requested. "
-    "Reply with the code, or send `cancel`."
+    "Press Enter code and submit it in the form. The code is not posted in this DM."
 )
 
 UNBIND_REMOVED = (

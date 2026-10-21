@@ -149,7 +149,7 @@ class ScoresCog(commands.Cog):
         if decision is not Decision.ALLOW or cache is None:
             await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
             return
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer()
         records, _missing = build_records(cache, interaction.client.songs)
         special, ordinary, overflow = select_top40(records)
         username = str(cache.get("username") or "Player")
@@ -175,7 +175,6 @@ class ScoresCog(commands.Cog):
             logger.error("b40 image failed type=%s", type(exc).__name__)
             await interaction.followup.send(
                 "Something went wrong. The details were not included here.",
-                ephemeral=True,
             )
             return
         embed = discord.Embed(title=username, description=f"RKS {total:.2f}", color=COLOR)
@@ -183,7 +182,6 @@ class ScoresCog(commands.Cog):
         await interaction.followup.send(
             embed=embed,
             file=discord.File(io.BytesIO(png), filename="b40.png"),
-            ephemeral=True,
         )
 
     @app_commands.command(name="rizcard", description="Show your Rizcard")

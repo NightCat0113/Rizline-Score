@@ -75,8 +75,7 @@ class SongsCog(commands.Cog):
         except Exception:
             cache = None
         diff = difficulty.value if difficulty else None
-        ephemeral = cache is not None
-        await interaction.response.defer(ephemeral=ephemeral)
+        await interaction.response.defer()
         settings = interaction.client.settings
         try:
             png = await asyncio.to_thread(
@@ -90,14 +89,13 @@ class SongsCog(commands.Cog):
             )
         except Exception as exc:
             logger.error("song image failed type=%s", type(exc).__name__)
-            await _send_text_song(interaction, song, cache, diff, ephemeral)
+            await _send_text_song(interaction, song, cache, diff, False)
             return
         embed = discord.Embed(title=song.title, color=COLOR)
         embed.set_image(url="attachment://song.png")
         await interaction.followup.send(
             embed=embed,
             file=discord.File(io.BytesIO(png), filename="song.png"),
-            ephemeral=ephemeral,
         )
 
 
