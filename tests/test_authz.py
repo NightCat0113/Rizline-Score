@@ -104,7 +104,9 @@ def test_slash_commands_register_without_network(tmp_path):
         "b40",
         "rizcard",
         "reload-data",
+        "refresh-game-data",
         "series",
         "language",
         "help",
     }
+

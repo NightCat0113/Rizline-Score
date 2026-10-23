@@ -5675,6 +5675,80 @@
       "seriesIndex": 18,
       "seriesName": "Astral Streams",
       "original": "Rizline Original"
+    },
+    {
+      "assetId": "MindDisorder.Alkome.0",
+      "title": "Mind Disorder",
+      "artist": "Alkome",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.MindDisorder.Alkome.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 363,
+          "combo": 1428,
+          "score": 1008300,
+          "rizHit": 83,
+          "designer": "霜炎酱"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 610,
+          "combo": 2416,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "霜炎酱"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1119,
+          "combo": 4452,
+          "score": 1024800,
+          "rizHit": 248,
+          "designer": "真月"
+        }
+      },
+      "bpm": 175.0,
+      "length": 138.6,
+      "illustrator": "zukutya & corok-Bb"
+    },
+    {
+      "assetId": "DiVEFUTURE.SaladSaviorJMY.0",
+      "title": "DiVE↓FUTURE",
+      "artist": "Salad Savior & JMY",
+      "discName": "EX - Single",
+      "illustrationId": "illustration.DiVEFUTURE.SaladSaviorJMY.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.5,
+          "hit": 483,
+          "combo": 1908,
+          "score": 1012500,
+          "rizHit": 125,
+          "designer": "↓ Kyostar ↓"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 862,
+          "combo": 3424,
+          "score": 1022100,
+          "rizHit": 221,
+          "designer": "↓ Kyostar ↓"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1333,
+          "combo": 5308,
+          "score": 1033000,
+          "rizHit": 330,
+          "designer": "↓ MBZJ ↓"
+        }
+      },
+      "bpm": 175.0,
+      "length": 165.8,
+      "illustrator": "23333喵 & X-Chalk & SiLENTORANGE"
     }
   ],
   "series": [

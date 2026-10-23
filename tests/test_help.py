@@ -1,4 +1,4 @@
-from bot.commands.help import HelpCog, dm_prompt_text, dm_view, help_text
+from bot.commands.help import HelpCog, help_text
 
 
 def test_help_text_lists_the_main_commands():
@@ -19,11 +19,3 @@ def test_help_command_has_no_dm_check():
     checks = [getattr(check, "__qualname__", "") for check in HelpCog.help.checks]
     assert not any("dm_only" in name for name in checks)
 
-
-def test_dm_prompt_points_at_the_bot_dm():
-    text = dm_prompt_text({"song": 42})
-    assert "DM" in text
-    assert "</song:42>" in text
-    view = dm_view(987654321)
-    button = view.children[0]
-    assert button.url == "https://discord.com/users/987654321"
