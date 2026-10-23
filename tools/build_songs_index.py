@@ -52,6 +52,41 @@ ALIASES = {
     "swingsweettweedance": "Swing Sweet Twee Dance feat. ななきなな",
     "bamboo": "竹",
 }
+# Songs written for Rizline itself. The game data has no "original" flag, so
+# this list is maintained by hand from the official original-song roster:
+# assetId -> (badge label, collaboration partner or ""). Unmarked songs on the
+# roster are Rizline Originals; "(Pigeon Games独占)" songs are Pigeon Games
+# Originals; Paradial Resonator is a collaboration original.
+ORIGINALS = {
+    "PastelLines.RekuMochizuki.0": ("Rizline Original", ""),
+    "JourneyToTheRainbows.Ardolf.0": ("Rizline Original", ""),
+    "NOONEYESMAN.MYUKKE.0": ("Pigeon Games Original", ""),
+    "ClockParadox.WyvernP.0": ("Pigeon Games Original", ""),
+    "macrowav.dandeless.0": ("Rizline Original", ""),
+    "ArcadeViruZ.AspidCat.0": ("Rizline Original", ""),
+    "LINKLINS.Halv.0": ("Rizline Original", ""),
+    "LEONIDS.SaMZIngTitanChaos.0": ("Rizline Original", ""),
+    "ParadialResonator.RekuMochizuki.0": ("Collaboration Original", "Paradigm: Reboot"),
+    "ViciousMockery.Kryexe.0": ("Rizline Original", ""),
+    "BRAVEROAD.umavsMorimoriAtsushi.0": ("Pigeon Games Original", ""),
+    "DotLinefeatななひら.A39沙包Pななひら.0": ("Rizline Original", ""),
+    "光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0": ("Rizline Original", ""),
+    "LostFuture.AspidCat.0": ("Rizline Original", ""),
+    "YellowShiningfeat成田なる.にーえぬ.0": ("Rizline Original", ""),
+    "AbsolutionPulse.nmy.0": ("Rizline Original", ""),
+    "NeverSayGoodbye.黒魔.0": ("Rizline Original", ""),
+    "SpeedUp.DarTokki.0": ("Pigeon Games Original", ""),
+    "Inevitability.kuro.0": ("Rizline Original", ""),
+    "GreatnessEarth.Axya.0": ("Rizline Original", ""),
+    "LAIGN.KiufeatNikkiSimons.0": ("Rizline Original", ""),
+    "PierrotFixer.ルゼ.0": ("Rizline Original", ""),
+    "TalesofDelonix.Zris.0": ("Rizline Original", ""),
+    "地区ShangriLA.Drazically.0": ("Rizline Original", ""),
+    "千星光輪依頼症.KNYORGft無機ビョウ.0": ("Rizline Original", ""),
+    "FrozenHeart.A39沙包P.0": ("Rizline Original", ""),
+    "8BLUE.ariiolPIKASONIC.0": ("Rizline Original", ""),
+    "溶けてゆく.A39.0": ("Rizline Original", ""),
+}
 
 
 def parse_float(value: object) -> float:
@@ -74,7 +109,7 @@ _SERIES_ART_RE = re.compile(
     r"^series(?P<kind>Poster|Banner)\.(?P<number>\d+)(?:\.(?P<lang>[A-Za-z][\w-]*))?$"
 )
 _ENGLISH_SPRITE = re.compile(r"(?i)(?:^|[^a-z])en$")
-_OTHER_SPRITE = re.compile(r"(?i)zh|hans|hant|pigeon|(?:^|[^a-z])(?:jp|ja|cn)$")
+_ART_LANGUAGES = ("en", "zh-Hans", "zh-Hant", "ja")
 _BPM_RE = re.compile(r'"bPM"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 _TIME_RE = re.compile(br'"time"\s*:\s*([0-9]+(?:\.[0-9]+)?)')
 
@@ -235,7 +270,7 @@ def export_series_art(root: Path) -> int:
         print(f"Could not read fileList.json: {type(exc).__name__}")
         return 0
     destination.mkdir(parents=True, exist_ok=True)
-    chosen: dict[str, tuple[int, str, Path]] = {}
+    groups: dict[str, dict[str, tuple[str, Path]]] = {}
     for pair in pairs:
         if not (isinstance(pair, list) and len(pair) >= 2 and isinstance(pair[0], str) and isinstance(pair[1], str)):
             continue
@@ -247,24 +282,47 @@ def export_series_art(root: Path) -> int:
         if not bundle.is_file():
             print(f"Skipping {key}: bundle missing")
             continue
-        lang = (match.group("lang") or "").lower()
-        rank = 0 if lang == "en" else 1 if not lang else 2
         canonical = f"series{match.group('kind')}.{match.group('number')}"
-        current = chosen.get(canonical)
-        if current is None or rank < current[0]:
-            chosen[canonical] = (rank, key, bundle)
+        groups.setdefault(canonical, {})[_art_language(match.group("lang") or "")] = (key, bundle)
     exported = 0
-    for canonical, (_rank, key, bundle) in chosen.items():
-        image = _largest_bundle_image(bundle)
-        if image is None:
-            print(f"Skipping {key}: no image")
-            continue
-        image.save(destination / f"{canonical}.png")
-        exported += 1
-        print(f"Exported {canonical} from {key}")
+    for canonical, variants in groups.items():
+        english = variants.get("en") or variants.get("")
+        sources: dict[str, tuple[str, Path] | None] = {
+            "en": english,
+            # With an explicit English file, the unsuffixed art is Simplified Chinese.
+            "zh-Hans": variants.get("zh-Hans") or (variants.get("") if "en" in variants else None),
+            "zh-Hant": variants.get("zh-Hant"),
+            "ja": variants.get("ja"),
+        }
+        for language, source in sources.items():
+            if source is None:
+                continue
+            key, bundle = source
+            if language != "en" and english is not None and bundle == english[1]:
+                continue
+            image = _largest_bundle_image(bundle)
+            if image is None:
+                print(f"Skipping {key}: no image")
+                continue
+            folder = destination if language == "en" else destination / language
+            folder.mkdir(parents=True, exist_ok=True)
+            image.save(folder / f"{canonical}.png")
+            exported += 1
+            print(f"Exported {canonical} [{language}] from {key}")
     exported += _export_embedded_posters(bundles, destination)
     print(f"Exported {exported} series images to {destination.name}.")
     return exported
+
+
+def _art_language(suffix: str) -> str:
+    cleaned = suffix.strip().lower()
+    if cleaned in {"zh-hans", "cn"}:
+        return "zh-Hans"
+    if cleaned == "zh-hant":
+        return "zh-Hant"
+    if cleaned in {"ja", "jp"}:
+        return "ja"
+    return cleaned
 
 
 def _largest_bundle_image(bundle: Path):
@@ -330,22 +388,28 @@ def _export_embedded_posters(bundles: Path, destination: Path) -> int:
             poster_id = poster.get("m_PathID")
             if not isinstance(index, int) or index < 14 or not poster_id:
                 continue
-            sprite_id, sprite_name = _poster_sprite_id(by_id, int(poster_id))
-            sprite = by_id.get(sprite_id) if sprite_id else None
-            if sprite is None:
+            candidates = _poster_sprite_candidates(by_id, int(poster_id))
+            if not candidates:
                 print(f"Skipping seriesPoster.{index:05d}: sprite missing")
                 continue
-            try:
-                image = sprite.read().image
-            except Exception as exc:
-                print(f"Skipping seriesPoster.{index:05d}: {type(exc).__name__}")
-                continue
-            if image is None:
-                continue
             filename = f"seriesPoster.{index:05d}.png"
-            image.save(destination / filename)
-            exported += 1
-            print(f"Exported {filename} ({sprite_name})")
+            for language in _ART_LANGUAGES:
+                sprite_id, sprite_name = _choose_sprite(candidates, language)
+                sprite = by_id.get(sprite_id) if sprite_id else None
+                if sprite is None:
+                    continue
+                try:
+                    image = sprite.read().image
+                except Exception as exc:
+                    print(f"Skipping seriesPoster.{index:05d} [{language}]: {type(exc).__name__}")
+                    continue
+                if image is None:
+                    continue
+                folder = destination if language == "en" else destination / language
+                folder.mkdir(parents=True, exist_ok=True)
+                image.save(folder / filename)
+                exported += 1
+                print(f"Exported {filename} [{language}] ({sprite_name})")
         return exported
     print("Embedded series posters were not found")
     return 0
@@ -364,22 +428,49 @@ def _default_tree(by_id: dict):
     return None
 
 
-def _sprite_rank(name: str) -> int:
-    if _ENGLISH_SPRITE.search(name.strip()):
+def _sprite_rank(name: str, language: str) -> int:
+    cleaned = name.strip().lower()
+    if "pigeon" in cleaned:
+        return 99
+    is_en = bool(_ENGLISH_SPRITE.search(cleaned))
+    is_hans = "zh-hans" in cleaned or "hans" in cleaned or "postercn" in cleaned.replace(" ", "") or cleaned.endswith("cn")
+    is_hant = "zh-hant" in cleaned or "hant" in cleaned
+    is_ja = bool(re.search(r"(?:^|[^a-z])(?:jp|ja)$", cleaned))
+    marked = is_en or is_hans or is_hant or is_ja or "zh" in cleaned
+    if language == "en" and is_en:
         return 0
-    if _OTHER_SPRITE.search(name):
-        return 2
-    return 1
+    if language == "zh-Hans" and is_hans:
+        return 0
+    if language == "zh-Hant" and is_hant:
+        return 0
+    if language == "ja" and is_ja:
+        return 0
+    if not marked:
+        return 1
+    return 3
 
 
-def _poster_sprite_id(by_id: dict, game_pid: int) -> tuple[int | None, str]:
+def _choose_sprite(candidates: dict[int, str], language: str) -> tuple[int | None, str]:
+    best: tuple[int, int, str] | None = None
+    for sprite_id, name in candidates.items():
+        rank = _sprite_rank(name, language)
+        if rank >= 3:
+            continue
+        if best is None or rank < best[0]:
+            best = (rank, sprite_id, name)
+    if best is None:
+        return None, ""
+    return best[1], best[2]
+
+
+def _poster_sprite_candidates(by_id: dict, game_pid: int) -> dict[int, str]:
     game = by_id.get(game_pid)
     if game is None or game.type.name != "GameObject":
-        return None, ""
+        return {}
     try:
         components = game.read_typetree().get("m_Component") or []
     except Exception:
-        return None, ""
+        return {}
     transform_id = None
     for component in components:
         ref = component.get("component") or {}
@@ -388,31 +479,22 @@ def _poster_sprite_id(by_id: dict, game_pid: int) -> tuple[int | None, str]:
             transform_id = ref.get("m_PathID")
             break
     if transform_id is None:
-        return None, ""
-    return _poster_sprite_under(by_id, int(transform_id), "")
+        return {}
+    found: dict[int, str] = {}
 
-
-def _consider_sprite(by_id: dict, sprite_id, best: tuple[int, int, str] | None) -> tuple[int, int, str] | None:
-    if not sprite_id:
-        return best
-    sprite = by_id.get(int(sprite_id))
-    name = ""
-    if sprite is not None:
-        try:
-            name = str(sprite.read_typetree().get("m_Name") or "")
-        except Exception:
-            name = ""
-    rank = _sprite_rank(name)
-    if best is None or rank < best[0]:
-        return (rank, int(sprite_id), name)
-    return best
-
-
-def _poster_sprite_under(by_id: dict, transform_id: int, parent_name: str) -> tuple[int | None, str]:
-    best: tuple[int, int, str] | None = None
+    def note(sprite_id: object) -> None:
+        if not sprite_id:
+            return
+        sprite = by_id.get(int(sprite_id))
+        name = ""
+        if sprite is not None:
+            try:
+                name = str(sprite.read_typetree().get("m_Name") or "")
+            except Exception:
+                name = ""
+        found.setdefault(int(sprite_id), name)
 
     def walk(current_id: int, parent: str) -> None:
-        nonlocal best
         transform = by_id.get(current_id)
         if transform is None:
             return
@@ -420,11 +502,11 @@ def _poster_sprite_under(by_id: dict, transform_id: int, parent_name: str) -> tu
             tree = transform.read_typetree()
         except Exception:
             return
-        game = by_id.get((tree.get("m_GameObject") or {}).get("m_PathID"))
+        game_obj = by_id.get((tree.get("m_GameObject") or {}).get("m_PathID"))
         name = ""
-        if game is not None:
+        if game_obj is not None:
             try:
-                game_tree = game.read_typetree()
+                game_tree = game_obj.read_typetree()
             except Exception:
                 game_tree = {}
             name = str(game_tree.get("m_Name") or "")
@@ -438,19 +520,17 @@ def _poster_sprite_under(by_id: dict, transform_id: int, parent_name: str) -> tu
                         behaviour_tree = behaviour.read_typetree()
                     except Exception:
                         continue
-                    best = _consider_sprite(by_id, (behaviour_tree.get("m_Sprite") or {}).get("m_PathID"), best)
+                    note((behaviour_tree.get("m_Sprite") or {}).get("m_PathID"))
                     for entry in behaviour_tree.get("spriteFiles") or []:
                         image = entry.get("image") if isinstance(entry, dict) else None
-                        best = _consider_sprite(by_id, (image or {}).get("m_PathID"), best)
+                        note((image or {}).get("m_PathID"))
         for child in tree.get("m_Children") or []:
             child_id = (child or {}).get("m_PathID")
             if child_id:
                 walk(int(child_id), name)
 
-    walk(transform_id, parent_name)
-    if best is None:
-        return None, ""
-    return best[1], best[2]
+    walk(int(transform_id), "")
+    return found
 
 
 def disco_display_names(root: Path) -> dict[str, str]:
@@ -599,7 +679,6 @@ def main() -> int:
                 "designer": designers.get((str(asset_id), difficulty), ""),
             }
         illustration_id = illustrations.get(str(asset_id)) or f"illustration.{asset_id}"
-        # No local file records an "original" flag. Add it here if a source appears.
         item = {
             "assetId": str(asset_id),
             "title": str(row.get("Title") or title),
@@ -627,6 +706,11 @@ def main() -> int:
         sp_chart = sp_chart_record(charts_dir, sp_charts.get(str(asset_id)), sp_designers)
         if sp_chart is not None:
             charts["SP"] = sp_chart
+        original = ORIGINALS.get(str(asset_id))
+        if original is not None:
+            item["original"] = original[0]
+            if original[1]:
+                item["originalWith"] = original[1]
         built.append(item)
 
     by_title = {normalize(item["title"]): item for item in built}

@@ -36,7 +36,8 @@
       },
       "bpm": 150.0,
       "length": 110.4,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "Gleam.Uske.0",
@@ -295,7 +296,8 @@
       },
       "bpm": 170.0,
       "length": 139.5,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "MidnightFlux.ProjectG.0",
@@ -369,7 +371,8 @@
       },
       "bpm": 170.0,
       "length": 122.1,
-      "illustrator": "青鸟"
+      "illustrator": "青鸟",
+      "original": "Pigeon Games Original"
     },
     {
       "assetId": "ClockParadox.WyvernP.0",
@@ -406,7 +409,8 @@
       },
       "bpm": 140.0,
       "length": 148.3,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Pigeon Games Original"
     },
     {
       "assetId": "FRIEND.DAAN.0",
@@ -630,7 +634,8 @@
       },
       "bpm": 172.0,
       "length": 132.2,
-      "illustrator": "绀屋"
+      "illustrator": "绀屋",
+      "original": "Rizline Original"
     },
     {
       "assetId": "TheNextArcady.SEPHID.0",
@@ -1123,7 +1128,8 @@
       },
       "bpm": 165.0,
       "length": 130.2,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "LINKLINS.Halv.0",
@@ -1162,7 +1168,8 @@
       },
       "bpm": 132.0,
       "length": 137.3,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "LEONIDS.SaMZIngTitanChaos.0",
@@ -1199,7 +1206,8 @@
       },
       "bpm": 164.0,
       "length": 177.4,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "FORTALiCE.ZxNX.0",
@@ -1353,7 +1361,9 @@
       "length": 126.7,
       "illustrator": "2Al4wU4",
       "seriesIndex": 10001,
-      "seriesName": "Paradigm: Reboot"
+      "seriesName": "Paradigm: Reboot",
+      "original": "Collaboration Original",
+      "originalWith": "Paradigm: Reboot"
     },
     {
       "assetId": "RestrictedAccess.Knighthood.0",
@@ -2113,7 +2123,8 @@
       },
       "bpm": 235.0,
       "length": 150.6,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "BRAVEROAD.umavsMorimoriAtsushi.0",
@@ -2150,7 +2161,8 @@
       },
       "bpm": 240.0,
       "length": 155.8,
-      "illustrator": "山山奇 feat. V17AMax"
+      "illustrator": "山山奇 feat. V17AMax",
+      "original": "Pigeon Games Original"
     },
     {
       "assetId": "Afterdark.Sta.0",
@@ -2431,7 +2443,8 @@
       },
       "bpm": 175.0,
       "length": 196.8,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "光阿卡姆巫师Remix.姜米條Remixedby阿卡姆巫师.0",
@@ -2468,7 +2481,8 @@
       },
       "bpm": 180.0,
       "length": 132.0,
-      "illustrator": "青鸟"
+      "illustrator": "青鸟",
+      "original": "Rizline Original"
     },
     {
       "assetId": "LostFuture.AspidCat.0",
@@ -2505,7 +2519,8 @@
       },
       "bpm": 183.0,
       "length": 148.2,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "Relieve.响星幂ElroyJanKortanidze.0",
@@ -3084,7 +3099,8 @@
       },
       "bpm": 185.0,
       "length": 192.0,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "RuleTheWorld.VauBoy.0",
@@ -3651,7 +3667,8 @@
       },
       "bpm": 180.0,
       "length": 138.0,
-      "illustrator": "やさか沙彩"
+      "illustrator": "やさか沙彩",
+      "original": "Rizline Original"
     },
     {
       "assetId": "Abatement.SNKSMizku.0",
@@ -4263,7 +4280,8 @@
       "length": 136.6,
       "illustrator": "TNiK",
       "seriesIndex": 12,
-      "seriesName": "Phigros"
+      "seriesName": "Phigros",
+      "original": "Pigeon Games Original"
     },
     {
       "assetId": "GREATGREAT.Zris.0",
@@ -4427,7 +4445,8 @@
       "length": 153.1,
       "illustrator": "子狼",
       "seriesIndex": 13,
-      "seriesName": "kuro"
+      "seriesName": "kuro",
+      "original": "Rizline Original"
     },
     {
       "assetId": "FadeAway.DeBisco.0",
@@ -4501,7 +4520,8 @@
       },
       "bpm": 110.0,
       "length": 135.5,
-      "illustrator": "ろんxかとろふ"
+      "illustrator": "ろんxかとろふ",
+      "original": "Rizline Original"
     },
     {
       "assetId": "VaelumirsCall.EmissärwûlElverhøjjFahrRaphiielSylphix.0",
@@ -4579,7 +4599,8 @@
       "length": 133.7,
       "illustrator": "鲸弑",
       "seriesIndex": 14,
-      "seriesName": "Cosmos Panorama"
+      "seriesName": "Cosmos Panorama",
+      "original": "Rizline Original"
     },
     {
       "assetId": "LAIGN.KiufeatNikkiSimons.0",
@@ -4618,7 +4639,8 @@
       "length": 142.6,
       "illustrator": "神居冰绘",
       "seriesIndex": 14,
-      "seriesName": "Cosmos Panorama"
+      "seriesName": "Cosmos Panorama",
+      "original": "Rizline Original"
     },
     {
       "assetId": "溶けてゆく.A39.0",
@@ -4655,7 +4677,8 @@
       },
       "bpm": 175.0,
       "length": 159.1,
-      "illustrator": "椒"
+      "illustrator": "椒",
+      "original": "Rizline Original"
     },
     {
       "assetId": "Hyperwave.LOFTIER.0",
@@ -4963,7 +4986,8 @@
       "length": 170.9,
       "illustrator": "Rutumn",
       "seriesIndex": 16,
-      "seriesName": "ルゼ & LisicA"
+      "seriesName": "ルゼ & LisicA",
+      "original": "Rizline Original"
     },
     {
       "assetId": "HoukagoOVERDRIVE.Rukadesu.0",
@@ -5078,7 +5102,8 @@
       "length": 122.8,
       "illustrator": "Ano",
       "seriesIndex": 17,
-      "seriesName": "Diachronic Resonance"
+      "seriesName": "Diachronic Resonance",
+      "original": "Rizline Original"
     },
     {
       "assetId": "Spiritworks.XomuZxNX.0",
@@ -5156,7 +5181,8 @@
       "length": 140.1,
       "illustrator": "山山奇 feat. Jimwaz",
       "seriesIndex": 17,
-      "seriesName": "Diachronic Resonance"
+      "seriesName": "Diachronic Resonance",
+      "original": "Rizline Original"
     },
     {
       "assetId": "よさり月蛍澄み昇りて.かゆきfeat燈露.0",
@@ -5267,7 +5293,8 @@
       },
       "bpm": 200.0,
       "length": 156.9,
-      "illustrator": "山山奇"
+      "illustrator": "山山奇",
+      "original": "Rizline Original"
     },
     {
       "assetId": "WATER.A39沙包P.0",
@@ -5376,7 +5403,8 @@
           "designer": "咏歌 / 童铃"
         }
       },
-      "illustrator": "山山奇 feat. Jimwaz"
+      "illustrator": "山山奇 feat. Jimwaz",
+      "original": "Rizline Original"
     },
     {
       "assetId": "SnowDesert.WyvernP.0",
@@ -5645,7 +5673,8 @@
       "length": 161.2,
       "illustrator": "群青kurara feat. Jimwaz",
       "seriesIndex": 18,
-      "seriesName": "Astral Streams"
+      "seriesName": "Astral Streams",
+      "original": "Rizline Original"
     }
   ],
   "series": [

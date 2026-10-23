@@ -31,14 +31,14 @@ def bio_ids_from_locale(script: str) -> dict[int, str]:
     return found
 
 
-def series_tag(bio_id: str, repo_root: Path) -> str:
+def series_tag(bio_id: str, repo_root: Path, language: str = "en") -> str:
     cleaned = bio_id.strip()
     if cleaned.startswith("bio."):
         cleaned = cleaned[4:]
     cleaned = cleaned.split(".", 1)[0]
     if not cleaned:
         return ""
-    return player_title(f"bio.{cleaned}.1", f"bio.{cleaned}.2", repo_root)
+    return player_title(f"bio.{cleaned}.1", f"bio.{cleaned}.2", repo_root, language)
 
 
 def series_mark(index: int) -> str:

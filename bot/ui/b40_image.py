@@ -10,9 +10,12 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from bot.services.language import strings
 from bot.services.profile import layout_colors, player_title
 from bot.services.rks import strip_track_prefix
 from bot.services.songdata import SongIndex, illustration_file, illustration_path
+from bot.ui.textfont import clip as _clip_text
+from bot.ui.textfont import load_hangul
 
 
 MAX_PNG_BYTES = 8_000_000
@@ -48,6 +51,7 @@ def render_b40(
     font_path: Path,
     repo_root: Path | None = None,
     card: dict | None = None,
+    language: str = "en",
     max_bytes: int = MAX_PNG_BYTES,
 ) -> bytes:
     sections = [
@@ -67,6 +71,7 @@ def render_b40(
             font_path=font_path,
             repo_root=repo_root,
             card=card or {},
+            language=language,
             scale=scale,
         )
         last = _encode(image)
@@ -97,6 +102,7 @@ def render_rizcard(
     font_path: Path,
     repo_root: Path | None = None,
     card: dict | None = None,
+    language: str = "en",
     scale: float = 2.0,
 ) -> bytes:
     del total_rks
@@ -104,7 +110,7 @@ def render_rizcard(
     profile_root = repo_root or font_path.parent
     avatar = _open_art(str(profile.get("avatarId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
     banner = _open_art(str(profile.get("backgroundId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
-    title = player_title(str(profile.get("bioId1") or ""), str(profile.get("bioId2") or ""), profile_root)
+    title = player_title(str(profile.get("bioId1") or ""), str(profile.get("bioId2") or ""), profile_root, language)
     colors = layout_colors(str(profile.get("layoutId") or ""), profile_root)
     pos = profile.get("avatarPos") if isinstance(profile.get("avatarPos"), dict) else {}
     frame = load_layout_frame(profile_root, str(profile.get("layoutId") or ""))
@@ -570,6 +576,7 @@ def _draw(
     font_path: Path,
     repo_root: Path | None,
     card: dict,
+    language: str,
     scale: float,
 ) -> Image.Image:
     card_w, card_h = _px(scale, _CARD_W), _px(scale, _CARD_H)
@@ -589,6 +596,7 @@ def _draw(
         "name": _load_font(font_path, _px(scale, 32)),
         "section": _load_font(font_path, _px(scale, 22)),
         "title": _load_font(font_path, _px(scale, 16)),
+        "title_kr": load_hangul(_px(scale, 16)),
         "const": _load_font(font_path, _px(scale, 13)),
         "rks": _load_font(font_path, _px(scale, 16)),
         "score": _load_font(font_path, _px(scale, 17)),
@@ -600,7 +608,7 @@ def _draw(
     profile_root = repo_root or font_path.parent
     avatar = _open_art(str(card.get("avatarId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
     banner = _open_art(str(card.get("backgroundId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
-    title = player_title(str(card.get("bioId1") or ""), str(card.get("bioId2") or ""), profile_root)
+    title = player_title(str(card.get("bioId1") or ""), str(card.get("bioId2") or ""), profile_root, language)
     colors = layout_colors(str(card.get("layoutId") or ""), profile_root)
     pos = card.get("avatarPos") if isinstance(card.get("avatarPos"), dict) else {}
     header = _player_header(username, total_rks, fonts, scale, avatar, banner, title, pos, colors)
@@ -609,7 +617,7 @@ def _draw(
     draw = ImageDraw.Draw(image)
     y = pad + _px(scale, _HEADER_BLOCK)
     if not sections:
-        draw.text((pad, y), "No charts in this group.", font=fonts["section"], fill=(255, 255, 255, 255))
+        draw.text((pad, y), strings(language)["no_charts_group"], font=fonts["section"], fill=(255, 255, 255, 255))
         return image
 
     for label, rows in sections:
@@ -918,8 +926,8 @@ def _card_image(
 
     text_x = circle_xy[0] + circle + _px(scale, 10)
     text_right = card_w - _px(scale, 16)
-    title = _clip(str(row.get("title") or "—"), fonts["title"], text_right - text_x, draw)
-    draw.text((text_x, _px(scale, 12)), title, font=fonts["title"], fill=(0, 0, 0, 255))
+    title, title_font = _clip_text(str(row.get("title") or "—"), fonts["title"], text_right - text_x, draw, fonts.get("title_kr"))
+    draw.text((text_x, _px(scale, 12)), title, font=title_font, fill=(0, 0, 0, 255))
 
     max_rks = (11 * float(constant) + 10.5) if isinstance(constant, (int, float)) else None
     rks = float(row.get("rks") or 0)
@@ -995,6 +1003,7 @@ def _circle_jacket(
 
 
 def _clip(text: str, font: ImageFont.ImageFont, width: int, draw: ImageDraw.ImageDraw) -> str:
+    text = " ".join(text.replace("\r", " ").replace("\n", " ").split())
     if width <= 0 or draw.textlength(text, font=font) <= width:
         return text
     trimmed = text

@@ -11,6 +11,8 @@ from discord.ext import commands
 
 from bot.commands.account import AccountCog
 from bot.commands.admin import AdminCog
+from bot.commands.help import HelpCog
+from bot.commands.preferences import PreferencesCog
 from bot.commands.scores import ScoresCog
 from bot.commands.songs import SongsCog
 from bot.config import ConfigError, Settings
@@ -28,19 +30,27 @@ class RizlineBot(commands.Bot):
     def __init__(self, settings: Settings, songs: SongIndex, database: Database) -> None:
         intents = discord.Intents.default()
         intents.message_content = True
-        super().__init__(command_prefix=commands.when_mentioned, intents=intents)
+        super().__init__(
+            command_prefix=commands.when_mentioned,
+            intents=intents,
+            activity=discord.Activity(type=discord.ActivityType.listening, name="/help in a DM"),
+        )
         self.settings = settings
         self.songs = songs
         self.db = database
         self.sessions = SessionStore()
         self.limiter = RateLimiter()
+        self.command_ids: dict[str, int] = {}
 
     async def setup_hook(self) -> None:
         await self.add_cog(AccountCog(self))
+        await self.add_cog(PreferencesCog(self))
         await self.add_cog(SongsCog(self))
         await self.add_cog(ScoresCog(self))
         await self.add_cog(AdminCog(self))
-        await self.tree.sync()
+        await self.add_cog(HelpCog(self))
+        synced = await self.tree.sync()
+        self.command_ids = {command.name: command.id for command in synced}
         logger.info(
             "Synced global commands. They can take up to an hour to appear in DMs the first time."
         )

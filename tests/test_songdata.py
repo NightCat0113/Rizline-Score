@@ -51,6 +51,22 @@ def test_pastel_lines_resolves_with_designer():
     assert all(len(item.asset_id) <= 100 for item in index.songs)
 
 
+def test_original_songs_are_flagged():
+    index = _index()
+    flagged = [song for song in index.songs if song.original]
+    assert len(flagged) == 28
+    assert sum(song.original == "Rizline Original" for song in flagged) == 23
+    assert sum(song.original == "Pigeon Games Original" for song in flagged) == 4
+    pastel = index.by_asset["PastelLines.RekuMochizuki.0"]
+    assert pastel.original == "Rizline Original"
+    assert pastel.original_with == ""
+    clock = index.by_asset["ClockParadox.WyvernP.0"]
+    assert clock.original == "Pigeon Games Original"
+    paradial = index.by_asset["ParadialResonator.RekuMochizuki.0"]
+    assert paradial.original == "Collaboration Original"
+    assert paradial.original_with == "Paradigm: Reboot"
+
+
 def test_alias_and_autocomplete_search():
     index = _index()
     song, _alternatives = index.resolve("bamboo")

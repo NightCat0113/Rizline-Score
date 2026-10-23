@@ -5,7 +5,17 @@ from pathlib import Path
 from PIL import Image
 
 from bot.models import ChartInfo, Song
-from bot.ui.song_image import MAX_PNG_BYTES, _HEADER_H, _PAD, _draw, render_song
+from bot.ui.song_image import (
+    MAX_PNG_BYTES,
+    _BORDER_DEFAULT,
+    _FACT_LABEL,
+    _HEADER_H,
+    _INK,
+    _PAD,
+    _draw,
+    _theme_color,
+    render_song,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -115,6 +125,80 @@ def test_aliases_sit_beside_the_detail_stack() -> None:
         if darker:
             break
     assert darker
+
+
+def test_original_badge_sits_at_the_bottom_centre_of_the_jacket() -> None:
+    plain_song = _song(1)
+    marked = replace(plain_song, original="Rizline Original")
+    plain = _draw(song=plain_song, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    badged = _draw(song=marked, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    assert plain.size == badged.size
+    # Jacket circle: left/top at _PAD + 5, diameter _HEADER_H - 10, so its
+    # centre x is 122 and the pill sits at its very bottom (bottom y 211).
+    assert plain.load()[122, 194][:3] != (255, 255, 255)
+    assert badged.load()[122, 194][:3] == (255, 255, 255)
+    darker = any(
+        badged.load()[x, 194][0] < 80
+        for x in range(60, 185)
+    )
+    assert darker
+
+
+def test_collaboration_badge_renders_its_second_line() -> None:
+    song = replace(_song(1), original="Collaboration Original", original_with="Paradigm: Reboot")
+    image = _draw(song=song, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    assert image.load()[55, 196][:3] == (255, 255, 255)
+    assert any(image.load()[x, 196][0] < 80 for x in range(40, 205))
+
+
+def test_chart_details_have_grey_labels_and_black_values() -> None:
+    image = _draw(song=_song(1), personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    pixels = image.load()
+    # First chart row's right-hand details, past the 56% separator.
+    region = [
+        pixels[x, y]
+        for y in range(_PAD + _HEADER_H + 12, _PAD + _HEADER_H + 12 + 116)
+        for x in range(610, 930)
+    ]
+    assert (*_FACT_LABEL, 255) in region
+    assert (*_INK, 255) in region
+
+
+def test_header_details_are_all_grey() -> None:
+    image = _draw(song=_song(1), personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    pixels = image.load()
+    # Header detail lines (BPM/length, illustrator, disc, track series),
+    # to the right of the jacket circle and below the title/artist.
+    region = [
+        pixels[x, y]
+        for y in range(135, _PAD + _HEADER_H)
+        for x in range(230, 800)
+    ]
+    assert (*_FACT_LABEL, 255) in region
+    assert (*_INK, 255) not in region
+
+
+def test_theme_color_follows_the_illustration() -> None:
+    red_art = Image.new("RGB", (120, 120), (205, 38, 48))
+    red, green, blue = _theme_color(red_art)
+    assert red > 120 and red > green + 60 and red > blue + 40
+    blue_art = Image.new("RGB", (120, 120), (36, 84, 196))
+    red, green, blue = _theme_color(blue_art)
+    assert blue > 120 and blue > red + 40
+    pale_art = Image.new("RGB", (120, 120), (238, 232, 220))
+    red, green, blue = _theme_color(pale_art)
+    assert max(red, green, blue) - min(red, green, blue) >= 40
+    assert _theme_color(None) == _BORDER_DEFAULT
+
+
+def test_header_border_uses_the_theme_color() -> None:
+    artwork = Image.new("RGB", (200, 200), (205, 38, 48))
+    themed = _draw(song=_song(1), personal={}, highlight=None, artwork=artwork, font_path=FONT, scale=1.0)
+    plain = _draw(song=_song(1), personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    themed_pixel = themed.load()[500, _PAD + 1][:3]
+    plain_pixel = plain.load()[500, _PAD + 1][:3]
+    assert themed_pixel[0] > themed_pixel[1] + 60
+    assert plain_pixel == _BORDER_DEFAULT
 
 
 def test_song_png_shrinks_when_the_cap_is_tiny(tmp_path: Path):

@@ -8,8 +8,11 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from bot.models import ChartInfo, Song, TrackSeries
+from bot.services.language import normalize_language, strings
 from bot.services.seriesdata import series_art_name, series_mark
 from bot.services.songdata import illustration_path
+from bot.ui.textfont import clip as _clip_text
+from bot.ui.textfont import load_face, load_hangul
 
 
 MAX_PNG_BYTES = 8_000_000
@@ -31,9 +34,9 @@ _INSET = 28
 _GAP = 16
 _POSTER_W = 412
 _POSTER_H = round(_POSTER_W * 2048 / 1448)
-_JACKET = 48
-_ROW_H = 64
-_PILL_H = 22
+_JACKET = 62
+_ROW_H = 80
+_PILL_H = 28
 
 
 def render_series(
@@ -46,6 +49,7 @@ def render_series(
     font_path: Path,
     illust_hires_dir: Path | None = None,
     illust_dir: Path | None = None,
+    language: str = "en",
     max_bytes: int = MAX_PNG_BYTES,
 ) -> bytes:
     jackets = _load_jackets(series, songs, illust_hires_dir, illust_dir)
@@ -59,6 +63,7 @@ def render_series(
             poster=poster,
             jackets=jackets,
             font_path=font_path,
+            language=language,
             scale=scale,
         )
         last = _encode(image)
@@ -67,15 +72,20 @@ def render_series(
     return last
 
 
-def open_series_art(directory: Path, kind: str, index: int) -> Image.Image | None:
-    path = directory / f"{series_art_name(kind, index)}.png"
-    if not path.is_file() or path.stat().st_size > MAX_PNG_BYTES:
-        return None
-    try:
-        with Image.open(path) as opened:
-            return opened.convert("RGB")
-    except (OSError, ValueError):
-        return None
+def open_series_art(directory: Path, kind: str, index: int, language: str = "en") -> Image.Image | None:
+    filename = f"{series_art_name(kind, index)}.png"
+    lang = normalize_language(language)
+    candidates = [directory / lang / filename] if lang != "en" else []
+    candidates.append(directory / filename)
+    for path in candidates:
+        if not path.is_file() or path.stat().st_size > MAX_PNG_BYTES:
+            continue
+        try:
+            with Image.open(path) as opened:
+                return opened.convert("RGB")
+        except (OSError, ValueError):
+            continue
+    return None
 
 
 def chart_levels(song: Song) -> str:
@@ -103,26 +113,24 @@ def _draw(
     poster: Image.Image | None,
     jackets: dict[str, Image.Image],
     font_path: Path,
+    language: str,
     scale: float,
 ) -> Image.Image:
-    fonts = {
-        "title": _load_font(font_path, _px(scale, 34)),
-        "body": _load_font(font_path, _px(scale, 18)),
-        "meta": _load_font(font_path, _px(scale, 20)),
-        "small": _load_font(font_path, _px(scale, 15)),
-        "pill": _load_font(font_path, _px(scale, 13)),
-    }
+    text = strings(language)
+    fonts = _fonts(font_path, scale)
     width = _px(scale, _WIDTH)
     pad = _px(scale, _PAD)
     inset = _px(scale, _INSET)
     gap = _px(scale, _GAP)
     layout = _header_layout(width, pad, inset, gap, tag, banner, poster, scale)
-    song_h = _songs_height(series, scale)
+    song_h = _songs_height(series, text, scale)
     height = pad + inset + layout["header_h"] + gap + song_h + inset + pad
     image = _background(width, height, poster or banner).convert("RGBA")
     draw = ImageDraw.Draw(image)
     content_w = width - pad * 2
     _paste_panel(image, pad, pad, content_w, height - pad * 2, _px(scale, 28))
+    if banner is not None and layout["banner_w"] > 0:
+        _paste_banner(image, banner, layout["banner_x"], layout["banner_y"], layout["banner_w"], layout["banner_h"])
     if poster is not None:
         _paste_rounded(
             image,
@@ -131,15 +139,14 @@ def _draw(
             layout["poster_y"],
             _px(scale, 18),
         )
-    if banner is not None and layout["banner_w"] > 0:
-        _paste_banner(image, banner, layout["banner_x"], layout["banner_y"], layout["banner_w"], layout["banner_h"])
-    _draw_info(draw, series, tag, fonts, layout["info_x"], layout["info_y"], layout["info_w"], scale)
+    _draw_info(draw, series, tag, text, fonts, layout["info_x"], layout["info_y"], layout["info_w"], scale)
     _draw_songs(
         image,
         draw,
         series,
         songs,
         jackets,
+        text,
         fonts,
         pad + inset,
         pad + inset + layout["header_h"] + gap,
@@ -170,19 +177,20 @@ def _header_layout(
     info_w = max(1, (poster_x if poster is not None else content_right) - info_x - gap)
     banner_x = banner_y = banner_w = banner_h = 0
     if banner is not None:
-        cropped_w, cropped_h = _cropped_banner_size(banner)
         if poster is not None:
-            banner_w = max(1, poster_x - content_left)
-            banner_h = max(1, round(banner_w * cropped_h / cropped_w))
+            visible = max(1, poster_x - content_left)
+            banner_w = max(1, round(visible * 16 / 15))
+            banner_h = max(1, round(banner_w * banner.height / max(1, banner.width)))
             free = poster_h - info_h - gap
             if banner_h > free > _px(scale, 24):
                 banner_h = free
-                banner_w = max(1, round(banner_h * cropped_w / cropped_h))
-            banner_x = poster_x - banner_w
+                banner_w = max(1, round(banner_h * banner.width / max(1, banner.height)))
+            overlap = max(1, banner_w // 16)
+            banner_x = poster_x - (banner_w - overlap)
             banner_y = poster_y + poster_h - banner_h
         else:
             banner_w = max(1, content_right - content_left)
-            banner_h = max(1, round(banner_w * cropped_h / cropped_w))
+            banner_h = max(1, round(banner_w * banner.height / max(1, banner.width)))
             banner_x = content_left
             banner_y = poster_y + info_h + gap
     if poster is not None:
@@ -212,11 +220,11 @@ def _info_height(tag: str, scale: float) -> int:
     return height
 
 
-def _songs_height(series: TrackSeries, scale: float) -> int:
+def _songs_height(series: TrackSeries, text: dict[str, str], scale: float) -> int:
     total = 0
     count = len(series.volumes)
     for index, volume in enumerate(series.volumes, start=1):
-        if _volume_heading(volume.label, count, index):
+        if _volume_heading(volume.label, count, index, text):
             total += _px(scale, 28)
         if volume.preorder_ends:
             total += _px(scale, 22)
@@ -225,11 +233,11 @@ def _songs_height(series: TrackSeries, scale: float) -> int:
     return total
 
 
-def _volume_heading(label: str, count: int, index: int) -> str:
+def _volume_heading(label: str, count: int, index: int, text: dict[str, str]) -> str:
     if label:
         return label
     if count > 1:
-        return f"Volume {index}"
+        return f"{text['volume']} {index}"
     return ""
 
 
@@ -237,25 +245,28 @@ def _draw_info(
     draw: ImageDraw.ImageDraw,
     series: TrackSeries,
     tag: str,
+    text: dict[str, str],
     fonts: dict,
     left: int,
     top: int,
     width: int,
     scale: float,
 ) -> None:
-    title = _clip(series.name or f"Track Series {series.series_index}", fonts["title"], width, draw)
-    draw.text((left, top), title, font=fonts["title"], fill=(*_INK, 255))
+    title, title_font = _clip(series.name or f"{text['track_series']} {series.series_index}", fonts["title"], width, draw, fonts.get("title_kr"))
+    draw.text((left, top), title, font=title_font, fill=(*_INK, 255))
+    mark, mark_font = _clip(f"{text['track_series']} {series_mark(series.series_index)}", fonts["meta"], width, draw, fonts.get("meta_kr"))
     draw.text(
         (left, top + _px(scale, 44)),
-        _clip(f"Track Series {series_mark(series.series_index)}", fonts["meta"], width, draw),
-        font=fonts["meta"],
+        mark,
+        font=mark_font,
         fill=(*_MUTED, 255),
     )
     if tag:
+        label, label_font = _clip(tag, fonts["body"], width, draw, fonts.get("body_kr"))
         draw.text(
             (left, top + _px(scale, 80)),
-            _clip(tag, fonts["body"], width, draw),
-            font=fonts["body"],
+            label,
+            font=label_font,
             fill=(*_INK, 255),
         )
 
@@ -266,6 +277,7 @@ def _draw_songs(
     series: TrackSeries,
     songs: dict[str, Song],
     jackets: dict[str, Image.Image],
+    text: dict[str, str],
     fonts: dict,
     left: int,
     top: int,
@@ -277,20 +289,23 @@ def _draw_songs(
     jacket = _px(scale, _JACKET)
     gap = _px(scale, 14)
     for index, volume in enumerate(series.volumes, start=1):
-        heading = _volume_heading(volume.label, count, index)
+        heading = _volume_heading(volume.label, count, index, text)
         if heading:
-            draw.text((left, line_y), _clip(heading, fonts["body"], width, draw), font=fonts["body"], fill=(*_INK, 255))
+            label, label_font = _clip(heading, fonts["body"], width, draw, fonts.get("body_kr"))
+            draw.text((left, line_y), label, font=label_font, fill=(*_INK, 255))
             line_y += _px(scale, 28)
         if volume.preorder_ends:
+            label, label_font = _clip(f"{text['preorder_ends']} {volume.preorder_ends}", fonts["small"], width, draw, fonts.get("small_kr"))
             draw.text(
                 (left, line_y),
-                _clip(f"Preorder ends {volume.preorder_ends}", fonts["small"], width, draw),
-                font=fonts["small"],
+                label,
+                font=label_font,
                 fill=(*_MUTED, 255),
             )
             line_y += _px(scale, 22)
         song_ids = volume.song_ids or ("",)
         row_h = _px(scale, _ROW_H)
+        columns = _song_columns(draw, series, songs, fonts["pill"], left, width, jacket, gap, scale)
         for song_id in song_ids:
             song = songs.get(song_id)
             jacket_y = line_y + max(0, (row_h - jacket) // 2)
@@ -298,25 +313,42 @@ def _draw_songs(
             title = song.title if song else (song_id or "—")
             artist = song.artist if song else ""
             pills_w = _pills_width(draw, song, fonts["pill"], width, scale) if song is not None else 0
-            text_left = left + jacket + gap
-            pills_x = left + width - pills_w
-            text_room = max(1, pills_x - gap - text_left)
-            title_w = max(1, int(text_room * 0.58))
-            artist_w = max(1, text_room - title_w - gap)
+            text_left, title_w, artist_x, artist_w = columns
+            title, title_font = _clip(title, fonts["body"], title_w, draw, fonts.get("body_kr"))
+            artist, artist_font = _clip(artist, fonts["small"], artist_w, draw, fonts.get("small_kr"))
             mid = line_y + row_h // 2
-            _draw_centered_text(draw, text_left, mid, _clip(title, fonts["body"], title_w, draw), fonts["body"], (*_INK, 255))
-            _draw_centered_text(
-                draw,
-                text_left + title_w + gap,
-                mid,
-                _clip(artist, fonts["small"], artist_w, draw),
-                fonts["small"],
-                (*_MUTED, 255),
-            )
+            _draw_centered_text(draw, text_left, mid, title, title_font, (*_INK, 255))
+            _draw_centered_text(draw, artist_x, mid, artist, artist_font, (*_MUTED, 255))
             if song is not None and pills_w:
-                _draw_pills(draw, song, fonts["pill"], pills_x, mid - _px(scale, _PILL_H) // 2, pills_w, scale)
+                _draw_pills(draw, song, fonts["pill"], left + width - pills_w, mid - _px(scale, _PILL_H) // 2, pills_w, scale)
             line_y += row_h
         line_y += _px(scale, 8)
+
+
+def _song_columns(
+    draw: ImageDraw.ImageDraw,
+    series: TrackSeries,
+    songs: dict[str, Song],
+    font: ImageFont.ImageFont,
+    left: int,
+    width: int,
+    jacket: int,
+    gap: int,
+    scale: float,
+) -> tuple[int, int, int, int]:
+    widest = 0
+    for volume in series.volumes:
+        for song_id in volume.song_ids:
+            song = songs.get(song_id)
+            if song is not None:
+                widest = max(widest, _pills_width(draw, song, font, width, scale))
+    text_left = left + jacket + gap
+    artist_limit = left + width - widest - (gap if widest else 0)
+    span = max(1, artist_limit - text_left)
+    title_w = max(1, int(span * 0.55))
+    artist_x = text_left + title_w + gap
+    artist_w = max(1, artist_limit - artist_x)
+    return text_left, title_w, artist_x, artist_w
 
 
 def _draw_centered_text(
@@ -439,8 +471,7 @@ def _chart_label(name: str, chart: ChartInfo) -> str:
 
 
 def _paste_banner(image: Image.Image, banner: Image.Image, left: int, top: int, width: int, height: int) -> None:
-    cropped = _crop_banner(banner)
-    fitted = cropped.resize((width, height), Image.Resampling.LANCZOS).convert("RGBA")
+    fitted = banner.resize((width, height), Image.Resampling.LANCZOS).convert("RGBA")
     mask = Image.new("L", (width, height), 0)
     draw = ImageDraw.Draw(mask)
     radius = max(1, height // 2)
@@ -449,19 +480,6 @@ def _paste_banner(image: Image.Image, banner: Image.Image, left: int, top: int, 
         draw.rectangle((radius, 0, width, height), fill=255)
     fitted.putalpha(mask)
     image.alpha_composite(fitted, (left, top))
-
-
-def _crop_banner(banner: Image.Image) -> Image.Image:
-    cut = banner.width // 16
-    if cut <= 0:
-        return banner
-    return banner.crop((0, 0, banner.width - cut, banner.height))
-
-
-def _cropped_banner_size(banner: Image.Image) -> tuple[int, int]:
-    cut = banner.width // 16
-    width = banner.width - cut if cut > 0 else banner.width
-    return max(1, width), max(1, banner.height)
 
 
 def _paste_rounded(image: Image.Image, art: Image.Image, left: int, top: int, radius: int) -> None:
@@ -502,20 +520,18 @@ def _cover(image: Image.Image, width: int, height: int) -> Image.Image:
     return resized.crop((left, top, left + width, top + height))
 
 
-def _load_font(path: Path, size: int) -> ImageFont.ImageFont:
-    if path.is_file():
-        return ImageFont.truetype(str(path), size)
-    return ImageFont.load_default()
+def _fonts(font_path: Path, scale: float) -> dict[str, ImageFont.ImageFont | None]:
+    sizes = {"title": 34, "body": 22, "meta": 20, "small": 18, "pill": 16}
+    loaded: dict[str, ImageFont.ImageFont | None] = {}
+    for name, size in sizes.items():
+        loaded[name] = load_face(font_path, _px(scale, size))
+        loaded[f"{name}_kr"] = load_hangul(_px(scale, size))
+    return loaded
+
+
+def _clip(text: str, font: ImageFont.ImageFont, width: int, draw: ImageDraw.ImageDraw, fallback: ImageFont.ImageFont | None = None) -> tuple[str, ImageFont.ImageFont]:
+    return _clip_text(text, font, width, draw, fallback)
 
 
 def _px(scale: float, value: int) -> int:
     return max(1, int(round(value * scale)))
-
-
-def _clip(text: str, font: ImageFont.ImageFont, width: int, draw: ImageDraw.ImageDraw) -> str:
-    if width <= 0 or not text or draw.textlength(text, font=font) <= width:
-        return text
-    trimmed = text
-    while trimmed and draw.textlength(trimmed + "…", font=font) > width:
-        trimmed = trimmed[:-1]
-    return f"{trimmed}…" if trimmed else "…"

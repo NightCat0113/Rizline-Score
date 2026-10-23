@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from bot.security.authz import (
-    DM_REQUIRED,
     NOT_AVAILABLE,
     Decision,
     decide_view,
@@ -32,10 +31,11 @@ def test_self_and_shared_access():
 
 
 def test_dm_and_allowlist():
-    assert dm_rejection(frozenset(), in_guild=True, user_id=1) == DM_REQUIRED
-    assert dm_rejection(frozenset({2}), in_guild=False, user_id=1)
-    assert dm_rejection(frozenset({1}), in_guild=False, user_id=1) is None
-    assert dm_rejection(frozenset(), in_guild=False, user_id=1) is None
+    # guild usage is now allowed; only allowlist enforcement remains
+    assert dm_rejection(frozenset({2}), user_id=1)  # blocked by allowlist
+    assert dm_rejection(frozenset({1}), user_id=1) is None  # on allowlist
+    assert dm_rejection(frozenset(), user_id=1) is None  # no allowlist = open
+    assert dm_rejection(frozenset(), user_id=99) is None  # no allowlist = open
 
 
 def test_rate_limiter():
@@ -64,6 +64,8 @@ def test_slash_commands_register_without_network(tmp_path):
     from bot.app import RizlineBot
     from bot.commands.account import AccountCog
     from bot.commands.admin import AdminCog
+    from bot.commands.help import HelpCog
+    from bot.commands.preferences import PreferencesCog
     from bot.commands.scores import ScoresCog
     from bot.commands.songs import SongsCog
     from bot.config import Settings
@@ -82,9 +84,11 @@ def test_slash_commands_register_without_network(tmp_path):
         database = Database(tmp_path / "bot.db", CryptoBox(settings.encryption_key))
         bot = RizlineBot(settings, SongIndex.load(ROOT / "bot" / "static" / "songs_index.json"), database)
         await bot.add_cog(AccountCog(bot))
+        await bot.add_cog(PreferencesCog(bot))
         await bot.add_cog(SongsCog(bot))
         await bot.add_cog(ScoresCog(bot))
         await bot.add_cog(AdminCog(bot))
+        await bot.add_cog(HelpCog(bot))
         names = {command.name for command in bot.tree.get_commands()}
         database.close()
         return names
@@ -101,4 +105,6 @@ def test_slash_commands_register_without_network(tmp_path):
         "rizcard",
         "reload-data",
         "series",
+        "language",
+        "help",
     }

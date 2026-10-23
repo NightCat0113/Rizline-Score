@@ -70,6 +70,8 @@ class SongIndex:
                     illustrator=str(row.get("illustrator") or ""),
                     series_index=int(series) if isinstance(series, int) and series != -1 else None,
                     series_name=str(row.get("seriesName") or ""),
+                    original=str(row.get("original") or ""),
+                    original_with=str(row.get("originalWith") or ""),
                 )
             )
         index = cls(songs, source, _load_series(payload.get("series") or []))

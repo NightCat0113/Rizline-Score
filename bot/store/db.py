@@ -44,6 +44,10 @@ class Database:
                     expires_at TEXT NOT NULL,
                     FOREIGN KEY (discord_id) REFERENCES bindings(discord_id) ON DELETE CASCADE
                 );
+                CREATE TABLE IF NOT EXISTS user_prefs (
+                    discord_id INTEGER PRIMARY KEY,
+                    language TEXT NOT NULL DEFAULT 'en'
+                );
                 """
             )
             self._conn.commit()
@@ -73,6 +77,25 @@ class Database:
                     "UPDATE bindings SET sharing_enabled = ?, updated_at = ? WHERE discord_id = ?",
                     (flag, now, discord_id),
                 )
+            self._conn.commit()
+
+    def get_language(self, discord_id: int) -> str:
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT language FROM user_prefs WHERE discord_id = ?",
+                (discord_id,),
+            ).fetchone()
+        return str(row[0]) if row else "en"
+
+    def set_language(self, discord_id: int, language: str) -> None:
+        with self._lock:
+            self._conn.execute(
+                """
+                INSERT INTO user_prefs (discord_id, language) VALUES (?, ?)
+                ON CONFLICT(discord_id) DO UPDATE SET language = excluded.language
+                """,
+                (discord_id, str(language)),
+            )
             self._conn.commit()
 
     def get_binding(self, discord_id: int) -> tuple[bool, str] | None:

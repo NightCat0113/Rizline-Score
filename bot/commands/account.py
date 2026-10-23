@@ -165,7 +165,9 @@ class AccountCog(commands.Cog):
         if not interaction.response.is_done():
             await interaction.response.defer(ephemeral=True, thinking=True)
 
-    @app_commands.command(name="bind", description="Bind your Rizline account in a DM")
+    @app_commands.command(name="bind", description="Bind your Rizline account")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @dm_only()
     async def bind(self, interaction: discord.Interaction) -> None:
         if not interaction.client.limiter.allow(f"bind-start:{interaction.user.id}", 3, 600):
@@ -183,6 +185,8 @@ class AccountCog(commands.Cog):
         self._schedule_delete(interaction, _INTRO_DELETE_SECONDS)
 
     @app_commands.command(name="unbind", description="Delete your binding, cache, and in-memory session")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @dm_only()
     async def unbind(self, interaction: discord.Interaction) -> None:
         removed = interaction.client.db.unbind(interaction.user.id)
@@ -194,6 +198,8 @@ class AccountCog(commands.Cog):
         )
 
     @app_commands.command(name="share", description="Allow or block other people looking up your scores")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @app_commands.describe(state="on lets other people who use this bot see your scores")
     @app_commands.choices(
         state=[
@@ -216,6 +222,8 @@ class AccountCog(commands.Cog):
         )
 
     @app_commands.command(name="refresh", description="Fetch your scores again with the in-memory session")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @dm_only()
     async def refresh(self, interaction: discord.Interaction) -> None:
         if not interaction.client.limiter.allow(f"refresh:{interaction.user.id}", 1, 30):

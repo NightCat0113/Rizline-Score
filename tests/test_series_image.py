@@ -76,12 +76,13 @@ def test_series_png_keeps_its_height_and_drops_the_poster_column():
         assert _has_color(bare, BANNER)
         banner_box = _color_box(marked, BANNER)
         poster_box = _color_box(marked, POSTER)
-        assert banner_box[2] < poster_box[0]
-        assert abs((banner_box[2] + 1) - poster_box[0]) <= 2
+        mid = (banner_box[1] + banner_box[3]) // 2
+        banner_row = _row_extent(marked, BANNER, mid)
+        poster_row = _row_extent(marked, POSTER, mid)
+        assert banner_row[1] < poster_row[0]
+        assert abs((banner_row[1] + 1) - poster_row[0]) <= 2
         assert abs(banner_box[3] - poster_box[3]) <= 2
         pixels = marked.convert("RGB").load()
-        assert pixels[banner_box[2], banner_box[1]] == BANNER
-        assert pixels[banner_box[2], banner_box[3]] == BANNER
         assert pixels[banner_box[0], banner_box[1]] != BANNER
 
 
@@ -108,6 +109,41 @@ def test_song_row_uses_the_jacket_and_difficulty_color(tmp_path: Path):
         assert _has_color(image, EZ)
 
 
+def test_a_title_with_a_line_break_still_renders():
+    series = TrackSeries(
+        series_index=7,
+        name="KALPA",
+        volumes=(SeriesVolume("VOL. 1", "", ("Planetarium.0", "Short.0")),),
+    )
+    songs = {
+        "Planetarium.0": Song(
+            "Planetarium.0",
+            "너를 그리는 밤하늘의 이야기\n(Planetarium) prod. Scarlette",
+            "kuripurin",
+            "Disc",
+            "illustration.Planetarium.0",
+            charts={"EZ": ChartInfo("EZ", 1, 1, 1, 1, 1, "Charter")},
+        ),
+        "Short.0": Song(
+            "Short.0",
+            "A",
+            "Scarlette",
+            "Disc",
+            "illustration.Short.0",
+            charts={"EZ": ChartInfo("EZ", 1, 1, 1, 1, 1, "Charter"), "IN": ChartInfo("IN", 12, 1, 1, 1, 1, "Charter")},
+        ),
+    }
+    png = render_series(
+        series=series,
+        songs=songs,
+        tag="",
+        banner=Image.new("RGB", (160, 28), BANNER),
+        poster=Image.new("RGB", (20, 40), POSTER),
+        font_path=FONT,
+    )
+    assert png.startswith(b"\x89PNG")
+
+
 def _color_box(image: Image.Image, color: tuple[int, int, int]) -> tuple[int, int, int, int]:
     pixels = image.convert("RGB").load()
     min_x = min_y = 10**9
@@ -122,3 +158,10 @@ def _color_box(image: Image.Image, color: tuple[int, int, int]) -> tuple[int, in
             max_y = max(max_y, y)
     assert max_x >= 0
     return min_x, min_y, max_x, max_y
+
+
+def _row_extent(image: Image.Image, color: tuple[int, int, int], y: int) -> tuple[int, int]:
+    pixels = image.convert("RGB").load()
+    found = [x for x in range(image.width) if pixels[x, y] == color]
+    assert found
+    return found[0], found[-1]

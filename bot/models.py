@@ -47,6 +47,8 @@ class Song:
     illustrator: str = ""
     series_index: int | None = None
     series_name: str = ""
+    original: str = ""
+    original_with: str = ""
 
 
 @dataclass

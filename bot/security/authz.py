@@ -10,7 +10,6 @@ from discord import app_commands
 
 NOT_AVAILABLE = "That result is not available."
 SELF_MISSING = "Bind your Rizline account with /bind, then try again."
-DM_REQUIRED = "Use this command in a DM with the bot."
 ALLOWLIST_DENIED = "This bot only responds to its allow list."
 
 
@@ -47,11 +46,8 @@ def personal_denial_message(decision: Decision) -> str:
 def dm_rejection(
     allowed_user_ids: frozenset[int],
     *,
-    in_guild: bool,
     user_id: int,
 ) -> str | None:
-    if in_guild:
-        return DM_REQUIRED
     if allowed_user_ids and user_id not in allowed_user_ids:
         return ALLOWLIST_DENIED
     return None
@@ -73,7 +69,6 @@ def dm_only():
         settings = interaction.client.settings  # type: ignore[attr-defined]
         message = dm_rejection(
             settings.allowed_user_ids,
-            in_guild=interaction.guild is not None,
             user_id=interaction.user.id,
         )
         if message:

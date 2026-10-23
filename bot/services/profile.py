@@ -9,6 +9,8 @@ from pathlib import Path
 
 from rizline_client import derive_minimal_cache
 
+from bot.services.language import normalize_language
+
 
 _BIO_ID = re.compile(r"^bio\.([^.]+)\.(1|2)$")
 _ACH_ID = re.compile(r"^ach\.\[([^\]]+)\]\.(title1|title2)$")
@@ -69,22 +71,31 @@ def _hex_color(value: object, default: tuple[int, int, int]) -> tuple[int, int, 
         return default
 
 
-def player_title(bio_id1: str, bio_id2: str, repo_root: Path) -> str:
+def player_title(bio_id1: str, bio_id2: str, repo_root: Path, language: str = "en") -> str:
     parts = []
     for bio_id in (bio_id1, bio_id2):
-        text = _title_for(bio_id, repo_root)
+        text = _title_for(bio_id, repo_root, language)
         if text:
             parts.append(text)
     return " ".join(parts)
 
 
-def _title_for(bio_id: str, repo_root: Path) -> str:
+def _title_for(bio_id: str, repo_root: Path, language: str = "en") -> str:
     cleaned = bio_id.strip()
     if not cleaned:
         return ""
-    english = _lookup(cleaned, _load_json(repo_root / "bio_en.json"), _load_json(repo_root / "achievement_en.json"))
-    if english:
-        return english
+    code = normalize_language(language)
+    names = [code]
+    if code != "en":
+        names.append("en")
+    for name in names:
+        found = _lookup(
+            cleaned,
+            _load_json(repo_root / f"bio_{name}.json"),
+            _load_json(repo_root / f"achievement_{name}.json"),
+        )
+        if found:
+            return found
     return _lookup(cleaned, _load_json(repo_root / "bio.json"), _load_json(repo_root / "achievement.json"))
 
 
