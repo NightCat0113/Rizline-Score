@@ -219,7 +219,6 @@ class AccountCog(commands.Cog):
             return
         await interaction.response.send_message(
             SHARE_ON if state.value == "on" else SHARE_OFF,
-            ephemeral=True,
         )
 
     @app_commands.command(name="refresh", description="Fetch your scores again with the in-memory session")
@@ -240,7 +239,7 @@ class AccountCog(commands.Cog):
                 ephemeral=True,
             )
             return
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer(ephemeral=False)
         secrets = (session.email, session.token)
         try:
             cache = await rizline_api.fetch_cache(session.email, session.token, session.device_id)
@@ -258,7 +257,6 @@ class AccountCog(commands.Cog):
             return
         await interaction.followup.send(
             f"Updated scores for {cache.get('username') or 'your account'}.",
-            ephemeral=True,
         )
 
     def _user_allowed(self, user_id: int) -> bool:

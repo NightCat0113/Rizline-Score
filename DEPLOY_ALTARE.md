@@ -79,7 +79,7 @@ If you reuse an existing `var/bot.db` from your PC, you **must** use the same `B
 
 ## Updating later (GitHub main → Altare → Discord)
 
-After the first install, a push to `main` deploys code and restarts the bot. Altare has no git pull; [`.github/workflows/deploy-altare.yml`](.github/workflows/deploy-altare.yml) packs a code-only zip and uses the Altare client API to upload it, extract it, delete the zip, and restart. Startup runs `main.py`, which syncs slash commands. Global command changes can still take up to an hour to show up in Discord.
+After the first install, a push to `main` deploys code and restarts the bot. Altare has no git pull; [`.github/workflows/deploy-altare.yml`](.github/workflows/deploy-altare.yml) first runs safety checks (compile, pytest, code-only zip contents), then packs a code-only zip and uses the Altare client API to upload it, extract it, delete the zip, and restart. Deploy is skipped if those checks fail. Startup runs `main.py`, which syncs slash commands. Global command changes can still take up to an hour to show up in Discord.
 
 The code-only zip refreshes `bot/`, `rizline/`, `locale/`, `songs.json`, `mapping.json`, `main.py`, and `requirements.txt`. It does **not** replace:
 

@@ -4,8 +4,12 @@ from bot.commands.help import HelpCog, help_text
 def test_help_text_lists_the_main_commands():
     text = help_text({})
     assert "**Rizline Lookup**" in text
-    assert "TERMS.md" in text
-    assert "PRIVACY.md" in text
+    assert "unofficial fan Discord bot" in text
+    assert "`/bind`, `/unbind`, and `/help` stay private" in text
+    assert "https://github.com/NightCat0113/Rizline-Score/blob/main/PRIVACY.md" in text
+    assert "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md" in text
+    assert "nightwind0112@gmail.com" in text
+    assert "@nightwind.nightcat" in text
     for name in ("song", "series", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
         assert f"`/{name}`" in text
     for name in ("recommend", "achievements", "asyncombat", "weekly"):

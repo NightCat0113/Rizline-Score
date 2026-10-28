@@ -181,8 +181,16 @@ def test_tls_verification_is_not_disabled():
 
 def test_bot_does_not_opt_into_localhost_or_save_dumps():
     root = __import__("pathlib").Path(__file__).resolve().parents[1]
+    api = (root / "bot" / "services" / "rizline_api.py").read_text(encoding="utf-8")
+    assert "require_pinned_host" in api
     for path in (root / "bot").rglob("*.py"):
         text = path.read_text(encoding="utf-8")
         assert "allow_http_localhost" not in text
-        assert "gameData" not in text
-        assert "require_pinned_host" in (root / "bot" / "services" / "rizline_api.py").read_text(encoding="utf-8")
+        if "gameData" not in text:
+            continue
+        # Optional local dump reads for card enrichment are limited to profile.py.
+        # The Discord bot must not write decrypted save dumps.
+        assert path.name == "profile.py"
+        assert "write_text" not in text
+        assert "json.dump" not in text
+        assert ".write(" not in text

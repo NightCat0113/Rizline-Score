@@ -19,8 +19,14 @@ def help_text(command_ids: dict[str, int]) -> str:
     return "\n".join(
         [
             "**Rizline Lookup**",
+            "An unofficial fan Discord bot for the rhythm game Rizline. "
+            "It looks up songs and series from the chart catalog, and — if you bind your own Rizline account — "
+            "shows your scores, Best 40 card, recommendations, achievements, Asyncombat ranks, and weekly tasks. "
+            "It is not affiliated with or endorsed by the Rizline publisher or Discord.",
+            "",
             "All commands work **anywhere** once you add the bot to your account. "
-            "Song lookups need no account; score lookups need your Rizline account bound first.",
+            "Song lookups need no account; score lookups need your Rizline account bound first. "
+            "Most replies are visible in the channel. `/bind`, `/unbind`, and `/help` stay private to you.",
             "",
             "**Songs (no account needed)**",
             f"{mention('song')} `title` — Look up a song and its charts",
@@ -42,9 +48,13 @@ def help_text(command_ids: dict[str, int]) -> str:
             f"{mention('language')} — Set the language used on your card images",
             "",
             "**Policies**",
-            "Using this bot means you agree to the terms of service and privacy policy "
-            "in `TERMS.md` and `PRIVACY.md` in the project repository.",
-            "Contact: [operator email or Discord]",
+            "Using this bot means you agree to the terms of service and privacy policy:",
+            "Privacy Policy: https://github.com/NightCat0113/Rizline-Score/blob/main/PRIVACY.md",
+            "ToS: https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md",
+            "",
+            "**Contact**",
+            "Email: nightwind0112@gmail.com",
+            "Discord: @nightwind.nightcat",
             "",
             "Tip: type / in any chat to see every command.",
         ]

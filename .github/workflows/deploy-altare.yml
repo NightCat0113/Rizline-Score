@@ -6,7 +6,54 @@ on:
   workflow_dispatch:
 
 jobs:
+  check:
+    name: Safety checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime and test deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-altare.txt pytest
+
+      - name: Compile Python packages
+        run: python -m compileall -q bot rizline main.py tools/pack_altare.py
+
+      - name: Run tests
+        run: python -m pytest -q --tb=short
+
+      - name: Pack and verify code-only zip
+        run: |
+          set -euo pipefail
+          python tools/pack_altare.py --code-only --out deploy.zip
+          python - <<'PY'
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          path = Path("deploy.zip")
+          if not path.is_file() or path.stat().st_size < 1024:
+              raise SystemExit(f"deploy.zip missing or too small: {path.stat().st_size if path.is_file() else 'absent'}")
+          names = zipfile.ZipFile(path).namelist()
+          required = {"main.py", "requirements.txt", "bot/__init__.py", "rizline/__init__.py"}
+          missing = sorted(required - set(names))
+          if missing:
+              raise SystemExit(f"deploy.zip missing required entries: {missing}")
+          banned_prefixes = (".env", "var/", "output/", "assets/", "download/", ".git/")
+          bad = [name for name in names if name.startswith(banned_prefixes) or name == ".env"]
+          if bad:
+              raise SystemExit(f"deploy.zip contains banned paths: {bad[:20]}")
+          print(f"deploy.zip ok ({path.stat().st_size} bytes, {len(names)} entries)")
+          PY
+
   deploy:
+    name: Deploy to Altare
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

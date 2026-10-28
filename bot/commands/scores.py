@@ -95,7 +95,6 @@ class ScoresCog(commands.Cog):
             return
         await interaction.response.send_message(
             profile_text(cache, interaction.client.songs),
-            ephemeral=True,
         )
 
     @app_commands.command(name="recommend", description="Find score targets to raise your RKS")
@@ -158,7 +157,7 @@ class ScoresCog(commands.Cog):
             increase=requested,
             rows=recommendations,
         )
-        await interaction.response.send_message(view.render(), view=view, ephemeral=True)
+        await interaction.response.send_message(view.render(), view=view)
 
     @app_commands.command(name="achievements", description="Browse your Rizline achievement checklist")
     @app_commands.allowed_installs(guilds=True, users=True)
@@ -215,7 +214,7 @@ class ScoresCog(commands.Cog):
             total=len(all_rows),
             language=language,
         )
-        await interaction.response.send_message(view.render(), view=view, ephemeral=True)
+        await interaction.response.send_message(view.render(), view=view)
 
     @app_commands.command(name="b40", description="Show your AH5 and B35 charts")
     @app_commands.allowed_installs(guilds=True, users=True)

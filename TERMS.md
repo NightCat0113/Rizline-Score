@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-28
 
-**Contact:** [operator email or Discord]
+**Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
 This document is a practical description of how **Rizline Lookup** is offered. It is not legal advice. The operator should have it reviewed before relying on it.
 

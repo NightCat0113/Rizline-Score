@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-28
 
-**Contact:** [operator email or Discord]
+**Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
 This document describes how **Rizline Lookup** (the “Service”) handles personal data when you use the Discord bot. It is not legal advice. The operator should have it reviewed before relying on it.
 
@@ -10,7 +10,7 @@ This document describes how **Rizline Lookup** (the “Service”) handles perso
 
 Rizline Lookup is an unofficial fan Discord bot. It is not operated by the Rizline publisher or by Discord.
 
-**Contact:** [operator email or Discord]
+**Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
 ## 2. What we collect and why
 
