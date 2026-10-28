@@ -10,20 +10,17 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from bot.commands.songs import autocomplete_songs
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
 from bot.services.achievements import achievement_rows, unlocked_achievement_ids
 from bot.services.language import user_language
 from bot.services.profile import local_profile
 from bot.services.recommendation import recommend_score_targets, resolve_song_filter
-from bot.services.rks import bests_for_song, build_records, chart_track_ids, select_top40
-from bot.services.songdata import attachment_name, illustration_path
+from bot.services.rks import build_records, select_top40
 from bot.store.crypto import TamperError
 from bot.ui.achievement_view import AchievementChecklistView
 from bot.ui.b40_image import render_b40
 from bot.ui.recommendation_view import RecommendationPlanView
-from bot.ui.song_image import render_song
-from bot.ui.texts import ambiguous_text, profile_text, score_text
+from bot.ui.texts import profile_text
 
 
 logger = logging.getLogger("rizline.bot")
@@ -75,63 +72,6 @@ class ScoresCog(commands.Cog):
             return Decision.DENIED, None
         return Decision.ALLOW, cache
 
-    @app_commands.command(name="score", description="Show your score for a song")
-    @app_commands.allowed_installs(guilds=True, users=True)
-    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    @app_commands.describe(query="Song title", user="Another person who turned sharing on")
-    @app_commands.autocomplete(query=autocomplete_songs)
-    @dm_only()
-    async def score(
-        self,
-        interaction: discord.Interaction,
-        query: str,
-        user: discord.User | None = None,
-    ) -> None:
-        if self._too_fast(interaction):
-            await interaction.response.send_message(
-                "Too many lookups. Wait a moment and try again.",
-                ephemeral=True,
-            )
-            return
-        target = user or interaction.user
-        decision, cache = self._load_view(interaction, target.id)
-        if decision is not Decision.ALLOW or cache is None:
-            await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
-            return
-        song, candidates = interaction.client.songs.resolve(query)
-        if song is None:
-            message = ambiguous_text(candidates) if candidates else "No song matched"
-            await interaction.response.send_message(message, ephemeral=True)
-            return
-        await interaction.response.defer(ephemeral=True)
-        settings = interaction.client.settings
-        try:
-            png = await asyncio.to_thread(
-                render_song,
-                song=song,
-                personal=bests_for_song(cache, song.asset_id, chart_track_ids(song)),
-                highlight=None,
-                illust_hires_dir=settings.illust_hires_dir,
-                illust_dir=settings.illust_dir,
-                font_path=settings.font_path,
-                language=user_language(interaction.client.db, interaction.user.id),
-            )
-        except Exception as exc:
-            logger.error("song image failed type=%s", type(exc).__name__)
-            image = illustration_path(song, settings.illust_hires_dir, settings.illust_dir)
-            filename = attachment_name(song) if image else None
-            kwargs: dict = {"ephemeral": True}
-            if image and filename:
-                kwargs["file"] = discord.File(image, filename=filename)
-            await interaction.followup.send(score_text(song, cache), **kwargs)
-            return
-        username = cache.get("username") or "Your scores"
-        await interaction.followup.send(
-            f"**{song.title}**\n{username}",
-            file=discord.File(io.BytesIO(png), filename="song.png"),
-            ephemeral=True,
-        )
-
     @app_commands.command(name="profile", description="Show RKS and top charts")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -162,15 +102,15 @@ class ScoresCog(commands.Cog):
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @app_commands.describe(
-        increase="Desired overall RKS increase (default: 0.01)",
-        songs="Optional song titles separated by semicolons; autocomplete supports multiple selections",
+        increase="Overall RKS increase. Leave empty for the max score-only gain.",
+        songs="Optional song titles separated by semicolons",
     )
     @app_commands.autocomplete(songs=autocomplete_recommend_songs)
     @dm_only()
     async def recommend(
         self,
         interaction: discord.Interaction,
-        increase: app_commands.Range[float, 0.01, 10.0] = 0.01,
+        increase: app_commands.Range[float, 0.01, 10.0] | None = None,
         songs: str | None = None,
     ) -> None:
         if self._too_fast(interaction):
@@ -192,29 +132,30 @@ class ScoresCog(commands.Cog):
         if filter_errors:
             await interaction.response.send_message("\n".join(filter_errors), ephemeral=True)
             return
+        requested = None if increase is None else float(increase)
         recommendations, max_available = recommend_score_targets(
-            cache, interaction.client.songs, increase=float(increase), song_ids=song_ids
+            cache, interaction.client.songs, increase=requested, song_ids=song_ids
         )
-        target = f"+{float(increase):.2f} RKS"
+        target = "the max score-only gain" if requested is None else f"+{requested:.2f} RKS"
         if not recommendations:
             if song_ids:
                 message = (
                     f"The selected songs with saved scores cannot reach {target} by score improvement "
-                    f"within the current score-only Best 40 (estimated maximum: +{max_available:.3f}). "
+                    f"(estimated maximum: +{max_available:.3f}). "
                     "Try selecting more scored songs or removing the filter."
                 )
             else:
                 message = (
-                    f"The current Best 40 cannot reach {target} through score improvements alone "
-                    f"(estimated score-only maximum: +{max_available:.3f}). This is the current maximum "
-                    "from the saved scores; improving accuracy or adding songs may increase RKS."
+                    f"Saved scores cannot reach {target} through score improvements alone "
+                    f"(estimated score-only maximum: +{max_available:.3f}). "
+                    "Improving accuracy or adding songs may increase RKS."
                 )
             await interaction.response.send_message(message, ephemeral=True)
             return
 
         view = RecommendationPlanView(
             owner_id=interaction.user.id,
-            increase=float(increase),
+            increase=requested,
             rows=recommendations,
         )
         await interaction.response.send_message(view.render(), view=view, ephemeral=True)

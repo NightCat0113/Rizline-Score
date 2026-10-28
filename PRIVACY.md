@@ -19,7 +19,7 @@ Rizline Lookup is an unofficial fan Discord bot. It is not operated by the Rizli
 | Discord user id                                                                                      | Identify your binding, preferences, and command results                              | Until you delete the related records (see §6)                                                     |
 | Language preference                                                                                  | Render card and UI text in your language                                             | Until you ask for deletion; **survives** `/unbind`                                                |
 | Sharing flag (`/share`)                                                                              | Decide whether other bot users may look up your scores                               | Until `/unbind` removes the binding                                                               |
-| Encrypted score cache (username, RKS, chart results, profile-card fields such as avatar and bio ids) | Answer `/score`, `/profile`, `/b40`, and similar without logging in every time       | Until the cache TTL expires (default 24 hours), you `/refresh` or `/bind` again, or you `/unbind` |
+| Encrypted score cache (username, RKS, chart results, profile-card fields such as avatar and bio ids) | Answer `/song`, `/profile`, `/b40`, and similar without logging in every time       | Until the cache TTL expires (default 24 hours), you `/refresh` or `/bind` again, or you `/unbind` |
 | Rizline email, session token, and device id                                                          | Keep a live session for `/refresh`, `/asyncombat`, `/weekly`, and related live calls | **In memory only**, until `/unbind` or the bot process restarts                                   |
 | Rizline passcode or email verification code                                                          | Log in once during `/bind`                                                           | Used once, then discarded; **not** written to the database                                        |
 | Command interaction metadata that Discord delivers to the bot                                        | Run slash commands and send replies                                                  | Handled in the bot process; Discord also keeps its own copies under Discord’s policies            |
@@ -39,7 +39,7 @@ The separate local CLI tools in this repository can write decrypted save files i
 
 By default, other people who use this bot **cannot** see your scores.
 
-If you turn `/share on`, other users of this bot can look up your scores with `/score` and `/profile` while your encrypted cache is still valid. If the cache has expired, they still get an unavailable result until you `/refresh` or `/bind` again.
+If you turn `/share on`, other users of this bot can look up your scores with `/profile` while your encrypted cache is still valid. If the cache has expired, they still get an unavailable result until you `/refresh` or `/bind` again.
 
 Turn `/share off` (or leave it off) to stop that sharing. `/unbind` also removes the binding that sharing depends on.
 

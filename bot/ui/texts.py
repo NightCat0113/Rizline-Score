@@ -1,4 +1,4 @@
-"""Plain-text messages for song, score, profile, and series pages.
+"""Plain-text messages for song, profile, and series pages.
 
 These are the text fallbacks used when an image card cannot be rendered,
 plus the ambiguous-match and profile replies. They are ordinary message
@@ -85,11 +85,6 @@ def song_text(
     if not shown and not difficulty:
         lines.append("\nNo chart details are in the local song index.")
     return _limit("\n".join(lines))
-
-
-def score_text(song: Song, cache: dict) -> str:
-    username = cache.get("username") or "Your scores"
-    return _limit(f"{username}\n\n{song_text(song, cache=cache)}")
 
 
 def profile_text(cache: dict, index: SongIndex) -> str:

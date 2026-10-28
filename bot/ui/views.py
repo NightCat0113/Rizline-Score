@@ -33,7 +33,7 @@ UNBIND_REMOVED = (
 UNBIND_EMPTY = "Nothing was stored for your Discord account."
 
 SHARE_ON = (
-    "Sharing is on. Other people who use this bot can look up your scores with /score and /profile. "
+    "Sharing is on. Other people who use this bot can look up your scores with /profile. "
     "If your cache has expired, they still get an unavailable result until you /refresh or /bind."
 )
 

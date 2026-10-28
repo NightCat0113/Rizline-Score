@@ -61,7 +61,7 @@ def test_song_commands_have_no_difficulty_option():
     from bot.commands.songs import SongsCog
 
     assert [item.name for item in SongsCog.song.parameters] == ["query"]
-    assert [item.name for item in ScoresCog.score.parameters] == ["query", "user"]
+    assert not hasattr(ScoresCog, "score")
 
 
 def test_saved_language_survives_unbind(tmp_path: Path):

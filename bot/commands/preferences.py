@@ -37,6 +37,6 @@ class PreferencesCog(commands.Cog):
             return
         await interaction.response.send_message(
             f"Card image language set to {LANGUAGE_NAMES[code]}. "
-            "This changes the series poster and banner, and the words drawn on /series, /song, /score and /b40 cards.",
+            "This changes the series poster and banner, and the words drawn on /series, /song, and /b40 cards.",
             ephemeral=True,
         )

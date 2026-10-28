@@ -99,7 +99,7 @@ Implemented in `bot/security/authz.py` and called from the slash commands (not o
 - Commands are global and DM-only. There is no `GUILD_ID`. A command used in a server gets `Use this command in a DM with the bot.` The guild boundary was removed on purpose.
 - `ALLOWED_USER_IDS` is optional. Empty means anyone who can DM the bot can use commands and bind their own Rizline account. A non-empty list restricts every command, including `/bind` replies, to those Discord ids.
 - Open access lets a stranger spend Rizline API calls on this host through `/bind` and `/refresh`. The in-process rate limits below are the control. This is accepted for a private deployment and is not enough if the bot is listed publicly.
-- `/score` and `/profile` for another user succeed only when that user has a live cache **and** `/share on`. Otherwise the reply is exactly `That result is not available.` The same string is used when the target is unbound, expired, or sharing off (`tests/test_authz.py`). Bound-status is not stated in that text.
+- `/profile` for another user succeeds only when that user has a live cache **and** `/share on`. Otherwise the reply is exactly `That result is not available.` The same string is used when the target is unbound, expired, or sharing off (`tests/test_authz.py`). Bound-status is not stated in that text.
 - Looking up yourself while unbound is a different message, because that does not reveal anyone else's status.
 - `/reload-data` requires `OWNER_ID` when set, otherwise the application owner when that owner is a user. A team-owned app must set `OWNER_ID`.
 - `/bind` runs in the DM where it was invoked. It accepts replies only while a bind started by that user is pending, and only if they pass the allow list when one is set.

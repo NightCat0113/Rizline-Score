@@ -40,13 +40,14 @@ def resolve_song_filter(index: SongIndex, raw: str | None) -> tuple[set[str], li
 def recommend_score_targets(
     cache: dict,
     index: SongIndex,
-    increase: float = 0.01,
+    increase: float | None = None,
     song_ids: set[str] | None = None,
 ) -> tuple[list[dict], float]:
     """Return a combined score-improvement plan and its available overall gain.
 
     Targets hold the player's current accuracy tier constant and combine score
     improvements across all scored charts that can enter or improve the Best 40.
+    ``increase`` is an overall RKS bump. ``None`` plans the full score-only maximum.
     """
     records, _missing = build_records(cache, index)
     special, ordinary, _overflow = select_top40(records)
@@ -54,7 +55,8 @@ def recommend_score_targets(
     if not top40:
         return [], 0.0
     wanted_ids = song_ids or set()
-    target_gain = max(0.01, float(increase)) * 40
+    want_all = increase is None
+    target_gain = math.inf if want_all else max(0.01, float(increase)) * 40
     candidates: list[dict] = []
 
     for row in top40:
@@ -105,10 +107,18 @@ def recommend_score_targets(
     ) / 40
     remaining = target_gain
     plan: list[dict] = []
-    for item in sorted(candidates, key=lambda row: (-row["per_step"], row["title"])):
-        if remaining <= 1e-9:
-            break
-        steps = min(item["max_q"] - item["current_q"], math.ceil(remaining / item["per_step"]))
+    ordered = sorted(
+        candidates,
+        key=lambda row: (row["max_q"] - row["current_q"], -row["per_step"], row["title"]),
+    )
+    for item in ordered:
+        steps_available = item["max_q"] - item["current_q"]
+        if want_all:
+            steps = steps_available
+        else:
+            if remaining <= 1e-9:
+                break
+            steps = min(steps_available, math.ceil(remaining / item["per_step"]))
         target_score = min(item["max_score"], 1_000_000 + (item["current_q"] + steps) * 100)
         gain = steps * item["per_step"] / 40
         plan.append(
@@ -121,9 +131,8 @@ def recommend_score_targets(
                 "in_top40": True,
             }
         )
-        remaining -= steps * item["per_step"]
-    if remaining <= 1e-9:
-        return plan, max_gain
+        if not want_all:
+            remaining -= steps * item["per_step"]
 
     # Raise current Best 40 charts to their score-only maximum before finding
     # the replacement cutoffs for songs currently outside the list.
@@ -187,14 +196,13 @@ def recommend_score_targets(
             }
         )
 
-    # Each outside chart replaces one of the current lowest scores. Allow
-    # several songs to contribute together instead of requiring a single song
-    # to produce the entire requested RKS increase on its own.
-    outside_candidates.sort(key=lambda item: (-item["max_rks"], item["title"]))
+    # Pair the strongest outsiders with the lowest Best 40 slots, then prefer
+    # the charts that need the smallest score jump to enter.
+    ranked = sorted(outside_candidates, key=lambda item: (-item["max_rks"], item["title"]))
     viable: list[dict] = []
     outside_max_raw = 0.0
-    for index, item in enumerate(outside_candidates[:40]):
-        threshold = replacement_values[index]
+    for slot, item in enumerate(ranked[:40]):
+        threshold = replacement_values[slot]
         if item["max_rks"] <= threshold:
             break
         entry_q = max(
@@ -206,10 +214,16 @@ def recommend_score_targets(
         item = {**item, "threshold": threshold, "target_q": entry_q}
         viable.append(item)
         outside_max_raw += item["max_rks"] - threshold
+    viable.sort(key=lambda item: (item["target_q"] - item["current_q"], -item["max_rks"], item["title"]))
 
     max_available = max_gain + outside_max_raw / 40
-    if not viable:
-        return [], max_available
+    if want_all:
+        for item in viable:
+            item["target_q"] = item["max_q"]
+        _append_outside(plan, viable)
+        return plan, max_available
+    if remaining <= 1e-9 or not viable:
+        return plan, max_available
 
     selected: list[dict] = []
     available_raw = 0.0
@@ -218,8 +232,6 @@ def recommend_score_targets(
         available_raw += item["max_rks"] - item["threshold"]
         if available_raw + 1e-9 >= remaining:
             break
-    if available_raw + 1e-9 < remaining:
-        return [], max_available
 
     planned_raw = sum(
         item["base_rks"] + item["target_q"] * item["per_step"] - item["threshold"]
@@ -235,9 +247,12 @@ def recommend_score_targets(
         )
         item["target_q"] += steps
         extra_needed -= steps * item["per_step"]
-    if extra_needed > 1e-9:
-        return [], max_available
 
+    _append_outside(plan, selected)
+    return plan, max_available
+
+
+def _append_outside(plan: list[dict], selected: list[dict]) -> None:
     for item in selected:
         target_score = min(item["max_score"], 1_000_000 + item["target_q"] * 100)
         target_rks = item["base_rks"] + item["target_q"] * item["per_step"]
@@ -252,4 +267,3 @@ def recommend_score_targets(
                 "in_top40": False,
             }
         )
-    return plan, max_available

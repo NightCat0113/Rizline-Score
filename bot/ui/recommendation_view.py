@@ -6,7 +6,7 @@ import discord
 
 
 class RecommendationPlanView(discord.ui.View):
-    def __init__(self, *, owner_id: int, increase: float, rows: list[dict], page_size: int = 8) -> None:
+    def __init__(self, *, owner_id: int, increase: float | None, rows: list[dict], page_size: int = 8) -> None:
         super().__init__(timeout=180)
         self.owner_id = owner_id
         self.increase = increase
@@ -28,12 +28,24 @@ class RecommendationPlanView(discord.ui.View):
         start = self.page * self.page_size
         current = self.rows[start : start + self.page_size]
         total_gain = sum(row["rks_gain"] for row in self.rows)
+        if self.increase is None:
+            title = f"**Score targets for max score-only gain (+{total_gain:.3f} RKS)**"
+        else:
+            title = f"**Score targets for +{self.increase:.2f} RKS**"
         lines = [
-            f"**Score targets for +{self.increase:.2f} RKS**",
+            title,
             f"Combined plan: about +{total_gain:.3f} overall RKS.",
-            "Only scored charts are included. Targets assume the current accuracy tier stays the same; outside charts must score high enough to enter the Best 40.",
-            "",
         ]
+        if self.increase is not None and total_gain + 1e-6 < self.increase:
+            lines.append(
+                f"Requested +{self.increase:.2f}; this score-only plan reaches about +{total_gain:.3f}."
+            )
+        lines.extend(
+            [
+                "Only scored charts are included. Targets assume the current accuracy tier stays the same; outside charts must score high enough to enter the Best 40.",
+                "",
+            ]
+        )
         for row in current:
             lines.append(
                 f"• **{row['title']}** `{row['difficulty']}`: "

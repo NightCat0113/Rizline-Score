@@ -6,10 +6,11 @@ def test_help_text_lists_the_main_commands():
     assert "**Rizline Lookup**" in text
     assert "TERMS.md" in text
     assert "PRIVACY.md" in text
-    for name in ("song", "series", "bind", "score", "profile", "b40", "refresh", "share", "unbind", "language"):
+    for name in ("song", "series", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
         assert f"`/{name}`" in text
     for name in ("recommend", "achievements", "asyncombat", "weekly"):
         assert f"`/{name}`" in text
+    assert "`/score`" not in text
     assert "`/rizcard`" not in text
     assert "reload-data" not in text
 

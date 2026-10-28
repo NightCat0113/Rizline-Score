@@ -101,7 +101,6 @@ def test_slash_commands_register_without_network(tmp_path):
         "share",
         "refresh",
         "song",
-        "score",
         "profile",
         "b40",
         "recommend",
