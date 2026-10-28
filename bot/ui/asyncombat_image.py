@@ -21,12 +21,17 @@ _WHITE = (255, 255, 255)
 _WIDTH = 1080
 _PAD = 40
 _HEADER_SCALE = 0.92
-_RAIL_RADIUS = 40
-_RAIL_Y = 164
-_JOURNEY_H = _RAIL_Y + _RAIL_RADIUS + 80
+# Two-row rail: Do…Fa+ on top, So…Do△ below.
+_RAIL_RADIUS = 36
+_RAIL_ROW1 = 8
+_RAIL_ROW1_Y = 148
+_RAIL_ROW_GAP = 30
+_RAIL_ROW2_Y = _RAIL_ROW1_Y + 2 * _RAIL_RADIUS + _RAIL_ROW_GAP
+_JOURNEY_H = _RAIL_ROW2_Y + _RAIL_RADIUS + 64
 _STAT_BUBBLE = 58
 _STAT_CY = 112
 _STAT_H = _STAT_CY + _STAT_BUBBLE // 2 + 54
+_RAIL_STROKE = 2
 
 # x, y, and diameter are fractions of the canvas so the dots follow the height.
 _DOTS = (
@@ -167,19 +172,48 @@ def _journey(base: Image.Image, view: AsyncombatView, fonts: dict[str, ImageFont
 
     peak_i = segment_index(view.peak)
     current_i = segment_index(view.current)
-    rail_y = _RAIL_Y
-    count = len(RAIL_LABELS)
     radius = _RAIL_RADIUS
     inner_left, inner_right = 48 + radius, card.width - 48 - radius
-    gap = (inner_right - inner_left) / max(1, count - 1)
-    centers = [int(inner_left + index * gap) for index in range(count)]
+    row1 = RAIL_LABELS[:_RAIL_ROW1]
+    row2 = RAIL_LABELS[_RAIL_ROW1:]
+
+    def _row_centers(count: int) -> list[int]:
+        if count <= 1:
+            return [(inner_left + inner_right) // 2]
+        gap = (inner_right - inner_left) / (count - 1)
+        return [int(inner_left + index * gap) for index in range(count)]
+
+    # Top row left→right; bottom row right→left so the path snakes down the right edge.
+    centers1 = _row_centers(len(row1))
+    centers2 = list(reversed(_row_centers(len(row2))))
+    y1, y2 = _RAIL_ROW1_Y, _RAIL_ROW2_Y
     rail = ImageDraw.Draw(base)
-    if count > 1:
-        rail.line((left + centers[0], top + rail_y, left + centers[-1], top + rail_y), fill=(*_BLUE, 255), width=4)
-    for index, (name, center) in enumerate(zip(RAIL_LABELS, centers)):
+    stroke = (*_BLUE, 255)
+    if len(centers1) > 1:
+        rail.line((left + centers1[0], top + y1, left + centers1[-1], top + y1), fill=stroke, width=_RAIL_STROKE)
+    if len(centers2) > 1:
+        rail.line((left + centers2[0], top + y2, left + centers2[-1], top + y2), fill=stroke, width=_RAIL_STROKE)
+    if centers1 and centers2:
+        rail.line(
+            (left + centers1[-1], top + y1, left + centers2[0], top + y2),
+            fill=stroke,
+            width=_RAIL_STROKE,
+        )
+    for index, (name, center) in enumerate(zip(row1, centers1)):
         _song_circle(
             base,
-            (left + center, top + rail_y),
+            (left + center, top + y1),
+            radius,
+            name,
+            fonts["node"],
+            filled=peak_i >= index,
+            emphasize=current_i == index,
+        )
+    for offset, (name, center) in enumerate(zip(row2, centers2)):
+        index = _RAIL_ROW1 + offset
+        _song_circle(
+            base,
+            (left + center, top + y2),
             radius,
             name,
             fonts["node"],
@@ -213,10 +247,13 @@ def _stat_card(
     card = Image.new("RGBA", (right - left, bottom - top), (0, 0, 0, 0))
     draw = ImageDraw.Draw(card)
     _round_rect(draw, (0, 0, card.width - 1, card.height - 1), 40, fill=(255, 255, 255, 255), outline=(*_BLUE, 255), width=3)
-    draw.text((28, 20), title, font=fonts["kicker"], fill=(*_BLUE, 255))
-    draw.text((28, 42), subtitle, font=fonts["sub"], fill=(*_MUTED, 255))
-    draw.text((card.width - 24, 24), f"{rate}%", font=fonts["rate"], fill=(*_BLUE_DEEP, 255), anchor="ra")
-    draw.text((card.width - 24, 46), "WIN RATE", font=fonts["kicker"], fill=(*_MUTED, 255), anchor="ra")
+    title_x, title_top = 28, 18
+    draw.text((title_x, title_top), title, font=fonts["kicker"], fill=(*_BLUE, 255))
+    title_box = draw.textbbox((title_x, title_top), title, font=fonts["kicker"])
+    sub_top = title_box[3] + 4
+    draw.text((title_x, sub_top), subtitle, font=fonts["sub"], fill=(*_MUTED, 255))
+    draw.text((card.width - 24, title_box[1] + (title_box[3] - title_box[1]) // 2), f"{rate}%", font=fonts["rate"], fill=(*_BLUE_DEEP, 255), anchor="rm")
+    draw.text((card.width - 24, sub_top), "WIN RATE", font=fonts["kicker"], fill=(*_MUTED, 255), anchor="rt")
     labels = (("MATCHES", matches), ("WINS", wins), ("STREAK", streak))
     bubble = _STAT_BUBBLE
     slot = card.width // 3
@@ -244,7 +281,7 @@ def render_asyncombat(
         "kicker": _font(font_path, 16),
         "heading": _font(font_path, 36),
         "chip": _font(font_path, 16),
-        "node": _font(font_path, 16),
+        "node": _font(font_path, 15),
         "foot": _font(font_path, 22),
         "sub": _font(font_path, 16),
         "rate": _font(font_path, 18),
@@ -294,7 +331,7 @@ def render_asyncombat(
         image,
         (content_left, stat_top, content_left + width, stat_bottom),
         title="CHALLENGE",
-        subtitle="Ranked matches",
+        subtitle="Challenge other Players",
         rate=win_rate(view.challenge),
         matches=view.challenge.matches,
         wins=view.challenge.wins,
@@ -305,7 +342,7 @@ def render_asyncombat(
         image,
         (content_left + width + gap, stat_top, content_right, stat_bottom),
         title="ENGAGE",
-        subtitle="Quick matches",
+        subtitle="Defend from Players",
         rate=win_rate(view.engage),
         matches=view.engage.matches,
         wins=view.engage.wins,

@@ -20,6 +20,55 @@ from bot.ui.song_image import (
 
 ROOT = Path(__file__).resolve().parents[1]
 FONT = ROOT / "assets" / "fonts" / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
+# The hybrid card font is gitignored; CI falls back to Pillow's default face and
+# text metrics drift. Layout probes below search regions instead of fixed pixels.
+
+
+def _clip_box(image: Image.Image, box: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
+    left, top, right, bottom = box
+    return (
+        max(0, left),
+        max(0, top),
+        min(image.width, right),
+        min(image.height, bottom),
+    )
+
+
+def _count_near_white(image: Image.Image, box: tuple[int, int, int, int], *, floor: int = 248) -> int:
+    left, top, right, bottom = _clip_box(image, box)
+    pixels = image.load()
+    return sum(
+        1
+        for y in range(top, bottom)
+        for x in range(left, right)
+        if pixels[x, y][0] >= floor and pixels[x, y][1] >= floor and pixels[x, y][2] >= floor
+    )
+
+
+def _has_dark_ink(image: Image.Image, box: tuple[int, int, int, int], *, ceiling: int = 80) -> bool:
+    left, top, right, bottom = _clip_box(image, box)
+    pixels = image.load()
+    return any(
+        pixels[x, y][0] < ceiling and pixels[x, y][1] < ceiling and pixels[x, y][2] < ceiling
+        for y in range(top, bottom)
+        for x in range(left, right)
+    )
+
+
+def _region_has_rgb(
+    image: Image.Image,
+    box: tuple[int, int, int, int],
+    rgb: tuple[int, int, int],
+    *,
+    tolerance: int = 0,
+) -> bool:
+    left, top, right, bottom = _clip_box(image, box)
+    pixels = image.load()
+    return any(
+        all(abs(pixels[x, y][i] - rgb[i]) <= tolerance for i in range(3))
+        for y in range(top, bottom)
+        for x in range(left, right)
+    )
 
 
 def _song(chart_count: int, illustration_id: str = "illustration.missing") -> Song:
@@ -133,49 +182,39 @@ def test_original_badge_sits_at_the_bottom_centre_of_the_jacket() -> None:
     plain = _draw(song=plain_song, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
     badged = _draw(song=marked, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
     assert plain.size == badged.size
-    # Jacket circle: left/top at _PAD + 5, diameter _HEADER_H - 10, so its
-    # centre x is 122 and the pill sits at its very bottom (bottom y 211).
-    assert plain.load()[122, 194][:3] != (255, 255, 255)
-    assert badged.load()[122, 194][:3] == (255, 255, 255)
-    darker = any(
-        badged.load()[x, 194][0] < 80
-        for x in range(60, 185)
-    )
-    assert darker
+    # Jacket circle sits near the left header; the white original pill hangs on its bottom edge.
+    jacket_bottom = (40, 175, 210, 220)
+    assert _count_near_white(badged, jacket_bottom) > _count_near_white(plain, jacket_bottom) + 40
+    assert _has_dark_ink(badged, jacket_bottom)
 
 
 def test_collaboration_badge_renders_its_second_line() -> None:
     song = replace(_song(1), original="Collaboration Original", original_with="Paradigm: Reboot")
     image = _draw(song=song, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
-    assert image.load()[55, 196][:3] == (255, 255, 255)
-    assert any(image.load()[x, 196][0] < 80 for x in range(40, 205))
+    # Two-line collaboration pill is taller, so search a slightly deeper jacket-bottom box.
+    badge_box = (30, 165, 230, 230)
+    assert _count_near_white(image, badge_box) > 80
+    assert _has_dark_ink(image, badge_box)
 
 
 def test_chart_details_have_grey_labels_and_black_values() -> None:
     image = _draw(song=_song(1), personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
-    pixels = image.load()
-    # First chart row's right-hand details, past the 56% separator.
-    region = [
-        pixels[x, y]
-        for y in range(_PAD + _HEADER_H + 12, _PAD + _HEADER_H + 12 + 116)
-        for x in range(610, 930)
-    ]
-    assert (*_FACT_LABEL, 255) in region
-    assert (*_INK, 255) in region
+    # First chart row's right-hand details (labels grey, values black). Widen the
+    # scan and allow a small RGB tolerance so Pillow's default face (CI, no
+    # checked-in TTF) still matches after antialiasing.
+    box = (520, _PAD + _HEADER_H + 4, image.width, _PAD + _HEADER_H + 4 + 140)
+    assert _region_has_rgb(image, box, _FACT_LABEL, tolerance=4)
+    assert _region_has_rgb(image, box, _INK, tolerance=12)
 
 
 def test_header_details_are_all_grey() -> None:
     image = _draw(song=_song(1), personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
-    pixels = image.load()
     # Header detail lines (BPM/length, illustrator, disc, track series),
     # to the right of the jacket circle and below the title/artist.
-    region = [
-        pixels[x, y]
-        for y in range(135, _PAD + _HEADER_H)
-        for x in range(230, 800)
-    ]
-    assert (*_FACT_LABEL, 255) in region
-    assert (*_INK, 255) not in region
+    # Start below the title/artist so black title ink is outside the probe.
+    box = (230, 135, 900, _PAD + _HEADER_H)
+    assert _region_has_rgb(image, box, _FACT_LABEL, tolerance=4)
+    assert not _region_has_rgb(image, box, _INK)
 
 
 def test_theme_color_follows_the_illustration() -> None:

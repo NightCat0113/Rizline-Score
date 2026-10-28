@@ -5,15 +5,34 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-# WeeklyRankData.segment is a 0-based enum in this order.
+# WeeklyRankData.segment is a 0-based enum in this order (API names).
 _SEGMENTS = ("Do", "Re", "Mi", "Fa", "Sol", "La", "Si", "Do△")
-# Rail spelling from the rank-journey sheet. Sol/Si stay as the API names.
-RAIL_LABELS = ("Do", "Re", "Mi", "Fa", "So", "La", "Ti", "Do△")
+# Journey rail: each of Do…Ti has a plain and a + tier, then Do△ at the end.
+# Display spelling uses So/Ti; API segment names stay Sol/Si.
+RAIL_LABELS = (
+    "Do",
+    "Do+",
+    "Re",
+    "Re+",
+    "Mi",
+    "Mi+",
+    "Fa",
+    "Fa+",
+    "So",
+    "So+",
+    "La",
+    "La+",
+    "Ti",
+    "Ti+",
+    "Do△",
+)
 
-_RAIL_INDEX = {name.casefold(): index for index, name in enumerate(_SEGMENTS)}
-_RAIL_INDEX.update({name.casefold(): index for index, name in enumerate(RAIL_LABELS)})
-_RAIL_INDEX["dol"] = 7
-_RAIL_INDEX["doδ"] = 7
+# Base segment (0–7) from API segmentName / numeric segment.
+_BASE_INDEX = {name.casefold(): index for index, name in enumerate(_SEGMENTS)}
+_BASE_INDEX["so"] = 4
+_BASE_INDEX["ti"] = 6
+_BASE_INDEX["dol"] = 7
+_BASE_INDEX["doδ"] = 7
 
 
 @dataclass(frozen=True)
@@ -142,8 +161,26 @@ def display_name(payload: dict) -> str:
 
 
 def segment_index(badge: RankBadge) -> int:
-    """0–7 for Do…Do△. -1 when the badge has no known tier."""
-    return _RAIL_INDEX.get(badge.segment.strip().casefold(), -1)
+    """Rail slot for Do, Do+, …, Ti+, Do△. -1 when the badge has no known tier.
+
+    ``isPlus`` advances Do…Ti onto the matching ``+`` node. Do△ has no ``+``
+    node; plus there only affects the star suffix on the badge label.
+    """
+    text = badge.segment.strip()
+    if not text:
+        return -1
+    folded = text.casefold()
+    if folded.endswith("+"):
+        base = _BASE_INDEX.get(folded[:-1], -1)
+        if base in range(7):
+            return base * 2 + 1
+        return -1
+    base = _BASE_INDEX.get(folded, -1)
+    if base < 0:
+        return -1
+    if base >= 7:
+        return len(RAIL_LABELS) - 1
+    return base * 2 + (1 if badge.is_plus else 0)
 
 
 def win_rate(side: SideStats) -> int:

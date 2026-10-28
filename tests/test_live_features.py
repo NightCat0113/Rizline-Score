@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image
 import io
 
-from bot.services.asyncombat import display_name, map_weekly_rank
+from bot.services.asyncombat import RAIL_LABELS, RankBadge, display_name, map_weekly_rank, segment_index
 from bot.services.rizcard import normalize_rizcard
 from bot.services.weekly_tasks import map_weekly_tasks
 from bot.ui.asyncombat_image import render_asyncombat
@@ -43,6 +43,31 @@ def test_weekly_rank_maps_numeric_segment():
     assert view.current.label == "Do△ 54+"
     assert view.current.is_plus is True
     assert view.peak.segment == "Do△"
+
+
+def test_rank_rail_includes_plus_tiers():
+    assert RAIL_LABELS == (
+        "Do",
+        "Do+",
+        "Re",
+        "Re+",
+        "Mi",
+        "Mi+",
+        "Fa",
+        "Fa+",
+        "So",
+        "So+",
+        "La",
+        "La+",
+        "Ti",
+        "Ti+",
+        "Do△",
+    )
+    assert segment_index(RankBadge("Do 5", segment="Do", stars=5)) == 0
+    assert segment_index(RankBadge("Do 5+", segment="Do", stars=5, is_plus=True)) == 1
+    assert segment_index(RankBadge("Mi+", segment="Mi+", stars=None)) == 5
+    assert segment_index(RankBadge("Sol 3+", segment="Sol", stars=3, is_plus=True)) == 9
+    assert segment_index(RankBadge("Do△ 54+", segment="Do△", stars=54, is_plus=True)) == 14
 
 
 def test_asyncombat_png_is_a_sheet():

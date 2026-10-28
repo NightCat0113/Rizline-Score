@@ -115,8 +115,10 @@ def test_max_plan_header_and_shortfall_copy():
     short = RecommendationPlanView(
         owner_id=1,
         increase=1.0,
-        rows=[{"title": "A", "difficulty": "IN", "current_score": 1, "target_score": 2, "rks_gain": 0.2, "in_top40": True}],
+        max_available=0.03,
+        rows=[{"title": "A", "difficulty": "IN", "current_score": 1, "target_score": 2, "rks_gain": 0.03, "in_top40": True}],
     )
     text = short.render()
-    assert "Requested +1.00" in text
-    assert "+0.200" in text
+    assert "Max score-only gain is +0.030 RKS (requested +1.00)" in text
+    assert "Score targets for +1.00" not in text
+    assert "Combined plan" not in text

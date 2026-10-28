@@ -6,11 +6,20 @@ import discord
 
 
 class RecommendationPlanView(discord.ui.View):
-    def __init__(self, *, owner_id: int, increase: float | None, rows: list[dict], page_size: int = 8) -> None:
+    def __init__(
+        self,
+        *,
+        owner_id: int,
+        increase: float | None,
+        rows: list[dict],
+        max_available: float | None = None,
+        page_size: int = 8,
+    ) -> None:
         super().__init__(timeout=180)
         self.owner_id = owner_id
         self.increase = increase
         self.rows = rows
+        self.max_available = max_available
         self.page_size = page_size
         self.page = 0
         self._update_buttons()
@@ -28,18 +37,20 @@ class RecommendationPlanView(discord.ui.View):
         start = self.page * self.page_size
         current = self.rows[start : start + self.page_size]
         total_gain = sum(row["rks_gain"] for row in self.rows)
-        if self.increase is None:
-            title = f"**Score targets for max score-only gain (+{total_gain:.3f} RKS)**"
+        ceiling = total_gain if self.max_available is None else self.max_available
+        shortfall = self.increase is not None and total_gain + 1e-6 < self.increase
+        if shortfall:
+            title = f"**Max score-only gain is +{ceiling:.3f} RKS (requested +{self.increase:.2f})**"
+            lines = [title]
         else:
-            title = f"**Score targets for +{self.increase:.2f} RKS**"
-        lines = [
-            title,
-            f"Combined plan: about +{total_gain:.3f} overall RKS.",
-        ]
-        if self.increase is not None and total_gain + 1e-6 < self.increase:
-            lines.append(
-                f"Requested +{self.increase:.2f}; this score-only plan reaches about +{total_gain:.3f}."
-            )
+            if self.increase is None:
+                title = f"**Score targets for max score-only gain (+{total_gain:.3f} RKS)**"
+            else:
+                title = f"**Score targets for +{self.increase:.2f} RKS**"
+            lines = [
+                title,
+                f"Combined plan: about +{total_gain:.3f} overall RKS.",
+            ]
         lines.extend(
             [
                 "Only scored charts are included. Targets assume the current accuracy tier stays the same; outside charts must score high enough to enter the Best 40.",

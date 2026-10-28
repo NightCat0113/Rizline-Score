@@ -35,7 +35,7 @@ def help_text(command_ids: dict[str, int]) -> str:
             "**Your scores (bind first)**",
             f"{mention('bind')} — Bind with your Rizline email (passcode or email code)",
             f"{mention('profile')} — Your RKS and top charts",
-            f"{mention('recommend')} — Score targets up to your max score-only RKS gain",
+            f"{mention('recommend')} — Overall RKS score targets (score-only; accuracy held fixed)",
             f"{mention('achievements')} — Browse your achievement checklist",
             f"{mention('b40')} — Your AH5 and B35 charts",
             f"{mention('asyncombat')} — Live Asyncombat ranks",

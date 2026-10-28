@@ -74,7 +74,7 @@ The first object ack is the payload. Secret keys are never written by the inspec
 | Lifetime stats | `lifetimeStats` |
 | Recent matches | `recentMatches` |
 
-`WeeklyRankData`: `segmentName` (Do through Do△), `stars`, `absStars`, `isPlus`, `potentialLevel`, `isPlaced`, `placementCount`, `placementResults`, `totalWin`, `totalLose`. A missing name uses numeric `segment` 0–7 as Do, Re, Mi, Fa, Sol, La, Si, Do△.
+`WeeklyRankData`: `segmentName` (Do through Do△), `stars`, `absStars`, `isPlus`, `potentialLevel`, `isPlaced`, `placementCount`, `placementResults`, `totalWin`, `totalLose`. A missing name uses numeric `segment` 0–7 as Do, Re, Mi, Fa, Sol, La, Si, Do△. The journey rail also shows a `+` tier for each of Do–Ti (`isPlus` / a trailing `+` on the name); Do△ is the final node and has no separate `+` step.
 
 `WeeklyBattleStatisticsGroup`: `active` is Challenge, `passive` is Engage. Each side may use `playCount` / `matchCount`, `winCount`, `currentWinStreak`, `bestWinStreak`. The image shows the best streak when both are present.
 

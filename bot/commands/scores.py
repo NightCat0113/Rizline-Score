@@ -101,7 +101,7 @@ class ScoresCog(commands.Cog):
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @app_commands.describe(
-        increase="Overall RKS increase. Leave empty for the max score-only gain.",
+        increase="Overall RKS increase (score-only; accuracy held fixed). Leave empty for the max.",
         songs="Optional song titles separated by semicolons",
     )
     @app_commands.autocomplete(songs=autocomplete_recommend_songs)
@@ -156,6 +156,7 @@ class ScoresCog(commands.Cog):
             owner_id=interaction.user.id,
             increase=requested,
             rows=recommendations,
+            max_available=max_available,
         )
         await interaction.response.send_message(view.render(), view=view)
 
