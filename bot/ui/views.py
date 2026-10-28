@@ -4,25 +4,25 @@ from __future__ import annotations
 
 
 BIND_PUBLIC_REPLY = (
-    "Bind a Rizline account in this DM.\n"
-    "Use a test account. The email and passcode go into a form and are not posted in this DM.\n"
-    "Your passcode is sent to the computer running the bot, used once to fetch your save, and then discarded. "
+    "Bind your Rizline account in this DM.\n"
+    "Use the email on your Rizline account. Enter your password, or type `code` to get a verification email.\n"
+    "The form is private to this DM. Your passeord or verification code is sent to the bot host once to fetch your save, then discarded. "
     "The session token stays in memory until /unbind or a restart. "
     "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
-    "Encryption does not protect that data if the computer running the bot is compromised."
+    "Encryption does not protect that data if the bot host is compromised."
 )
 
 BIND_CONTINUE = "Continue"
 BIND_MODAL_TITLE = "Bind Rizline account"
-BIND_EMAIL_LABEL = "Email"
-BIND_PASSCODE_LABEL = "Passcode"
-BIND_PASSCODE_HINT = "Type code to request an email code"
-BIND_CODE_TITLE = "Verification code"
-BIND_CODE_LABEL = "Code"
+BIND_EMAIL_LABEL = "Rizline email"
+BIND_PASSCODE_LABEL = "Password or code"
+BIND_PASSCODE_HINT = "Password, or type code for email verification"
+BIND_CODE_TITLE = "Email verification code"
+BIND_CODE_LABEL = "Code from your email"
 BIND_ENTER_CODE = "Enter code"
 BIND_CODE_READY = (
-    "If that account can receive mail, a verification code was requested. "
-    "Press Enter code and submit it in the form. The code is not posted in this DM."
+    "A verification code was requested for that Rizline email. "
+    "Check your inbox, press Enter code, and submit it in the form. The code is not posted in this DM."
 )
 
 UNBIND_REMOVED = (

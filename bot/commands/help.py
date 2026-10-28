@@ -27,7 +27,7 @@ def help_text(command_ids: dict[str, int]) -> str:
             f"{mention('series')} `name` — Look up a track series",
             "",
             "**Your scores (bind first)**",
-            f"{mention('bind')} — Bind your Rizline account",
+            f"{mention('bind')} — Bind with your Rizline email (passcode or email code)",
             f"{mention('profile')} — Your RKS and top charts",
             f"{mention('recommend')} — Score targets up to your max score-only RKS gain",
             f"{mention('achievements')} — Browse your achievement checklist",
