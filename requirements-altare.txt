@@ -1,0 +1,8 @@
+# Runtime deps for Altare (and similar hosts). Copy or rename to
+# requirements.txt in the upload root so the Python template can pip-install it.
+discord.py==2.7.1
+cryptography==50.0.0
+pycryptodome==4.1.0
+pillow==12.3.0
+python-socketio==5.16.1
+websocket-client==1.9.0

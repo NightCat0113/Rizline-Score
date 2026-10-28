@@ -1,0 +1,43 @@
+name: Deploy Altare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pack code
+        run: python tools/pack_altare.py --code-only --out deploy.zip
+
+      - name: Upload, extract, and restart
+        env:
+          ALTARE_API_KEY: ${{ secrets.ALTARE_API_KEY }}
+          ALTARE_SERVER_ID: ${{ secrets.ALTARE_SERVER_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ALTARE_API_KEY}" ] || [ -z "${ALTARE_SERVER_ID}" ]; then
+            echo "Set repository secrets ALTARE_API_KEY and ALTARE_SERVER_ID before this workflow can deploy."
+            exit 1
+          fi
+          API="https://panel.altare.global/api/client"
+          AUTH=(-H "Authorization: Bearer ${ALTARE_API_KEY}" -H "Accept: application/json")
+          URL=$(curl -fsS "${API}/servers/${ALTARE_SERVER_ID}/files/upload" "${AUTH[@]}" | jq -r .attributes.url)
+          curl -fsS -X POST "${URL}&directory=%2F" -F "files=@deploy.zip"
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/decompress" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"root":"/","file":"deploy.zip"}'
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/delete" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"root":"/","files":["deploy.zip"]}'
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/power" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"signal":"restart"}'

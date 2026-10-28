@@ -60,6 +60,9 @@
 *.swp
 *~
 
+# ---- Deploy packs (built by tools/pack_altare.py) ----
+/dist/
+
 # ---- Bot runtime (encrypted score cache, never commit) ----
 /var/
 
