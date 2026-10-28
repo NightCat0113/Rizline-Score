@@ -18,7 +18,7 @@ def help_text(command_ids: dict[str, int]) -> str:
 
     return "\n".join(
         [
-            "**Rizline Score Lookup**",
+            "**Rizline Lookup**",
             "All commands work **anywhere** once you add the bot to your account. "
             "Song lookups need no account; score lookups need your Rizline account bound first.",
             "",
@@ -41,6 +41,11 @@ def help_text(command_ids: dict[str, int]) -> str:
             f"{mention('share')} `on/off` — Let other people see your scores",
             f"{mention('unbind')} — Delete your binding and cached scores",
             f"{mention('language')} — Set the language used on your card images",
+            "",
+            "**Policies**",
+            "Using this bot means you agree to the terms of service and privacy policy "
+            "in `TERMS.md` and `PRIVACY.md` in the project repository.",
+            "Contact: [operator email or Discord]",
             "",
             "Tip: type / in any chat to see every command.",
         ]
