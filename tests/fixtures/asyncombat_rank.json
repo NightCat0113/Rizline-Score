@@ -1,0 +1,10 @@
+{
+  "username": "Player",
+  "currentSeasonStartingRank": {"segmentName": "Do", "stars": 5, "isPlus": false},
+  "currentRank": {"segmentName": "Do△", "stars": 54, "isPlus": true},
+  "currentSeasonBestRank": {"segmentName": "Do△", "stars": 60, "isPlus": false},
+  "currentSeasonStats": {
+    "active": {"playCount": 12, "winCount": 9, "bestWinStreak": 4, "currentWinStreak": 2},
+    "passive": {"matchCount": 7, "wins": 3, "winStreakCount": 1}
+  }
+}

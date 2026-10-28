@@ -1,6 +1,6 @@
 import json
 
-from rizline_client import debug_log, derive_minimal_cache, redact, scrub
+from rizline.client import debug_log, derive_minimal_cache, redact, scrub
 
 
 def test_redact_structured_secrets():

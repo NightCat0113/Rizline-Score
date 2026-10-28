@@ -1,0 +1,410 @@
+{
+  "new_gamer": {
+    "name": "Rizline, here I am!",
+    "title1": "Inexperienced",
+    "title2": "Newcomer",
+    "desc": "Clear a track for the first time"
+  },
+  "little_pigeon": {
+    "name": "Time to embark on a journey",
+    "title1": "Newly Winged",
+    "title2": "Pigeon",
+    "desc": "Clear any track 3 times"
+  },
+  "pastel_lines": {
+    "name": "Pinky pastel lines",
+    "title1": "Pastel",
+    "title2": "Line",
+    "desc": "Get a \"PERFECT\" grade in \"Pastel Lines\""
+  },
+  "best_noob": {
+    "name": "Dark horse",
+    "title1": "Dark Horse",
+    "title2": "Newcomer",
+    "desc": "Get completion rate ≥118% in \"Pastel Lines\", \"Gleam feat. ふわまろ\" and \"Power Attack\""
+  },
+  "journey_rainbow": {
+    "name": "I'll see the rainbow",
+    "title1": "Rainbowly",
+    "title2": "Journey",
+    "desc": "Get a \"PERFECT\" grade in \"Journey To The Rainbows\""
+  },
+  "macro_wav": {
+    "name": "Beep boop",
+    "title1": "Beeping",
+    "title2": "Brain",
+    "desc": "Get a \"PERFECT\" grade in \"macro.wav\""
+  },
+  "arcade_viruz": {
+    "name": "Arcademia",
+    "title1": "Infected",
+    "title2": "Arcade",
+    "desc": "Get a \"PERFECT\" grade in \"Arcade ViruZ\""
+  },
+  "link_lines": {
+    "name": "Link us all!",
+    "title1": "Connecting",
+    "title2": "Heart",
+    "desc": "Get a \"PERFECT\" grade in \"LINK x LIN#S\""
+  },
+  "leonids": {
+    "name": "Wish upon the leo!",
+    "title1": "Starry",
+    "title2": "Leo",
+    "desc": "Get a \"PERFECT\" grade in \"LEONIDS\""
+  },
+  "zan_nen": {
+    "name": "Epic fail",
+    "title1": "99%",
+    "title2": "Perfectionist",
+    "desc": "Complete a track with 1 Miss or 1 Bad"
+  },
+  "cho_zan_nen": {
+    "name": "Epic-er fail",
+    "title1": "99.99%",
+    "title2": "Perfectionist",
+    "desc": "Without Bad and Miss, complete a track with 1 Early or 1 Late"
+  },
+  "ah_this": {
+    "name": "No, please, no…",
+    "title1": "What?",
+    "title2": "No…",
+    "desc": "Without Bad and Miss, complete any track with 1 Early or 1 Late for 10 times"
+  },
+  "generous_player": {
+    "name": "Feed pigeons with a Coin",
+    "title1": "Generous",
+    "title2": "Lunch",
+    "desc": "Spend at least 1 Coin"
+  },
+  "achievement_enthusiast": {
+    "name": "Badge collector",
+    "title1": "Spontaneous",
+    "title2": "Collector",
+    "desc": "Collect 10 badges"
+  },
+  "tomaru_n_janee_zo": {
+    "name": "Almost there…",
+    "title1": "Unyielding",
+    "title2": "Challenger",
+    "desc": "Fail with completion rate ≥105% on a chart ≥ Lv.14"
+  },
+  "vicious_mockery": {
+    "name": "Better not open it carelessly...",
+    "title1": "Pandora's",
+    "title2": "Box",
+    "desc": "Get a \"PERFECT\" grade in \"Vicious Mockery\""
+  },
+  "brave_road": {
+    "name": "True Brave",
+    "title1": "Embark",
+    "title2": "Brave",
+    "desc": "Get a \"PERFECT\" grade in \"BRAVE：ROAD\""
+  },
+  "debut_ready": {
+    "name": "Major debut",
+    "title1": "Prominent",
+    "title2": "Figure",
+    "desc": "Change avatar for the first time"
+  },
+  "unknown_signal": {
+    "name": "Received unidentified radio waves!",
+    "title1": "Unknown Cosmos",
+    "title2": "Signal",
+    "desc": "Got Rizcard via exchange for the first time"
+  },
+  "thanks_patronage": {
+    "name": "Thanks for patronage!",
+    "title1": "Collector's",
+    "title2": "Small Step",
+    "desc": "Purchase any item in the Shop"
+  },
+  "disc1_unlock": {
+    "name": "Disc 1, completely unlocked!",
+    "title1": "Diligent",
+    "title2": "Adventurer",
+    "desc": "Unlock all tracks on Disc 1"
+  },
+  "disc1_clear": {
+    "name": "Disc 1, completely cleared!",
+    "title1": "Mighty",
+    "title2": "Survivalist",
+    "desc": "Clear EZ, HD and IN of all tracks on Disc 1"
+  },
+  "disc1_conquer": {
+    "name": "Disc 1, completely conquered!",
+    "title1": "Transcendent",
+    "title2": "Conqueror",
+    "desc": "Get a \"PERFECT\" grade in EZ, HD and IN of all tracks on Disc 1"
+  },
+  "ap_brat": {
+    "name": "Ranked✧BRAVE",
+    "title1": "Ranked",
+    "title2": "BRAVE",
+    "desc": "Get a \"PERFECT\" grade in AT of \"BRAVE：ROAD\""
+  },
+  "offset_adjustment": {
+    "name": "It's time to adjust the Offset…",
+    "title1": "Headache-Inducing",
+    "title2": "Offset",
+    "desc": "Clear with over 20 differences between Early and Late"
+  },
+  "offset_fixed": {
+    "name": "The Offset has finally been adjusted!",
+    "title1": "Finally",
+    "title2": "Last Version",
+    "desc": "Clear with no difference between Early and Late"
+  },
+  "easier_track": {
+    "name": "Give an easier track a try…",
+    "title1": "Gotta Be",
+    "title2": "Next Track",
+    "desc": "Fail 5 times consecutively"
+  },
+  "little_profit": {
+    "name": "Make a little profit",
+    "title1": "Little",
+    "title2": "Accumulation",
+    "desc": "Have at least 500 Dots"
+  },
+  "huge_profit": {
+    "name": "Make a huge profit!",
+    "title1": "For a Better Life",
+    "title2": "Express",
+    "desc": "Have at least 1000 Dots"
+  },
+  "a_fortune": {
+    "name": "Make a fortune~!",
+    "title1": "Stuffed",
+    "title2": "Piggy Bank",
+    "desc": "Have at least 2000 Dots"
+  },
+  "dot_line": {
+    "name": "\"Because of our bond\"",
+    "title1": "Otherworld",
+    "title2": "Voice",
+    "desc": "Get a \"PERFECT\" grade in \"Dot-Line\""
+  },
+  "hikari_remix": {
+    "name": "A brand new ray of sunshine",
+    "title1": "New",
+    "title2": "Light",
+    "desc": "Get a \"PERFECT\" grade in \"光 (阿卡姆巫师 Remix)\""
+  },
+  "lost_future": {
+    "name": "Retrieve the lost future",
+    "title1": "Chaotic",
+    "title2": "Timeline",
+    "desc": "Get a \"PERFECT\" grade in \"Lost Future\""
+  },
+  "yellow_shining": {
+    "name": "Sing a golden melody",
+    "title1": "Golden-Dyed",
+    "title2": "Night",
+    "desc": "Get a \"PERFECT\" grade in \"Yellow Shining!! feat. 成田なる\""
+  },
+  "frozen_heart": {
+    "name": "Liberate the frozen heart",
+    "title1": "Blizzard and",
+    "title2": "Dawn",
+    "desc": "Get a \"PERFECT\" grade in \"Frozen Heart\""
+  },
+  "inevitability": {
+    "name": "There's no such thing as inevitability!",
+    "title1": "Giddy",
+    "title2": "Taiyaki",
+    "desc": "Get a \"PERFECT\" grade in \"Inevitability\""
+  },
+  "so_fast": {
+    "name": "Fast!",
+    "title1": "Behold My",
+    "title2": "Shadowless Hand",
+    "desc": "Get a \"PERFECT\" grade with a chart played at 10.0 Note Speed"
+  },
+  "so_slow": {
+    "name": "S~~~l~~~o~~~w~~~",
+    "title1": "Slow-Motion",
+    "title2": "Both Hands",
+    "desc": "Get a \"PERFECT\" grade with a chart played at 1.0 Note Speed"
+  },
+  "achievement_connoisseur": {
+    "name": "Badge connoisseur",
+    "title1": "Boiling",
+    "title2": "Enthusiast",
+    "desc": "Collect 20 badges"
+  },
+  "first_leg": {
+    "name": "Smoothly~the first leg of the journey",
+    "title1": "Smoothly Flying",
+    "title2": "Pigeon",
+    "desc": "Clear any track 10 times"
+  },
+  "in_direction": {
+    "name": "Onward, heading in the direction of the journey",
+    "title1": "Windily Soaring",
+    "title2": "Pigeon",
+    "desc": "Clear any track 20 times"
+  },
+  "halfway_point": {
+    "name": "Unconsciously…having reached the halfway point of the journey",
+    "title1": "Spreading Wings",
+    "title2": "Pigeon",
+    "desc": "Clear any track 50 times"
+  },
+  "new_journey": {
+    "name": "Finished! And also the start of a new journey",
+    "title1": "Cloudward Surging",
+    "title2": "Pigeon",
+    "desc": "Clear any track 100 times"
+  },
+  "what_the": {
+    "name": "Wha…what the?",
+    "title1": "What the",
+    "title2": "Meaning",
+    "desc": "Complete a track with Bad more than Hit"
+  },
+  "8blue": {
+    "name": "Bubble o ·。·  O .",
+    "title1": "Not Really",
+    "title2": "Bubble Machine",
+    "desc": "Get a \"PERFECT\" grade in \"8BLUE\""
+  },
+  "greatness_earth": {
+    "name": "Praise——the——Earth——",
+    "title1": "Surprisingly",
+    "title2": "Fishing Master",
+    "desc": "Get a \"PERFECT\" grade in \"Greatness Earth\""
+  },
+  "laign": {
+    "name": "\"DEST: LAIGN. Ahead Seven.\"",
+    "title1": "FTL",
+    "title2": "Drive",
+    "desc": "Get a \"PERFECT\" grade in \"LAIGN\""
+  },
+  "achievement_master": {
+    "name": "Badge master",
+    "title1": "Glasses-Wearing",
+    "title2": "Expert",
+    "desc": "Collect 50 badges"
+  },
+  "toketeyuku": {
+    "name": "Melted memories flow into dreams",
+    "title1": "Melting",
+    "title2": "Snowflake",
+    "desc": "Get a \"PERFECT\" grade in \"溶けてゆく\""
+  },
+  "pierrot_fixer": {
+    "name": "Just a part of the game",
+    "title1": "Behind-the-Scenes",
+    "title2": "Manipulator",
+    "desc": "Get a \"PERFECT\" grade in \"Pierrot Fixer\""
+  },
+  "rks_40": {
+    "name": "Ranking Score: 40, achieved",
+    "title1": "From Yoso's",
+    "title2": "Praise",
+    "desc": "Ranking Score reaches 40.00"
+  },
+  "rks_70": {
+    "name": "Ranking Score: 70, achieved",
+    "title1": "From Nami's",
+    "title2": "Adoration",
+    "desc": "Ranking Score reaches 70.00"
+  },
+  "rks_100": {
+    "name": "Ranking Score: 100, achieved",
+    "title1": "From Moutlush's",
+    "title2": "Recognition",
+    "desc": "Ranking Score reaches 100.00"
+  },
+  "rks_120": {
+    "name": "Ranking Score: 120, achieved!",
+    "title1": "From Bayees's",
+    "title2": "Appreciation",
+    "desc": "Ranking Score reaches 120.00"
+  },
+  "rks_140": {
+    "name": "Ranking Score: 140, achieved!",
+    "title1": "From Carmen's",
+    "title2": "Commendation",
+    "desc": "Ranking Score reaches 140.00"
+  },
+  "rks_150": {
+    "name": "Ranking Score: 150, achieved!",
+    "title1": "From Tonebell's",
+    "title2": "Amazement",
+    "desc": "Ranking Score reaches 150.00"
+  },
+  "rks_160": {
+    "name": "Achieved! Ranking Score: 160!",
+    "title1": "From Pling's",
+    "title2": "Affirmation",
+    "desc": "Ranking Score reaches 160.00"
+  },
+  "rks_165": {
+    "name": "Achieved! Ranking Score: 165!",
+    "title1": "From Kiwi's",
+    "title2": "Hug",
+    "desc": "Ranking Score reaches 165.00"
+  },
+  "rks_170": {
+    "name": "Finally! Ranking Score: 170! Achieved!",
+    "title1": "Highest",
+    "title2": "Honor",
+    "desc": "Ranking Score reaches 170.00"
+  },
+  "tales_of_delonix": {
+    "name": "The Crown of Phoenix",
+    "title1": "Fiery",
+    "title2": "Delonix",
+    "desc": "Get a \"PERFECT\" grade in \"Tales of Delonix\""
+  },
+  "shangri_la": {
+    "name": "Code name PARADISE",
+    "title1": "Inner",
+    "title2": "Sun and moon",
+    "desc": "Get a \"PERFECT\" grade in \"地区 Shangri-LA\""
+  },
+  "absolution_pulse": {
+    "name": "Absolve from the sins should bear",
+    "title1": "Absolutely",
+    "title2": "Pulse",
+    "desc": "Get a \"PERFECT\" grade in \"Absolution Pulse\""
+  },
+  "never_say_goodbye": {
+    "name": "Embrace in the colorful glow",
+    "title1": "Never-fading",
+    "title2": "Promise",
+    "desc": "Get a \"PERFECT\" grade in \"Never Say Goodbye\""
+  },
+  "ap_nsgat": {
+    "name": "<color=#DB787E><b>Cro</b></color><color=#E6882E><b>ssi</b></color><color=#F2B000><b>ng E</b></color><color=#87BD3A><b>ter</b></color><color=#2BC2D9><b>nit</b></color><color=#6994E8><b>y Co</b></color><color=#BA82D9><b>lor</b></color>",
+    "title1": "Crossing Eternity",
+    "title2": "Color",
+    "desc": "Get a \"PERFECT\" grade in AT of \"Never Say Goodbye\""
+  },
+  "disc2_unlock": {
+    "name": "Disc 2, completely unlocked!",
+    "title1": "Diligent",
+    "title2": "Little Painter",
+    "desc": "Unlock all tracks on Disc 2"
+  },
+  "disc2_clear": {
+    "name": "Disc 2, completely cleared!",
+    "title1": "Excellent",
+    "title2": "Palette Artisan",
+    "desc": "Clear EZ, HD and IN of all tracks on Disc 2"
+  },
+  "disc2_conquer": {
+    "name": "Disc 2, completely conquered!",
+    "title1": "Genius Like",
+    "title2": "Art Maestro",
+    "desc": "Get a \"PERFECT\" grade in EZ, HD and IN of all tracks on Disc 2"
+  },
+  "senboshi_halo_iraishou": {
+    "name": "What hangs in the sky is not stars, but—",
+    "title1": "Realized",
+    "title2": "Ideal",
+    "desc": "Get a \"PERFECT\" grade in \"千星光輪依頼症\""
+  }
+}

@@ -7,6 +7,7 @@ Redirects are refused. Environment proxies are ignored. TLS verification stays o
 from __future__ import annotations
 
 import json
+import math
 import re
 import ssl
 import uuid
@@ -395,7 +396,8 @@ def derive_minimal_cache(save: dict) -> dict:
 
     def pos_num(name: str, default: float) -> float:
         try:
-            return float(pos.get(name))
+            value = float(pos.get(name))
+            return value if math.isfinite(value) else default
         except (TypeError, ValueError):
             return default
 
@@ -406,12 +408,40 @@ def derive_minimal_cache(save: dict) -> dict:
         "myBest": bests,
         "levelsRks": levels,
         "avatarId": card_text("avatarId"),
-        "avatarPos": {"x": pos_num("x", 0.0), "y": pos_num("y", 0.0), "z": pos_num("z", 1.0)},
+        "avatarPos": {"x": pos_num("x", 0.5), "y": pos_num("y", 0.5), "z": pos_num("z", 1.0)},
         "bioId1": card_text("bioId1"),
         "bioId2": card_text("bioId2"),
         "backgroundId": card_text("backgroundId"),
         "layoutId": card_text("layoutId"),
+        "achievements": [
+            {"id": str(item.get("achievementId") or ""), "time": str(item.get("getTime") or "")}
+            for item in (save.get("getOwnAchievements") or [])
+            if isinstance(item, dict) and item.get("achievementId")
+        ],
+        # Preserve tutorial challenge definitions/progress only. These are not
+        # the separate Async Battle rank or match-history data.
+        "challenge": _safe_challenge_cache(save.get("challenge")),
+        "challengeProgress": _safe_challenge_cache(save.get("challengeProgress")),
     }
+
+
+def _safe_challenge_cache(value: Any) -> list | dict | str | int | float | bool | None:
+    """Copy challenge data into cache while excluding credentials/identity fields."""
+    sensitive = {
+        "email", "phone", "password", "code", "device_id", "key", "token",
+        "set_token", "authorization", "userid", "user_id", "account",
+    }
+    if isinstance(value, dict):
+        return {
+            str(key): _safe_challenge_cache(child)
+            for key, child in value.items()
+            if str(key).lower() not in sensitive
+        }
+    if isinstance(value, list):
+        return [_safe_challenge_cache(child) for child in value]
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return None
 
 
 @dataclass
@@ -537,3 +567,219 @@ def fetch_minimal_cache(
         return derive_minimal_cache(save)
     finally:
         save.clear()
+
+
+def fetch_equipped_rizcard(
+    email: str,
+    token: str,
+    device_id: str,
+    *,
+    base_url: str = DEFAULT_BASE_URL,
+    **kwargs: Any,
+) -> dict:
+    """Equipped Rizcard from rn_login. Not the exchange-card list."""
+    save = fetch_save(email, token, device_id, base_url=base_url, **kwargs)
+    try:
+        card = save.get("rizcard") if isinstance(save.get("rizcard"), dict) else {}
+        slim: dict[str, Any] = {}
+        for key in ("avatarId", "bioId1", "bioId2", "backgroundId", "layoutId"):
+            value = card.get(key)
+            if isinstance(value, str) and value.strip():
+                slim[key] = value.strip()
+        pos = card.get("avatarPos")
+        if isinstance(pos, dict):
+            slim["avatarPos"] = {"x": pos.get("x"), "y": pos.get("y"), "z": pos.get("z")}
+        username = save.get("username")
+        try:
+            total = float(save.get("totalRks") or 0)
+        except (TypeError, ValueError):
+            total = 0.0
+        return {
+            "username": username if isinstance(username, str) else "",
+            "totalRks": total,
+            "rizcard": slim,
+        }
+    finally:
+        save.clear()
+
+
+_GAME_PAYLOAD_KEYS = (
+    "currentRank",
+    "rank",
+    "currentSeasonStats",
+    "tasks",
+    "weeklyTasks",
+    "rizcard",
+    "rizcards",
+    "cards",
+    "avatarId",
+    "weekIndex",
+    "staticRizcardProgresses",
+)
+
+
+def _game_headers(email: str, token: str, device_id: str) -> dict[str, str]:
+    return {
+        "device_id": device_id,
+        "deviceId": device_id,
+        "device-id": device_id,
+        "device": device_id,
+        "email": email,
+        "token": token,
+    }
+
+
+def _card_has_art(parsed: dict) -> bool:
+    from rizline.payload import has_card_art
+
+    return has_card_art(parsed)
+
+
+def _payload_is_usable(parsed: dict) -> bool:
+    code = parsed.get("code")
+    if code in (None, 0, 200):
+        return True
+    return any(key in parsed for key in _GAME_PAYLOAD_KEYS)
+
+
+def _first_game_json(
+    email: str,
+    token: str,
+    device_id: str,
+    paths: tuple[str, ...],
+    payload: dict | None = None,
+    *,
+    base_url: str = DEFAULT_BASE_URL,
+    require_pinned_host: bool = True,
+    require_art: bool = False,
+) -> dict | None:
+    """POST literal client paths. 404s are skipped. Other HTTP errors are raised."""
+    secrets = (email, token, device_id)
+    last_error = ""
+    saw_non_404 = False
+    for path in paths:
+        try:
+            body, _headers = api_request(
+                base_url,
+                path,
+                {} if payload is None else payload,
+                _game_headers(email, token, device_id),
+                log_json_response=False,
+                require_pinned_host=require_pinned_host,
+                secrets=secrets,
+            )
+        except RizlineAPIError as exc:
+            last_error = str(exc)
+            if not last_error.startswith("HTTP 404"):
+                saw_non_404 = True
+            continue
+        try:
+            parsed = decrypt_save(body)
+        except RizlineError:
+            last_error = "The game response was not usable JSON."
+            saw_non_404 = True
+            continue
+        if not isinstance(parsed, dict) or not parsed:
+            continue
+        if _payload_is_usable(parsed):
+            if require_art and not _card_has_art(parsed):
+                continue
+            return parsed
+        message = parsed.get("message") or parsed.get("msg") or parsed.get("error") or ""
+        if not isinstance(message, str):
+            message = ""
+        last_error = scrub(f"code={parsed.get('code')} {message}".strip()[:200], secrets)
+        saw_non_404 = True
+    if saw_non_404 and last_error:
+        raise RizlineAPIError(last_error)
+    return None
+
+
+def fetch_weekly_rank_info(
+    email: str,
+    token: str,
+    device_id: str,
+    *,
+    base_url: str = DEFAULT_BASE_URL,
+    require_pinned_host: bool = True,
+) -> dict:
+    """Live Asyncombat ranks. HTTP paths from the client, then Socket.IO."""
+    found = _first_game_json(
+        email,
+        token,
+        device_id,
+        (
+            "game/async_battle/rank_info",
+            "game/async_battle/info",
+            "async_battle/rank_info",
+            "async_battle/info",
+        ),
+        base_url=base_url,
+        require_pinned_host=require_pinned_host,
+    )
+    if found is not None:
+        return found
+    from rizline.socket import fetch_weekly_rank_info as _fetch
+
+    return _fetch(email, token, device_id)
+
+
+def fetch_weekly_tasks(
+    email: str,
+    token: str,
+    device_id: str,
+    *,
+    base_url: str = DEFAULT_BASE_URL,
+    require_pinned_host: bool = True,
+) -> dict:
+    """Live weekly-task progress. Does not claim rewards."""
+    found = _first_game_json(
+        email,
+        token,
+        device_id,
+        ("game/get_weekly_tasks", "get_weekly_tasks"),
+        base_url=base_url,
+        require_pinned_host=require_pinned_host,
+    )
+    if found is not None:
+        return found
+    from rizline.socket import fetch_weekly_tasks as _fetch
+
+    return _fetch(email, token, device_id)
+
+
+def fetch_own_rizcard(
+    email: str,
+    token: str,
+    device_id: str,
+    *,
+    base_url: str = DEFAULT_BASE_URL,
+    require_pinned_host: bool = True,
+) -> dict:
+    """Live own Rizcard. Do not substitute the rn_login cache card."""
+    found = _first_game_json(
+        email,
+        token,
+        device_id,
+        ("game/fetch_own_rizcard", "fetch_own_rizcard"),
+        {"serialAfter": 0},
+        base_url=base_url,
+        require_pinned_host=require_pinned_host,
+        require_art=True,
+    )
+    if found is not None:
+        return found
+    found = _first_game_json(
+        email,
+        token,
+        device_id,
+        ("game/fetch_static_rizcard_progress", "fetch_static_rizcard_progress"),
+        base_url=base_url,
+        require_pinned_host=require_pinned_host,
+        require_art=True,
+    )
+    if found is not None:
+        return found
+    from rizline.socket import fetch_own_rizcard as _fetch
+
+    return _fetch(email, token, device_id)

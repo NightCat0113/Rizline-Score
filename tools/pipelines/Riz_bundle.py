@@ -54,27 +54,31 @@ except Exception:
     UNITYPY_AVAILABLE = False
 
 # --- Configuration / Paths (download/bundles) ---
-FILELIST = Path("download") / "fileList.json"
-BACKUP = Path("download") / "fileList.json.bak"
-BUNDLES_DIR = Path("download") / "bundles"
+# Script lives in tools/pipelines/; working trees stay at the repository root.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = REPO_ROOT
+LOCALE_DIR = REPO_ROOT / "locale"
+FILELIST = REPO_ROOT / "download" / "fileList.json"
+BACKUP = REPO_ROOT / "download" / "fileList.json.bak"
+BUNDLES_DIR = REPO_ROOT / "download" / "bundles"
 
 DIR_CHARTS = BUNDLES_DIR / "charts"
 DIR_ILLUST = BUNDLES_DIR / "illust"
 DIR_ILLUST_HIRES = BUNDLES_DIR / "illust_HiRes"
 
-OUT_CHARTS_JSON = Path("output") / "charts"
-OUT_ILLUST = Path("output") / "illust"
-OUT_ILLUST_HIRES = Path("output") / "illust_HiRes"
-LEVELS_OUTPUT = Path("output.txt")
-DATABASE_OUTPUT = Path("Database.txt")
-DATA_DIR = Path(__file__).resolve().parent
+OUT_CHARTS_JSON = REPO_ROOT / "output" / "charts"
+OUT_ILLUST = REPO_ROOT / "output" / "illust"
+OUT_ILLUST_HIRES = REPO_ROOT / "output" / "illust_HiRes"
+LEVELS_OUTPUT = REPO_ROOT / "output.txt"
+DATABASE_OUTPUT = REPO_ROOT / "Database.txt"
 SONGS_JSON_OUTPUT = DATA_DIR / "songs.json"
 MAPPING_JSON_OUTPUT = DATA_DIR / "mapping.json"
 ACHIEVEMENT_LANGUAGES = ("en", "ja", "zh-Hans", "zh-Hant")
 LOCALIZED_LANGUAGES = ACHIEVEMENT_LANGUAGES
 B40_API_URL = "https://dragonred.cn/project/rizb40/api.php"
 ADDITIONAL_API_JSON = ("bio", "achievement", "layout", "all_cache")
-DOWNLOAD_DIR = Path("download")
+LOCALE_API_JSON = {"bio", "achievement", "layout"}
+DOWNLOAD_DIR = REPO_ROOT / "download"
 CATALOG_PATH = DOWNLOAD_DIR / "catalog_catalog.json"
 DOWNLOAD_WORKERS = 16
 DOWNLOAD_TIMEOUT = 30
@@ -306,7 +310,7 @@ def extract_default_from_bundles() -> Path:
     if not candidates:
         raise RuntimeError("No Default metadata was found in downloaded bundles")
     candidates.sort(key=lambda item: item[0], reverse=True)
-    output_path = Path("output") / "default.json"
+    output_path = REPO_ROOT / "output" / "default.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         json.dumps(candidates[0][1], indent=4, ensure_ascii=False),
@@ -319,7 +323,7 @@ def extract_default_from_bundles() -> Path:
 def export_localized_achievements(
     filelist_path: Path = FILELIST,
     bundles_dir: Path = BUNDLES_DIR,
-    output_dir: Path = DATA_DIR,
+    output_dir: Path = LOCALE_DIR,
 ) -> None:
     if not UNITYPY_AVAILABLE:
         raise RuntimeError("Exporting localized achievements requires UnityPy. Install it with: pip install UnityPy")
@@ -388,25 +392,25 @@ def export_localized_achievements(
             failures.append(f"{language}: achievement TextAsset has no text script")
             continue
 
-        achievement_titles: Dict[str, Dict[str, str]] = {}
+        achievement_entries: Dict[str, Dict[str, str]] = {}
         for line in script.splitlines():
             entry_key, separator, value = line.partition("=")
             if not separator:
                 continue
-            match = re.fullmatch(r"ach\.\[([^\]]+)\]\.(title1|title2)", entry_key.strip())
+            match = re.fullmatch(r"ach\.\[([^\]]+)\]\.(name|title1|title2|desc)", entry_key.strip())
             if match:
-                achievement_titles.setdefault(match.group(1), {})[match.group(2)] = value.strip()
+                achievement_entries.setdefault(match.group(1), {})[match.group(2)] = value.strip()
 
-        if not achievement_titles:
-            failures.append(f"{language}: no achievement title entries found in '{bundle_path.name}'")
+        if not achievement_entries:
+            failures.append(f"{language}: no achievement entries found in '{bundle_path.name}'")
             continue
 
         achievements = {
             achievement_id: {
-                title: titles.get(title, "")
-                for title in ("title1", "title2")
+                field: values.get(field, "")
+                for field in ("name", "title1", "title2", "desc")
             }
-            for achievement_id, titles in achievement_titles.items()
+            for achievement_id, values in achievement_entries.items()
         }
         output_path = output_dir / f"achievement_{language}.json"
         try:
@@ -432,7 +436,7 @@ def export_localized_achievements(
 def export_localized_bios(
     filelist_path: Path = FILELIST,
     bundles_dir: Path = BUNDLES_DIR,
-    output_dir: Path = DATA_DIR,
+    output_dir: Path = LOCALE_DIR,
 ) -> None:
     if not UNITYPY_AVAILABLE:
         raise RuntimeError("Exporting localized bios requires UnityPy. Install it with: pip install UnityPy")
@@ -665,7 +669,7 @@ def download_all_game_data(clear_existing: bool = False) -> None:
         extract_default_from_bundles()
     except Exception as exc:
         print(f"Warning: could not extract a new Default.json: {exc}")
-        if not (Path("output") / "default.json").is_file():
+        if not (REPO_ROOT / "output" / "default.json").is_file():
             print("ERROR: no Default.json is available for level exports.")
     print(f"Resource download complete. Versions checked: {version_chain}")
 
@@ -675,8 +679,8 @@ def ensure_charts_info_root() -> Path:
     Prefer 'charts_info'. If it doesn't exist but legacy 'chart_info' exists, use that.
     If neither exists, create 'charts_info'.
     """
-    preferred = Path("charts_info")
-    legacy = Path("chart_info")
+    preferred = REPO_ROOT / "charts_info"
+    legacy = REPO_ROOT / "chart_info"
     if preferred.exists():
         return preferred
     if legacy.exists():
@@ -1814,16 +1818,16 @@ def find_default_json_candidates(directory: Optional[Path] = None) -> List[Path]
         candidates = [directory / "Default.json", directory / "default.json"]
     else:
         candidates = [
-            Path("Default.json"),
-            Path("default.json"),
-            Path("MonoBehaviour") / "Default.json",
-            Path("MonoBehaviour") / "default.json",
-            Path("download") / "Default.json",
-            Path("download") / "default.json",
-            Path("output") / "Default.json",
-            Path("output") / "default.json",
-            Path("download") / "output" / "Default.json",
-            Path("download") / "output" / "default.json",
+            REPO_ROOT / "Default.json",
+            REPO_ROOT / "default.json",
+            REPO_ROOT / "MonoBehaviour" / "Default.json",
+            REPO_ROOT / "MonoBehaviour" / "default.json",
+            REPO_ROOT / "download" / "Default.json",
+            REPO_ROOT / "download" / "default.json",
+            REPO_ROOT / "output" / "Default.json",
+            REPO_ROOT / "output" / "default.json",
+            REPO_ROOT / "download" / "output" / "Default.json",
+            REPO_ROOT / "download" / "output" / "default.json",
         ]
     return [p for p in candidates if p.is_file()]
 
@@ -1958,6 +1962,7 @@ def export_additional_api_json() -> None:
         raise RuntimeError("Exporting API metadata requires requests. Install it with: pip install requests")
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    LOCALE_DIR.mkdir(parents=True, exist_ok=True)
     failures = []
     for action in ADDITIONAL_API_JSON:
         try:
@@ -1970,7 +1975,8 @@ def export_additional_api_json() -> None:
             data = response.json()
             if not isinstance(data, (dict, list)):
                 raise ValueError("expected a JSON object or array")
-            output_path = DATA_DIR / f"{action}.json"
+            output_dir = LOCALE_DIR if action in LOCALE_API_JSON else DATA_DIR
+            output_path = output_dir / f"{action}.json"
             output_path.write_text(
                 json.dumps(data, indent=2, ensure_ascii=False),
                 encoding="utf-8",
@@ -2465,7 +2471,7 @@ def main():
 
         export_mybest_scores(
             args.score_json,
-            Path("."),
+            REPO_ROOT,
             music_map,
             fallback_username=default_data.get("username", ""),
         )

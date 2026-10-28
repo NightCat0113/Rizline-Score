@@ -12,6 +12,7 @@ from discord.ext import commands
 from bot.commands.account import AccountCog
 from bot.commands.admin import AdminCog
 from bot.commands.help import HelpCog
+from bot.commands.live import LiveCog
 from bot.commands.preferences import PreferencesCog
 from bot.commands.scores import ScoresCog
 from bot.commands.songs import SongsCog
@@ -47,6 +48,7 @@ class RizlineBot(commands.Bot):
         await self.add_cog(PreferencesCog(self))
         await self.add_cog(SongsCog(self))
         await self.add_cog(ScoresCog(self))
+        await self.add_cog(LiveCog(self))
         await self.add_cog(AdminCog(self))
         await self.add_cog(HelpCog(self))
         synced = await self.tree.sync()

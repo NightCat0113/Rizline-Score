@@ -7,9 +7,9 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from rizline_client import derive_minimal_cache
-
+from bot.config import catalog_dir
 from bot.services.language import normalize_language
+from rizline.client import derive_minimal_cache
 
 
 _BIO_ID = re.compile(r"^bio\.([^.]+)\.(1|2)$")
@@ -46,7 +46,7 @@ def layout_colors(layout_id: str, repo_root: Path) -> tuple[tuple[int, int, int]
     """Bottom-bar colors from layout.json. Falls back to the page's white bar."""
     white = (255, 255, 255)
     ink = (51, 51, 51)
-    payload = _load_json(repo_root / "layout.json")
+    payload = _load_json(catalog_dir(repo_root) / "layout.json")
     rows = payload.get("layoutColors") if isinstance(payload, dict) else None
     if isinstance(rows, list):
         for row in rows:
@@ -88,15 +88,16 @@ def _title_for(bio_id: str, repo_root: Path, language: str = "en") -> str:
     names = [code]
     if code != "en":
         names.append("en")
+    root = catalog_dir(repo_root)
     for name in names:
         found = _lookup(
             cleaned,
-            _load_json(repo_root / f"bio_{name}.json"),
-            _load_json(repo_root / f"achievement_{name}.json"),
+            _load_json(root / f"bio_{name}.json"),
+            _load_json(root / f"achievement_{name}.json"),
         )
         if found:
             return found
-    return _lookup(cleaned, _load_json(repo_root / "bio.json"), _load_json(repo_root / "achievement.json"))
+    return _lookup(cleaned, _load_json(root / "bio.json"), _load_json(root / "achievement.json"))
 
 
 def _lookup(bio_id: str, bios: dict, achievements: dict) -> str:

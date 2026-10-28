@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from rizline_client import derive_minimal_cache  # noqa: E402
+from rizline.client import derive_minimal_cache  # noqa: E402
 
 
 def main() -> int:

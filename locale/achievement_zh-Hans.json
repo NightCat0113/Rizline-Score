@@ -1,0 +1,410 @@
+{
+  "new_gamer": {
+    "name": "新人报道！",
+    "title1": "初来乍到的",
+    "title2": "新手",
+    "desc": "第一次通关歌曲"
+  },
+  "little_pigeon": {
+    "name": "是时候踏上旅途了",
+    "title1": "刚学会飞的",
+    "title2": "小鸽子",
+    "desc": "通关任意歌曲 3 次"
+  },
+  "pastel_lines": {
+    "name": "粉彩线条",
+    "title1": "多彩的",
+    "title2": "轨迹",
+    "desc": "在 “Pastel Lines” 中获得 “PERFECT” 评价"
+  },
+  "best_noob": {
+    "name": "最佳新秀",
+    "title1": "意外很强的",
+    "title2": "新手",
+    "desc": "在 “Pastel Lines”、“Gleam feat. ふわまろ”、“Power Attack” 中均获得至少 118% 的达成率"
+  },
+  "journey_rainbow": {
+    "name": "彩虹是个好东西",
+    "title1": "缤纷的",
+    "title2": "旅途",
+    "desc": "在 “Journey To The Rainbows” 中获得 “PERFECT” 评价"
+  },
+  "macro_wav": {
+    "name": "滴滴滴滴",
+    "title1": "滴滴作响的",
+    "title2": "脑瓜子",
+    "desc": "在 “macro.wav” 中获得 “PERFECT” 评价"
+  },
+  "arcade_viruz": {
+    "name": "街机还会中毒？",
+    "title1": "异常的",
+    "title2": "街机机台",
+    "desc": "在 “Arcade ViruZ” 中获得 “PERFECT” 评价"
+  },
+  "link_lines": {
+    "name": "连接起来吧……",
+    "title1": "相连的",
+    "title2": "心",
+    "desc": "在 “LINK x LIN#S” 中获得 “PERFECT” 评价"
+  },
+  "leonids": {
+    "name": "向狮子座许愿吧！",
+    "title1": "星海中的",
+    "title2": "狮子",
+    "desc": "在 “LEONIDS” 中获得 “PERFECT” 评价"
+  },
+  "zan_nen": {
+    "name": "太可惜了",
+    "title1": "99% 的",
+    "title2": "成功人士",
+    "desc": "以 1 个 Miss 或 1 个 Bad 结算"
+  },
+  "cho_zan_nen": {
+    "name": "更可惜了",
+    "title1": "99.99% 的",
+    "title2": "成功人士",
+    "desc": "在没有 Bad 和 Miss 的前提下，以 1 个 Early 或 1 个 Late 结算"
+  },
+  "ah_this": {
+    "name": "啊？这……",
+    "title1": "啊？",
+    "title2": "这……",
+    "desc": "在没有 Bad 和 Miss 的前提下，以 1 个 Early 或 1 个 Late 结算 10 次"
+  },
+  "generous_player": {
+    "name": "鸽子今天的午饭是金币",
+    "title1": "慷慨的",
+    "title2": "午饭",
+    "desc": "任意消费金币"
+  },
+  "achievement_enthusiast": {
+    "name": "成就爱好者",
+    "title1": "心血来潮的",
+    "title2": "收藏家",
+    "desc": "获得 10 种成就"
+  },
+  "tomaru_n_janee_zo": {
+    "name": "就快要到达那个地方……",
+    "title1": "永不放弃的",
+    "title2": "挑战者",
+    "desc": "在不低于 14 级的关卡中以至少 105% 的达成率结算并通关失败"
+  },
+  "vicious_mockery": {
+    "name": "还是不要随意打开为好……",
+    "title1": "潘多拉的",
+    "title2": "盒子",
+    "desc": "在 “Vicious Mockery” 中获得 “PERFECT” 评价"
+  },
+  "brave_road": {
+    "name": "真正的勇者",
+    "title1": "踏上旅途的",
+    "title2": "勇者",
+    "desc": "在 “BRAVE：ROAD” 中获得 “PERFECT” 评价"
+  },
+  "debut_ready": {
+    "name": "正式出道",
+    "title1": "有头有脸的",
+    "title2": "人物",
+    "desc": "第一次更换头像"
+  },
+  "unknown_signal": {
+    "name": "收到了不明电波！",
+    "title1": "未知宇宙中的",
+    "title2": "信号",
+    "desc": "第一次交换到 Rizcard"
+  },
+  "thanks_patronage": {
+    "name": "谢谢惠顾！",
+    "title1": "收藏家的",
+    "title2": "一小步",
+    "desc": "在商店购买任意物品"
+  },
+  "disc1_unlock": {
+    "name": "Disc 1，完全解锁！",
+    "title1": "勤勉的",
+    "title2": "冒险者",
+    "desc": "解锁 Disc 1 所有歌曲"
+  },
+  "disc1_clear": {
+    "name": "Disc 1，完全通关！",
+    "title1": "强大的",
+    "title2": "生存家",
+    "desc": "通过 Disc 1 所有歌曲的 EZ、HD、IN 关卡"
+  },
+  "disc1_conquer": {
+    "name": "Disc 1，完全制霸！",
+    "title1": "超凡的",
+    "title2": "征服者",
+    "desc": "在 Disc 1 所有歌曲的 EZ、HD、IN 关卡中均获得 “PERFECT” 评价"
+  },
+  "ap_brat": {
+    "name": "真格✧大勇士",
+    "title1": "真格",
+    "title2": "大勇士",
+    "desc": "在 “BRAVE：ROAD” 的 AT 关卡中获得 “PERFECT” 评价"
+  },
+  "offset_adjustment": {
+    "name": "该调调判定偏移了……",
+    "title1": "令人头疼的",
+    "title2": "延迟",
+    "desc": "通关时 Early 与 Late 的数目相差超过 20 个"
+  },
+  "offset_fixed": {
+    "name": "判定偏移终于调准了！",
+    "title1": "终于是",
+    "title2": "最后一版",
+    "desc": "通关时 Early 与 Late 的数目相等"
+  },
+  "easier_track": {
+    "name": "试试更简单的歌曲吧……",
+    "title1": "还得是",
+    "title2": "下一首歌",
+    "desc": "连续 5 次通关失败"
+  },
+  "little_profit": {
+    "name": "小赚一笔",
+    "title1": "小小的",
+    "title2": "积累",
+    "desc": "至少拥有 500 个点数"
+  },
+  "huge_profit": {
+    "name": "大赚一笔！",
+    "title1": "美好生活的",
+    "title2": "直通车",
+    "desc": "至少拥有 1000 个点数"
+  },
+  "a_fortune": {
+    "name": "盆满钵满~！",
+    "title1": "塞不下的",
+    "title2": "储钱罐",
+    "desc": "至少拥有 2000 个点数"
+  },
+  "dot_line": {
+    "name": "“因为我们的羁绊”",
+    "title1": "异世界的",
+    "title2": "声音",
+    "desc": "在 “Dot-Line” 中获得 “PERFECT” 评价"
+  },
+  "hikari_remix": {
+    "name": "一缕崭新的阳光",
+    "title1": "新的",
+    "title2": "曙光",
+    "desc": "在 “光 (阿卡姆巫师 Remix)” 中获得 “PERFECT” 评价"
+  },
+  "lost_future": {
+    "name": "找回遗失的未来",
+    "title1": "错乱的",
+    "title2": "时间线",
+    "desc": "在 “Lost Future” 中获得 “PERFECT” 评价"
+  },
+  "yellow_shining": {
+    "name": "唱响金色的乐章",
+    "title1": "染成金黄的",
+    "title2": "黑夜",
+    "desc": "在 “Yellow Shining!! feat. 成田なる” 中获得 “PERFECT” 评价"
+  },
+  "frozen_heart": {
+    "name": "解放冰封的心",
+    "title1": "风雪与",
+    "title2": "晨曦",
+    "desc": "在 “Frozen Heart” 中获得 “PERFECT” 评价"
+  },
+  "inevitability": {
+    "name": "才没有什么必然！",
+    "title1": "晕头转向的",
+    "title2": "鲷鱼烧",
+    "desc": "在 “Inevitability” 中获得 “PERFECT” 评价"
+  },
+  "so_fast": {
+    "name": "很快啊！",
+    "title1": "看我的",
+    "title2": "无影手",
+    "desc": "在 10.0 的音符流速下游玩任意关卡并获得 “PERFECT” 评价"
+  },
+  "so_slow": {
+    "name": "好~~~慢~~~啊~~~",
+    "title1": "慢动作的",
+    "title2": "左右手",
+    "desc": "在 1.0 的音符流速下游玩任意关卡并获得 “PERFECT” 评价"
+  },
+  "achievement_connoisseur": {
+    "name": "成就鉴赏家",
+    "title1": "热气腾腾的",
+    "title2": "狂热爱好者",
+    "desc": "获得 20 种成就"
+  },
+  "first_leg": {
+    "name": "顺利~旅途的第一段路",
+    "title1": "平稳飞行的",
+    "title2": "小鸽子",
+    "desc": "通关任意歌曲 10 次"
+  },
+  "in_direction": {
+    "name": "继续，朝着旅途的方向",
+    "title1": "乘风翱翔的",
+    "title2": "小鸽子",
+    "desc": "通关任意歌曲 20 次"
+  },
+  "halfway_point": {
+    "name": "不知不觉……旅途已经过半",
+    "title1": "展翅高飞的",
+    "title2": "小鸽子",
+    "desc": "通关任意歌曲 50 次"
+  },
+  "new_journey": {
+    "name": "终点！也是新旅途的开始",
+    "title1": "直上青云的",
+    "title2": "小鸽子",
+    "desc": "通关任意歌曲 100 次"
+  },
+  "what_the": {
+    "name": "何……何意味？",
+    "title1": "什么",
+    "title2": "意思",
+    "desc": "结算时 Bad 的数目多于 Hit 的数目"
+  },
+  "8blue": {
+    "name": "泡泡 o ·。·  O .",
+    "title1": "不太是",
+    "title2": "泡泡机",
+    "desc": "在 “8BLUE” 中获得 “PERFECT” 评价"
+  },
+  "greatness_earth": {
+    "name": "赞——美——地——球——",
+    "title1": "竟然是",
+    "title2": "钓鱼高手",
+    "desc": "在 “Greatness Earth” 中获得 “PERFECT” 评价"
+  },
+  "laign": {
+    "name": "“目的地：LAIGN。前进七。”",
+    "title1": "超光速的",
+    "title2": "引擎",
+    "desc": "在 “LAIGN” 中获得 “PERFECT” 评价"
+  },
+  "achievement_master": {
+    "name": "成就大师",
+    "title1": "戴眼镜的",
+    "title2": "专家",
+    "desc": "获得 50 种成就"
+  },
+  "toketeyuku": {
+    "name": "消融的回忆，流淌入梦",
+    "title1": "融化的",
+    "title2": "雪花",
+    "desc": "在 “溶けてゆく” 中获得 “PERFECT” 评价"
+  },
+  "pierrot_fixer": {
+    "name": "不过是游戏的一环",
+    "title1": "幕后的",
+    "title2": "操弄者",
+    "desc": "在 “Pierrot Fixer” 中获得 “PERFECT” 评价"
+  },
+  "rks_40": {
+    "name": "Ranking Score: 40，已达成",
+    "title1": "来自咏歌的",
+    "title2": "夸奖",
+    "desc": "Ranking Score 达到 40.00"
+  },
+  "rks_70": {
+    "name": "Ranking Score: 70，已达成",
+    "title1": "来自纳咪的",
+    "title2": "崇拜",
+    "desc": "Ranking Score 达到 70.00"
+  },
+  "rks_100": {
+    "name": "Ranking Score: 100，已达成",
+    "title1": "来自茂山的",
+    "title2": "认可",
+    "desc": "Ranking Score 达到 100.00"
+  },
+  "rks_120": {
+    "name": "Ranking Score: 120，达成！",
+    "title1": "来自贝里斯的",
+    "title2": "欣赏",
+    "desc": "Ranking Score 达到 120.00"
+  },
+  "rks_140": {
+    "name": "Ranking Score: 140，达成！",
+    "title1": "来自卡门的",
+    "title2": "赞扬",
+    "desc": "Ranking Score 达到 140.00"
+  },
+  "rks_150": {
+    "name": "Ranking Score: 150，达成！",
+    "title1": "来自童铃的",
+    "title2": "惊叹",
+    "desc": "Ranking Score 达到 150.00"
+  },
+  "rks_160": {
+    "name": "达成！Ranking Score: 160！",
+    "title1": "来自普灵的",
+    "title2": "肯定",
+    "desc": "Ranking Score 达到 160.00"
+  },
+  "rks_165": {
+    "name": "达成！Ranking Score: 165！",
+    "title1": "来自 Kiwi 的",
+    "title2": "拥抱",
+    "desc": "Ranking Score 达到 165.00"
+  },
+  "rks_170": {
+    "name": "最终！Ranking Score: 170！达成！",
+    "title1": "最高",
+    "title2": "表彰",
+    "desc": "Ranking Score 达到 170.00"
+  },
+  "tales_of_delonix": {
+    "name": "丹凤之冠",
+    "title1": "烈火般的",
+    "title2": "凤凰木",
+    "desc": "在 “Tales of Delonix” 中获得 “PERFECT” 评价"
+  },
+  "shangri_la": {
+    "name": "代号 极乐园",
+    "title1": "心中的",
+    "title2": "日月",
+    "desc": "在 “地区 Shangri-LA” 中获得 “PERFECT” 评价"
+  },
+  "absolution_pulse": {
+    "name": "赦免本应承担的罪孽",
+    "title1": "无疑是",
+    "title2": "冲击波",
+    "desc": "在 “Absolution Pulse” 中获得 “PERFECT” 评价"
+  },
+  "never_say_goodbye": {
+    "name": "流光溢彩中相拥",
+    "title1": "永不褪色的",
+    "title2": "约定",
+    "desc": "在 “Never Say Goodbye” 中获得 “PERFECT” 评价"
+  },
+  "ap_nsgat": {
+    "name": "<color=#DB787E><b>跨</b></color><color=#E6882E><b>越</b></color><color=#F2B000><b>永</b></color><color=#87BD3A><b>恒</b></color><color=#2BC2D9><b>的</b></color><color=#6994E8><b>色</b></color><color=#BA82D9><b>彩</b></color>",
+    "title1": "跨越永恒的",
+    "title2": "色彩",
+    "desc": "在 “Never Say Goodbye” 的 AT 关卡中获得 “PERFECT” 评价"
+  },
+  "disc2_unlock": {
+    "name": "Disc 2，完全解锁！",
+    "title1": "努力的",
+    "title2": "小画家",
+    "desc": "解锁 Disc 2 所有歌曲"
+  },
+  "disc2_clear": {
+    "name": "Disc 2，完全通关！",
+    "title1": "优秀的",
+    "title2": "调色巧手",
+    "desc": "通过 Disc 2 所有歌曲的 EZ、HD、IN 关卡"
+  },
+  "disc2_conquer": {
+    "name": "Disc 2，完全制霸！",
+    "title1": "天才般的",
+    "title2": "艺术巨匠",
+    "desc": "在 Disc 2 所有歌曲的 EZ、HD、IN 关卡中均获得 “PERFECT” 评价"
+  },
+  "senboshi_halo_iraishou": {
+    "name": "悬于天际的并非星辰，而是——",
+    "title1": "化作现实的",
+    "title2": "理想",
+    "desc": "在 “千星光輪依頼症” 中获得 “PERFECT” 评价"
+  }
+}

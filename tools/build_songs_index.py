@@ -572,7 +572,7 @@ def sp_chart_record(charts_dir: Path, spec: dict | None, designers: dict[str, st
     path = charts_dir / f"{chart_id}.json"
     hit = combo = score = riz_hit = 0
     if path.is_file():
-        from Riz_bundle import (
+        from tools.pipelines.Riz_bundle import (
             apply_rizcol_ranges_to_notes,
             compute_hit_combo_score,
             extract_notes_from_chart_obj,

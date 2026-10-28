@@ -95,7 +95,7 @@ class SongsCog(commands.Cog):
                 highlight=None,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,
-                font_path=settings.repo_root / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+                font_path=settings.font_path,
                 language=user_language(interaction.client.db, interaction.user.id),
             )
         except Exception as exc:
@@ -137,7 +137,7 @@ class SongsCog(commands.Cog):
                 tag=tag,
                 banner=open_series_art(settings.series_dir, "Banner", series.series_index, language),
                 poster=open_series_art(settings.series_dir, "Poster", series.series_index, language),
-                font_path=settings.repo_root / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+                font_path=settings.font_path,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,
                 language=language,

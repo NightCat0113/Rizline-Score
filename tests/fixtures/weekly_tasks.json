@@ -1,0 +1,9 @@
+{
+  "weekIndex": 12,
+  "nextRefreshAt": "2026-11-02T00:00:00Z",
+  "tasks": [
+    {"id": "100502", "progress": 2, "target": 5},
+    {"id": "101301", "progress": 3, "target": 3, "claimed": false, "claimable": true},
+    {"taskId": "101401", "progress": 1, "goal": 1, "status": "claimed"}
+  ]
+}

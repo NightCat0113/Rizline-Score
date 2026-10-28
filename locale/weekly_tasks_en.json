@@ -1,0 +1,58 @@
+{
+  "100101": {
+    "title": "Log in 3 days total",
+    "desc": "Open the game on 3 different days this week."
+  },
+  "100201": {
+    "title": "Log in 2 consecutive days",
+    "desc": "Open the game two days in a row."
+  },
+  "100301": {
+    "title": "Play any track 5 times",
+    "desc": "Start any chart 5 times. A clear is not required."
+  },
+  "100401": {
+    "title": "Clear any track 5 times",
+    "desc": "Finish any chart 5 times."
+  },
+  "100502": {
+    "title": "Play Asyncombat 5 times",
+    "desc": "Finish 5 Asyncombat matches."
+  },
+  "100601": {
+    "title": "Play any track with any MOD 2 times",
+    "desc": "Play 2 charts with at least one MOD turned on."
+  },
+  "100701": {
+    "title": "Accumulate 100 Dots",
+    "desc": "Earn 100 Dots from plays this week."
+  },
+  "100801": {
+    "title": "Clear 3 different tracks in Main Discs",
+    "desc": "Clear 3 distinct charts from Main Discs."
+  },
+  "100901": {
+    "title": "Clear 3 different tracks in EX Discs",
+    "desc": "Clear 3 distinct charts from EX Discs."
+  },
+  "101001": {
+    "title": "Accumulate 3000000 score",
+    "desc": "Add up 3,000,000 score across plays this week."
+  },
+  "101101": {
+    "title": "Accumulate 3000 Hits",
+    "desc": "Land 3,000 Hits across plays this week."
+  },
+  "101201": {
+    "title": "Total level of cleared charts reaches 15",
+    "desc": "The levels of charts you clear this week should add up to 15."
+  },
+  "101301": {
+    "title": "Win 3 times in Asyncombat",
+    "desc": "Win 3 Asyncombat matches."
+  },
+  "101401": {
+    "title": "Get a 2-win Streak in Asyncombat",
+    "desc": "Win 2 Asyncombat matches in a row."
+  }
+}

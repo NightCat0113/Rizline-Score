@@ -11,7 +11,7 @@ from bot.ui.b40_image import MAX_PNG_BYTES, load_layout_frame, render_b40, rende
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FONT = ROOT / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
+FONT = ROOT / "assets" / "fonts" / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
 
 
 def _song(asset_id: str, title: str, score: int) -> Song:

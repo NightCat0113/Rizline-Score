@@ -10,6 +10,18 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PINNED_API_BASE = "https://service.rhyths.net"
+FONT_FILENAME = "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
+
+
+def catalog_dir(root: Path) -> Path:
+    """Directory that holds locale catalogs.
+
+    ``root`` may be the repository root or an already-resolved locale directory.
+    """
+    nested = root / "locale"
+    if nested.is_dir():
+        return nested
+    return root
 
 
 class ConfigError(Exception):
@@ -58,6 +70,9 @@ class Settings:
     illust_hires_dir: Path
     illust_dir: Path
     series_dir: Path
+    locale_dir: Path
+    font_path: Path
+    pipeline_script: Path
 
     @property
     def cache_ttl(self) -> timedelta:
@@ -98,6 +113,9 @@ class Settings:
             illust_hires_dir=repo_root / "output" / "illust_HiRes",
             illust_dir=repo_root / "output" / "illust",
             series_dir=repo_root / "output" / "series",
+            locale_dir=repo_root / "locale",
+            font_path=repo_root / "assets" / "fonts" / FONT_FILENAME,
+            pipeline_script=repo_root / "tools" / "pipelines" / "Riz_bundle.py",
         )
 
     @classmethod

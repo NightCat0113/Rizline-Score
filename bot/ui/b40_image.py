@@ -6,6 +6,7 @@ import io
 import json
 import math
 import random
+from datetime import datetime
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -588,7 +589,8 @@ def _draw(
     for _label, rows in sections:
         row_count = (len(rows) + _COLS - 1) // _COLS
         height += _px(scale, _SECTION_H) + row_count * card_h + max(0, row_count - 1) * gap + _px(scale, 28)
-    height += pad
+    stamp_h = _px(scale, 28)
+    height += stamp_h + pad
 
     artwork = _random_artwork(illust_dir, illust_hires_dir)
     image = _background(width, height, artwork).convert("RGBA")
@@ -604,6 +606,7 @@ def _draw(
         "rks_big": _load_font(font_path, _px(scale, 24)),
         "watermark": _load_font(font_path, _px(scale, 30)),
         "bio": _load_font(font_path, _px(scale, 20)),
+        "stamp": _load_font(font_path, _px(scale, 14)),
     }
     profile_root = repo_root or font_path.parent
     avatar = _open_art(str(card.get("avatarId") or ""), illust_hires_dir, illust_dir, prefer_low=False)
@@ -618,29 +621,36 @@ def _draw(
     y = pad + _px(scale, _HEADER_BLOCK)
     if not sections:
         draw.text((pad, y), strings(language)["no_charts_group"], font=fonts["section"], fill=(255, 255, 255, 255))
-        return image
-
-    for label, rows in sections:
-        _section_title(draw, _LABELS.get(label, label), y, width, pad, fonts["section"], scale)
-        y += _px(scale, _SECTION_H)
-        for start in range(0, len(rows), _COLS):
-            chunk = rows[start : start + _COLS]
-            for column, row in enumerate(chunk):
-                card = _card_image(
-                    (card_w, card_h),
-                    row,
-                    index,
-                    illust_hires_dir,
-                    illust_dir,
-                    fonts,
-                    scale,
-                )
-                origin = (pad + column * (card_w + gap), y)
-                image.alpha_composite(card, origin)
-            y += card_h
-            if start + _COLS < len(rows):
-                y += gap
-        y += _px(scale, 28)
+    else:
+        for label, rows in sections:
+            _section_title(draw, _LABELS.get(label, label), y, width, pad, fonts["section"], scale)
+            y += _px(scale, _SECTION_H)
+            for start in range(0, len(rows), _COLS):
+                chunk = rows[start : start + _COLS]
+                for column, row in enumerate(chunk):
+                    card = _card_image(
+                        (card_w, card_h),
+                        row,
+                        index,
+                        illust_hires_dir,
+                        illust_dir,
+                        fonts,
+                        scale,
+                    )
+                    origin = (pad + column * (card_w + gap), y)
+                    image.alpha_composite(card, origin)
+                y += card_h
+                if start + _COLS < len(rows):
+                    y += gap
+            y += _px(scale, 28)
+    stamp = datetime.now().astimezone().strftime("Generated %Y-%m-%d %H:%M:%S %Z")
+    draw.text(
+        (width // 2, height - pad - stamp_h // 2),
+        stamp,
+        font=fonts["stamp"],
+        fill=(255, 255, 255, 200),
+        anchor="mm",
+    )
     return image
 
 
@@ -818,16 +828,20 @@ def _avatar(artwork: Image.Image | None, size: int, pos: dict) -> Image.Image:
             zoom = float(pos.get("z"))
         except (TypeError, ValueError):
             zoom = 1.0
-        if zoom <= 0:
+        if not math.isfinite(zoom) or zoom <= 0:
             zoom = 1.0
         try:
             saved_x = float(pos.get("x"))
         except (TypeError, ValueError):
-            saved_x = 0.0
+            saved_x = 0.5
+        if not math.isfinite(saved_x):
+            saved_x = 0.5
         try:
             saved_y = float(pos.get("y"))
         except (TypeError, ValueError):
-            saved_y = 0.0
+            saved_y = 0.5
+        if not math.isfinite(saved_y):
+            saved_y = 0.5
         cover_scale = max(size / artwork.width, size / artwork.height)
         window = min(float(artwork.width), float(artwork.height), max(1.0, (size / cover_scale) / zoom))
         shift_x = (saved_x - 0.5) * window

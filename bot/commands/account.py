@@ -31,7 +31,7 @@ from bot.ui.views import (
     UNBIND_EMPTY,
     UNBIND_REMOVED,
 )
-from rizline_client import RizlineError, scrub
+from rizline.client import RizlineError, scrub
 
 
 logger = logging.getLogger("rizline.bot")

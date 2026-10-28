@@ -12,7 +12,7 @@ import uuid
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from rizline_client import (
+from rizline.client import (
     DEFAULT_BASE_URL,
     RizlineAPIError,
     RizlineError,

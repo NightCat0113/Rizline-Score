@@ -10,7 +10,7 @@ from bot.commands.account import AccountCog, _BindIntro, _CodeModal, _Credential
 from bot.security.authz import ALLOWLIST_DENIED
 from bot.services.sessions import SessionStore
 from bot.ui.views import BIND_PUBLIC_REPLY, UNBIND_REMOVED
-from rizline_client import LoginResult, RizlineError
+from rizline.client import LoginResult, RizlineError
 
 
 EMAIL = "player@example.com"

@@ -67,7 +67,7 @@ class AdminCog(commands.Cog):
             # 1. Run Riz_bundle.py to fetch catalog and export assets
             proc_bundle = await asyncio.create_subprocess_exec(
                 py_exe,
-                str(repo_root / "Riz_bundle.py"),
+                str(interaction.client.settings.pipeline_script),
                 cwd=str(repo_root),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,

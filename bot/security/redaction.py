@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from rizline_client import redact, scrub
+from rizline.client import redact, scrub
 
 
 logger = logging.getLogger("rizline.bot")

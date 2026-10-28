@@ -4,7 +4,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
 
-from rizline_client import (
+from rizline.client import (
     AES_KEY,
     RizlineAPIError,
     RizlineDataError,

@@ -1,4 +1,4 @@
-# PyCryptodome for rizline_login.py and rizline_client.py.
+# PyCryptodome for rizline/login.py and rizline/client.py.
 # py -m pip install -r requirements.txt
 
 pycryptodome==4.1.0 \

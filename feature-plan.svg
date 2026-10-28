@@ -1,0 +1,43 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Rizline Discord bot feature plan</title>
+  <desc id="desc">Discord slash command plan for score targets and an achievement checklist.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#202946"/></linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#68e1d2"/><stop offset="1" stop-color="#77a7ff"/></linearGradient>
+    <style>text{font-family:Segoe UI,Arial,sans-serif;fill:#eff4ff}.muted{fill:#aab7d2}.small{font-size:15px}.label{font-size:13px;font-weight:700;letter-spacing:1.5px;fill:#79dfd2}.title{font-size:35px;font-weight:750}.head{font-size:22px;font-weight:700}.body{font-size:17px}.card{fill:#222d47;stroke:#354363;stroke-width:1.4}.step{fill:#1a243c;stroke:#405277;stroke-width:1.2}</style>
+  </defs>
+  <rect width="1280" height="760" rx="26" fill="url(#bg)"/>
+  <circle cx="1120" cy="70" r="180" fill="#71cfc2" opacity=".05"/>
+  <text x="62" y="62" class="label">RIZLINE DISCORD BOT · FEATURE PLAN</text>
+  <text x="62" y="112" class="title">Two private slash commands</text>
+  <text x="62" y="147" class="body muted">Use the linked player score cache, song index, RKS formulas and localized achievement names.</text>
+
+  <rect x="62" y="185" width="1156" height="300" rx="22" class="card"/>
+  <rect x="62" y="185" width="7" height="300" rx="4" fill="url(#teal)"/>
+  <text x="92" y="225" class="label">/RECOMMEND</text>
+  <text x="92" y="260" class="head">Find a combined score plan for an RKS goal</text>
+  <rect x="92" y="282" width="320" height="166" rx="15" class="step"/>
+  <text x="116" y="316" class="label">INPUT</text>
+  <text x="116" y="351" class="body">Desired increase: +0.01 by default</text>
+  <text x="116" y="382" class="body">Optional songs: semicolon list</text>
+  <text x="116" y="416" class="small muted">Autocomplete supports multiple picks.</text>
+  <path d="M430 365h55m-12-10 12 10-12 10" fill="none" stroke="#79dfd2" stroke-width="3"/>
+  <rect x="505" y="282" width="682" height="166" rx="15" class="step"/>
+  <text x="529" y="316" class="label">PRIVATE SCORE TARGETS</text>
+  <text x="529" y="351" class="body">Only songs with an existing score are eligible.</text>
+  <text x="529" y="382" class="body">Show current → target score and estimated RKS contribution.</text>
+  <text x="529" y="416" class="small muted">Targets assume the current accuracy tier; cap with max score.</text>
+  <text x="92" y="466" class="small muted">If scored charts cannot reach the goal, explain the current saved-score ceiling and that more songs may be needed.</text>
+
+  <rect x="62" y="515" width="1156" height="170" rx="22" class="card"/>
+  <rect x="62" y="515" width="7" height="170" rx="4" fill="#b28cff"/>
+  <text x="92" y="555" class="label" style="fill:#c7a9ff">/ACHIEVEMENTS</text>
+  <text x="92" y="590" class="head">A paginated unlocked / locked checklist</text>
+  <text x="92" y="628" class="body">Read unlocked IDs from the player cache; show progress and localized names.</text>
+  <text x="92" y="657" class="small muted">Filter all / unlocked / locked · private response · previous / next pages · refresh cache for older saves.</text>
+  <text x="62" y="728" class="label">IMPLEMENTATION</text>
+  <text x="260" y="728" class="body">Score target service</text>
+  <text x="470" y="728" class="body">Slash commands</text>
+  <text x="655" y="728" class="body">Achievement pagination</text>
+  <text x="895" y="728" class="body">Help command + command sync</text>
+</svg>

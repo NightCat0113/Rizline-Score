@@ -8,7 +8,7 @@ from bot.ui.series_image import render_series
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FONT = ROOT / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
+FONT = ROOT / "assets" / "fonts" / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
 BANNER = (200, 20, 20)
 POSTER = (20, 20, 200)
 JACKET = (12, 90, 40)

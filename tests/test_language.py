@@ -15,7 +15,7 @@ from cryptography.fernet import Fernet
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FONT = ROOT / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
+FONT = ROOT / "assets" / "fonts" / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf"
 
 
 def test_language_names_and_fallback():

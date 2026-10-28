@@ -65,6 +65,7 @@ def test_slash_commands_register_without_network(tmp_path):
     from bot.commands.account import AccountCog
     from bot.commands.admin import AdminCog
     from bot.commands.help import HelpCog
+    from bot.commands.live import LiveCog
     from bot.commands.preferences import PreferencesCog
     from bot.commands.scores import ScoresCog
     from bot.commands.songs import SongsCog
@@ -87,6 +88,7 @@ def test_slash_commands_register_without_network(tmp_path):
         await bot.add_cog(PreferencesCog(bot))
         await bot.add_cog(SongsCog(bot))
         await bot.add_cog(ScoresCog(bot))
+        await bot.add_cog(LiveCog(bot))
         await bot.add_cog(AdminCog(bot))
         await bot.add_cog(HelpCog(bot))
         names = {command.name for command in bot.tree.get_commands()}
@@ -102,7 +104,10 @@ def test_slash_commands_register_without_network(tmp_path):
         "score",
         "profile",
         "b40",
-        "rizcard",
+        "recommend",
+        "achievements",
+        "asyncombat",
+        "weekly",
         "reload-data",
         "refresh-game-data",
         "series",

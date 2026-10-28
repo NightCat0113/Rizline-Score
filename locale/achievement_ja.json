@@ -1,0 +1,410 @@
+{
+  "new_gamer": {
+    "name": "新入りです！",
+    "title1": "来たばかりの",
+    "title2": "新人",
+    "desc": "初めて楽曲をクリアする"
+  },
+  "little_pigeon": {
+    "name": "そろそろ旅に出よう",
+    "title1": "初めて飛べた",
+    "title2": "",
+    "desc": "任意の楽曲を 3 回クリアする"
+  },
+  "pastel_lines": {
+    "name": "ピンキーライン",
+    "title1": "色鮮やかな",
+    "title2": "軌跡",
+    "desc": "「Pastel Lines」で「PERFECT」評価を獲得する"
+  },
+  "best_noob": {
+    "name": "最優秀新人",
+    "title1": "意外と強い",
+    "title2": "新人",
+    "desc": "「Pastel Lines」、「Gleam feat. ふわまろ」、「Power Attack」でともに 118% 以上の達成率を獲得する"
+  },
+  "journey_rainbow": {
+    "name": "虹は素晴らしい",
+    "title1": "色とりどりの",
+    "title2": "旅路",
+    "desc": "「Journey To The Rainbows」で「PERFECT」評価を獲得する"
+  },
+  "macro_wav": {
+    "name": "チーン",
+    "title1": "騒がしい",
+    "title2": "脳内",
+    "desc": "「macro.wav」で「PERFECT」評価を獲得する"
+  },
+  "arcade_viruz": {
+    "name": "アーケード中毒？",
+    "title1": "おかしな",
+    "title2": "アーケード",
+    "desc": "「Arcade ViruZ」で「PERFECT」評価を獲得する"
+  },
+  "link_lines": {
+    "name": "繋がろう……",
+    "title1": "繋がっている",
+    "title2": "心",
+    "desc": "「LINK x LIN#S」で「PERFECT」評価を獲得する"
+  },
+  "leonids": {
+    "name": "獅子座にお願いをしよう！",
+    "title1": "星海に佇む",
+    "title2": "獅子",
+    "desc": "「LEONIDS」で「PERFECT」評価を獲得する"
+  },
+  "zan_nen": {
+    "name": "惜しい！",
+    "title1": "99% の",
+    "title2": "成功者",
+    "desc": "1 つだけ Miss か Bad を出した状態でリザルトを迎える"
+  },
+  "cho_zan_nen": {
+    "name": "マジで惜しい！",
+    "title1": "99.99% の",
+    "title2": "成功者",
+    "desc": "Bad と Miss なしで、1 つだけ Early か Late を出した状態でリザルトを迎える"
+  },
+  "ah_this": {
+    "name": "え？噓でしょ……",
+    "title1": "え？",
+    "title2": "噓でしょ……",
+    "desc": "Bad と Miss なしで、1 つだけ Early か Late を出した状態で計 10 回リザルトを迎える"
+  },
+  "generous_player": {
+    "name": "本日の餌はCoin",
+    "title1": "寛大な",
+    "title2": "昼飯",
+    "desc": "Coin を消費する"
+  },
+  "achievement_enthusiast": {
+    "name": "実績コレクター",
+    "title1": "気まぐれな",
+    "title2": "コレクター",
+    "desc": "10 種類の実績を獲得する"
+  },
+  "tomaru_n_janee_zo": {
+    "name": "あと少しであの場所に……",
+    "title1": "絶対諦めない",
+    "title2": "挑戦者",
+    "desc": "難易度 14 以上の譜面で 105% 以上の達成率を獲得した状態で Fail する"
+  },
+  "vicious_mockery": {
+    "name": "むやみに開けないで……",
+    "title1": "パンドラの",
+    "title2": "箱",
+    "desc": "「Vicious Mockery」で「PERFECT」評価を獲得する"
+  },
+  "brave_road": {
+    "name": "真の勇者",
+    "title1": "旅立つ",
+    "title2": "勇者",
+    "desc": "「BRAVE：ROAD」で「PERFECT」評価を獲得する"
+  },
+  "debut_ready": {
+    "name": "正式デビュー",
+    "title1": "名の知れた",
+    "title2": "人物",
+    "desc": "アバターを初めて変更する"
+  },
+  "unknown_signal": {
+    "name": "不明な電波をキャッチ！",
+    "title1": "未知宇宙の",
+    "title2": "信号",
+    "desc": "Rizcard を交換で初めて入手する"
+  },
+  "thanks_patronage": {
+    "name": "ありがとうございます！",
+    "title1": "収集家の",
+    "title2": "小さな一歩",
+    "desc": "ショップで何かを入手する"
+  },
+  "disc1_unlock": {
+    "name": "Disc 1、完全解禁！",
+    "title1": "勤勉な",
+    "title2": "冒険者",
+    "desc": "Disc 1 の全楽曲を解禁する"
+  },
+  "disc1_clear": {
+    "name": "Disc 1、完全クリア！",
+    "title1": "強靭な",
+    "title2": "生存者",
+    "desc": "Disc 1 の全楽曲の EZ、HD、IN 譜面をクリアする"
+  },
+  "disc1_conquer": {
+    "name": "Disc 1、完全制覇！",
+    "title1": "超凡な",
+    "title2": "征服者",
+    "desc": "Disc 1 の全楽曲の EZ、HD、IN 譜面で「PERFECT」評価を獲得する"
+  },
+  "ap_brat": {
+    "name": "本気✧大勇者",
+    "title1": "本気の",
+    "title2": "大勇者",
+    "desc": "「BRAVE：ROAD」の AT 譜面で「PERFECT」評価を獲得する"
+  },
+  "offset_adjustment": {
+    "name": "オフセット、調整しなきゃ……",
+    "title1": "頭を痛める",
+    "title2": "遅延",
+    "desc": "Early と Late の差が 20 以上の状態でクリアする"
+  },
+  "offset_fixed": {
+    "name": "ついにオフセットが合った！",
+    "title1": "ついに",
+    "title2": "最終版",
+    "desc": "Early と Late が同数の状態でクリアする"
+  },
+  "easier_track": {
+    "name": "簡単な楽曲から始めてみよう……",
+    "title1": "やっぱり",
+    "title2": "次の曲",
+    "desc": "5 回連続で Fail する"
+  },
+  "little_profit": {
+    "name": "一儲け",
+    "title1": "小さな",
+    "title2": "積み重ね",
+    "desc": "Dot を 500 個以上所持する"
+  },
+  "huge_profit": {
+    "name": "大儲け！",
+    "title1": "幸せへの",
+    "title2": "直行便",
+    "desc": "Dot を 1000 個以上所持する"
+  },
+  "a_fortune": {
+    "name": "ぼろ儲け～！",
+    "title1": "はみ出し",
+    "title2": "貯金箱",
+    "desc": "Dot を 2000 個以上所持する"
+  },
+  "dot_line": {
+    "name": "「私たちの絆だから」",
+    "title1": "異世界の",
+    "title2": "声",
+    "desc": "「Dot-Line」で「PERFECT」評価を獲得する"
+  },
+  "hikari_remix": {
+    "name": "一筋の曙光",
+    "title1": "新しい",
+    "title2": "曙光",
+    "desc": "「光 (阿卡姆巫师 Remix)」で「PERFECT」評価を獲得する"
+  },
+  "lost_future": {
+    "name": "失われた未来を取り戻して",
+    "title1": "錯乱した",
+    "title2": "タイムライン",
+    "desc": "「Lost Future」で「PERFECT」評価を獲得する"
+  },
+  "yellow_shining": {
+    "name": "金色の楽章を響かせて",
+    "title1": "黄色に染める",
+    "title2": "暗い空",
+    "desc": "「Yellow Shining!! feat. 成田なる」で「PERFECT」評価を獲得する"
+  },
+  "frozen_heart": {
+    "name": "氷の心を解かして",
+    "title1": "風雪と",
+    "title2": "朝日",
+    "desc": "「Frozen Heart」で「PERFECT」評価を獲得する"
+  },
+  "inevitability": {
+    "name": "定めなんてない！",
+    "title1": "目が回る",
+    "title2": "鯛焼き",
+    "desc": "「Inevitability」で「PERFECT」評価を獲得する"
+  },
+  "so_fast": {
+    "name": "速ッ！",
+    "title1": "見てろ",
+    "title2": "無影手",
+    "desc": "10.0 譜面速度で楽曲をプレーして、「PERFECT」評価を獲得する"
+  },
+  "so_slow": {
+    "name": "お~~~そ~~~い~~~な~~~",
+    "title1": "スローモーションな",
+    "title2": "両手",
+    "desc": "1.0 譜面速度で楽曲をプレーして、「PERFECT」評価を獲得する"
+  },
+  "achievement_connoisseur": {
+    "name": "実績マニア",
+    "title1": "熱々",
+    "title2": "マニア",
+    "desc": "20 種類の実績を獲得する"
+  },
+  "first_leg": {
+    "name": "順調！旅の第一歩",
+    "title1": "平稳飛行の",
+    "title2": "ポッポ",
+    "desc": "任意の楽曲を 10 回クリアする"
+  },
+  "in_direction": {
+    "name": "続け、旅の方へ",
+    "title1": "風に乗る",
+    "title2": "ポッポ",
+    "desc": "任意の楽曲を 20 回クリアする"
+  },
+  "halfway_point": {
+    "name": "知らぬ間に…旅は半ば",
+    "title1": "大空を征く",
+    "title2": "ポッポ",
+    "desc": "任意の楽曲を 50 回クリアする"
+  },
+  "new_journey": {
+    "name": "ゴール！そして新たな旅の始まり",
+    "title1": "疾風迅雷の",
+    "title2": "ポッポ",
+    "desc": "任意の楽曲を 100 回クリアする"
+  },
+  "what_the": {
+    "name": "な…なにこれ？",
+    "title1": "何の",
+    "title2": "意味",
+    "desc": "Bad が Hit を上回る状態でリザルトを迎える"
+  },
+  "8blue": {
+    "name": "バブル o ·。·  O .",
+    "title1": "なんちゃって",
+    "title2": "泡マシン",
+    "desc": "「8BLUE」で「PERFECT」評価を獲得する"
+  },
+  "greatness_earth": {
+    "name": "地——球——サ——イ——コ——",
+    "title1": "まさか",
+    "title2": "釣りの達人",
+    "desc": "「Greatness Earth」で「PERFECT」評価を獲得する"
+  },
+  "laign": {
+    "name": "「目的地：LAIGN。前進、七。」",
+    "title1": "超光速の",
+    "title2": "ドライブ",
+    "desc": "「LAIGN」で「PERFECT」評価を獲得する"
+  },
+  "achievement_master": {
+    "name": "実績マスター",
+    "title1": "メガネの",
+    "title2": "先生",
+    "desc": "50 種類の実績を獲得する"
+  },
+  "toketeyuku": {
+    "name": "溶ける記憶、夢の中へ",
+    "title1": "溶ける",
+    "title2": "雪花",
+    "desc": "「溶けてゆく」で「PERFECT」評価を獲得する"
+  },
+  "pierrot_fixer": {
+    "name": "ただのゲームの一環",
+    "title1": "影の",
+    "title2": "操り手",
+    "desc": "「Pierrot Fixer」で「PERFECT」評価を獲得する"
+  },
+  "rks_40": {
+    "name": "Ranking Score: 40，達成済み",
+    "title1": "詠歌からの",
+    "title2": "褒賞",
+    "desc": "Ranking Score が 40.00 に到達"
+  },
+  "rks_70": {
+    "name": "Ranking Score: 70，達成済み",
+    "title1": "ナミからの",
+    "title2": "崇拝",
+    "desc": "Ranking Score が 70.00 に到達"
+  },
+  "rks_100": {
+    "name": "Ranking Score: 100，達成済み",
+    "title1": "茂山からの",
+    "title2": "承認",
+    "desc": "Ranking Score が 100.00 に到達"
+  },
+  "rks_120": {
+    "name": "Ranking Score: 120，見事達成！",
+    "title1": "ベイズからの",
+    "title2": "惜しみ",
+    "desc": "Ranking Score が 120.00 に到達"
+  },
+  "rks_140": {
+    "name": "Ranking Score: 140，見事達成！",
+    "title1": "カルメンからの",
+    "title2": "賛辞",
+    "desc": "Ranking Score が 140.00 に到達"
+  },
+  "rks_150": {
+    "name": "Ranking Score: 150，見事達成！",
+    "title1": "童鈴からの",
+    "title2": "驚嘆",
+    "desc": "Ranking Score が 150.00 に到達"
+  },
+  "rks_160": {
+    "name": "達成！Ranking Score: 160！",
+    "title1": "プリンからの",
+    "title2": "肯定",
+    "desc": "Ranking Score が 160.00 に到達"
+  },
+  "rks_165": {
+    "name": "達成！Ranking Score: 165！",
+    "title1": "Kiwi からの",
+    "title2": "抱擁",
+    "desc": "Ranking Score が 165.00 に到達"
+  },
+  "rks_170": {
+    "name": "最終！Ranking Score: 170！達成！",
+    "title1": "最高",
+    "title2": "表彰",
+    "desc": "Ranking Score が 170.00 に到達"
+  },
+  "tales_of_delonix": {
+    "name": "丹鳳の冠",
+    "title1": "烈火の如き",
+    "title2": "鳳凰木",
+    "desc": "「Tales of Delonix」で「PERFECT」評価を獲得する"
+  },
+  "shangri_la": {
+    "name": "コードネーム 極楽園",
+    "title1": "心に宿る",
+    "title2": "日月",
+    "desc": "「地区 Shangri-LA」で「PERFECT」評価を獲得する"
+  },
+  "absolution_pulse": {
+    "name": "背負うべき罪を許し",
+    "title1": "疑いなく",
+    "title2": "衝撃波",
+    "desc": "「Absolution Pulse」で「PERFECT」評価を獲得する"
+  },
+  "never_say_goodbye": {
+    "name": "彩光溢れる中で抱き合う",
+    "title1": "褪せない",
+    "title2": "約束",
+    "desc": "「Never Say Goodbye」で「PERFECT」評価を獲得する"
+  },
+  "ap_nsgat": {
+    "name": "<color=#DB787E><b>永</b></color><color=#E6882E><b>遠</b></color><color=#F2B000><b>越</b></color><color=#87BD3A><b>え</b></color><color=#2BC2D9><b>の</b></color><color=#6994E8><b>色</b></color><color=#BA82D9><b>彩</b></color>",
+    "title1": "永遠越えの",
+    "title2": "色彩",
+    "desc": "「Never Say Goodbye」の AT 譜面で「PERFECT」評価を獲得する"
+  },
+  "disc2_unlock": {
+    "name": "Disc 2、完全解禁！",
+    "title1": "努力の",
+    "title2": "小さな画家",
+    "desc": "Disc 2 の全楽曲を解禁する"
+  },
+  "disc2_clear": {
+    "name": "Disc 2、完全クリア！",
+    "title1": "優秀な",
+    "title2": "調色の名手",
+    "desc": "Disc 2 の全楽曲の EZ、HD、IN 譜面をクリアする"
+  },
+  "disc2_conquer": {
+    "name": "Disc 2、完全制覇！",
+    "title1": "天才的な",
+    "title2": "芸術巨匠",
+    "desc": "Disc 2 の全楽曲の EZ、HD、IN 譜面で「PERFECT」評価を獲得する"
+  },
+  "senboshi_halo_iraishou": {
+    "name": "空に浮かぶのは星じゃなくて、それは——",
+    "title1": "現実になった",
+    "title2": "理想",
+    "desc": "「千星光輪依頼症」で「PERFECT」評価を獲得する"
+  }
+}

@@ -12,17 +12,40 @@ from discord.ext import commands
 
 from bot.commands.songs import autocomplete_songs
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
+from bot.services.achievements import achievement_rows, unlocked_achievement_ids
 from bot.services.language import user_language
 from bot.services.profile import local_profile
+from bot.services.recommendation import recommend_score_targets, resolve_song_filter
 from bot.services.rks import bests_for_song, build_records, chart_track_ids, select_top40
 from bot.services.songdata import attachment_name, illustration_path
 from bot.store.crypto import TamperError
+from bot.ui.achievement_view import AchievementChecklistView
 from bot.ui.b40_image import render_b40
+from bot.ui.recommendation_view import RecommendationPlanView
 from bot.ui.song_image import render_song
 from bot.ui.texts import ambiguous_text, profile_text, score_text
 
 
 logger = logging.getLogger("rizline.bot")
+
+
+async def autocomplete_recommend_songs(
+    interaction: discord.Interaction, current: str
+) -> list[app_commands.Choice[str]]:
+    parts = current.split(";")
+    prefix = "; ".join(part.strip() for part in parts[:-1] if part.strip())
+    fragment = parts[-1].strip()
+    try:
+        songs = interaction.client.songs.search(fragment, limit=25)
+    except Exception:
+        return []
+    choices = []
+    for song in songs:
+        value = f"{prefix}; {song.title}" if prefix else song.title
+        if len(value) <= 100:
+            label = f"{song.title} — {song.artist}" if song.artist else song.title
+            choices.append(app_commands.Choice(name=label[:100], value=value))
+    return choices
 
 
 class ScoresCog(commands.Cog):
@@ -90,7 +113,7 @@ class ScoresCog(commands.Cog):
                 highlight=None,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,
-                font_path=settings.repo_root / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+                font_path=settings.font_path,
                 language=user_language(interaction.client.db, interaction.user.id),
             )
         except Exception as exc:
@@ -135,6 +158,124 @@ class ScoresCog(commands.Cog):
             ephemeral=True,
         )
 
+    @app_commands.command(name="recommend", description="Find score targets to raise your RKS")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(
+        increase="Desired overall RKS increase (default: 0.01)",
+        songs="Optional song titles separated by semicolons; autocomplete supports multiple selections",
+    )
+    @app_commands.autocomplete(songs=autocomplete_recommend_songs)
+    @dm_only()
+    async def recommend(
+        self,
+        interaction: discord.Interaction,
+        increase: app_commands.Range[float, 0.01, 10.0] = 0.01,
+        songs: str | None = None,
+    ) -> None:
+        if self._too_fast(interaction):
+            await interaction.response.send_message(
+                "Too many lookups. Wait a moment and try again.", ephemeral=True
+            )
+            return
+        decision, cache = self._load_view(interaction, interaction.user.id)
+        if decision is not Decision.ALLOW or cache is None:
+            await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
+            return
+        if not cache.get("myBest"):
+            await interaction.response.send_message(
+                "No saved song scores were found. Run /refresh after playing and try again.",
+                ephemeral=True,
+            )
+            return
+        song_ids, filter_errors = resolve_song_filter(interaction.client.songs, songs)
+        if filter_errors:
+            await interaction.response.send_message("\n".join(filter_errors), ephemeral=True)
+            return
+        recommendations, max_available = recommend_score_targets(
+            cache, interaction.client.songs, increase=float(increase), song_ids=song_ids
+        )
+        target = f"+{float(increase):.2f} RKS"
+        if not recommendations:
+            if song_ids:
+                message = (
+                    f"The selected songs with saved scores cannot reach {target} by score improvement "
+                    f"within the current score-only Best 40 (estimated maximum: +{max_available:.3f}). "
+                    "Try selecting more scored songs or removing the filter."
+                )
+            else:
+                message = (
+                    f"The current Best 40 cannot reach {target} through score improvements alone "
+                    f"(estimated score-only maximum: +{max_available:.3f}). This is the current maximum "
+                    "from the saved scores; improving accuracy or adding songs may increase RKS."
+                )
+            await interaction.response.send_message(message, ephemeral=True)
+            return
+
+        view = RecommendationPlanView(
+            owner_id=interaction.user.id,
+            increase=float(increase),
+            rows=recommendations,
+        )
+        await interaction.response.send_message(view.render(), view=view, ephemeral=True)
+
+    @app_commands.command(name="achievements", description="Browse your Rizline achievement checklist")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(status="Show all, unlocked, or locked achievements")
+    @app_commands.choices(
+        status=[
+            app_commands.Choice(name="All", value="all"),
+            app_commands.Choice(name="Unlocked", value="unlocked"),
+            app_commands.Choice(name="Locked", value="locked"),
+        ]
+    )
+    @dm_only()
+    async def achievements(
+        self,
+        interaction: discord.Interaction,
+        status: str = "all",
+    ) -> None:
+        if self._too_fast(interaction):
+            await interaction.response.send_message(
+                "Too many lookups. Wait a moment and try again.", ephemeral=True
+            )
+            return
+        decision, cache = self._load_view(interaction, interaction.user.id)
+        if decision is not Decision.ALLOW or cache is None:
+            await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
+            return
+        unlocked = unlocked_achievement_ids(cache)
+        if unlocked is None:
+            await interaction.response.send_message(
+                "Your cached scores predate achievement tracking. Run /refresh and try again.",
+                ephemeral=True,
+            )
+            return
+        language = user_language(interaction.client.db, interaction.user.id)
+        all_rows = achievement_rows(interaction.client.settings.repo_root, language)
+        unlocked.intersection_update(row["id"] for row in all_rows)
+        mode = status
+        if mode == "unlocked":
+            rows = [row for row in all_rows if row["id"] in unlocked]
+        elif mode == "locked":
+            rows = [row for row in all_rows if row["id"] not in unlocked]
+        else:
+            rows = all_rows
+        if not all_rows:
+            await interaction.response.send_message(
+                "Achievement definitions are unavailable in the local data files.", ephemeral=True
+            )
+            return
+        view = AchievementChecklistView(
+            owner_id=interaction.user.id,
+            rows=rows,
+            unlocked=unlocked,
+            total=len(all_rows),
+            language=language,
+        )
+        await interaction.response.send_message(view.render(), view=view, ephemeral=True)
+
     @app_commands.command(name="b40", description="Show your AH5 and B35 charts")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -167,8 +308,7 @@ class ScoresCog(commands.Cog):
                 index=interaction.client.songs,
                 illust_hires_dir=interaction.client.settings.illust_hires_dir,
                 illust_dir=interaction.client.settings.illust_dir,
-                font_path=interaction.client.settings.repo_root
-                / "Source Han Sans CN&Comfortaa Hybrid Bold.ttf",
+                font_path=interaction.client.settings.font_path,
                 repo_root=interaction.client.settings.repo_root,
                 card=card,
                 language=user_language(interaction.client.db, interaction.user.id),
@@ -184,29 +324,23 @@ class ScoresCog(commands.Cog):
             file=discord.File(io.BytesIO(png), filename="b40.png"),
         )
 
-    @app_commands.command(name="rizcard", description="Show your Rizcard")
-    @app_commands.allowed_installs(guilds=True, users=True)
-    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    @dm_only()
-    async def rizcard(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message("Rizcard is turned off.", ephemeral=True)
-
     def _with_local_card(self, interaction: discord.Interaction, cache: dict, username: str) -> dict:
         card = dict(cache)
-        if card.get("layoutId") and card.get("avatarId"):
-            return card
         found = local_profile(interaction.client.settings.repo_root, username)
         if not found:
             return card
+        changed = False
         for key, value in found.items():
             if not card.get(key):
                 card[key] = value
-        try:
-            interaction.client.db.put_cache(
-                interaction.user.id,
-                card,
-                interaction.client.settings.cache_ttl,
-            )
-        except Exception as exc:
-            logger.error("profile cache update failed type=%s", type(exc).__name__)
+                changed = True
+        if changed:
+            try:
+                interaction.client.db.put_cache(
+                    interaction.user.id,
+                    card,
+                    interaction.client.settings.cache_ttl,
+                )
+            except Exception as exc:
+                logger.error("profile cache update failed type=%s", type(exc).__name__)
         return card

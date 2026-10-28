@@ -1,0 +1,14 @@
+{
+  "result": {
+    "username": "LivePlayer",
+    "totalRks": 15.2,
+    "rizcard": {
+      "avatarId": "illustration.Song.A.0",
+      "backgroundId": "illustration.Song.A.0",
+      "bioId1": "bio.spbio00049.1",
+      "bioId2": "bio.exbio00007.2",
+      "layoutId": "layout.00056",
+      "avatarPos": {"x": 0, "y": 0}
+    }
+  }
+}
