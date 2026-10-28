@@ -6,7 +6,7 @@ import io
 import json
 import math
 import random
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -643,7 +643,7 @@ def _draw(
                 if start + _COLS < len(rows):
                     y += gap
             y += _px(scale, 28)
-    stamp = datetime.now().astimezone().strftime("Generated %Y-%m-%d %H:%M:%S %Z")
+    stamp = datetime.now(timezone(timedelta(hours=8))).strftime("Generated %Y-%m-%d %H:%M:%S GMT+8")
     draw.text(
         (width // 2, height - pad - stamp_h // 2),
         stamp,

@@ -67,4 +67,6 @@ These terms are governed by the laws of **[operator's country or region]**, with
 
 ## 11. Contact
 
-Questions about these terms: **[operator email or Discord]**
+Questions about these terms:
+Email: nightwind0112@gmail.com
+Discord: @nightwind.nightcat
