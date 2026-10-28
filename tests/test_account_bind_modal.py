@@ -10,7 +10,7 @@ from bot.commands.account import AccountCog, _BindIntro, _CodeModal, _Credential
 from bot.security.authz import ALLOWLIST_DENIED
 from bot.services.sessions import SessionStore
 from bot.ui.views import BIND_PUBLIC_REPLY, UNBIND_REMOVED
-from rizline.client import LoginResult, RizlineError
+from rizline.client import LoginResult, RizlineAPIError, RizlineError, RizlineNetworkError
 
 
 EMAIL = "player@example.com"
@@ -244,12 +244,54 @@ def test_code_word_opens_code_modal_then_logs_in(monkeypatch: pytest.MonkeyPatch
     asyncio.run(scenario())
 
 
+def test_passcode_api_rejection_falls_back_to_email_code(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(account_module.asyncio, "sleep", _instant_sleep)
+
+    async def need_code(email: str, secret: str, device_id: str) -> LoginResult:
+        del device_id
+        raise RizlineAPIError(f"HTTP 400: need verification for {email} {secret}")
+
+    calls = _install_api(monkeypatch, login_passcode=need_code)
+
+    async def scenario() -> None:
+        bot = _Bot()
+        cog = AccountCog(bot)
+        modal = _CredentialsModal(cog)
+        modal.email_input._value = EMAIL
+        modal.secret_input._value = PASSCODE
+        interaction = _Interaction(bot)
+        await modal.on_submit(interaction)
+        await _drain(cog)
+        assert calls["login"][0][0] == EMAIL
+        assert calls["send"][0][0] == EMAIL
+        assert calls["login_code"] == []
+        assert calls["fetch"] == []
+        text = interaction.visible_text()
+        assert "email verification" in text.lower()
+        assert "Enter code" in text
+        assert EMAIL not in text
+        assert PASSCODE not in text
+        prompt = interaction.edits[-1]
+        opener = _Interaction(bot)
+        await prompt["view"].children[0].callback(opener)
+        code_modal = opener.response.modals[0]
+        assert isinstance(code_modal, _CodeModal)
+        code_modal.code_input._value = CODE
+        follow = _Interaction(bot)
+        await code_modal.on_submit(follow)
+        await _drain(cog)
+        assert calls["login_code"] == [(EMAIL, CODE, "device-from-api")]
+        assert "Bound as NightXWind" in follow.visible_text()
+
+    asyncio.run(scenario())
+
+
 def test_login_failure_scrubs_email_and_passcode(monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture) -> None:
     monkeypatch.setattr(account_module.asyncio, "sleep", _instant_sleep)
 
     async def explode(email: str, secret: str, device_id: str) -> LoginResult:
         del device_id
-        raise RizlineError(f"rejected {email} {secret}")
+        raise RizlineNetworkError(f"rejected {email} {secret}")
 
     _install_api(monkeypatch, login_passcode=explode)
 

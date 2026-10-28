@@ -6,7 +6,7 @@ from __future__ import annotations
 BIND_PUBLIC_REPLY = (
     "Bind your Rizline account in this DM.\n"
     "Use the email on your Rizline account. Enter your password, or type `code` to get a verification email.\n"
-    "The form is private to this DM. Your passeord or verification code is sent to the bot host once to fetch your save, then discarded. "
+    "The form is private to this DM. Your password or verification code is sent to the bot host once to fetch your save, then discarded. "
     "The session token stays in memory until /unbind or a restart. "
     "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
     "Encryption does not protect that data if the bot host is compromised."
@@ -21,6 +21,11 @@ BIND_CODE_TITLE = "Email verification code"
 BIND_CODE_LABEL = "Code from your email"
 BIND_ENTER_CODE = "Enter code"
 BIND_CODE_READY = (
+    "A verification code was requested for that Rizline email. "
+    "Check your inbox, press Enter code, and submit it in the form. The code is not posted in this DM."
+)
+BIND_CODE_AFTER_PASSCODE = (
+    "Password sign-in was not accepted (the account may need email verification). "
     "A verification code was requested for that Rizline email. "
     "Check your inbox, press Enter code, and submit it in the form. The code is not posted in this DM."
 )

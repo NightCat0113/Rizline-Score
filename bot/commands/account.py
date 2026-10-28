@@ -16,6 +16,7 @@ from bot.security.authz import ALLOWLIST_DENIED, dm_only
 from bot.security.redaction import log_safe
 from bot.services import rizline_api
 from bot.ui.views import (
+    BIND_CODE_AFTER_PASSCODE,
     BIND_CODE_LABEL,
     BIND_CODE_READY,
     BIND_CODE_TITLE,
@@ -31,7 +32,7 @@ from bot.ui.views import (
     UNBIND_EMPTY,
     UNBIND_REMOVED,
 )
-from rizline.client import RizlineError, scrub
+from rizline.client import RizlineAPIError, RizlineError, scrub
 
 
 logger = logging.getLogger("rizline.bot")
@@ -283,7 +284,13 @@ class AccountCog(commands.Cog):
         finally:
             secret = ""
 
-    async def _request_code(self, interaction: discord.Interaction, email: str) -> None:
+    async def _request_code(
+        self,
+        interaction: discord.Interaction,
+        email: str,
+        *,
+        after_passcode: bool = False,
+    ) -> None:
         await self._defer(interaction)
         device_id = str(uuid.uuid4())
         try:
@@ -298,9 +305,10 @@ class AccountCog(commands.Cog):
             await self._reply(interaction, _CODE_FAILED, _RESULT_DELETE_SECONDS)
             return
         expires = time.monotonic() + _BIND_TTL_SECONDS
+        message = BIND_CODE_AFTER_PASSCODE if after_passcode else BIND_CODE_READY
         await self._reply(
             interaction,
-            BIND_CODE_READY,
+            message,
             _BIND_TTL_SECONDS,
             view=_EnterCode(self, email, device_id, expires),
         )
@@ -342,7 +350,19 @@ class AccountCog(commands.Cog):
             if using_code:
                 result = await rizline_api.login_code(email, secret, device_id)
             else:
-                result = await rizline_api.login_passcode(email, secret, device_id)
+                try:
+                    result = await rizline_api.login_passcode(email, secret, device_id)
+                except RizlineAPIError as exc:
+                    # Server often rejects password when email verification is required.
+                    log_safe(
+                        logging.INFO,
+                        "passcode login rejected type=%s detail=%s; requesting email code",
+                        type(exc).__name__,
+                        scrub(str(exc), secrets),
+                    )
+                    secret = ""
+                    await self._request_code(interaction, email, after_passcode=True)
+                    return
             cache = await rizline_api.fetch_cache(email, result.token, result.device_id)
         except RizlineError as exc:
             log_safe(
