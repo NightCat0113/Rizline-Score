@@ -9,7 +9,7 @@ import random
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 from bot.services.language import strings
 from bot.services.profile import layout_colors, player_title
@@ -724,15 +724,20 @@ def _player_header(
     avatar_pos: dict,
     colors: tuple[tuple[int, int, int], tuple[int, int, int], tuple[int, int, int]],
 ) -> Image.Image:
-    width, height = _px(scale, 680), _px(scale, 118)
+    # Match index.html: .user-wrapper (blue) > .user-rks (pill) > .user-avatar.
+    # Avatar is the same diameter as the pill height; the blue stroke lives on an
+    # outer canvas so the circle is never flush-clipped against the page.
+    inner_w, inner_h = _px(scale, 680), _px(scale, 118)
+    blue = max(2, _px(scale, 3))
+    width, height = inner_w + blue * 2, inner_h + blue * 2
     bg1, bg2, ink = colors
-    body = Image.new("RGBA", (width, height), (255, 255, 255, 255))
-    band_h = int(height * 0.64)
-    body.paste(_horizontal_gradient(width, height - band_h, bg1, bg2), (0, band_h))
+    body = Image.new("RGBA", (inner_w, inner_h), (255, 255, 255, 255))
+    band_h = int(inner_h * 0.64)
+    body.paste(_horizontal_gradient(inner_w, inner_h - band_h, bg1, bg2), (0, band_h))
     draw = ImageDraw.Draw(body)
     number = f"{total_rks:.4f}"
     number_w = int(draw.textlength(number, font=fonts["rks_big"]))
-    rks_x = width - _px(scale, 28) - number_w
+    rks_x = inner_w - _px(scale, 28) - number_w
     mark = "RKS"
     mark_box = fonts["watermark"].getbbox(mark)
     mark_h = max(1, mark_box[3] - mark_box[1])
@@ -741,7 +746,7 @@ def _player_header(
     mark_y = int(band_h - mark_h / 8 - mark_box[1])
     # Page color is the layout ink at #80, then CSS opacity 0.7. Draw on a
     # clear layer and composite it, or the pill mask later turns the white solid.
-    ghost = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    ghost = Image.new("RGBA", (inner_w, inner_h), (0, 0, 0, 0))
     ImageDraw.Draw(ghost).text(
         (mark_x, mark_y),
         mark,
@@ -749,9 +754,9 @@ def _player_header(
         fill=(*ink, 90),
     )
     body.alpha_composite(ghost)
-    band = _name_band(banner_art, width - _px(scale, 70), band_h)
+    band = _name_band(banner_art, inner_w - _px(scale, 70), band_h)
     body.paste(band, (_px(scale, 70), 0))
-    name = _clip(username, fonts["name"], width - _px(scale, 250), draw)
+    name = _clip(username, fonts["name"], inner_w - _px(scale, 250), draw)
     draw.text((_px(scale, 136), _px(scale, 14)), name, font=fonts["name"], fill=(255, 255, 255, 255))
 
     rks_y = band_h + _px(scale, 8)
@@ -764,29 +769,40 @@ def _player_header(
         )
     draw.text((rks_x, rks_y), number, font=fonts["rks_big"], fill=(*ink, 255))
 
-    mask = Image.new("L", (width, height), 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=255)
+    mask = Image.new("L", (inner_w, inner_h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, inner_w - 1, inner_h - 1), radius=inner_h // 2, fill=255)
     body.putalpha(mask)
-    header = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    ring = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    ImageDraw.Draw(ring).rounded_rectangle(
-        (0, 0, width - 1, height - 1),
-        radius=height // 2,
-        outline=(0, 178, 236, 255),
-        width=_px(scale, 3),
-    )
-    header.alpha_composite(body)
-    header.alpha_composite(ring)
 
-    # Match index.html: avatar diameter equals the pill height (white ring inside).
-    ring = max(2, _px(scale, 4))
-    avatar_size = max(1, height - ring * 2)
+    # .user-avatar: 115×115, border 4px white, box-sizing border-box.
+    # CSS margin-left:-4px aligns the circle with the pill's left edge; we place
+    # it at the body origin (x=blue on the outer canvas) so nothing is clipped.
+    white = max(2, _px(scale, 4))
+    avatar_size = max(1, inner_h - white * 2)
     avatar = _avatar(avatar_art, avatar_size, avatar_pos)
-    framed = Image.new("RGBA", (height, height), (0, 0, 0, 0))
-    ImageDraw.Draw(framed).ellipse((0, 0, height - 1, height - 1), fill=(255, 255, 255, 255))
-    framed.paste(avatar, (ring, ring), avatar)
-    # Nudge left like .user-avatar { margin-left: -4px }, keep vertically flush.
-    header.alpha_composite(framed, (-ring // 2, 0))
+    framed = Image.new("RGBA", (inner_h, inner_h), (0, 0, 0, 0))
+    ImageDraw.Draw(framed).ellipse((0, 0, inner_h - 1, inner_h - 1), fill=(255, 255, 255, 255))
+    framed.paste(avatar, (white, white), avatar)
+
+    header = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    header.alpha_composite(body, (blue, blue))
+    # Blue stroke as an outer ring only — a width>1 outline would paint over the
+    # avatar's left edge and look like a clipped circle.
+    outer = Image.new("L", (width, height), 0)
+    ImageDraw.Draw(outer).rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=255)
+    hole = Image.new("L", (width, height), 0)
+    ImageDraw.Draw(hole).rounded_rectangle(
+        (blue, blue, width - 1 - blue, height - 1 - blue),
+        radius=max(1, inner_h // 2),
+        fill=255,
+    )
+    ring = Image.new("RGBA", (width, height), (0, 178, 236, 255))
+    ring.putalpha(ImageChops.subtract(outer, hole))
+    header.alpha_composite(ring)
+    # CSS .user-avatar { margin-left: -4px } pulls the circle into the border.
+    # Keep x >= 0 so Pillow does not clip (unlike CSS overflow). Draw avatar
+    # after the ring so the left arc stays visible over the blue stroke.
+    nudge = min(blue, white)
+    header.alpha_composite(framed, (blue - nudge, blue))
     return header
 
 
@@ -845,15 +861,15 @@ def _avatar(artwork: Image.Image | None, size: int, pos: dict) -> Image.Image:
             saved_y = 0.5
         if not math.isfinite(saved_y):
             saved_y = 0.5
-        # Match index.html: object-fit cover, then pan by (x-0.5, 0.5-y) and zoom.
-        cover_scale = max(size / artwork.width, size / artwork.height)
-        window = min(float(artwork.width), float(artwork.height), max(1.0, (size / cover_scale) / zoom))
-        shift_x = (saved_x - 0.5) * window
-        shift_y = (0.5 - saved_y) * window
-        left = artwork.width / 2 - shift_x - window / 2
-        top = artwork.height / 2 - shift_y - window / 2
-        left = min(max(0.0, left), max(0.0, artwork.width - window))
-        top = min(max(0.0, top), max(0.0, artwork.height - window))
+        # Cover-fit, then zoom. The saved point slides the window through the
+        # leftover pan range: x=0 shows the right edge, x=1 the left, y=0 the top.
+        width_px = float(artwork.width)
+        height_px = float(artwork.height)
+        window = min(width_px, height_px, max(1.0, min(width_px, height_px) / zoom))
+        left = (1.0 - saved_x) * (width_px - window)
+        top = saved_y * (height_px - window)
+        left = min(max(0.0, left), max(0.0, width_px - window))
+        top = min(max(0.0, top), max(0.0, height_px - window))
         crop = artwork.crop((int(left), int(top), int(left + window), int(top + window)))
         source = crop.resize((size, size), Image.Resampling.LANCZOS).convert("RGBA")
     mask = Image.new("L", (size, size), 0)

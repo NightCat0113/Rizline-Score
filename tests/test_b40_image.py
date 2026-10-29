@@ -7,7 +7,7 @@ from PIL import Image
 from bot.models import ChartInfo, Song
 from bot.services.profile import layout_colors, local_profile, player_title
 from bot.services.songdata import SongIndex
-from bot.ui.b40_image import MAX_PNG_BYTES, load_layout_frame, render_b40, render_rizcard
+from bot.ui.b40_image import MAX_PNG_BYTES, _avatar, load_layout_frame, render_b40, render_rizcard
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -176,3 +176,16 @@ def test_layout_00056_bar_is_grey():
 def test_player_title_comes_from_bio_json():
     assert player_title("bio.spbio00049.1", "bio.exbio00007.2", ROOT) == "Musical Cat"
     assert player_title("ach.[leonids].title1", "", ROOT) == "Starry"
+
+
+def test_avatar_pan_zooms_around_the_saved_focus():
+    art = Image.new("RGB", (300, 300), (255, 255, 255))
+    saved_x, saved_y, zoom = 0.2724822759628296, 0.020806938409805298, 3
+    window = 300 / zoom
+    left = (1.0 - saved_x) * (300 - window)
+    top = saved_y * (300 - window)
+    focus = (int(left + window / 2), int(top + window / 2))
+    art.paste(Image.new("RGB", (6, 6), (220, 20, 20)), (focus[0] - 3, focus[1] - 3))
+    framed = _avatar(art, 100, {"x": saved_x, "y": saved_y, "z": zoom})
+    center = framed.getpixel((50, 50))
+    assert center[0] > 180 and center[1] < 80
