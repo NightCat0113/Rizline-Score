@@ -778,12 +778,15 @@ def _player_header(
     header.alpha_composite(body)
     header.alpha_composite(ring)
 
-    avatar_size = _px(scale, 108)
+    # Match index.html: avatar diameter equals the pill height (white ring inside).
+    ring = max(2, _px(scale, 4))
+    avatar_size = max(1, height - ring * 2)
     avatar = _avatar(avatar_art, avatar_size, avatar_pos)
-    framed = Image.new("RGBA", (avatar_size + _px(scale, 8), avatar_size + _px(scale, 8)), (0, 0, 0, 0))
-    ImageDraw.Draw(framed).ellipse((0, 0, framed.width - 1, framed.height - 1), fill=(255, 255, 255, 255))
-    framed.paste(avatar, (_px(scale, 4), _px(scale, 4)), avatar)
-    header.alpha_composite(framed, (_px(scale, 4), (height - framed.height) // 2))
+    framed = Image.new("RGBA", (height, height), (0, 0, 0, 0))
+    ImageDraw.Draw(framed).ellipse((0, 0, height - 1, height - 1), fill=(255, 255, 255, 255))
+    framed.paste(avatar, (ring, ring), avatar)
+    # Nudge left like .user-avatar { margin-left: -4px }, keep vertically flush.
+    header.alpha_composite(framed, (-ring // 2, 0))
     return header
 
 
@@ -842,6 +845,7 @@ def _avatar(artwork: Image.Image | None, size: int, pos: dict) -> Image.Image:
             saved_y = 0.5
         if not math.isfinite(saved_y):
             saved_y = 0.5
+        # Match index.html: object-fit cover, then pan by (x-0.5, 0.5-y) and zoom.
         cover_scale = max(size / artwork.width, size / artwork.height)
         window = min(float(artwork.width), float(artwork.height), max(1.0, (size / cover_scale) / zoom))
         shift_x = (saved_x - 0.5) * window

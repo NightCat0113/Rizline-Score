@@ -42,11 +42,12 @@ class AchievementChecklistView(discord.ui.View):
             lines.append(empty_text)
         for row in current:
             is_unlocked = row["id"] in self.unlocked
-            mark = "[x]" if is_unlocked else "[ ]"
+            mark = "✓" if is_unlocked else "☐"
             state = unlocked_label if is_unlocked else locked_label
             lines.append(f"{mark} **{row['name']}** - *{row['title']}* | {state}")
-            if not is_unlocked:
-                lines.append(f"  -> {unlock_label}: {row['unlock']}")
+            unlock_text = str(row.get("unlock") or "").strip()
+            if unlock_text:
+                lines.append(f"  → {unlock_label}: {unlock_text}")
         lines.append(f"{page_label} {self.page + 1}/{pages}")
         return "\n".join(lines)
 
