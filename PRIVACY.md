@@ -1,6 +1,6 @@
 # Privacy Policy — Rizline Lookup
 
-Last updated: 2026-10-28
+Last updated: 2026-11-02
 
 **Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
@@ -20,7 +20,7 @@ Rizline Lookup is an unofficial fan Discord bot. It is not operated by the Rizli
 | Language preference                                                                                  | Render card and UI text in your language                                             | Until you ask for deletion; **survives** `/unbind`                                                |
 | Sharing flag (`/share`)                                                                              | Decide whether other bot users may look up your scores                               | Until `/unbind` removes the binding                                                               |
 | Encrypted score cache (username, RKS, chart results, profile-card fields such as avatar and bio ids) | Answer `/song`, `/profile`, `/b40`, and similar without logging in every time       | Until the cache TTL expires (default 24 hours), you `/refresh` or `/bind` again, or you `/unbind` |
-| Rizline email, session token, and device id                                                          | Keep a live session for `/refresh`, `/asyncombat`, `/weekly`, and related live calls | **In memory only**, until `/unbind` or the bot process restarts                                   |
+| Rizline email, session token, and device id                                                          | Keep a live session for `/refresh`, `/asyncombat`, `/weekly`, and related live calls | **Encrypted** in the bot database until `/unbind`, 14 days without a successful live call, or Rizline rejects the login |
 | Rizline passcode or email verification code                                                          | Log in once during `/bind`                                                           | Used once, then discarded; **not** written to the database                                        |
 | Command interaction metadata that Discord delivers to the bot                                        | Run slash commands and send replies                                                  | Handled in the bot process; Discord also keeps its own copies under Discord’s policies            |
 
@@ -29,7 +29,7 @@ Song and series lookups that do not need a bound account do not require Rizline 
 ## 3. What we do not store
 
 - Passcodes and email verification codes in the database
-- Session tokens on disk
+- Session tokens in plaintext (they are encrypted with the same key as the score cache)
 - Full game saves, mailbox contents, or purchase history in the bot database
 - Advertising profiles or analytics SDK events
 
@@ -54,11 +54,11 @@ We do **not** sell your personal data. We do not run ads in the bot.
 
 ## 6. Encryption and host compromise
 
-The score cache is encrypted at rest with a key held by the operator (`BOT_ENCRYPTION_KEY`). Encryption does **not** protect that data if the computer running the bot is compromised, because the process then holds the key, any plaintext cache in use, and any in-memory session.
+The score cache and Rizline session are encrypted at rest with a key held by the operator (`BOT_ENCRYPTION_KEY`). Encryption does **not** protect that data if the computer running the bot is compromised, because the process then holds the key and any plaintext it has loaded.
 
 ## 7. How to delete your data
 
-1. Run `/unbind`. That deletes your binding, encrypted score cache, and in-memory session from this bot.
+1. Run `/unbind`. That deletes your binding, encrypted score cache, and encrypted session from this bot.
 2. Language preference may remain. Contact the operator (below) and ask for that row to be deleted.
 3. `/unbind` and ordinary database delete cannot erase Discord’s message history, host backups, crash dumps, or leftover disk copies.
 

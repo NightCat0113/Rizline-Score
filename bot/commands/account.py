@@ -29,9 +29,11 @@ from bot.ui.views import (
     BIND_PUBLIC_REPLY,
     SHARE_OFF,
     SHARE_ON,
+    SESSION_EXPIRED,
     UNBIND_EMPTY,
     UNBIND_REMOVED,
 )
+from bot.services.sessions import is_auth_failure
 from rizline.client import RizlineAPIError, RizlineError, scrub
 
 
@@ -185,7 +187,7 @@ class AccountCog(commands.Cog):
         )
         self._schedule_delete(interaction, _INTRO_DELETE_SECONDS)
 
-    @app_commands.command(name="unbind", description="Delete your binding, cache, and in-memory session")
+    @app_commands.command(name="unbind", description="Delete your binding, cache, and saved session")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @dm_only()
@@ -221,11 +223,12 @@ class AccountCog(commands.Cog):
             SHARE_ON if state.value == "on" else SHARE_OFF,
         )
 
-    @app_commands.command(name="refresh", description="Fetch your scores again with the in-memory session")
+    @app_commands.command(name="refresh", description="Fetch your scores again with your saved session")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(private="Only you can see this reply")
     @dm_only()
-    async def refresh(self, interaction: discord.Interaction) -> None:
+    async def refresh(self, interaction: discord.Interaction, private: bool = False) -> None:
         if not interaction.client.limiter.allow(f"refresh:{interaction.user.id}", 1, 30):
             await interaction.response.send_message(
                 "Wait a moment before refreshing again.",
@@ -234,12 +237,9 @@ class AccountCog(commands.Cog):
             return
         session = interaction.client.sessions.get(interaction.user.id)
         if session is None:
-            await interaction.response.send_message(
-                "The in-memory session is gone. Run /bind again.",
-                ephemeral=True,
-            )
+            await interaction.response.send_message(SESSION_EXPIRED, ephemeral=True)
             return
-        await interaction.response.defer(ephemeral=False)
+        await interaction.response.defer(ephemeral=private)
         secrets = (session.email, session.token)
         try:
             cache = await rizline_api.fetch_cache(session.email, session.token, session.device_id)
@@ -250,13 +250,19 @@ class AccountCog(commands.Cog):
             )
         except RizlineError as exc:
             log_safe(logging.WARNING, "refresh failed type=%s detail=%s", type(exc).__name__, scrub(str(exc), secrets))
+            if is_auth_failure(exc):
+                interaction.client.sessions.pop(interaction.user.id)
+                await interaction.followup.send(SESSION_EXPIRED, ephemeral=True)
+                return
             await interaction.followup.send(
                 "The Rizline server did not return a save. Run /bind again if the session expired.",
                 ephemeral=True,
             )
             return
+        interaction.client.sessions.touch(interaction.user.id)
         await interaction.followup.send(
             f"Updated scores for {cache.get('username') or 'your account'}.",
+            ephemeral=private,
         )
 
     def _user_allowed(self, user_id: int) -> bool:
@@ -381,7 +387,7 @@ class AccountCog(commands.Cog):
         username = cache.get("username") or "your account"
         await self._reply(
             interaction,
-            f"Bound as {username}. The session token stays in memory until /unbind or a restart. "
+            f"Bound as {username}. Your session is stored encrypted until /unbind, it expires, or sign-in fails. "
             "Use /unbind to delete the cache.",
             _RESULT_DELETE_SECONDS,
         )

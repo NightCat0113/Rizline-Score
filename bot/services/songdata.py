@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 import re
+import secrets
 from pathlib import Path
 
 from bot.models import ChartInfo, SeriesVolume, Song, TrackSeries
@@ -172,6 +174,50 @@ class SongIndex:
         if len(exact) == 1:
             return exact[0], []
         return None, hits
+
+    def iter_charts(self, difficulty: str | None = None):
+        """Yield (song, chart) for every indexed chart, optionally one difficulty."""
+        allowed = (difficulty,) if difficulty else _DIFFS
+        if difficulty and difficulty not in _DIFFS:
+            return
+        for song in self.songs:
+            for name in allowed:
+                chart = song.charts.get(name)
+                if chart is not None:
+                    yield song, chart
+
+    def charts_in_range(
+        self,
+        min_level: float | None = None,
+        max_level: float | None = None,
+        difficulty: str | None = None,
+    ) -> list[tuple[Song, ChartInfo]]:
+        """Charts whose constant is inside an inclusive level range."""
+        low = float("-inf") if min_level is None else float(min_level)
+        high = float("inf") if max_level is None else float(max_level)
+        if low > high:
+            low, high = high, low
+        found = [
+            (song, chart)
+            for song, chart in self.iter_charts(difficulty)
+            if low <= chart.level <= high
+        ]
+        found.sort(key=lambda item: (item[1].level, item[0].title.lower(), item[1].difficulty))
+        return found
+
+    def random_chart(
+        self,
+        *,
+        min_level: float | None = None,
+        max_level: float | None = None,
+        difficulty: str | None = None,
+        rng: random.Random | None = None,
+    ) -> tuple[Song, ChartInfo] | None:
+        pool = self.charts_in_range(min_level, max_level, difficulty)
+        if not pool:
+            return None
+        picker = rng or secrets.SystemRandom()
+        return picker.choice(pool)
 
 
 def _load_series(rows: list) -> list[TrackSeries]:

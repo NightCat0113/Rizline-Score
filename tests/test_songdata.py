@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 
 from bot.services.songdata import SongIndex, illustration_path, normalize
@@ -74,6 +75,22 @@ def test_alias_and_autocomplete_search():
     assert song.title == "竹"
     hits = index.search("gleam", limit=5)
     assert hits and hits[0].title.lower().startswith("gleam")
+
+
+def test_charts_in_range_and_random_chart():
+    index = _index()
+    pastel = index.by_asset["PastelLines.RekuMochizuki.0"]
+    easy = index.charts_in_range(1.0, 1.0, "EZ")
+    assert (pastel, pastel.charts["EZ"]) in easy
+    assert all(chart.difficulty == "EZ" and chart.level == 1.0 for _song, chart in easy)
+    swapped = index.charts_in_range(2.0, 1.0, "EZ")
+    assert swapped
+    assert swapped[0][1].level <= swapped[-1][1].level
+    assert index.charts_in_range(19.0, 20.0, "EZ") == []
+    picked = index.random_chart(min_level=1.0, max_level=1.0, difficulty="EZ", rng=random.Random(1))
+    assert picked is not None
+    assert picked[1].difficulty == "EZ"
+    assert index.random_chart(min_level=19.0, max_level=20.0, difficulty="EZ") is None
 
 
 def test_illustration_is_optional():

@@ -60,7 +60,9 @@ def test_song_commands_have_no_difficulty_option():
     from bot.commands.scores import ScoresCog
     from bot.commands.songs import SongsCog
 
-    assert [item.name for item in SongsCog.song.parameters] == ["query"]
+    names = [item.name for item in SongsCog.song.parameters]
+    assert names == ["query", "private"]
+    assert "difficulty" not in names
     assert not hasattr(ScoresCog, "score")
 
 

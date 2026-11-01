@@ -69,11 +69,67 @@ def test_cache_refresh_keeps_sharing_off_by_default_and_preserves_opt_in(tmp_pat
     database.close()
 
 
+def test_cache_age_reads_fetched_at(tmp_path):
+    database = Database(tmp_path / "bot.db", _box())
+    assert database.cache_age(1) is None
+    database.put_cache(1, _cache(), timedelta(hours=2))
+    age = database.cache_age(1)
+    assert age is not None
+    assert age < timedelta(minutes=1)
+    database.put_cache(1, _cache(), timedelta(seconds=-1))
+    assert database.cache_age(1) is None
+    database.close()
+
+
 def test_expired_cache_is_removed(tmp_path):
     database = Database(tmp_path / "bot.db", _box())
     database.put_cache(7, _cache(), timedelta(seconds=-1))
     assert database.get_cache(7) is None
     assert database.access_flags(7) == (False, False)
+    database.close()
+
+
+def test_encrypted_session_round_trip_hides_plaintext(tmp_path):
+    from datetime import datetime, timedelta, timezone
+
+    from bot.models import Session
+    from bot.services.sessions import SessionStore, is_auth_failure
+    from rizline.client import RizlineAPIError
+
+    token = "canary-session-token-XYZ"
+    email = "canary-session@example.com"
+    device = "device-canary-99"
+    database = Database(tmp_path / "bot.db", _box())
+    store = SessionStore(database)
+    store.put(4, Session(email=email, token=token, device_id=device))
+    raw = (tmp_path / "bot.db").read_bytes()
+    assert token.encode() not in raw
+    assert email.encode() not in raw
+    assert device.encode() not in raw
+
+    restarted = SessionStore(database)
+    loaded = restarted.get(4)
+    assert loaded is not None
+    assert loaded.token == token
+    assert loaded.email == email
+    assert loaded.device_id == device
+
+    database._conn.execute(
+        "UPDATE sessions SET expires_at = ?",
+        ((datetime.now(timezone.utc) - timedelta(seconds=5)).isoformat(),),
+    )
+    database._conn.commit()
+    assert SessionStore(database).get(4) is None
+    assert database.get_session(4) is None
+
+    store.put(4, Session(email=email, token=token, device_id=device))
+    assert database.unbind(4) is True
+    assert database.get_session(4) is None
+    assert SessionStore(database).get(4) is None
+
+    assert is_auth_failure(RizlineAPIError("HTTP 401"))
+    assert is_auth_failure(RizlineAPIError("HTTP 403: denied"))
+    assert is_auth_failure(RizlineAPIError("HTTP 404")) is False
     database.close()
 
 

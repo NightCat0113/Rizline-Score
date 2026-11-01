@@ -60,9 +60,8 @@ Verified with fake values in `tests/test_redaction.py` and `tests/test_api_clien
 - Structured logging redacts emails, passcodes, verification codes, tokens, and device ids.
 - `Session.__repr__` does not include the token or email.
 - The bot's DM handler does not echo the reply, does not put the reply in the log message, and sends a generic failure string to Discord.
-- Passcodes and email codes are not written by `Database`. The session token is not written to SQLite (asserted with a canary). Tokens live in `bot/services/sessions.py` until `/unbind` or process exit.
-
-The audit does **not** approve storing session tokens at rest. Opt-in token persistence from the plan is not implemented.
+- Passcodes and email codes are not written by `Database`. The session token is written only as Fernet ciphertext in `sessions` (asserted with a canary: the plaintext token is absent from the database file). A copy also lives in `bot/services/sessions.py` until `/unbind`, expiry, auth failure, or process exit.
+- Sessions last 14 days from the last successful `/bind`, `/refresh`, `/asyncombat`, or `/weekly` call. HTTP 401/403 clears the row. `/unbind` deletes it with the binding.
 
 Residual: Discord stores the DM the user sends. The bot cannot delete another person's DM. `/bind` says that before asking for the email. Very short secrets (under 4 characters) are not scrubbed out of free text, because that would corrupt unrelated log lines; the password field is still replaced by `redact()`.
 
@@ -73,7 +72,7 @@ Residual: Discord stores the DM the user sends. The bot cannot delete another pe
 | CLI decrypted save | `<player>_gameData.json` in the working directory | Gitignored (`*gameData*.json`). Not encrypted. |
 | Bot score cache | `var/bot.db` table `score_cache.ciphertext` | Fernet. Gitignored via `/var/`. TTL default 24h. |
 | Sharing flag | `var/bot.db` table `bindings` | Not secret. Discord id and a boolean. |
-| Session token and email | Process memory only | Gone on restart, `/unbind`, or process compromise. |
+| Session token and email | `var/bot.db` table `sessions.ciphertext`, plus process memory while loaded | Fernet. TTL 14 days, refreshed on a successful live call. Cleared on `/unbind` or auth failure. |
 | Encryption key | `BOT_ENCRYPTION_KEY` environment / `.env` | `.env` is gitignored. `.env.example` has no secret. The key is not written next to the database. |
 | Song index | `bot/static/songs_index.json` | Public chart metadata. No account data. |
 | Test fixture | `tests/fixtures/sanitized_save.json` | Username, total RKS, `myBest`, `levelsRks` only. No mails or account ids. |
@@ -84,11 +83,11 @@ Compromise cases:
 
 - **Database only:** ciphertext and Discord ids. Chart results are not readable without the key.
 - **Key only:** useless without the database (or another copy of the ciphertext).
-- **Bot process or the host:** encryption at rest does not apply. The process holds the key, the plaintext cache, and any in-memory session. This is stated in the `/bind` DM.
+- **Bot process or the host:** encryption at rest does not apply. The process holds the key, the plaintext cache, and any loaded session. This is stated in the `/bind` DM.
 
 Key loss: the cache cannot be decrypted. `/unbind` or deleting `var/bot.db` and running `/bind` again is the recovery. `Database.reencrypt_all(new_key)` decrypts with the current key and writes ciphertext for a new Fernet key. There is no Discord command for rotation, so a stolen key cannot be swapped from chat. After rotating, restart the process with the new key. Losing the old key before rotation means the old rows are unreadable; delete them.
 
-`/unbind` deletes the binding (SQLite `ON DELETE CASCADE` removes the cache), runs `VACUUM`, and drops the in-memory session. That does not erase backups, editor swap files, crash dumps, or SSD spare blocks. The command text says so.
+`/unbind` deletes the binding (SQLite `ON DELETE CASCADE` removes the cache and the encrypted session), runs `VACUUM`, and drops the in-memory session. That does not erase backups, editor swap files, crash dumps, or SSD spare blocks. The command text says so.
 
 `.gitignore` covers `.env`, `*_gameData.json`, `/var/`, `/output/`, `/download/`, and `/charts_info/`.
 

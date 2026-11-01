@@ -37,19 +37,21 @@ class AchievementChecklistView(discord.ui.View):
         title, unlocked_label, locked_label, progress_label, page_label, empty_text, unlock_label = _COPY[self.language]
         pages = max(1, (len(self.rows) + self.page_size - 1) // self.page_size)
         current = self.rows[self.page * self.page_size : (self.page + 1) * self.page_size]
-        lines = [f"**{title}** | {progress_label} {len(self.unlocked)} / {self.total}"]
+        header = f"**{title}** | {progress_label} {len(self.unlocked)} / {self.total}"
+        blocks: list[str] = []
         if not current:
-            lines.append(empty_text)
+            blocks.append(empty_text)
         for row in current:
             is_unlocked = row["id"] in self.unlocked
             mark = "✓" if is_unlocked else "☐"
             state = unlocked_label if is_unlocked else locked_label
-            lines.append(f"{mark} **{row['name']}** - *{row['title']}* | {state}")
+            block = [f"{mark} **{row['name']}** - *{row['title']}* | {state}"]
             unlock_text = str(row.get("unlock") or "").strip()
             if unlock_text:
-                lines.append(f"  → {unlock_label}: {unlock_text}")
-        lines.append(f"{page_label} {self.page + 1}/{pages}")
-        return "\n".join(lines)
+                block.append(f"  → {unlock_label}: {unlock_text}")
+            blocks.append("\n".join(block))
+        footer = f"{page_label} {self.page + 1}/{pages}"
+        return "\n\n".join([header, *blocks, footer])
 
     def _update_buttons(self) -> None:
         pages = max(1, (len(self.rows) + self.page_size - 1) // self.page_size)

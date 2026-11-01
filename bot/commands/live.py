@@ -17,13 +17,14 @@ from bot.services.asyncombat import map_weekly_rank
 from bot.services.language import user_language
 from bot.services.profile import local_profile
 from bot.services.weekly_tasks import map_weekly_tasks
+from bot.services.sessions import is_auth_failure
 from bot.ui.asyncombat_image import render_asyncombat
+from bot.ui.views import SESSION_EXPIRED
 from bot.ui.weekly_view import WeeklyTaskView
 from rizline.client import RizlineError
 
 
 logger = logging.getLogger("rizline.bot")
-_SESSION_GONE = "The in-memory session is gone. Run /bind again."
 _FETCH_FAILED = "Rizline did not return this. Run /bind again if the session expired."
 
 
@@ -43,9 +44,16 @@ class LiveCog(commands.Cog):
             return None
         session = interaction.client.sessions.get(interaction.user.id)
         if session is None:
-            await interaction.response.send_message(_SESSION_GONE, ephemeral=True)
+            await interaction.response.send_message(SESSION_EXPIRED, ephemeral=True)
             return None
         return session
+
+    async def _live_error(self, interaction: discord.Interaction, exc: RizlineError) -> None:
+        if is_auth_failure(exc):
+            interaction.client.sessions.pop(interaction.user.id)
+            await interaction.followup.send(SESSION_EXPIRED, ephemeral=True)
+            return
+        await interaction.followup.send(_FETCH_FAILED, ephemeral=True)
 
     def _profile(self, interaction: discord.Interaction) -> tuple[str, dict]:
         cache: dict = {}
@@ -65,12 +73,13 @@ class LiveCog(commands.Cog):
     @app_commands.command(name="asyncombat", description="Show your live Asyncombat ranks")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(private="Only you can see this reply")
     @dm_only()
-    async def asyncombat(self, interaction: discord.Interaction) -> None:
+    async def asyncombat(self, interaction: discord.Interaction, private: bool = False) -> None:
         session = await self._session(interaction)
         if session is None:
             return
-        await interaction.response.defer(ephemeral=False)
+        await interaction.response.defer(ephemeral=private)
         secrets = (session.email, session.token, session.device_id)
         try:
             payload = await rizline_api.weekly_rank(session.email, session.token, session.device_id)
@@ -91,23 +100,31 @@ class LiveCog(commands.Cog):
             )
         except RizlineError as exc:
             log_safe(logging.WARNING, "asyncombat failed type=%s detail=%s", type(exc).__name__, str(exc), secrets=secrets)
-            await interaction.followup.send(_FETCH_FAILED)
+            await self._live_error(interaction, exc)
             return
         except Exception as exc:
             logger.error("asyncombat image failed type=%s", type(exc).__name__)
-            await interaction.followup.send("Something went wrong. The details were not included here.")
+            await interaction.followup.send(
+                "Something went wrong. The details were not included here.",
+                ephemeral=True,
+            )
             return
-        await interaction.followup.send(file=discord.File(io.BytesIO(png), filename="asyncombat.png"))
+        interaction.client.sessions.touch(interaction.user.id)
+        await interaction.followup.send(
+            file=discord.File(io.BytesIO(png), filename="asyncombat.png"),
+            ephemeral=private,
+        )
 
     @app_commands.command(name="weekly", description="Show your weekly task progress")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(private="Only you can see this reply")
     @dm_only()
-    async def weekly(self, interaction: discord.Interaction) -> None:
+    async def weekly(self, interaction: discord.Interaction, private: bool = False) -> None:
         session = await self._session(interaction)
         if session is None:
             return
-        await interaction.response.defer(ephemeral=False)
+        await interaction.response.defer(ephemeral=private)
         secrets = (session.email, session.token, session.device_id)
         try:
             payload = await rizline_api.weekly_tasks(session.email, session.token, session.device_id)
@@ -119,11 +136,12 @@ class LiveCog(commands.Cog):
             )
         except RizlineError as exc:
             log_safe(logging.WARNING, "weekly failed type=%s detail=%s", type(exc).__name__, str(exc), secrets=secrets)
-            await interaction.followup.send(_FETCH_FAILED)
+            await self._live_error(interaction, exc)
             return
+        interaction.client.sessions.touch(interaction.user.id)
         view = WeeklyTaskView(
             owner_id=interaction.user.id,
             board=board,
             language=language,
         )
-        await interaction.followup.send(view.render(), view=view)
+        await interaction.followup.send(view.render(), view=view, ephemeral=private)

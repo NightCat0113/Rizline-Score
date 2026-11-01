@@ -1,8 +1,9 @@
+from datetime import timedelta
 from pathlib import Path
 
 from bot.models import ChartInfo, Song
 from bot.services.songdata import SongIndex
-from bot.ui.texts import ambiguous_text, profile_text, series_text, song_text
+from bot.ui.texts import ambiguous_text, profile_text, series_text, song_text, stale_cache_suffix
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,13 @@ def _song() -> Song:
         illustration_id="illustration.missing",
         charts={"EZ": ChartInfo("EZ", 1.0, 100, 376, 1_002_900, 29, "NerSAN")},
     )
+
+
+def test_stale_cache_suffix_starts_at_twelve_hours():
+    assert stale_cache_suffix(None) == ""
+    assert stale_cache_suffix(timedelta(hours=11, minutes=59)) == ""
+    assert "13 hours old" in stale_cache_suffix(timedelta(hours=13, minutes=20))
+    assert "/refresh" in stale_cache_suffix(timedelta(hours=12))
 
 
 def test_song_text_is_plain_message_content():

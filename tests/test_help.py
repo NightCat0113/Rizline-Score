@@ -10,13 +10,41 @@ def test_help_text_lists_the_main_commands():
     assert "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md" in text
     assert "nightwind0112@gmail.com" in text
     assert "@nightwind.nightcat" in text
-    for name in ("song", "series", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
+    for name in ("song", "series", "random", "charts", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
         assert f"`/{name}`" in text
     for name in ("recommend", "achievements", "asyncombat", "weekly"):
         assert f"`/{name}`" in text
+    assert "private" in text
+    assert "encrypted" in text
     assert "`/score`" not in text
     assert "`/rizcard`" not in text
+    assert "`/whatif`" not in text
     assert "reload-data" not in text
+
+
+def test_help_text_fits_discord_even_with_command_mentions():
+    ids = {
+        name: 10**18
+        for name in (
+            "song",
+            "series",
+            "random",
+            "charts",
+            "bind",
+            "profile",
+            "recommend",
+            "achievements",
+            "b40",
+            "asyncombat",
+            "weekly",
+            "refresh",
+            "share",
+            "unbind",
+            "language",
+            "help",
+        )
+    }
+    assert len(help_text(ids)) <= 2000
 
 
 def test_help_text_uses_clickable_mentions_when_ids_are_known():

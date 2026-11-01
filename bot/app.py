@@ -39,7 +39,7 @@ class RizlineBot(commands.Bot):
         self.settings = settings
         self.songs = songs
         self.db = database
-        self.sessions = SessionStore()
+        self.sessions = SessionStore(database)
         self.limiter = RateLimiter()
         self.command_ids: dict[str, int] = {}
 

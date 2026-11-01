@@ -1,7 +1,4 @@
-"""SQLite storage for bindings and the encrypted minimal score cache.
-
-Session tokens are not stored here.
-"""
+"""SQLite storage for bindings, the encrypted score cache, and encrypted sessions."""
 
 from __future__ import annotations
 
@@ -19,6 +16,10 @@ class StorageError(Exception):
 
 def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
+
+SESSION_TTL = timedelta(days=14)
+_SESSION_FIELDS = ("email", "token", "device_id")
 
 
 class Database:
@@ -47,6 +48,13 @@ class Database:
                 CREATE TABLE IF NOT EXISTS user_prefs (
                     discord_id INTEGER PRIMARY KEY,
                     language TEXT NOT NULL DEFAULT 'en'
+                );
+                CREATE TABLE IF NOT EXISTS sessions (
+                    discord_id INTEGER PRIMARY KEY,
+                    ciphertext BLOB NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    expires_at TEXT NOT NULL,
+                    FOREIGN KEY (discord_id) REFERENCES bindings(discord_id) ON DELETE CASCADE
                 );
                 """
             )
@@ -168,6 +176,99 @@ class Database:
             raise TamperError("Cached score data could not be decrypted")
         return payload
 
+    def cache_age(self, discord_id: int) -> timedelta | None:
+        """Age of a still-valid score cache, or None when nothing is stored."""
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT fetched_at, expires_at FROM score_cache WHERE discord_id = ?",
+                (discord_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        now = _utcnow()
+        if datetime.fromisoformat(row[1]) <= now:
+            return None
+        return now - datetime.fromisoformat(row[0])
+
+    def put_session(self, discord_id: int, payload: dict) -> datetime:
+        """Store an encrypted Rizline session and return when it expires."""
+        stored = {key: payload.get(key) for key in _SESSION_FIELDS}
+        if any(not isinstance(value, str) or not value for value in stored.values()):
+            raise StorageError("Refusing to store a session with an unexpected shape")
+        now = _utcnow()
+        expires = now + SESSION_TTL
+        blob = self.crypto.encrypt_json(stored)
+        with self._lock:
+            self._conn.execute(
+                """
+                INSERT INTO bindings (discord_id, sharing_enabled, updated_at)
+                VALUES (?, 0, ?)
+                ON CONFLICT(discord_id) DO UPDATE SET updated_at = excluded.updated_at
+                """,
+                (discord_id, now.isoformat()),
+            )
+            self._conn.execute(
+                """
+                INSERT INTO sessions (discord_id, ciphertext, updated_at, expires_at)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(discord_id) DO UPDATE SET
+                    ciphertext = excluded.ciphertext,
+                    updated_at = excluded.updated_at,
+                    expires_at = excluded.expires_at
+                """,
+                (discord_id, blob, now.isoformat(), expires.isoformat()),
+            )
+            self._conn.commit()
+        return expires
+
+    def get_session(self, discord_id: int) -> tuple[dict, datetime] | None:
+        """Return the decrypted session and its expiry, or None if missing or expired."""
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT ciphertext, expires_at FROM sessions WHERE discord_id = ?",
+                (discord_id,),
+            ).fetchone()
+            if row is None:
+                return None
+            expires = datetime.fromisoformat(row[1])
+            if expires <= _utcnow():
+                self._conn.execute("DELETE FROM sessions WHERE discord_id = ?", (discord_id,))
+                self._conn.commit()
+                return None
+            try:
+                payload = self.crypto.decrypt_json(row[0])
+            except TamperError:
+                self._conn.execute("DELETE FROM sessions WHERE discord_id = ?", (discord_id,))
+                self._conn.commit()
+                return None
+        if any(not isinstance(payload.get(key), str) or not payload.get(key) for key in _SESSION_FIELDS):
+            self.delete_session(discord_id)
+            return None
+        return {key: str(payload[key]) for key in _SESSION_FIELDS}, expires
+
+    def touch_session(self, discord_id: int) -> datetime | None:
+        """Extend a live session by another TTL window. Returns the new expiry."""
+        now = _utcnow()
+        expires = now + SESSION_TTL
+        with self._lock:
+            cursor = self._conn.execute(
+                """
+                UPDATE sessions
+                SET updated_at = ?, expires_at = ?
+                WHERE discord_id = ?
+                """,
+                (now.isoformat(), expires.isoformat(), discord_id),
+            )
+            self._conn.commit()
+            if cursor.rowcount == 0:
+                return None
+        return expires
+
+    def delete_session(self, discord_id: int) -> None:
+        with self._lock:
+            self._conn.execute("DELETE FROM sessions WHERE discord_id = ?", (discord_id,))
+            self._conn.commit()
+
     def access_flags(self, discord_id: int) -> tuple[bool, bool]:
         """Return (sharing_enabled, cache_available). Missing users are (False, False)."""
         binding = self.get_binding(discord_id)
@@ -192,18 +293,19 @@ class Database:
 
     def reencrypt_all(self, new_box: CryptoBox) -> int:
         with self._lock:
-            rows = self._conn.execute(
-                "SELECT discord_id, ciphertext FROM score_cache"
-            ).fetchall()
             count = 0
-            for discord_id, blob in rows:
-                payload = self.crypto.decrypt_json(blob)
-                updated = new_box.encrypt_json(payload)
-                self._conn.execute(
-                    "UPDATE score_cache SET ciphertext = ? WHERE discord_id = ?",
-                    (updated, discord_id),
-                )
-                count += 1
+            for table in ("score_cache", "sessions"):
+                rows = self._conn.execute(
+                    f"SELECT discord_id, ciphertext FROM {table}"
+                ).fetchall()
+                for discord_id, blob in rows:
+                    payload = self.crypto.decrypt_json(blob)
+                    updated = new_box.encrypt_json(payload)
+                    self._conn.execute(
+                        f"UPDATE {table} SET ciphertext = ? WHERE discord_id = ?",
+                        (updated, discord_id),
+                    )
+                    count += 1
             self._conn.commit()
             self.crypto = new_box
             return count

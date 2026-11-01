@@ -7,6 +7,8 @@ content, not embeds.
 
 from __future__ import annotations
 
+from datetime import timedelta
+
 from bot.models import Song, TrackSeries
 from bot.services.rks import bests_for_song, chart_track_ids, score_counts, top_levels
 from bot.services.songdata import SongIndex
@@ -85,6 +87,13 @@ def song_text(
     if not shown and not difficulty:
         lines.append("\nNo chart details are in the local song index.")
     return _limit("\n".join(lines))
+
+
+def stale_cache_suffix(age: timedelta | None) -> str:
+    if age is None or age < timedelta(hours=12):
+        return ""
+    hours = int(age.total_seconds() // 3600)
+    return f"\nCached scores are {hours} hours old. Run /refresh after playing."
 
 
 def profile_text(cache: dict, index: SongIndex) -> str:

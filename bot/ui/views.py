@@ -7,7 +7,7 @@ BIND_PUBLIC_REPLY = (
     "Bind your Rizline account in this DM.\n"
     "Use the email on your Rizline account. Enter your password, or type `code` to get a verification email.\n"
     "The form is private to this DM. Your password or verification code is sent to the bot host once to fetch your save, then discarded. "
-    "The session token stays in memory until /unbind or a restart. "
+    "The session is stored encrypted until /unbind, it expires, or Rizline rejects the login. "
     "An encrypted cache of your username, RKS, chart results, and profile card is stored until it expires. "
     "Encryption does not protect that data if the bot host is compromised."
 )
@@ -31,9 +31,11 @@ BIND_CODE_AFTER_PASSCODE = (
 )
 
 UNBIND_REMOVED = (
-    "Removed your binding, encrypted score cache, and in-memory session from this bot. "
+    "Removed your binding, encrypted score cache, and encrypted session from this bot. "
     "SQLite delete and VACUUM do not wipe leftover copies in backups, crash dumps, or SSD spare blocks."
 )
+
+SESSION_EXPIRED = "Your Rizline session expired. Run /bind again."
 
 UNBIND_EMPTY = "Nothing was stored for your Discord account."
 

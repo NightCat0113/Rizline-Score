@@ -20,7 +20,7 @@ from bot.store.crypto import TamperError
 from bot.ui.achievement_view import AchievementChecklistView
 from bot.ui.b40_image import render_b40
 from bot.ui.recommendation_view import RecommendationPlanView
-from bot.ui.texts import profile_text
+from bot.ui.texts import profile_text, stale_cache_suffix
 
 
 logger = logging.getLogger("rizline.bot")
@@ -75,12 +75,13 @@ class ScoresCog(commands.Cog):
     @app_commands.command(name="profile", description="Show RKS and top charts")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    @app_commands.describe(user="Another person who turned sharing on")
+    @app_commands.describe(user="Another person who turned sharing on", private="Only you can see this reply")
     @dm_only()
     async def profile(
         self,
         interaction: discord.Interaction,
         user: discord.User | None = None,
+        private: bool = False,
     ) -> None:
         if self._too_fast(interaction):
             await interaction.response.send_message(
@@ -93,8 +94,10 @@ class ScoresCog(commands.Cog):
         if decision is not Decision.ALLOW or cache is None:
             await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
             return
+        note = stale_cache_suffix(interaction.client.db.cache_age(target.id))
         await interaction.response.send_message(
-            profile_text(cache, interaction.client.songs),
+            profile_text(cache, interaction.client.songs) + note,
+            ephemeral=private,
         )
 
     @app_commands.command(name="recommend", description="Find score targets to raise your RKS")
@@ -103,6 +106,7 @@ class ScoresCog(commands.Cog):
     @app_commands.describe(
         increase="Overall RKS increase (score-only; accuracy held fixed). Leave empty for the max.",
         songs="Optional song titles separated by semicolons",
+        private="Only you can see this reply",
     )
     @app_commands.autocomplete(songs=autocomplete_recommend_songs)
     @dm_only()
@@ -111,6 +115,7 @@ class ScoresCog(commands.Cog):
         interaction: discord.Interaction,
         increase: app_commands.Range[float, 0.01, 10.0] | None = None,
         songs: str | None = None,
+        private: bool = False,
     ) -> None:
         if self._too_fast(interaction):
             await interaction.response.send_message(
@@ -158,12 +163,15 @@ class ScoresCog(commands.Cog):
             rows=recommendations,
             max_available=max_available,
         )
-        await interaction.response.send_message(view.render(), view=view)
+        await interaction.response.send_message(view.render(), view=view, ephemeral=private)
 
     @app_commands.command(name="achievements", description="Browse your Rizline achievement checklist")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    @app_commands.describe(status="Show all, unlocked, or locked achievements")
+    @app_commands.describe(
+        status="Show all, unlocked, or locked achievements",
+        private="Only you can see this reply",
+    )
     @app_commands.choices(
         status=[
             app_commands.Choice(name="All", value="all"),
@@ -176,6 +184,7 @@ class ScoresCog(commands.Cog):
         self,
         interaction: discord.Interaction,
         status: str = "all",
+        private: bool = False,
     ) -> None:
         if self._too_fast(interaction):
             await interaction.response.send_message(
@@ -215,13 +224,14 @@ class ScoresCog(commands.Cog):
             total=len(all_rows),
             language=language,
         )
-        await interaction.response.send_message(view.render(), view=view)
+        await interaction.response.send_message(view.render(), view=view, ephemeral=private)
 
     @app_commands.command(name="b40", description="Show your AH5 and B35 charts")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(private="Only you can see this reply")
     @dm_only()
-    async def b40(self, interaction: discord.Interaction) -> None:
+    async def b40(self, interaction: discord.Interaction, private: bool = False) -> None:
         if self._too_fast(interaction):
             await interaction.response.send_message(
                 "Too many lookups. Wait a moment and try again.",
@@ -232,7 +242,7 @@ class ScoresCog(commands.Cog):
         if decision is not Decision.ALLOW or cache is None:
             await interaction.response.send_message(personal_denial_message(decision), ephemeral=True)
             return
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=private)
         records, _missing = build_records(cache, interaction.client.songs)
         special, ordinary, overflow = select_top40(records)
         username = str(cache.get("username") or "Player")
@@ -258,11 +268,14 @@ class ScoresCog(commands.Cog):
             logger.error("b40 image failed type=%s", type(exc).__name__)
             await interaction.followup.send(
                 "Something went wrong. The details were not included here.",
+                ephemeral=True,
             )
             return
+        note = stale_cache_suffix(interaction.client.db.cache_age(interaction.user.id))
         await interaction.followup.send(
-            f"**{username}**\nRKS {total:.2f}",
+            f"**{username}**\nRKS {total:.2f}{note}",
             file=discord.File(io.BytesIO(png), filename="b40.png"),
+            ephemeral=private,
         )
 
     def _with_local_card(self, interaction: discord.Interaction, cache: dict, username: str) -> dict:
