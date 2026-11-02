@@ -11,12 +11,13 @@ from bot.models import ChartInfo, Song, TrackSeries
 from bot.services.language import normalize_language, strings
 from bot.services.seriesdata import series_art_name, series_mark
 from bot.services.songdata import illustration_path
+from bot.ui.b40_image import _aa_round_mask
 from bot.ui.textfont import clip as _clip_text
 from bot.ui.textfont import load_face, load_hangul
 
 
-MAX_PNG_BYTES = 8_000_000
-_SCALES = (2.0, 1.5, 1.0)
+MAX_PNG_BYTES = 10_000_000
+_SCALES = (3.0, 2.0)
 _DIFFS = ("EZ", "HD", "IN", "AT", "SP")
 _DIFF_COLORS = {
     "EZ": (87, 228, 196),
@@ -484,15 +485,13 @@ def _paste_banner(image: Image.Image, banner: Image.Image, left: int, top: int, 
 
 def _paste_rounded(image: Image.Image, art: Image.Image, left: int, top: int, radius: int) -> None:
     art = art.convert("RGBA")
-    mask = Image.new("L", art.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, art.width - 1, art.height - 1), radius=radius, fill=255)
-    art.putalpha(mask)
+    art.putalpha(_aa_round_mask(art.width, art.height, radius))
     image.alpha_composite(art, (left, top))
 
 
 def _paste_panel(image: Image.Image, left: int, top: int, width: int, height: int, radius: int) -> None:
-    panel = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    ImageDraw.Draw(panel).rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=(255, 255, 255, 214))
+    panel = Image.new("RGBA", (width, height), (255, 255, 255, 214))
+    panel.putalpha(_aa_round_mask(width, height, radius).point(lambda value: value * 214 // 255))
     image.alpha_composite(panel, (left, top))
 
 

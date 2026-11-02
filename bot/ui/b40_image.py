@@ -19,8 +19,13 @@ from bot.ui.textfont import clip as _clip_text
 from bot.ui.textfont import load_hangul
 
 
-MAX_PNG_BYTES = 8_000_000
-_SCALES = (2.0, 1.5, 1.0)
+MAX_PNG_BYTES = 10_000_000
+# B40 draws ~40 jacket circles; keep 2× (smooth AA) so Discord stays responsive.
+# /song /series stay on their own higher _SCALES.
+_SCALES = (2.0, 1.5)
+_AA = 3
+_ELLIPSE_MASKS: dict[int, Image.Image] = {}
+_ROUND_MASKS: dict[tuple[int, int, int], Image.Image] = {}
 _DIFF_COLORS = {
     "EZ": (87, 228, 196),
     "HD": (253, 186, 97),
@@ -349,8 +354,8 @@ def _place_portrait(
         canvas.alpha_composite(avatar, (center[0] - diameter // 2, center[1] - diameter // 2))
         return
     band = max(2, diameter // 40)
-    framed = Image.new("RGBA", (diameter + band * 2, diameter + band * 2), (0, 0, 0, 0))
-    ImageDraw.Draw(framed).ellipse((0, 0, framed.width - 1, framed.height - 1), fill=(255, 255, 255, 255))
+    framed = Image.new("RGBA", (diameter + band * 2, diameter + band * 2), (255, 255, 255, 255))
+    framed.putalpha(_aa_ellipse_mask(framed.width))
     framed.paste(avatar, (band, band), avatar)
     canvas.alpha_composite(framed, (center[0] - framed.width // 2, center[1] - framed.height // 2))
 
@@ -566,6 +571,46 @@ def _px(scale: float, value: int) -> int:
     return max(1, int(round(value * scale)))
 
 
+def _aa_mask(size: tuple[int, int], paint) -> Image.Image:
+    """Supersample a coverage mask so circles and pills stay smooth when zoomed."""
+    width, height = size
+    big = Image.new("L", (max(1, width * _AA), max(1, height * _AA)), 0)
+    paint(ImageDraw.Draw(big), _AA)
+    return big.resize((max(1, width), max(1, height)), Image.Resampling.LANCZOS)
+
+
+def _aa_ellipse_mask(size: int) -> Image.Image:
+    cached = _ELLIPSE_MASKS.get(size)
+    if cached is not None:
+        return cached.copy()
+
+    def paint(pen: ImageDraw.ImageDraw, factor: int) -> None:
+        edge = max(1, size * factor) - 1
+        pen.ellipse((0, 0, edge, edge), fill=255)
+
+    mask = _aa_mask((size, size), paint)
+    _ELLIPSE_MASKS[size] = mask
+    return mask.copy()
+
+
+def _aa_round_mask(width: int, height: int, radius: int) -> Image.Image:
+    key = (width, height, radius)
+    cached = _ROUND_MASKS.get(key)
+    if cached is not None:
+        return cached.copy()
+
+    def paint(pen: ImageDraw.ImageDraw, factor: int) -> None:
+        pen.rounded_rectangle(
+            (0, 0, max(1, width * factor) - 1, max(1, height * factor) - 1),
+            radius=max(1, radius * factor),
+            fill=255,
+        )
+
+    mask = _aa_mask((width, height), paint)
+    _ROUND_MASKS[key] = mask
+    return mask.copy()
+
+
 def _draw(
     *,
     username: str,
@@ -769,8 +814,7 @@ def _player_header(
         )
     draw.text((rks_x, rks_y), number, font=fonts["rks_big"], fill=(*ink, 255))
 
-    mask = Image.new("L", (inner_w, inner_h), 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, inner_w - 1, inner_h - 1), radius=inner_h // 2, fill=255)
+    mask = _aa_round_mask(inner_w, inner_h, inner_h // 2)
     body.putalpha(mask)
 
     # .user-avatar: 115×115, border 4px white, box-sizing border-box.
@@ -779,22 +823,17 @@ def _player_header(
     white = max(2, _px(scale, 4))
     avatar_size = max(1, inner_h - white * 2)
     avatar = _avatar(avatar_art, avatar_size, avatar_pos)
-    framed = Image.new("RGBA", (inner_h, inner_h), (0, 0, 0, 0))
-    ImageDraw.Draw(framed).ellipse((0, 0, inner_h - 1, inner_h - 1), fill=(255, 255, 255, 255))
+    framed = Image.new("RGBA", (inner_h, inner_h), (255, 255, 255, 255))
+    framed.putalpha(_aa_ellipse_mask(inner_h))
     framed.paste(avatar, (white, white), avatar)
 
     header = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     header.alpha_composite(body, (blue, blue))
     # Blue stroke as an outer ring only — a width>1 outline would paint over the
     # avatar's left edge and look like a clipped circle.
-    outer = Image.new("L", (width, height), 0)
-    ImageDraw.Draw(outer).rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=255)
+    outer = _aa_round_mask(width, height, height // 2)
     hole = Image.new("L", (width, height), 0)
-    ImageDraw.Draw(hole).rounded_rectangle(
-        (blue, blue, width - 1 - blue, height - 1 - blue),
-        radius=max(1, inner_h // 2),
-        fill=255,
-    )
+    hole.paste(_aa_round_mask(inner_w, inner_h, max(1, inner_h // 2)), (blue, blue))
     ring = Image.new("RGBA", (width, height), (0, 178, 236, 255))
     ring.putalpha(ImageChops.subtract(outer, hole))
     header.alpha_composite(ring)
@@ -872,8 +911,7 @@ def _avatar(artwork: Image.Image | None, size: int, pos: dict) -> Image.Image:
         top = min(max(0.0, top), max(0.0, height_px - window))
         crop = artwork.crop((int(left), int(top), int(left + window), int(top + window)))
         source = crop.resize((size, size), Image.Resampling.LANCZOS).convert("RGBA")
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, size - 1, size - 1), fill=255)
+    mask = _aa_ellipse_mask(size)
     source.putalpha(mask)
     return source
 
@@ -934,7 +972,9 @@ def _card_image(
     card = Image.new("RGBA", size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(card)
     radius = min(_px(scale, 55), card_h // 2)
-    draw.rounded_rectangle((0, 0, card_w - 1, card_h - 1), radius=radius, fill=(255, 255, 255, 214))
+    panel = Image.new("RGBA", size, (255, 255, 255, 214))
+    panel.putalpha(_aa_round_mask(card_w, card_h, radius).point(lambda value: value * 214 // 255))
+    card.alpha_composite(panel)
 
     circle = _px(scale, 85)
     circle_xy = (_px(scale, 13), (card_h - circle) // 2)
@@ -1017,23 +1057,32 @@ def _circle_jacket(
     song = _song_for(index, row)
     path = None
     if song is not None:
-        path = illustration_path(song, illust_hires_dir, illust_dir, prefer_low=False)
+        # Chart circles are ~170px; low jackets decode much faster than HiRes.
+        path = illustration_path(song, illust_hires_dir, illust_dir, prefer_low=True)
     source = Image.new("RGBA", (size, size), (208, 208, 208, 255))
     if path is not None:
         try:
             with Image.open(path) as opened:
                 source = opened.convert("RGBA")
-                source.thumbnail((size, size), Image.Resampling.LANCZOS)
         except (OSError, ValueError):
             source = Image.new("RGBA", (size, size), (208, 208, 208, 255))
-    fitted = Image.new("RGBA", (size, size), (208, 208, 208, 255))
-    left = (size - source.width) // 2
-    top = (size - source.height) // 2
-    fitted.paste(source, (left, top))
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, size - 1, size - 1), fill=255)
-    fitted.putalpha(mask)
+    fitted = _cover_square(source, size)
+    fitted.putalpha(_aa_ellipse_mask(size))
     return fitted
+
+
+def _cover_square(image: Image.Image, size: int) -> Image.Image:
+    width, height = image.size
+    if width < 1 or height < 1:
+        return Image.new("RGBA", (size, size), (208, 208, 208, 255))
+    scale = max(size / width, size / height)
+    resized = image.resize(
+        (max(1, int(round(width * scale))), max(1, int(round(height * scale)))),
+        Image.Resampling.LANCZOS,
+    )
+    left = max(0, (resized.width - size) // 2)
+    top = max(0, (resized.height - size) // 2)
+    return resized.crop((left, top, left + size, top + size)).convert("RGBA")
 
 
 def _clip(text: str, font: ImageFont.ImageFont, width: int, draw: ImageDraw.ImageDraw) -> str:

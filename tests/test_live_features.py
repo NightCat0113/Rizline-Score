@@ -84,8 +84,8 @@ def test_asyncombat_png_is_a_sheet():
     )
     assert data.startswith(b"\x89PNG\r\n\x1a\n")
     with Image.open(io.BytesIO(data)) as image:
-        assert image.size[0] == 1080
-        assert image.size[1] < 760
+        assert image.size[0] == 1620
+        assert image.size[1] < 1200
 
 
 def test_weekly_tasks_map_progress_and_status():

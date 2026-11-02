@@ -104,7 +104,7 @@ def test_song_row_uses_the_jacket_and_difficulty_color(tmp_path: Path):
         illust_dir=low,
     )
     with Image.open(io.BytesIO(png)) as image:
-        assert image.size[0] == 1960
+        assert image.size[0] == 2940
         assert _has_color(image, JACKET)
         assert _has_color(image, EZ)
 

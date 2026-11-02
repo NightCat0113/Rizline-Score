@@ -12,12 +12,13 @@ from bot.models import ChartInfo, Song
 from bot.services.language import strings
 from bot.services.seriesdata import series_mark
 from bot.services.songdata import illustration_path
+from bot.ui.b40_image import _aa_ellipse_mask, _aa_round_mask
 from bot.ui.textfont import clip as _clip_text
 from bot.ui.textfont import load_hangul
 
 
-MAX_PNG_BYTES = 8_000_000
-_SCALES = (2.0, 1.5, 1.0)
+MAX_PNG_BYTES = 10_000_000
+_SCALES = (3.0, 2.0)
 _ORDER = ("EZ", "HD", "IN", "AT", "SP")
 _DIFF_COLORS = {
     "EZ": (87, 228, 196),
@@ -326,7 +327,7 @@ def _chart_row(
     inset = max(_px(scale, 8), (height - circle) // 2)
     color = _DIFF_COLORS.get(difficulty, (107, 70, 193))
     _difficulty_circle(
-        draw,
+        image,
         left + inset,
         top + (height - circle) // 2,
         circle,
@@ -590,7 +591,7 @@ def _outline(draw: ImageDraw.ImageDraw, left: int, top: int, right: int, bottom:
 
 
 def _difficulty_circle(
-    draw: ImageDraw.ImageDraw,
+    image: Image.Image,
     left: int,
     top: int,
     size: int,
@@ -600,9 +601,15 @@ def _difficulty_circle(
     ink: tuple[int, int, int],
     fonts: dict[str, ImageFont.ImageFont],
 ) -> None:
-    box = (left, top, left + size - 1, top + size - 1)
-    draw.ellipse(box, fill=(*color, 255))
-    draw.ellipse(box, outline=(255, 255, 255, 255), width=max(2, size // 28))
+    ring = max(2, size // 28)
+    inner = max(1, size - ring * 2)
+    tile = Image.new("RGBA", (size, size), (255, 255, 255, 255))
+    tile.putalpha(_aa_ellipse_mask(size))
+    color_disk = Image.new("RGBA", (inner, inner), (*color, 255))
+    color_disk.putalpha(_aa_ellipse_mask(inner))
+    tile.alpha_composite(color_disk, (ring, ring))
+    image.alpha_composite(tile, (left, top))
+    draw = ImageDraw.Draw(image)
     center_x = left + size // 2
     center_y = top + size // 2
     draw.text((center_x, center_y - size // 7), difficulty, font=fonts["pill"], fill=(*ink, 255), anchor="mm")
@@ -610,22 +617,20 @@ def _difficulty_circle(
 
 
 def _paste_panel(image: Image.Image, left: int, top: int, width: int, height: int, radius: int) -> None:
-    panel = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    ImageDraw.Draw(panel).rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=(255, 255, 255, 214))
+    panel = Image.new("RGBA", (width, height), (255, 255, 255, 214))
+    panel.putalpha(_aa_round_mask(width, height, radius).point(lambda value: value * 214 // 255))
     image.alpha_composite(panel, (left, top))
 
 
 def _circle_art(artwork: Image.Image | None, size: int, ring: int) -> Image.Image:
-    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    ImageDraw.Draw(canvas).ellipse((0, 0, size - 1, size - 1), fill=(255, 255, 255, 255))
+    canvas = Image.new("RGBA", (size, size), (255, 255, 255, 255))
+    canvas.putalpha(_aa_ellipse_mask(size))
     inner = max(1, size - ring * 2)
     if artwork is None:
         photo = Image.new("RGBA", (inner, inner), (208, 208, 208, 255))
     else:
         photo = _cover(artwork, inner, inner).convert("RGBA")
-    mask = Image.new("L", (inner, inner), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, inner - 1, inner - 1), fill=255)
-    photo.putalpha(mask)
+    photo.putalpha(_aa_ellipse_mask(inner))
     canvas.alpha_composite(photo, (ring, ring))
     return canvas
 

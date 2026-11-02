@@ -18,20 +18,20 @@ _BLUE = (0, 163, 224)
 _BLUE_DEEP = (0, 132, 186)
 _PALE = (232, 246, 252)
 _WHITE = (255, 255, 255)
-_WIDTH = 1080
-_PAD = 40
-_HEADER_SCALE = 0.92
+_WIDTH = 1620
+_PAD = 60
+_HEADER_SCALE = 1.5
 # Two-row rail: Do…Fa+ on top, So…Do△ below.
-_RAIL_RADIUS = 36
+_RAIL_RADIUS = 54
 _RAIL_ROW1 = 8
-_RAIL_ROW1_Y = 148
-_RAIL_ROW_GAP = 30
+_RAIL_ROW1_Y = 200
+_RAIL_ROW_GAP = 40
 _RAIL_ROW2_Y = _RAIL_ROW1_Y + 2 * _RAIL_RADIUS + _RAIL_ROW_GAP
-_JOURNEY_H = _RAIL_ROW2_Y + _RAIL_RADIUS + 64
-_STAT_BUBBLE = 58
-_STAT_CY = 112
-_STAT_H = _STAT_CY + _STAT_BUBBLE // 2 + 54
-_RAIL_STROKE = 2
+_JOURNEY_H = _RAIL_ROW2_Y + _RAIL_RADIUS + 80
+_STAT_BUBBLE = 84
+_STAT_CY = 150
+_STAT_H = _STAT_CY + _STAT_BUBBLE // 2 + 70
+_RAIL_STROKE = 3
 
 # x, y, and diameter are fractions of the canvas so the dots follow the height.
 _DOTS = (
@@ -278,14 +278,14 @@ def render_asyncombat(
     total_rks: float = 0.0,
 ) -> bytes:
     fonts = {
-        "kicker": _font(font_path, 16),
-        "heading": _font(font_path, 36),
-        "chip": _font(font_path, 16),
-        "node": _font(font_path, 15),
-        "foot": _font(font_path, 22),
-        "sub": _font(font_path, 16),
-        "rate": _font(font_path, 18),
-        "stat": _font(font_path, 22),
+        "kicker": _font(font_path, 22),
+        "heading": _font(font_path, 48),
+        "chip": _font(font_path, 22),
+        "node": _font(font_path, 20),
+        "foot": _font(font_path, 28),
+        "sub": _font(font_path, 22),
+        "rate": _font(font_path, 24),
+        "stat": _font(font_path, 30),
     }
     content_left = _PAD
     content_right = _WIDTH - _PAD
