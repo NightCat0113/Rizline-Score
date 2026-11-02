@@ -73,10 +73,18 @@ class Settings:
     locale_dir: Path
     font_path: Path
     pipeline_script: Path
+    github_token: str
+    github_repository: str
+    github_ref: str
+    github_workflow: str
 
     @property
     def cache_ttl(self) -> timedelta:
         return timedelta(hours=self.cache_ttl_hours)
+
+    @property
+    def github_dispatch_configured(self) -> bool:
+        return bool(self.github_token and self.github_repository)
 
     @classmethod
     def from_mapping(cls, env: dict[str, str], repo_root: Path = REPO_ROOT) -> Settings:
@@ -116,6 +124,13 @@ class Settings:
             locale_dir=repo_root / "locale",
             font_path=repo_root / "assets" / "fonts" / FONT_FILENAME,
             pipeline_script=repo_root / "tools" / "pipelines" / "Riz_bundle.py",
+            github_token=env.get("GITHUB_TOKEN", "").strip(),
+            github_repository=env.get("GITHUB_REPOSITORY", "").strip(),
+            github_ref=(env.get("GITHUB_REF", "main").strip() or "main"),
+            github_workflow=(
+                env.get("GITHUB_REFRESH_WORKFLOW", "refresh-game-data.yml").strip()
+                or "refresh-game-data.yml"
+            ),
         )
 
     @classmethod

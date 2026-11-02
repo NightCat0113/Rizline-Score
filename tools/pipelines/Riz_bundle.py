@@ -2393,6 +2393,11 @@ def parse_args():
     p.add_argument("--clear-download", action="store_true", help="Clear the existing download/ directory before --download")
     p.add_argument("--rename", action="store_true", help="Run rename & move step")
     p.add_argument("--export-charts", action="store_true", help="Export charts and illustrations into output/")
+    p.add_argument(
+        "--skip-illustrations",
+        action="store_true",
+        help="When exporting charts, skip jacket/series art export (catalog CI)",
+    )
     p.add_argument("--export-achievements", action="store_true", help="Export localized achievement JSON files from downloaded bundles")
     p.add_argument("--export-bios", action="store_true", help="Export localized bio JSON files from downloaded bundles")
     p.add_argument("--export-levels", action="store_true", help="Export level table from Default.json to output.txt (including chart stats)")
@@ -2616,10 +2621,13 @@ def main():
             except Exception as exc:
                 print(f"ERROR exporting charts; continuing to illustrations and level table: {exc}")
 
-        try:
-            export_illustrations(FILELIST)
-        except Exception as exc:
-            print(f"ERROR exporting illustrations; continuing to level table: {exc}")
+        if args.skip_illustrations:
+            print("Skipping illustration export (--skip-illustrations)")
+        else:
+            try:
+                export_illustrations(FILELIST)
+            except Exception as exc:
+                print(f"ERROR exporting illustrations; continuing to level table: {exc}")
 
     if run_export_levels:
         print("=== Export level table step ===")

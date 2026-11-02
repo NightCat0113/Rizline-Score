@@ -42,7 +42,12 @@ BOT_ENCRYPTION_KEY=your-fernet-key
 ALLOWED_USER_IDS=
 CACHE_TTL_HOURS=24
 OWNER_ID=
+GITHUB_TOKEN=
+GITHUB_REPOSITORY=NightCat0113/Rizline-Score
+GITHUB_REF=main
 ```
+
+`GITHUB_TOKEN` is a personal access token that can dispatch workflows on this repo (fine-grained: Actions read/write, or classic with the `workflow` scope). Without it, `/refresh-game-data` cannot update the catalog from Altare.
 
 Generate a Fernet key locally if you need a new one:
 
@@ -81,12 +86,34 @@ If you reuse an existing `var/bot.db` from your PC, you **must** use the same `B
 
 After the first install, a push to `main` deploys code and restarts the bot. Altare has no git pull; [`.github/workflows/deploy-altare.yml`](.github/workflows/deploy-altare.yml) first runs safety checks (compile, pytest, code-only zip contents), then packs a code-only zip and uses the Altare client API to upload it, extract it, delete the zip, and restart. Deploy is skipped if those checks fail. Startup runs `main.py`, which syncs slash commands. Global command changes can still take up to an hour to show up in Discord.
 
-The code-only zip refreshes `bot/`, `rizline/`, `locale/`, `songs.json`, `mapping.json`, `main.py`, and `requirements.txt`. It does **not** replace:
+The code-only zip refreshes `bot/`, `rizline/`, `tools/`, `locale/`, `songs.json`, `mapping.json`, `main.py`, and `requirements.txt`. It does **not** replace:
 
 - `.env`
 - `var/` (encrypted score cache)
 - `output/` (jackets and series art)
 - `assets/fonts/` (the card font)
+- `download/` (raw game bundles; never uploaded)
+
+### Refreshing chart / song data
+
+On Altare, `/refresh-game-data` starts the **Refresh game data** GitHub Action (needs `GITHUB_TOKEN` + `GITHUB_REPOSITORY` in the server `.env`). That workflow downloads catalog data on GitHub, commits `songs.json` / `mapping.json` / `bot/static/songs_index.json` / `locale`, pushes to `main`, and **Deploy Altare** restarts the bot.
+
+Jackets under `output/` are not updated by that workflow (they stay gitignored). Upload a full pack (`python tools/pack_altare.py`) when new song art must appear on the server.
+
+You can still refresh by hand on a PC:
+
+```powershell
+python tools/pipelines/Riz_bundle.py
+python tools/build_songs_index.py
+git add songs.json mapping.json bot/static/songs_index.json locale
+git commit -m "Update song catalog"
+git push origin main
+```
+
+| Secret / env | Where | Purpose |
+| --- | --- | --- |
+| `ALTARE_API_KEY` / `ALTARE_SERVER_ID` | GitHub Actions secrets | Deploy zip to Altare |
+| `GITHUB_TOKEN` / `GITHUB_REPOSITORY` | Altare `.env` | Let `/refresh-game-data` dispatch the refresh workflow |
 
 ### One-time secrets
 

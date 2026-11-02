@@ -28,6 +28,7 @@ INCLUDE_PATHS = (
     "requirements-altare.txt",
     "bot",
     "rizline",
+    "tools",
     "locale",
     "assets",
     "songs.json",
@@ -37,11 +38,14 @@ INCLUDE_PATHS = (
 )
 
 # CI deploy pack. Art, font, secrets, and the score cache stay on the server.
+# ``tools/`` is included so missing-script errors are clear; the download
+# pipeline still needs a full local tree (UnityPy, ``download/``, disk).
 CODE_ONLY_PATHS = (
     "main.py",
     "requirements-altare.txt",
     "bot",
     "rizline",
+    "tools",
     "locale",
     "songs.json",
     "mapping.json",
