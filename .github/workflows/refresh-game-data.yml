@@ -3,8 +3,8 @@ name: Refresh game data
 # Started by /refresh-game-data on Altare (workflow_dispatch), or by hand in Actions.
 # Rebuilds songs.json / mapping.json / songs_index / locale, commits, and pushes to
 # main so Deploy Altare picks up the catalog. Also exports standard jackets, series
-# posters, and baked layout cards, then uploads an art-only zip to Altare.
-# HiRes jackets stay a manual pack_altare.py --hires upload. output/ is not committed.
+# posters, HiRes jackets, and baked layout cards, then uploads an art-only zip
+# to Altare. output/ is not committed.
 
 on:
   workflow_dispatch:

@@ -13,9 +13,9 @@ High-res jackets are optional. Bake layouts first with
 ``python tools/bake_layouts.py`` so collection cards are real art, not
 color swatches. ``--code-only`` is the GitHub Actions payload: code and
 catalogs only, so a deploy does not replace art, the font, ``.env``,
-or ``var/`` already on the server. ``--art-only`` packs just
-``output/illust``, ``output/series``, and ``output/layouts`` for the
-refresh workflow (standard jackets, not HiRes).
+or ``var/`` already on the server. ``--art-only`` packs
+``output/illust``, ``output/illust_HiRes``, ``output/series``, and
+``output/layouts`` so ``/arts`` can send the high-resolution jackets.
 """
 
 from __future__ import annotations
@@ -70,7 +70,8 @@ SKIP_DIR_NAMES = {
 
 SKIP_SUFFIXES = {".pyc", ".pyo", ".pyd"}
 
-ART_ONLY_FOLDERS = ("output/illust", "output/series", "output/layouts")
+_ART_FOLDERS = ("output/illust", "output/series", "output/layouts")
+_HIRES_FOLDER = "output/illust_HiRes"
 
 
 def _should_skip(path: Path) -> bool:
@@ -104,7 +105,7 @@ def pack(out: Path, *, include_hires: bool, code_only: bool, art_only: bool = Fa
     added = 0
     with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         if art_only:
-            for folder in ART_ONLY_FOLDERS:
+            for folder in (*_ART_FOLDERS, _HIRES_FOLDER):
                 count = _add_path(zf, ROOT / folder)
                 if count == 0:
                     raise SystemExit(f"art-only pack missing files in {folder}")
@@ -118,10 +119,10 @@ def pack(out: Path, *, include_hires: bool, code_only: bool, art_only: bool = Fa
             zf.writestr("requirements.txt", req)
             added += 1
             if not code_only:
-                for folder in ART_ONLY_FOLDERS:
+                for folder in _ART_FOLDERS:
                     added += _add_path(zf, ROOT / folder)
                 if include_hires:
-                    added += _add_path(zf, ROOT / "output" / "illust_HiRes")
+                    added += _add_path(zf, ROOT / _HIRES_FOLDER)
                 # Empty writable cache dir for a first install. Later deploys
                 # must not touch var/ (the live score cache lives there).
                 zf.writestr("var/.gitkeep", b"")
@@ -129,7 +130,7 @@ def pack(out: Path, *, include_hires: bool, code_only: bool, art_only: bool = Fa
     size_mb = out.stat().st_size / (1024 * 1024)
     print(f"Wrote {out} ({size_mb:.1f} MB, {added} entries)")
     if art_only:
-        print("Art-only pack: output/illust, output/series, output/layouts (no HiRes)")
+        print("Art-only pack: output/illust, output/illust_HiRes, output/series, output/layouts")
     elif code_only:
         print("Code-only pack: does not include output/, assets/, .env, or var/")
     else:

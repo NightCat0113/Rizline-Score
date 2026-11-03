@@ -98,12 +98,12 @@ The code-only zip refreshes `bot/`, `rizline/`, `tools/`, `locale/`, `songs.json
 
 On Altare, `/refresh-game-data` starts the **Refresh game data** GitHub Action (needs `GITHUB_TOKEN` + `GITHUB_REPOSITORY` in the server `.env`). That workflow:
 
-1. Downloads catalog data and exports charts, bios, achievements, **standard jackets**, and series posters.
+1. Downloads catalog data and exports charts, bios, achievements, jackets (standard and HiRes), and series posters.
 2. Bakes layout cards into `output/layouts`.
-3. Commits `songs.json` / `mapping.json` / `bot/static/songs_index.json` / `locale` and pushes to `main` (so **Deploy Altare** restarts with the new catalog). Art is **not** committed.
-4. Packs `output/illust`, `output/series`, and `output/layouts` into an art-only zip, uploads it to Altare, extracts it over those folders, and restarts the server.
+3. Commits `songs.json` / `mapping.json` / `bot/static/songs_index.json` / `bot/static/special_illustrations.json` / `locale` and pushes to `main` (so **Deploy Altare** restarts with the new catalog). Art is **not** committed.
+4. Packs `output/illust`, `output/illust_HiRes`, `output/series`, and `output/layouts` into an art-only zip, uploads it to Altare, extracts it over those folders, and restarts the server.
 
-HiRes jackets (`output/illust_HiRes`) are still manual: `python tools/pack_altare.py --hires`.
+`/arts` sends the HiRes PNG when `output/illust_HiRes` is present. The collection grid keeps using the smaller `output/illust` files.
 
 You can still refresh the catalog by hand on a PC (art upload is the GitHub Action path):
 
