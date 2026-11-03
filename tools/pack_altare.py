@@ -7,8 +7,10 @@ Usage (from the repo root):
   python tools/pack_altare.py --out dist/rizline-altare.zip
 
 The default pack includes code, locale catalogs, the song index, the
-font, and ``output/illust`` + ``output/series``. High-res jackets are
-optional. ``--code-only`` is the GitHub Actions payload: code and
+font, and ``output/illust`` + ``output/series`` + ``output/layouts``.
+High-res jackets are optional. Bake layouts first with
+``python tools/bake_layouts.py`` so collection cards are real art, not
+color swatches. ``--code-only`` is the GitHub Actions payload: code and
 catalogs only, so a deploy does not replace art, the font, ``.env``,
 or ``var/`` already on the server.
 """
@@ -104,7 +106,7 @@ def pack(out: Path, *, include_hires: bool, code_only: bool) -> None:
         zf.writestr("requirements.txt", req)
         added += 1
         if not code_only:
-            for folder in ("output/illust", "output/series"):
+            for folder in ("output/illust", "output/series", "output/layouts"):
                 added += _add_path(zf, ROOT / folder)
             if include_hires:
                 added += _add_path(zf, ROOT / "output" / "illust_HiRes")

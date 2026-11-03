@@ -60,15 +60,80 @@ _KALPA_PARTICLE_COLOR = (188, 109, 255)  # Color(0.7372, 0.4274, 1) from Particl
 def load_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | None:
     """Layout art for the collection grid.
 
-    Frame textures keep their chrome; flat grey arts windows get the env stripe fill.
-    Prefab-only cards (00031 / 00036 / 00042) composite fully. Framed cards may receive
-    ornament-only prefab layers (00045 AvatarDecorative / Grad / BioBG / particles).
+    Prefers ``output/layouts/*.png`` (baked for production without game bundles).
+    Otherwise composites from local download frames/prefabs.
     """
     key = (str(repo_root), layout_id.strip())
     with _LOCK:
         if key in _CARDS:
             image = _CARDS[key]
             return None if image is None else image.copy()
+    baked = _load_baked_layout(repo_root, layout_id)
+    if baked is not None:
+        with _LOCK:
+            _CARDS[key] = baked.copy()
+        return baked
+    image = _render_collection_layout(repo_root, layout_id)
+    with _LOCK:
+        _CARDS[key] = None if image is None else image.copy()
+    return None if image is None else image.copy()
+
+
+def bake_collection_layouts(
+    repo_root: Path,
+    layout_ids: list[str] | None = None,
+) -> tuple[int, int]:
+    """Write ``output/layouts/layout.NNNNN.png`` for production deploys. Returns (ok, failed)."""
+    from bot.services.collection import collection_rows
+
+    ids = layout_ids or [row["id"] for row in collection_rows(repo_root, "en", "layout")]
+    out_dir = _layouts_dir(repo_root)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    with _LOCK:
+        _CARDS.clear()
+    ok = 0
+    failed = 0
+    for layout_id in ids:
+        image = _render_collection_layout(repo_root, layout_id)
+        if image is None:
+            failed += 1
+            continue
+        try:
+            image.save(_baked_layout_path(repo_root, layout_id), format="PNG", optimize=True)
+            ok += 1
+        except OSError:
+            failed += 1
+        finally:
+            image.close()
+    with _LOCK:
+        _CARDS.clear()
+    return ok, failed
+
+
+def _layouts_dir(repo_root: Path) -> Path:
+    return repo_root / "output" / "layouts"
+
+
+def _baked_layout_path(repo_root: Path, layout_id: str) -> Path:
+    name = layout_id.strip()
+    if not name.startswith("layout."):
+        name = f"layout.{name}"
+    return _layouts_dir(repo_root) / f"{name}.png"
+
+
+def _load_baked_layout(repo_root: Path, layout_id: str) -> Image.Image | None:
+    path = _baked_layout_path(repo_root, layout_id)
+    if not path.is_file():
+        return None
+    try:
+        with Image.open(path) as opened:
+            return opened.convert("RGBA")
+    except OSError:
+        return None
+
+
+def _render_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | None:
+    """Composite from download frames/prefabs. No baked-PNG or memory cache."""
     number = layout_id.rsplit(".", 1)[-1]
     bundle = _prefab_bundle(repo_root, layout_id)
     deps = _prefab_dependencies(repo_root, layout_id)
@@ -88,17 +153,13 @@ def load_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | Non
                 if particled is not card:
                     card.close()
                     card = particled
-        with _LOCK:
-            _CARDS[key] = card.copy()
         return card
     image = _composite(bundle, None, deps) if bundle is not None else None
     if image is not None and use_env and env_fill is not None:
         filled = _with_env_arts(image, env_fill)
         image.close()
         image = filled
-    with _LOCK:
-        _CARDS[key] = None if image is None else image.copy()
-    return None if image is None else image.copy()
+    return image
 
 
 def _env_fill_texture(repo_root: Path) -> Image.Image | None:
