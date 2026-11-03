@@ -153,13 +153,13 @@ def _render_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | 
                 if particled is not card:
                     card.close()
                     card = particled
-        return card
+        return _open_avatar_ring(card, number)
     image = _composite(bundle, None, deps) if bundle is not None else None
     if image is not None and use_env and env_fill is not None:
         filled = _with_env_arts(image, env_fill)
         image.close()
         image = filled
-    return image
+    return _open_avatar_ring(image, number)
 
 
 def _env_fill_texture(repo_root: Path) -> Image.Image | None:
@@ -1096,6 +1096,73 @@ def _scaled_box(
     drawn_x = world_x + world_w * pivot["x"] - drawn_w * pivot["x"]
     drawn_y = world_y + world_h * pivot["y"] - drawn_h * pivot["y"]
     return (drawn_x, drawn_y, drawn_w, drawn_h), (drawn_x, drawn_y), (parent_scale[0] * own_x, parent_scale[1] * own_y)
+
+
+def _open_avatar_ring(card: Image.Image | None, number: str) -> Image.Image | None:
+    """Make layout 00031's dashed sun interior transparent.
+
+    The sun sprite is a hollow ring. The white footer sits behind that hole, so
+    the disk renders as solid white. Env fill runs after the composite and would
+    paint the hole shut again, so the punch happens on the finished card.
+    """
+    if card is None or number != "00031":
+        return card
+    hole = _dashed_ring_hole(card)
+    if hole is None:
+        return card
+    cx, cy, radius = hole
+    _clear_disk(card, cx, cy, radius)
+    return card
+
+
+def _dashed_ring_hole(card: Image.Image) -> tuple[float, float, float] | None:
+    """Center and inner radius of a small dashed black ring, in card pixels."""
+    pixels = card.load()
+    width, height = card.size
+    points: list[tuple[int, int]] = []
+    min_x, min_y = width, height
+    max_x, max_y = 0, 0
+    for y in range(0, height, 2):
+        for x in range(0, width, 2):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha < 200 or red > 35 or green > 35 or blue > 35:
+                continue
+            points.append((x, y))
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+    if len(points) < 250:
+        return None
+    box_w = max_x - min_x
+    box_h = max_y - min_y
+    if box_w < 70 or box_h < 70 or box_w > 520 or box_h > 520:
+        return None
+    if abs(box_w - box_h) > 0.2 * max(box_w, box_h):
+        return None
+    cx = (min_x + max_x) / 2
+    cy = (min_y + max_y) / 2
+    radii = sorted(math.hypot(x - cx, y - cy) for x, y in points)
+    inner = radii[int(len(radii) * 0.05)]
+    outer = radii[int(len(radii) * 0.95)]
+    # Dashes share one radius. A filled mark or a cluster of separate strokes does not.
+    if outer - inner > 36 or inner < 24:
+        return None
+    sample_x = min(width - 1, max(0, int(cx)))
+    sample_y = min(height - 1, max(0, int(cy)))
+    red, green, blue, alpha = pixels[sample_x, sample_y]
+    if alpha < 200 or (red + green + blue) / 3 < 170:
+        return None
+    return cx, cy, inner - 2
+
+
+def _clear_disk(canvas: Image.Image, cx: float, cy: float, radius: float) -> None:
+    """Punch a circular hole through everything already on the canvas."""
+    if radius < 8:
+        return
+    mask = Image.new("L", canvas.size, 0)
+    ImageDraw.Draw(mask).ellipse((cx - radius, cy - radius, cx + radius, cy + radius), fill=255)
+    canvas.putalpha(ImageChops.subtract(canvas.getchannel("A"), mask))
 
 
 def _stamp(canvas: Image.Image, sprite: Image.Image, x: int, y: int) -> None:
