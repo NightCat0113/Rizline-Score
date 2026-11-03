@@ -175,6 +175,11 @@ def _bio_rows(repo_root: Path, language: str) -> list[dict[str, str]]:
     return rows
 
 
+# 46–48 only have color swatches. 49 has a card but no layoutColors row.
+_LAYOUT_PLACEHOLDERS = {"layout.00046", "layout.00047", "layout.00048"}
+_LAYOUT_WITHOUT_COLORS = {"layout.00049"}
+
+
 def _layout_rows(repo_root: Path) -> list[dict[str, str]]:
     payload = _catalog(catalog_dir(repo_root) / "layout.json")
     drawable = _drawable_layout_ids(repo_root)
@@ -185,10 +190,12 @@ def _layout_rows(repo_root: Path) -> list[dict[str, str]]:
         layout_id = str(row.get("id") or "").strip()
         if layout_id:
             seen.add(layout_id)
-    # Numbered cards only. 49 has art but no color entry; 46–48 have neither.
-    # layout.Static* are character rizcards, not layouts the player collects.
+    # Numbered cards only. layout.Static* are character rizcards, not collectible layouts.
+    # Without a local file list (production), still drop 46–48 and keep 49.
+    seen -= _LAYOUT_PLACEHOLDERS
+    seen |= _LAYOUT_WITHOUT_COLORS
     if drawable:
-        seen = {layout_id for layout_id in seen if layout_id in drawable} | drawable
+        seen = (seen & drawable) | (drawable - _LAYOUT_PLACEHOLDERS) | _LAYOUT_WITHOUT_COLORS
     rows = [
         {"id": layout_id, "kind": "layout", "name": layout_id}
         for layout_id in sorted(seen, key=_layout_sort)

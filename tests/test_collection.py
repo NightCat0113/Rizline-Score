@@ -156,6 +156,30 @@ def test_titles_stay_one_line_and_specials_are_catalogued(tmp_path: Path):
     assert len(layouts) > 20
 
 
+def test_layouts_without_filelist_skip_placeholders(tmp_path: Path):
+    locale = tmp_path / "locale"
+    locale.mkdir()
+    (locale / "layout.json").write_text(
+        json.dumps(
+            {
+                "layoutColors": [
+                    {"id": "layout.00045"},
+                    {"id": "layout.00046"},
+                    {"id": "layout.00047"},
+                    {"id": "layout.00048"},
+                    {"id": "layout.00050"},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    layout_ids = [row["id"] for row in collection_rows(tmp_path, "en", "layout")]
+    assert "layout.00046" not in layout_ids
+    assert "layout.00047" not in layout_ids
+    assert "layout.00048" not in layout_ids
+    assert layout_ids.index("layout.00045") < layout_ids.index("layout.00049") < layout_ids.index("layout.00050")
+
+
 def test_bio_view_pages_ten_stems():
     rows = [
         {"id": f"bio{index:02d}", "kind": "bio", "title1": f"Left{index}", "title2": f"Right{index}"}
