@@ -2,7 +2,9 @@
 
 Unofficial Discord bot for the rhythm game Rizline. It looks up songs, series, and jacket art with no account. If you connect your own Rizline account, it can also show your scores, Best 40, score targets, achievements, collection progress, Asyncombat ranks, and weekly tasks.
 
-It is a fan-made tool. It is not affiliated with the Rizline publisher or with Discord.
+It is a fan-made tool, run by one person. It is not affiliated with Pigeon Games or with Discord.
+
+The operator does not own Rizline’s songs, charts, illustrations, or names. They stay with their copyright holders and are shown here only for score and song lookup. A copyright holder can ask for a removal through the [terms of service](TERMS.md). The source code in this repository is AI-generated.
 
 Using the bot means you agree to the [terms of service](TERMS.md) and the [privacy policy](PRIVACY.md).
 
@@ -10,7 +12,7 @@ Using the bot means you agree to the [terms of service](TERMS.md) and the [priva
 
 ## What you can do
 
-Run `/help` in Discord for the same guide, with clickable commands.
+Run `/help` in Discord for the short guide. The full list of what each command does, and how it gets its result, is in [COMMANDS.md](COMMANDS.md).
 
 **No account**
 

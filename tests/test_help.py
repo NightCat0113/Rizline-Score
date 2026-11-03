@@ -9,12 +9,15 @@ def test_help_text_lists_the_main_commands():
     text = _flat({})
     assert "**Rizline Lookup**" in text
     assert "unofficial fan Discord bot" in text
+    assert "copyright holders" in text
+    assert "AI-generated" in text
     assert "**How to start**" in text
     assert "**Who can see a reply**" in text
     assert "Set `private`" in text
     assert "`/bind`, `/unbind`, and `/help` stay hidden" in text
     assert "only after you turn sharing on" in text
     assert "https://discord.com/oauth2/authorize?client_id=1562086860988223568" in text
+    assert "https://github.com/NightCat0113/Rizline-Score/blob/main/COMMANDS.md" in text
     assert "https://github.com/NightCat0113/Rizline-Score/blob/main/PRIVACY.md" in text
     assert "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md" in text
     assert "nightwind0112@gmail.com" in text

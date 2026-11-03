@@ -8,6 +8,7 @@ from discord.ext import commands
 
 
 _INVITE_URL = "https://discord.com/oauth2/authorize?client_id=1562086860988223568"
+_COMMANDS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/COMMANDS.md"
 _PRIVACY_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/PRIVACY.md"
 _TERMS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md"
 
@@ -25,8 +26,9 @@ def help_parts(command_ids: dict[str, int]) -> tuple[str, list[tuple[str, str]],
 
     description = "\n".join(
         [
-            "An unofficial fan Discord bot for Rizline. "
-            "It is not affiliated with the Rizline publisher or with Discord.",
+            "An unofficial fan Discord bot for Rizline, run by one person. "
+            "It is not affiliated with Pigeon Games or with Discord. "
+            "Game songs, art, and names stay with their copyright holders.",
             "",
             "**How to start**",
             f"1. Add the bot: {_INVITE_URL}",
@@ -105,6 +107,8 @@ def help_parts(command_ids: dict[str, int]) -> tuple[str, list[tuple[str, str]],
             "\n".join(
                 [
                     "Using this bot means you agree to the privacy policy and the terms of service.",
+                    "The operator does not own the game assets. The bot's code is AI-generated.",
+                    f"How to use it: {_COMMANDS_URL}",
                     f"Privacy: {_PRIVACY_URL}",
                     f"Terms: {_TERMS_URL}",
                 ]

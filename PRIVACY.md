@@ -1,6 +1,6 @@
 # Privacy Policy — Rizline Lookup
 
-Last updated: 2026-11-03
+Last updated: 2026-11-04
 
 **Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
@@ -8,11 +8,15 @@ This document describes how **Rizline Lookup** (the “Service”) handles perso
 
 ## 1. Who operates the Service
 
-Rizline Lookup is an unofficial fan Discord bot. It is not operated by the Rizline publisher or by Discord.
+Rizline Lookup is an unofficial fan Discord bot, run by one person. It is not operated by Pigeon Games or by Discord.
+
+This policy covers the public bot. A copy someone else runs is their service. Data on that machine is handled by whoever runs it.
 
 **Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
 ## 2. What we collect and why
+
+Data is kept only to do the thing you asked for: look up songs, render a card, refresh your scores, or remember a setting. The operator reads stored data only to run the bot, fix it, or answer a request you make. It is not sold, and it is not given to anyone else except the services in §6, or when the law requires it.
 
 | Data | Why | How long |
 | --- | --- | --- |
@@ -35,6 +39,7 @@ Song, art, series, and catalog lookups do not require Rizline credentials. If yo
 - Full game saves, mailbox contents, or purchase history in the bot database
 - Asyncombat match history
 - Advertising profiles or analytics SDK events
+- The text of your Discord chat messages. The bot does not keep a log of what you type in a channel
 
 The separate local CLI in this repository (`rizline/login.py`) can write a decrypted save file if you run it yourself. That file can contain mail and purchase data. It is outside the Discord bot path described here.
 
@@ -75,15 +80,21 @@ We do **not** sell your personal data. We do not run ads in the bot.
 
 The score cache and Rizline session are encrypted at rest with a key held by the operator (`BOT_ENCRYPTION_KEY`). Encryption does **not** protect that data if the computer running the bot is compromised, because the process then holds the key and any plaintext it has loaded.
 
-## 8. How to delete your data
+## 8. How to see, correct, or delete your data
+
+You can ask to see the rows stored for your Discord account, ask for a wrong preference to be corrected, or ask for those rows to be deleted. Email nightwind0112@gmail.com or message Discord @nightwind.nightcat from the account the data belongs to. The operator may ask you to confirm that the Discord account is yours.
+
+You can also delete most of it yourself:
 
 1. Run `/unbind`. That deletes your binding, encrypted score cache, and encrypted session from this bot.
-2. Language preference may remain. Contact the operator (below) and ask for that row to be deleted.
+2. Language preference may remain. Ask for that row to be deleted.
 3. `/unbind` and ordinary database delete cannot erase Discord’s message history, host backups, crash dumps, or leftover disk copies.
+
+If the operator learns that someone reached the database without permission, they will try to say so to people who use the bot. There is no separate status page, and a warning may not reach everyone.
 
 ## 9. Children
 
-The Service is not directed at children under 13. Do not use it if you are under 13. If you believe a child under 13 has bound an account, contact the operator so the related bot data can be removed.
+The Service is not directed at children under 13, or at anyone too young to agree to these terms where they live. Do not use it in that case. If you believe such a person has bound an account, contact the operator so the related bot data can be removed.
 
 ## 10. International users
 
