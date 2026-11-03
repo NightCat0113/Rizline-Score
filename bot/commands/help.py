@@ -8,9 +8,9 @@ from discord.ext import commands
 
 
 _INVITE_URL = "https://discord.com/oauth2/authorize?client_id=1562086860988223568"
-_COMMANDS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/COMMANDS.md"
-_PRIVACY_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/PRIVACY.md"
-_TERMS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md"
+_COMMANDS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/docs/COMMANDS.md"
+_PRIVACY_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/docs/PRIVACY.md"
+_TERMS_URL = "https://github.com/NightCat0113/Rizline-Score/blob/main/docs/TERMS.md"
 
 
 def _mention(name: str, command_ids: dict[str, int]) -> str:

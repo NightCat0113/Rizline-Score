@@ -38,8 +38,8 @@ INCLUDE_PATHS = (
     "assets",
     "songs.json",
     "mapping.json",
-    "TERMS.md",
-    "PRIVACY.md",
+    "docs/TERMS.md",
+    "docs/PRIVACY.md",
 )
 
 # CI deploy pack. Art, font, secrets, and the score cache stay on the server.
@@ -54,8 +54,8 @@ CODE_ONLY_PATHS = (
     "locale",
     "songs.json",
     "mapping.json",
-    "TERMS.md",
-    "PRIVACY.md",
+    "docs/TERMS.md",
+    "docs/PRIVACY.md",
 )
 
 SKIP_DIR_NAMES = {

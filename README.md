@@ -4,15 +4,15 @@ Unofficial Discord bot for the rhythm game Rizline. It looks up songs, series, a
 
 It is a fan-made tool, run by one person. It is not affiliated with Pigeon Games or with Discord.
 
-The operator does not own Rizline’s songs, charts, illustrations, or names. They stay with their copyright holders and are shown here only for score and song lookup. A copyright holder can ask for a removal through the [terms of service](TERMS.md). The source code in this repository is AI-generated.
+The operator does not own Rizline’s songs, charts, illustrations, or names. They stay with their copyright holders and are shown here only for score and song lookup. A copyright holder can ask for a removal through the [terms of service](docs/TERMS.md). The source code in this repository is AI-generated.
 
-Using the bot means you agree to the [terms of service](TERMS.md) and the [privacy policy](PRIVACY.md).
+Using the bot means you agree to the [terms of service](docs/TERMS.md) and the [privacy policy](docs/PRIVACY.md).
 
 **Add the bot:** https://discord.com/oauth2/authorize?client_id=1562086860988223568
 
 ## What you can do
 
-Run `/help` in Discord for the short guide. The full list of what each command does, and how it gets its result, is in [COMMANDS.md](COMMANDS.md).
+Run `/help` in Discord for the short guide. The full list of what each command does, and how it gets its result, is in [COMMANDS.md](docs/COMMANDS.md).
 
 **No account**
 
@@ -99,9 +99,9 @@ The song catalog shipped with the repo is `bot/static/songs_index.json`. Binding
 
 Leave `ALLOWED_USER_IDS` empty to let anyone who can use the bot bind their own account. Set it to a comma-separated list of Discord user ids to limit the bot to those people. `/help` stays available either way.
 
-`/reload-data` and `/refresh-game-data` are owner commands. Set `OWNER_ID` when the Discord application is team-owned. Hosting on Altare, including catalog refresh, is described in [DEPLOY_ALTARE.md](DEPLOY_ALTARE.md).
+`/reload-data` and `/refresh-game-data` are owner commands. Set `OWNER_ID` when the Discord application is team-owned. Hosting on Altare, including catalog refresh, is described in [DEPLOY_ALTARE.md](docs/DEPLOY_ALTARE.md).
 
-Read [SECURITY_AUDIT.md](SECURITY_AUDIT.md) before you bind a main account on a copy you run yourself. If strangers can invite the bot, set `ALLOWED_USER_IDS`.
+Read [SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md) before you bind a main account on a copy you run yourself. If strangers can invite the bot, set `ALLOWED_USER_IDS`.
 
 ## Download a full save on your computer
 
@@ -120,5 +120,6 @@ py -m pytest
 
 ## Also in this repository
 
+- `docs/` holds the command guide, terms, privacy policy, security audit, and Altare deploy notes.
 - `tools/` maintains the song index, jacket art, and the Altare upload pack.
 - `index.html` is a local Best 40 page that runs in a browser. The Discord bot is the maintained way to look up scores with other people.
