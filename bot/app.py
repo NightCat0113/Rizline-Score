@@ -34,7 +34,7 @@ class RizlineBot(commands.Bot):
         super().__init__(
             command_prefix=commands.when_mentioned,
             intents=intents,
-            activity=discord.Activity(type=discord.ActivityType.listening, name="/help in a DM"),
+            activity=discord.Activity(type=discord.ActivityType.listening, name="/help"),
         )
         self.settings = settings
         self.songs = songs
@@ -101,5 +101,5 @@ def main() -> None:
     except (ConfigError, StorageError, MissingKeyError) as exc:
         print(exc, file=sys.stderr)
         raise SystemExit(1) from None
-    logger.info("Starting bot. Commands are DM-only and need the Message Content intent.")
+    logger.info("Starting bot. Slash commands need the Message Content intent.")
     bot.run(settings.discord_token, log_handler=None)

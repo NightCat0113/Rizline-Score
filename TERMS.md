@@ -1,16 +1,18 @@
 # Terms of Service — Rizline Lookup
 
-Last updated: 2026-10-28
+Last updated: 2026-11-03
 
 **Contact:** nightwind0112@gmail.com / Discord @nightwind.nightcat
 
 This document is a practical description of how **Rizline Lookup** is offered. It is not legal advice. The operator should have it reviewed before relying on it.
 
-By using Rizline Lookup (the “Service”), you agree to these terms.
+By using Rizline Lookup (the “Service”), you agree to these terms and to the [privacy policy](PRIVACY.md).
 
 ## 1. What the Service is
 
-Rizline Lookup is an unofficial Discord bot that looks up Rizline song data and, if you bind an account, your scores and related live game data.
+Rizline Lookup is an unofficial Discord bot for the rhythm game Rizline. You can use it in a server, a direct message, or a group chat after the bot is added there or installed on your Discord account.
+
+Without an account, it looks up songs, jacket art, track series, chart lists, and the bio, layout, and art catalogs. If you bind a Rizline account, it can also show your scores, Best 40, score targets, achievements, collection progress, Asyncombat ranks, and weekly tasks.
 
 It is a fan-made tool. It is **not** affiliated with, endorsed by, or operated by the publisher of Rizline or of Discord.
 
@@ -26,20 +28,25 @@ You agree not to:
 
 - abuse the Service or the game API (for example by flooding commands or automated login attempts beyond normal personal use);
 - attempt to break into, disrupt, or reverse-engineer the bot host beyond what the public source already shows;
-- use the Service to harass others or to publish another player’s private scores without a lawful basis and, for this bot, without their sharing preference allowing it;
+- look up or publish another player’s scores except through `/profile` when that player has turned sharing on for this bot;
+- use the Service to harass others;
 - misrepresent the Service as an official Rizline or Discord product.
+
+Replies appear in the channel where you run a command unless you set `private`, or unless the command is one that always stays hidden (`/bind`, `/unbind`, and `/help`). You are responsible for where you run a command that shows your scores.
 
 The operator may rate-limit, refuse, or revoke access if these rules are broken or if continued operation is unsafe.
 
 ## 4. Scores and accuracy
 
-Song metadata, chart constants, RKS figures, live ranks, weekly tasks, and rendered images may be incomplete, delayed, or wrong. Do not treat the Service as an official record of your play.
+Song metadata, chart constants, RKS figures, recommendations, achievement and collection progress, live ranks, weekly tasks, and rendered images may be incomplete, delayed, or wrong. Do not treat the Service as an official record of your play.
 
 Features may change, break, or stop without notice when the game client or Discord changes.
 
 ## 5. Your content and credentials
 
-When you bind an account, you send credentials through Discord to the computer running the bot so it can talk to the game service. How that data is handled is described in [PRIVACY.md](PRIVACY.md).
+When you bind an account, you enter your Rizline email and password, or an email verification code, in a form that stays hidden from the channel. Those secrets are sent to the computer running the bot so it can talk to the game service. The password and verification code are used for that login and then discarded. A session is kept so later commands can run without asking again.
+
+How that data is handled is described in [PRIVACY.md](PRIVACY.md).
 
 You are responsible for keeping your Rizline and Discord accounts secure, and for what you ask the bot to fetch or share.
 
@@ -57,13 +64,13 @@ To the fullest extent allowed by law, the operator is not liable for indirect, i
 
 ## 9. Changes and termination
 
-These terms may be updated by revising this file. Continued use after a change means you accept the new terms.
+These terms may be updated by revising this file. The “Last updated” date will change when they are. Continued use after a change means you accept the new terms.
 
-You may stop using the Service at any time. Use `/unbind` to remove your binding and encrypted score cache from this bot, as described in the privacy policy. The operator may suspend or shut down the Service at any time.
+You may stop using the Service at any time. Use `/unbind` to remove your binding, encrypted score cache, and encrypted session from this bot. Your language preference can remain; the privacy policy explains how to ask for that to be deleted. The operator may suspend or shut down the Service at any time.
 
 ## 10. Governing law
 
-These terms are governed by the laws of **[operator's country or region]**, without regard to conflict-of-law rules, except where mandatory local consumer law says otherwise.
+These terms are governed by the laws of the operator’s place of residence, without regard to conflict-of-law rules, except where mandatory local consumer law says otherwise.
 
 ## 11. Contact
 

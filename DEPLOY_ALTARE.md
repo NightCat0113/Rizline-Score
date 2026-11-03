@@ -67,10 +67,10 @@ If you reuse an existing `var/bot.db` from your PC, you **must** use the same `B
 
 ## 6. Discord portal checklist
 
-- Message Content intent enabled (needed for `/bind` DM replies).
-- Bot invited / user-installable the way you already use locally.
+- Message Content intent enabled (the bot requests it at login).
+- Bot invited with the `applications.commands` scope. Enable User Install if you want commands without a shared server.
 - Application name can be set to **Rizline Lookup** in the developer portal.
-- After the first deploy, global slash commands can take up to an hour to appear in DMs.
+- After the first deploy, global slash commands can take up to an hour to appear.
 
 ## What not to upload
 

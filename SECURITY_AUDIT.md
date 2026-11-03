@@ -1,69 +1,70 @@
-# Rizline login and Discord bot — security audit
+# Rizline Lookup — security audit
 
-Date: 2026-10-20. Scope: `rizline_login.py` as it existed before the client extraction (direct `urllib.request.urlopen`), plus the bot built from that review. No live login was performed. No real Rizline credentials or session tokens were used. Passing the tests in `tests/` does not mean this program is safe.
+Last updated: 2026-11-03. The first review was 2026-10-20, against `rizline_login.py` before it was split into `rizline/client.py` and `rizline/login.py`.
 
-Line numbers below refer to the pre-extraction `rizline_login.py` (415 lines) unless a new file is named.
+This update re-reads the current bot, login client, and socket client. No live login was performed. No real Rizline credentials or session tokens were used. Passing the tests in `tests/` does not mean this program is safe.
 
 ## How to read this report
 
-- **Verified:** observed in the source that was reviewed, or reproduced with fake secrets and a local mock server.
+- **Verified:** observed in the current source, or covered by a test that uses fake secrets and a local mock.
+- **Fixed:** true of the October client, and the current source does something else.
 - **Suspicious:** looks risky, but this review did not prove exploitation.
 - **Could not verify:** not checked, or cannot be checked without a live service, the original process, or another machine.
 
 ## 1. Login client
 
-`rizline_login.py` made only these outbound calls, all `POST`, all to `base_url + path`:
+The Discord bot calls `rizline/client.py` only through `bot/services/rizline_api.py`, with `require_pinned_host=True` and `https://service.rhyths.net`. `bot/` does not pass `allow_http_localhost`.
 
 | Path | When | Body fields | Extra headers |
 | --- | --- | --- | --- |
-| `account/login` | Passcode | `email`, `password` | `device_id` |
-| `account/send_email` | Email-code fallback | `email`, `transaction=login` | `device_id` |
+| `account/login` | Password | `email`, `password` | `device_id` |
+| `account/send_email` | Email-code login | `email`, `transaction=login` | `device_id` |
 | `account/login` | Email code | `email`, `code` | `device_id` |
-| `game/rn_login` | After login | `{}` | `device_id`, `email`, `token` |
+| `game/rn_login` | Score cache after login or `/refresh` | `{}` | `device_id`, `email`, `token` |
+| `game/async_battle/rank_info` and three alternate paths | `/asyncombat`, tried in order | `{}` | `device_id`, `email`, `token` |
+| `game/get_weekly_tasks` and `get_weekly_tasks` | `/weekly`, tried in order | `{}` | `device_id`, `email`, `token` |
 
-The only hardcoded host was `https://service.rhyths.net` (`DEFAULT_BASE_URL`). `--base-url` could replace it after an `https` scheme check. The reviewed run did not pass `--base-url`, so that override was not exercised. This review did not connect to the host, so it does not establish that the host is the official game service.
+If every HTTP path for `/asyncombat` or `/weekly` returns 404, the bot opens a Socket.IO connection to the same pinned host (`rizline/socket.py`). The handshake URL puts `email`, `token`, and `device_id` in the query string. TLS verification is on (`ssl_verify=True`). The socket URL is the constant `https://service.rhyths.net`.
 
-### Verified issues
+`fetch_own_rizcard` and `fetch_equipped_rizcard` exist in the client. No slash command calls them. `/rizcard` is not registered.
 
-1. **High — redirect forwards credential headers.** `urlopen` (line 168) uses the stdlib opener. In CPython 3.12 `urllib.request.HTTPRedirectHandler.redirect_request`, a `POST` that receives `301`, `302`, or `303` is followed. The new request copies the original headers except `Content-Length` and `Content-Type`, and drops the body. `307`/`308` on `POST` are not followed (the handler raises `HTTPError`). A login or save response that redirects would send `device_id`, and on `game/rn_login` also `email` and `token`, to the `Location` URL. The passcode body would not be resent for 301/302/303.
-2. **Medium — ambient proxies are honored.** The default opener installs `ProxyHandler`, which reads `http_proxy` / `https_proxy`. A proxy pointed at by the environment can observe the destination host. A TLS-intercepting proxy can observe the body. Nothing in the old client disabled this.
-3. **Medium — CLI host override.** `--base-url` accepted any HTTPS origin. Combined with issue 1, a mistaken or hostile base URL plus a redirect is a credential-forwarding path. The bot does not expose this option.
-4. **Medium — decrypted save written to disk.** After a successful fetch the CLI wrote `<player>_gameData.json`. It blanked `_id`, `userId`, and `mailSyncId` only. `mails`, purchases, and the rest of the save remained. `NightXWind_gameData.json` in the repo root is that kind of file. It is gitignored and was not in `git ls-files` or `git log --all`. The only `*gameData*` file found in the workspace is that one. Other backups outside the workspace were not searched.
-5. **Low — free-text secrets can survive `--debug`.** `redact()` replaces sensitive JSON keys (`email`, `password`, `code`, `token`, `device_id`, and the rest of `SENSITIVE_FIELDS`) and email-shaped strings. A server error string that echoes the passcode itself would still be printed. Debug also used to offer a ciphertext hex prefix (`log_binary_prefix`). Response bodies of the save request were not JSON-logged.
+The CLI (`rizline/login.py`) still accepts `--base-url` after an HTTPS check. The bot does not expose that option.
 
-### Suspicious
+This review did not connect to `service.rhyths.net`, so it does not establish who operates that host or what happens to credentials after a real login.
 
-- **Game AES keys are hardcoded** (old lines 31–33, now `rizline_client.py`). They are protocol keys shared by the game client, not this user's password. Anyone with the ciphertext and these keys can decrypt a save. That is a property of the game format, not evidence of a backdoor in this file.
-- **`Riz_bundle.py` and `index.html` talk to other hosts** (`rizserver.pigeongames.net`, `rizlineasset.pigeongames.net`, `rizastcdn.pigeongames.cn`, `dragonred.cn`, `riz.wiki`). The bot does not import or call them. They matter only if you run those tools.
+### Fixed since October 2026
+
+1. **Redirects are refused.** `api_request` installs a redirect handler that raises `RizlineNetworkError` instead of following `Location`. The October client followed 301/302/303 and would have copied `device_id`, and on `game/rn_login` also `email` and `token`, to the new URL.
+2. **Environment proxies are ignored** on the game client. The opener uses `ProxyHandler({})`.
+3. **The bot pins the host.** Non-443 ports, userinfo, query strings, and fragments are rejected when `require_pinned_host=True`. `allow_http_localhost` exists so tests can use `http://127.0.0.1`.
+4. **The bot does not write a full save.** `derive_minimal_cache` keeps the fields in section 3 and drops the rest of the decrypted save, including mail and purchases. The October CLI issue remains for `rizline/login.py` only.
+
+### Still true
+
+1. **Medium — CLI host override.** `--base-url` accepts any HTTPS origin. Redirects are no longer followed, so a redirect cannot carry the credential headers onward. A person who runs the CLI against the wrong host still sends the password to that host.
+2. **Medium — decrypted save written to disk.** `rizline/login.py` writes `<player>_gameData.json`. It blanks `_id`, `userId`, and `mailSyncId` only. Mail, purchases, and the rest of the save remain. The pattern is gitignored. This update did not search the workspace or other disks for copies.
+3. **Low — free-text secrets can survive `--debug`.** `redact()` replaces sensitive JSON keys and email-shaped strings. `scrub()` removes exact secret strings of length 4 or more. A server error that echoes a shorter secret, or a secret that is not an exact substring, can still be printed. Save responses are not JSON-logged.
+4. **Game AES keys are hardcoded** in `rizline/client.py`. They are protocol keys shared by the game client, not a user password. Anyone with the ciphertext and these keys can decrypt a save. That is a property of the game format.
 
 ### Could not verify
 
 - That `service.rhyths.net` is operated by the game publisher, or what that server does with credentials after a real login.
-- That the historical run used this exact file and an unmodified interpreter.
-- The `Crypto.Cipher._raw_ctr` failure reported earlier. On this machine `pycryptodome` 4.1.0 imports `Crypto.Cipher.AES` and a GCM round trip succeeds (`tests/test_api_client_mock.py`). Reinstall only from PyPI. Do not replace DLLs from other sites.
-- Whether a passcode was previously exposed. This audit found no destination in the login file other than the configured API host. That is not proof the account is safe.
-
-### Remediation in `rizline_client.py`
-
-- Redirects raise `RizlineNetworkError` and are not followed.
-- The opener uses `ProxyHandler({})` so environment proxies are ignored.
-- TLS uses `ssl.create_default_context()`. There is no `CERT_NONE`, `_create_unverified_context`, or `verify=False` in the project sources (tests construct those needles without embedding them as contiguous strings).
-- The bot calls the client with `require_pinned_host=True` and `https://service.rhyths.net` only. Non-443 ports, userinfo, query strings, and fragments are rejected. `allow_http_localhost` exists only so tests can bind `127.0.0.1`; `bot/` does not reference it.
-- The CLI still accepts `--base-url` for the old HTTPS-only workflow, and now uses the same redirect and proxy rules.
-- Save responses are not debug-logged. Debug text is passed through `redact()` and `scrub()` for exact secret strings of length 4 or more.
-- The bot never writes `*_gameData.json`. It derives `username`, `totalRks`, `myBest`, `levelsRks`, and the profile-card fields `avatarId`, `avatarPos`, `bioId1`, `bioId2`, `backgroundId`, and `layoutId`, then drops the rest.
+- Whether a password was exposed by an older copy of the script. The current client’s only game destination, when the bot calls it, is the pinned host. That is not proof an account is safe.
+- The `Crypto.Cipher._raw_ctr` failure reported before October. `tests/test_api_client_mock.py` still covers a GCM round trip with `pycryptodome`. Reinstall only from PyPI.
 
 ## 2. Credential and token exposure
 
-Verified with fake values in `tests/test_redaction.py` and `tests/test_api_client_mock.py`:
+`/bind` collects the email and password, or the word `code` and then the email verification code, in a Discord modal. The modal submission is an interaction payload. It is not posted as a chat message. The bot’s reply is ephemeral and the account cog schedules that reply for deletion. Discord still processes the interaction under Discord’s own policies.
 
-- Structured logging redacts emails, passcodes, verification codes, tokens, and device ids.
+Verified by reading the current source, and by the tests named:
+
+- Structured logging redacts emails, passwords, verification codes, tokens, and device ids (`tests/test_redaction.py`).
 - `Session.__repr__` does not include the token or email.
-- The bot's DM handler does not echo the reply, does not put the reply in the log message, and sends a generic failure string to Discord.
-- Passcodes and email codes are not written by `Database`. The session token is written only as Fernet ciphertext in `sessions` (asserted with a canary: the plaintext token is absent from the database file). A copy also lives in `bot/services/sessions.py` until `/unbind`, expiry, auth failure, or process exit.
+- Passwords and email codes are not written by `Database`. The session token is written only as Fernet ciphertext in `sessions`. A copy also lives in `bot/services/sessions.py` until `/unbind`, expiry, auth failure, or process exit.
 - Sessions last 14 days from the last successful `/bind`, `/refresh`, `/asyncombat`, or `/weekly` call. HTTP 401/403 clears the row. `/unbind` deletes it with the binding.
+- There is no `on_message` handler. The process still requests the Message Content intent. Nothing in `bot/` reads message text.
 
-Residual: Discord stores the DM the user sends. The bot cannot delete another person's DM. `/bind` says that before asking for the email. Very short secrets (under 4 characters) are not scrubbed out of free text, because that would corrupt unrelated log lines; the password field is still replaced by `redact()`.
+Residual: a secret shorter than 4 characters is not scrubbed out of free text, because that would corrupt unrelated log lines. The password field is still replaced by `redact()`.
 
 ## 3. Local data protection
 
@@ -72,73 +73,106 @@ Residual: Discord stores the DM the user sends. The bot cannot delete another pe
 | CLI decrypted save | `<player>_gameData.json` in the working directory | Gitignored (`*gameData*.json`). Not encrypted. |
 | Bot score cache | `var/bot.db` table `score_cache.ciphertext` | Fernet. Gitignored via `/var/`. TTL default 24h. |
 | Sharing flag | `var/bot.db` table `bindings` | Not secret. Discord id and a boolean. |
-| Session token and email | `var/bot.db` table `sessions.ciphertext`, plus process memory while loaded | Fernet. TTL 14 days, refreshed on a successful live call. Cleared on `/unbind` or auth failure. |
+| Language preference | `var/bot.db` table `user_prefs` | Not secret. Survives `/unbind`. |
+| Session token, email, and generated device id | `var/bot.db` table `sessions.ciphertext`, plus process memory while loaded | Fernet. TTL 14 days, refreshed on a successful live call. Cleared on `/unbind` or auth failure. |
 | Encryption key | `BOT_ENCRYPTION_KEY` environment / `.env` | `.env` is gitignored. `.env.example` has no secret. The key is not written next to the database. |
 | Song index | `bot/static/songs_index.json` | Public chart metadata. No account data. |
-| Test fixture | `tests/fixtures/sanitized_save.json` | Username, total RKS, `myBest`, `levelsRks` only. No mails or account ids. |
+| GitHub token | `GITHUB_TOKEN` in `.env` | Used only by the owner command `/refresh-game-data`. Not a player credential. |
+
+The score cache built by `derive_minimal_cache` contains:
+
+- username, total RKS, `myBest`, `levelsRks`
+- profile-card ids and avatar position
+- achievement ids and unlock times
+- owned `bio.`, `layout.`, `illustration.`, and `altIllustration.` ids
+- a tutorial `challenge` / `challengeProgress` blob
+
+The challenge blob is copied with a denylist of credential-like key names, not an allowlist of known fields. Asyncombat match history is not part of this cache. `/asyncombat` and `/weekly` results are sent back through Discord and are not written into `score_cache`.
+
+`tests/fixtures/sanitized_save.json` is a cache-shaped fixture. A search of that file found no `mails`, `email`, `password`, or `token` keys. It does contain a username and chart results.
 
 Fernet (`cryptography.fernet`) detects tampering when the key is unknown (`InvalidToken`). It does not hide data from someone who has both `var/bot.db` and `BOT_ENCRYPTION_KEY`.
 
 Compromise cases:
 
-- **Database only:** ciphertext and Discord ids. Chart results are not readable without the key.
+- **Database only:** ciphertext and Discord ids. Chart results are not readable without the key. Language and the sharing flag are readable.
 - **Key only:** useless without the database (or another copy of the ciphertext).
-- **Bot process or the host:** encryption at rest does not apply. The process holds the key, the plaintext cache, and any loaded session. This is stated in the `/bind` DM.
+- **Bot process or the host:** encryption at rest does not apply. The process holds the key, the plaintext cache, and any loaded session. `/bind` says this before the form opens.
 
-Key loss: the cache cannot be decrypted. `/unbind` or deleting `var/bot.db` and running `/bind` again is the recovery. `Database.reencrypt_all(new_key)` decrypts with the current key and writes ciphertext for a new Fernet key. There is no Discord command for rotation, so a stolen key cannot be swapped from chat. After rotating, restart the process with the new key. Losing the old key before rotation means the old rows are unreadable; delete them.
+Key loss: the cache cannot be decrypted. `/unbind` or deleting `var/bot.db` and running `/bind` again is the recovery. `Database.reencrypt_all(new_key)` decrypts with the current key and writes ciphertext for a new Fernet key. There is no Discord command for rotation. After rotating, restart the process with the new key. Losing the old key before rotation means the old rows are unreadable; delete them.
 
-`/unbind` deletes the binding (SQLite `ON DELETE CASCADE` removes the cache and the encrypted session), runs `VACUUM`, and drops the in-memory session. That does not erase backups, editor swap files, crash dumps, or SSD spare blocks. The command text says so.
+`/unbind` deletes the binding (SQLite `ON DELETE CASCADE` removes the cache and the encrypted session), runs `VACUUM`, and drops the in-memory session. The language row stays. The delete does not erase backups, editor swap files, crash dumps, or SSD spare blocks. The command text says so.
 
-`.gitignore` covers `.env`, `*_gameData.json`, `/var/`, `/output/`, `/download/`, and `/charts_info/`.
+`.gitignore` covers `.env`, `*_gameData.json`, `/var/`, `/output/`, `/download/`, `/charts_info/`, and `/dist/`.
 
 ## 4. Discord authorization
 
-Implemented in `bot/security/authz.py` and called from the slash commands (not only hidden UI):
+Implemented in `bot/security/authz.py`. `dm_only` is an allowlist check. It does not require a DM.
 
-- Commands are global and DM-only. There is no `GUILD_ID`. A command used in a server gets `Use this command in a DM with the bot.` The guild boundary was removed on purpose.
-- `ALLOWED_USER_IDS` is optional. Empty means anyone who can DM the bot can use commands and bind their own Rizline account. A non-empty list restricts every command, including `/bind` replies, to those Discord ids.
-- Open access lets a stranger spend Rizline API calls on this host through `/bind` and `/refresh`. The in-process rate limits below are the control. This is accepted for a private deployment and is not enough if the bot is listed publicly.
-- `/profile` for another user succeeds only when that user has a live cache **and** `/share on`. Otherwise the reply is exactly `That result is not available.` The same string is used when the target is unbound, expired, or sharing off (`tests/test_authz.py`). Bound-status is not stated in that text.
-- Looking up yourself while unbound is a different message, because that does not reveal anyone else's status.
-- `/reload-data` requires `OWNER_ID` when set, otherwise the application owner when that owner is a user. A team-owned app must set `OWNER_ID`.
-- `/bind` runs in the DM where it was invoked. It accepts replies only while a bind started by that user is pending, and only if they pass the allow list when one is set.
+- Commands are global. There is no `GUILD_ID`. Slash commands are allowed in servers, DMs, and group chats. A public invite is in `README.md` and `/help`: `https://discord.com/oauth2/authorize?client_id=1562086860988223568`.
+- `ALLOWED_USER_IDS` is optional. Empty means anyone who can run the bot can use commands and bind their own Rizline account. A non-empty list restricts those commands to those Discord ids. `/help` does not use the check, so it still runs for everyone else. Help text has no score data.
+- Open access lets a stranger spend Rizline API calls on this host through `/bind` and `/refresh`, and store an encrypted session here. The in-process rate limits below are the control. They reset when the process restarts. With a public invite, an empty allowlist is a public login proxy for the game API, not a private bot.
+- `/profile` for another user succeeds only when that user has a live cache and `/share on`. Otherwise the reply is exactly `That result is not available.` The same string is used when the target is unbound, expired, or sharing off (`tests/test_authz.py`). Bound status is not stated in that text.
+- Looking up yourself while unbound is a different message.
+- `/b40`, `/recommend`, `/achievements`, `/asyncombat`, and `/weekly` always use the caller’s own session or cache. Sharing does not grant them.
+- `/reload-data` and `/refresh-game-data` require `OWNER_ID` when set, otherwise the application owner when that owner is a user. A team-owned app must set `OWNER_ID`.
+- `/bind` opens a modal in the channel where it was invoked. The modal accepts a submit only from that interaction. Allowlist failures are rejected in the modal handler when a list is set.
 
-Residual side channel: the handler does look up the target row before choosing the message, so response timing can differ. The text does not. This was not closed with an artificial delay.
+Residual side channel: `/profile` looks up the target row before choosing the message, so response timing can differ. The text does not. This was not closed with an artificial delay.
 
-Personal-data replies are ephemeral. `/song` is ephemeral when the caller has a cache, because the embed then includes their scores.
+**Channel visibility.** `private` defaults to off. `/song`, `/random`, `/profile`, `/b40`, `/recommend`, `/achievements`, `/collection`, `/asyncombat`, `/weekly`, and `/refresh` post in the channel unless the caller sets `private`. A bound user’s `/song` or `/random` card includes their chart results. `/bind`, `/unbind`, and `/help` are always ephemeral. `/share` and `/language` post their confirmation in the channel. Error replies are ephemeral.
 
-Rate limits (in-process, reset on restart): `/bind` 3 starts per 10 minutes, 8 DM replies per minute, `/refresh` 1 per 30 seconds, lookups 10 per 30 seconds.
+The October note that “`/song` is ephemeral when the caller has a cache” is no longer what the source does.
 
-## 5. Dependency integrity
+Rate limits (in-process, per Discord user, reset on restart):
+
+| Action | Limit |
+| --- | --- |
+| `/bind` starts | 3 per 10 minutes |
+| `/refresh` | 1 per 30 seconds |
+| Song, score, and collection lookups | 10 per 30 seconds |
+| `/asyncombat` and `/weekly` | 4 per 30 seconds |
+
+There is no separate limit for modal submits.
+
+## 5. Other network clients
+
+**Game HTTP client:** redirects refused, environment proxy ignored, default TLS context. Tests look for `CERT_NONE`, `_create_unverified_context`, and `verify=False` without embedding those needles as contiguous strings in the assertion source.
+
+**Socket client:** used only as the fallback for live rank and weekly-task calls. Same pinned host. Session email and token travel in the URL query string, so anything that logs that URL on the path to the host can record them. This review did not check the engine.io or websocket-client implementations beyond `ssl_verify=True` at the call site.
+
+**GitHub dispatch** (`bot/services/github_actions.py`): owner-only `/refresh-game-data`, and only when the local pipeline cannot run. It POSTs to `https://api.github.com` with `urllib.request.urlopen` and a bearer token. That call uses the default opener, so it honors environment proxies and can follow redirects. The October redirect issue on the game client was closed; this path was not given the same handler. A redirect or an intercepting proxy can expose `GITHUB_TOKEN`. The workflow body is `{"ref": ...}` and does not include a player save.
+
+**Not called by the running bot:** hosts in `tools/pipelines/Riz_bundle.py` and `index.html` (`rizserver.pigeongames.net`, `rizlineasset.pigeongames.net`, `rizastcdn.pigeongames.cn`, `dragonred.cn`, `riz.wiki`). Altare’s panel API is used by GitHub Actions, not by the bot process.
+
+**Tests:** `http://127.0.0.1` only when the test passes `allow_http_localhost=True`.
+
+## 6. Dependency integrity
 
 | Package | Pinned in |
 | --- | --- |
 | `pycryptodome==4.1.0` | `requirements.txt` and `requirements-bot.txt` |
-| `discord.py==2.7.1`, `cryptography==50.0.0`, `pytest==9.1.1`, and their dependencies | `requirements-bot.txt` |
+| `discord.py==2.7.1`, `cryptography==50.0.0`, `pillow==12.3.0`, `pytest==9.1.1`, `python-socketio==5.16.1`, `websocket-client==1.9.0`, and their dependencies | `requirements-bot.txt` |
 
-`requirements-bot.txt` carries PyPI artifact hashes from `pip-compile --generate-hashes` (or, if that file lists hashes, pip checks them on install). Hashes detect a swapped file on a later install. They do not prove the historical install on this PC was clean, and they do not review the upstream code.
-
-The `_raw_ctr` symptom was not reproduced here. No replacement crypto binaries were downloaded outside pip.
-
-## 6. External network destinations
-
-**Bot / login client, runtime:** `https://service.rhyths.net` only (`account/login`, `account/send_email`, `game/rn_login`), plus Discord's API via `discord.py` when the bot is logged in.
-
-**Not used by the bot:** hosts in `Riz_bundle.py` and `index.html` listed above.
-
-**Tests:** `http://127.0.0.1` only, and only when the test passes `allow_http_localhost=True`.
+`requirements-bot.txt` carries PyPI artifact hashes. Hashes detect a swapped file on a later install. They do not prove an older install on a machine was clean, and they do not review the upstream code.
 
 ## 7. Tests
 
 | Test module | What it covers |
 | --- | --- |
-| `tests/test_redaction.py` | Fake email, passcode, code, token in structured and debug output |
+| `tests/test_redaction.py` | Fake email, password, code, and token in structured and debug output |
 | `tests/test_api_client_mock.py` | Redirect not followed, malformed body, oversized body, non-JSON save, GCM round trip, pinned host, no TLS opt-out in source |
 | `tests/test_storage_crypto.py` | Fernet round trip, tamper, missing key, wrong key, corrupt DB, TTL, canaries absent from the DB file, rotation |
-| `tests/test_authz.py` | Cross-user denial and identical unavailable text |
-| `tests/test_songdata.py` | Search, aliases, autocomplete length |
-| `tests/test_rks.py` | RKS helpers and B40 selection on the sanitized fixture |
+| `tests/test_authz.py` | Cross-user denial, identical unavailable text, allowlist, registered command names |
+| `tests/test_account_bind_modal.py` | Bind modal flow |
+| `tests/test_rizline_socket.py` | Socket host check |
+| `tests/test_github_actions.py` | Workflow dispatch helper |
+| `tests/test_help.py` | Help text, including the public invite, and the private `/help` reply |
+
+This update did not re-run the suite.
 
 ## 8. What this audit does not say
 
-Do not bind a main account until you have read this file and decided the residual risks (Discord DM history, host compromise, unverified API operator) are acceptable. Prefer a test account for the first `/bind`. If a main-account passcode was entered into a copy of the script you do not trust, changing it at the official service is a precaution, not a conclusion that it was stolen.
+Do not bind a main account until you have read this file and decided the residual risks are acceptable: Discord’s copy of interactions, score cards posted in a channel when `private` is left off, a compromised host, the unverified game API operator, the socket URL query string, and `GITHUB_TOKEN` on the dispatch path. Prefer a test account for the first `/bind`.
+
+If the bot is reachable through the public invite, set `ALLOWED_USER_IDS` unless you intend for every Discord user to be able to store a session on this host. If a main-account password was entered into a copy of the script you do not trust, changing it at the official service is a precaution, not a conclusion that it was stolen.
