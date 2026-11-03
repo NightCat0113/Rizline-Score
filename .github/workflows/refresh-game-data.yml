@@ -2,8 +2,9 @@ name: Refresh game data
 
 # Started by /refresh-game-data on Altare (workflow_dispatch), or by hand in Actions.
 # Rebuilds songs.json / mapping.json / songs_index / locale, commits, and pushes to
-# main so Deploy Altare picks up the catalog. Does not upload jackets (output/ stays
-# gitignored); run a full local pack when new song art must land on the server.
+# main so Deploy Altare picks up the catalog. Also exports standard jackets, series
+# posters, and baked layout cards, then uploads an art-only zip to Altare.
+# HiRes jackets stay a manual pack_altare.py --hires upload. output/ is not committed.
 
 on:
   workflow_dispatch:
@@ -13,7 +14,7 @@ permissions:
 
 jobs:
   refresh:
-    name: Download catalog and commit index
+    name: Download catalog, commit index, upload art
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -26,22 +27,25 @@ jobs:
       - name: Install pipeline deps
         run: |
           python -m pip install --upgrade pip
-          python -m pip install requests UnityPy pycryptodome
+          python -m pip install requests UnityPy pycryptodome pillow
 
-      - name: Download and export catalog (no jackets)
+      - name: Download and export catalog and art
         run: |
           set -euo pipefail
           python tools/pipelines/Riz_bundle.py \
             --download \
             --rename \
             --export-charts \
-            --skip-illustrations \
             --export-levels \
             --export-achievements \
             --export-bios
           python tools/build_songs_index.py
+          python tools/bake_layouts.py
           test -f bot/static/songs_index.json
           test -f songs.json
+          test -d output/illust
+          test -d output/series
+          test -d output/layouts
 
       - name: Commit and push catalog updates
         run: |
@@ -55,3 +59,30 @@ jobs:
           fi
           git commit -m "Refresh Rizline song catalog from game data."
           git push origin HEAD:main
+
+      - name: Pack art
+        run: python tools/pack_altare.py --art-only --out art.zip
+
+      - name: Upload art and restart
+        env:
+          ALTARE_API_KEY: ${{ secrets.ALTARE_API_KEY }}
+          ALTARE_SERVER_ID: ${{ secrets.ALTARE_SERVER_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ALTARE_API_KEY}" ] || [ -z "${ALTARE_SERVER_ID}" ]; then
+            echo "Set repository secrets ALTARE_API_KEY and ALTARE_SERVER_ID before this workflow can upload art."
+            exit 1
+          fi
+          API="https://panel.altare.global/api/client"
+          AUTH=(-H "Authorization: Bearer ${ALTARE_API_KEY}" -H "Accept: application/json")
+          URL=$(curl -fsS "${API}/servers/${ALTARE_SERVER_ID}/files/upload" "${AUTH[@]}" | jq -r .attributes.url)
+          curl -fsS -X POST "${URL}&directory=%2F" -F "files=@art.zip"
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/decompress" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"root":"/","file":"art.zip"}'
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/delete" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"root":"/","files":["art.zip"]}'
+          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/power" \
+            "${AUTH[@]}" -H "Content-Type: application/json" \
+            -d '{"signal":"restart"}'

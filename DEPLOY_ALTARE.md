@@ -96,15 +96,21 @@ The code-only zip refreshes `bot/`, `rizline/`, `tools/`, `locale/`, `songs.json
 
 ### Refreshing chart / song data
 
-On Altare, `/refresh-game-data` starts the **Refresh game data** GitHub Action (needs `GITHUB_TOKEN` + `GITHUB_REPOSITORY` in the server `.env`). That workflow downloads catalog data on GitHub, commits `songs.json` / `mapping.json` / `bot/static/songs_index.json` / `locale`, pushes to `main`, and **Deploy Altare** restarts the bot.
+On Altare, `/refresh-game-data` starts the **Refresh game data** GitHub Action (needs `GITHUB_TOKEN` + `GITHUB_REPOSITORY` in the server `.env`). That workflow:
 
-Jackets under `output/` are not updated by that workflow (they stay gitignored). Upload a full pack (`python tools/pack_altare.py`) when new song art must appear on the server.
+1. Downloads catalog data and exports charts, bios, achievements, **standard jackets**, and series posters.
+2. Bakes layout cards into `output/layouts`.
+3. Commits `songs.json` / `mapping.json` / `bot/static/songs_index.json` / `locale` and pushes to `main` (so **Deploy Altare** restarts with the new catalog). Art is **not** committed.
+4. Packs `output/illust`, `output/series`, and `output/layouts` into an art-only zip, uploads it to Altare, extracts it over those folders, and restarts the server.
 
-You can still refresh by hand on a PC:
+HiRes jackets (`output/illust_HiRes`) are still manual: `python tools/pack_altare.py --hires`.
+
+You can still refresh the catalog by hand on a PC (art upload is the GitHub Action path):
 
 ```powershell
 python tools/pipelines/Riz_bundle.py
 python tools/build_songs_index.py
+python tools/bake_layouts.py
 git add songs.json mapping.json bot/static/songs_index.json locale
 git commit -m "Update song catalog"
 git push origin main
@@ -112,7 +118,7 @@ git push origin main
 
 | Secret / env | Where | Purpose |
 | --- | --- | --- |
-| `ALTARE_API_KEY` / `ALTARE_SERVER_ID` | GitHub Actions secrets | Deploy zip to Altare |
+| `ALTARE_API_KEY` / `ALTARE_SERVER_ID` | GitHub Actions secrets | Deploy code zip and refresh art zip to Altare |
 | `GITHUB_TOKEN` / `GITHUB_REPOSITORY` | Altare `.env` | Let `/refresh-game-data` dispatch the refresh workflow |
 
 ### One-time secrets

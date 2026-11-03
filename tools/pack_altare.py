@@ -4,6 +4,7 @@ Usage (from the repo root):
   python tools/pack_altare.py
   python tools/pack_altare.py --hires
   python tools/pack_altare.py --code-only --out deploy.zip
+  python tools/pack_altare.py --art-only --out art.zip
   python tools/pack_altare.py --out dist/rizline-altare.zip
 
 The default pack includes code, locale catalogs, the song index, the
@@ -12,7 +13,9 @@ High-res jackets are optional. Bake layouts first with
 ``python tools/bake_layouts.py`` so collection cards are real art, not
 color swatches. ``--code-only`` is the GitHub Actions payload: code and
 catalogs only, so a deploy does not replace art, the font, ``.env``,
-or ``var/`` already on the server.
+or ``var/`` already on the server. ``--art-only`` packs just
+``output/illust``, ``output/series``, and ``output/layouts`` for the
+refresh workflow (standard jackets, not HiRes).
 """
 
 from __future__ import annotations
@@ -67,6 +70,8 @@ SKIP_DIR_NAMES = {
 
 SKIP_SUFFIXES = {".pyc", ".pyo", ".pyd"}
 
+ART_ONLY_FOLDERS = ("output/illust", "output/series", "output/layouts")
+
 
 def _should_skip(path: Path) -> bool:
     if any(part in SKIP_DIR_NAMES for part in path.parts):
@@ -94,29 +99,38 @@ def _add_path(zf: zipfile.ZipFile, path: Path) -> int:
     return count
 
 
-def pack(out: Path, *, include_hires: bool, code_only: bool) -> None:
+def pack(out: Path, *, include_hires: bool, code_only: bool, art_only: bool = False) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     added = 0
-    names = CODE_ONLY_PATHS if code_only else INCLUDE_PATHS
     with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for name in names:
-            added += _add_path(zf, ROOT / name)
-        # Runtime requirements.txt expected by Altare's Python template.
-        req = (ROOT / "requirements-altare.txt").read_bytes()
-        zf.writestr("requirements.txt", req)
-        added += 1
-        if not code_only:
-            for folder in ("output/illust", "output/series", "output/layouts"):
-                added += _add_path(zf, ROOT / folder)
-            if include_hires:
-                added += _add_path(zf, ROOT / "output" / "illust_HiRes")
-            # Empty writable cache dir for a first install. Later deploys
-            # must not touch var/ (the live score cache lives there).
-            zf.writestr("var/.gitkeep", b"")
+        if art_only:
+            for folder in ART_ONLY_FOLDERS:
+                count = _add_path(zf, ROOT / folder)
+                if count == 0:
+                    raise SystemExit(f"art-only pack missing files in {folder}")
+                added += count
+        else:
+            names = CODE_ONLY_PATHS if code_only else INCLUDE_PATHS
+            for name in names:
+                added += _add_path(zf, ROOT / name)
+            # Runtime requirements.txt expected by Altare's Python template.
+            req = (ROOT / "requirements-altare.txt").read_bytes()
+            zf.writestr("requirements.txt", req)
             added += 1
+            if not code_only:
+                for folder in ART_ONLY_FOLDERS:
+                    added += _add_path(zf, ROOT / folder)
+                if include_hires:
+                    added += _add_path(zf, ROOT / "output" / "illust_HiRes")
+                # Empty writable cache dir for a first install. Later deploys
+                # must not touch var/ (the live score cache lives there).
+                zf.writestr("var/.gitkeep", b"")
+                added += 1
     size_mb = out.stat().st_size / (1024 * 1024)
     print(f"Wrote {out} ({size_mb:.1f} MB, {added} entries)")
-    if code_only:
+    if art_only:
+        print("Art-only pack: output/illust, output/series, output/layouts (no HiRes)")
+    elif code_only:
         print("Code-only pack: does not include output/, assets/, .env, or var/")
     else:
         print("On Altare: extract at server root, create .env, set main file to main.py")
@@ -140,10 +154,22 @@ def main() -> None:
         action="store_true",
         help="Pack code and catalogs only (GitHub Actions deploy)",
     )
+    parser.add_argument(
+        "--art-only",
+        action="store_true",
+        help="Pack output/illust, output/series, and output/layouts only",
+    )
     args = parser.parse_args()
     if args.code_only and args.hires:
         parser.error("--code-only cannot be combined with --hires")
-    pack(args.out.resolve(), include_hires=args.hires, code_only=args.code_only)
+    if args.art_only and (args.code_only or args.hires):
+        parser.error("--art-only cannot be combined with --code-only or --hires")
+    pack(
+        args.out.resolve(),
+        include_hires=args.hires,
+        code_only=args.code_only,
+        art_only=args.art_only,
+    )
 
 
 if __name__ == "__main__":
