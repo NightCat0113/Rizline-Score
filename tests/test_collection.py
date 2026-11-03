@@ -1,4 +1,5 @@
 import io
+import json
 from pathlib import Path
 
 from PIL import Image
@@ -59,7 +60,18 @@ def test_filter_layouts_appends_uncatalogued_owned_ids():
     assert [row["id"] for row in missing_rows] == ["layout.00001"]
 
 
-def test_titles_stay_one_line_and_specials_are_catalogued():
+def test_titles_stay_one_line_and_specials_are_catalogued(tmp_path: Path):
+    # fileList.json lives under gitignored download/; CI has no copy, so fixture one.
+    download = tmp_path / "download"
+    download.mkdir()
+    file_list = [
+        ["altIllustration.MilK.morimoriatsushi.0.0"],
+        ["altIllustration.MilK.morimoriatsushi.0.0.HiRes"],
+        ["altIllustration.MuseDashCollab.0.HiRes"],
+        # Drawable layouts (skip 46–48 which have color entries but no art).
+        *[[f"layout.{index:05d}"] for index in list(range(1, 46)) + [49, 50, 51, 52, 53, 54, 55]],
+    ]
+    (download / "fileList.json").write_text(json.dumps(file_list), encoding="utf-8")
     songs = SongIndex(
         [
             Song(
@@ -79,14 +91,14 @@ def test_titles_stay_one_line_and_specials_are_catalogued():
         ],
         "test",
     )
-    rows = collection_rows(ROOT, "en", "illustration", songs)
+    rows = collection_rows(tmp_path, "en", "illustration", songs)
     names = {row["id"]: row["name"] for row in rows}
     assert "\n" not in names["illustration.PlanetariumprodScarlette.kuripurinKyueMYULee.0"]
     assert names["illustration.PlanetariumprodScarlette.kuripurinKyueMYULee.0"].endswith("Scarlette")
     assert names["altIllustration.MilK.morimoriatsushi.0.0"] == "MilK (Special)"
     assert "altIllustration.MuseDashCollab.0.HiRes" not in names
     milk = songs.by_asset["MilK.morimoriatsushi.0"]
-    arts = song_art_rows(milk, ROOT)
+    arts = song_art_rows(milk, tmp_path)
     assert [row["name"] for row in arts] == ["MilK", "MilK (Special)"]
     assert arts[1]["id"] == "altIllustration.MilK.morimoriatsushi.0.0"
     milk_with_artist = Song(
@@ -97,12 +109,12 @@ def test_titles_stay_one_line_and_specials_are_catalogued():
         illustration_id="illustration.MilK.morimoriatsushi.0",
     )
     labeled = SongIndex([milk_with_artist], "test")
-    choices = dict(search_art_choices(labeled, ROOT, "MilK"))
+    choices = dict(search_art_choices(labeled, tmp_path, "MilK"))
     assert "MilK - morimori atsushi" in choices
     assert any(label.startswith("MilK (Special) - morimori atsushi") for label in choices)
     special_id = "altIllustration.MilK.morimoriatsushi.0.0"
     assert choices.get("MilK (Special) - morimori atsushi") == special_id
-    rows, ambiguous = resolve_art_query(labeled, ROOT, special_id)
+    rows, ambiguous = resolve_art_query(labeled, tmp_path, special_id)
     assert ambiguous == []
     assert rows == [{"id": special_id, "kind": "illustration", "name": "MilK (Special)"}]
     owned_rows, owned_count, total = filter_collection(
@@ -130,7 +142,7 @@ def test_titles_stay_one_line_and_specials_are_catalogued():
     owned_ids = {row["id"] for row in owned_rows}
     assert "spbio00001" not in owned_ids
     assert "spbio00049" in owned_ids
-    layouts = collection_rows(ROOT, "en", "layout")
+    layouts = collection_rows(tmp_path, "en", "layout")
     assert any(row["id"] == "exbio00001" and row["title1"] for row in bios)
     layout_ids = [row["id"] for row in layouts]
     assert "layout.00001" in layout_ids
