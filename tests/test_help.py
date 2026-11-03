@@ -10,7 +10,7 @@ def test_help_text_lists_the_main_commands():
     assert "https://github.com/NightCat0113/Rizline-Score/blob/main/TERMS.md" in text
     assert "nightwind0112@gmail.com" in text
     assert "@nightwind.nightcat" in text
-    for name in ("song", "series", "random", "charts", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
+    for name in ("song", "arts", "series", "random", "charts", "collection", "bind", "profile", "b40", "refresh", "share", "unbind", "language"):
         assert f"`/{name}`" in text
     for name in ("recommend", "achievements", "asyncombat", "weekly"):
         assert f"`/{name}`" in text
@@ -27,9 +27,11 @@ def test_help_text_fits_discord_even_with_command_mentions():
         name: 10**18
         for name in (
             "song",
+            "arts",
             "series",
             "random",
             "charts",
+            "collection",
             "bind",
             "profile",
             "recommend",

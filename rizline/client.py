@@ -418,11 +418,27 @@ def derive_minimal_cache(save: dict) -> dict:
             for item in (save.get("getOwnAchievements") or [])
             if isinstance(item, dict) and item.get("achievementId")
         ],
+        "items": _collectible_ids(save),
         # Preserve tutorial challenge definitions/progress only. These are not
         # the separate Async Battle rank or match-history data.
         "challenge": _safe_challenge_cache(save.get("challenge")),
         "challengeProgress": _safe_challenge_cache(save.get("challengeProgress")),
     }
+
+
+def _collectible_ids(save: dict) -> list[str]:
+    """Owned bios, layouts, and illustrations. Shop ledgers and other item types stay out."""
+    seen: set[str] = set()
+    result: list[str] = []
+    for item in save.get("getItems") or []:
+        if not isinstance(item, dict):
+            continue
+        asset = str(item.get("itemAssetId") or "").strip()
+        if not asset.startswith(("bio.", "layout.", "illustration.", "altIllustration.")) or asset in seen:
+            continue
+        seen.add(asset)
+        result.append(asset)
+    return result
 
 
 def _safe_challenge_cache(value: Any) -> list | dict | str | int | float | bool | None:

@@ -12,6 +12,7 @@ from discord.ext import commands
 
 from bot.security.authz import Decision, decide_view, dm_only, personal_denial_message
 from bot.services.achievements import achievement_rows, unlocked_achievement_ids
+from bot.services.collection import collection_rows, filter_collection, owned_item_ids
 from bot.services.language import user_language
 from bot.services.profile import local_profile
 from bot.services.recommendation import recommend_score_targets, resolve_song_filter
@@ -19,8 +20,10 @@ from bot.services.rks import build_records, select_top40
 from bot.store.crypto import TamperError
 from bot.ui.achievement_view import AchievementChecklistView
 from bot.ui.b40_image import render_b40
+from bot.ui.collection_view import CollectionBioView, CollectionGridView
 from bot.ui.recommendation_view import RecommendationPlanView
 from bot.ui.texts import profile_text, stale_cache_suffix
+from bot.ui.textfont import one_line
 
 
 logger = logging.getLogger("rizline.bot")
@@ -38,9 +41,10 @@ async def autocomplete_recommend_songs(
         return []
     choices = []
     for song in songs:
-        value = f"{prefix}; {song.title}" if prefix else song.title
+        title = one_line(song.title)
+        value = f"{prefix}; {title}" if prefix else title
         if len(value) <= 100:
-            label = f"{song.title} — {song.artist}" if song.artist else song.title
+            label = one_line(f"{song.title} — {song.artist}" if song.artist else song.title)
             choices.append(app_commands.Choice(name=label[:100], value=value))
     return choices
 
@@ -225,6 +229,136 @@ class ScoresCog(commands.Cog):
             language=language,
         )
         await interaction.response.send_message(view.render(), view=view, ephemeral=private)
+
+    @app_commands.command(name="collection", description="Browse bios, layouts, or arts")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(
+        type="Bios, layouts, or arts",
+        status="Owned/missing need /bind; ignored in catalog mode",
+        private="Only you can see this reply",
+    )
+    @app_commands.choices(
+        type=[
+            app_commands.Choice(name="Bio", value="bio"),
+            app_commands.Choice(name="Layout", value="layout"),
+            app_commands.Choice(name="Arts", value="illustration"),
+        ],
+        status=[
+            app_commands.Choice(name="All", value="all"),
+            app_commands.Choice(name="Owned", value="owned"),
+            app_commands.Choice(name="Missing", value="missing"),
+        ],
+    )
+    @dm_only()
+    async def collection(
+        self,
+        interaction: discord.Interaction,
+        type: str,
+        status: str = "all",
+        private: bool = False,
+    ) -> None:
+        if self._too_fast(interaction):
+            await interaction.response.send_message(
+                "Too many lookups. Wait a moment and try again.", ephemeral=True
+            )
+            return
+        kind = type if type in {"bio", "layout", "illustration"} else "bio"
+        language = user_language(interaction.client.db, interaction.user.id)
+        catalog = collection_rows(
+            interaction.client.settings.repo_root,
+            language,
+            kind,
+            interaction.client.songs,
+        )
+        if not catalog:
+            await interaction.response.send_message(
+                "That catalog is unavailable in the local data files.",
+                ephemeral=True,
+            )
+            return
+        owned: set[str] | None = None
+        decision, cache = self._load_view(interaction, interaction.user.id)
+        if decision is Decision.ALLOW and cache is not None:
+            tracked = owned_item_ids(cache)
+            if tracked is None:
+                if status in {"owned", "missing"}:
+                    await interaction.response.send_message(
+                        "Your cached scores predate collection tracking. Run /refresh and try again.",
+                        ephemeral=True,
+                    )
+                    return
+            else:
+                owned = tracked
+        elif status in {"owned", "missing"}:
+            await interaction.response.send_message(
+                "Owned and missing filters need /bind first. Browse the catalog without them.",
+                ephemeral=True,
+            )
+            return
+        filter_status = status if owned is not None else "all"
+        rows, owned_count, total = filter_collection(catalog, owned or set(), filter_status, kind)
+        if not rows:
+            await interaction.response.send_message("No items match this filter.", ephemeral=True)
+            return
+        if kind == "bio":
+            view = CollectionBioView(
+                owner_id=interaction.user.id,
+                rows=rows,
+                owned=owned,
+                owned_count=owned_count,
+                total=total,
+                language=language,
+                font_path=interaction.client.settings.font_path,
+            )
+            await interaction.response.defer(ephemeral=private)
+            try:
+                png = await asyncio.to_thread(view.render_png)
+            except Exception as exc:
+                logger.error("collection image failed type=%s", exc.__class__.__name__)
+                await interaction.followup.send(
+                    "Something went wrong. The details were not included here.",
+                    ephemeral=True,
+                )
+                return
+            await interaction.followup.send(
+                view.caption(),
+                file=discord.File(io.BytesIO(png), filename="collection.png"),
+                view=view,
+                ephemeral=private,
+            )
+            return
+        grid = CollectionGridView(
+            owner_id=interaction.user.id,
+            rows=rows,
+            owned=owned,
+            owned_count=owned_count,
+            total=total,
+            kind=kind,
+            status=filter_status,
+            language=language,
+            illust_hires_dir=interaction.client.settings.illust_hires_dir,
+            illust_dir=interaction.client.settings.illust_dir,
+            font_path=interaction.client.settings.font_path,
+            repo_root=interaction.client.settings.repo_root,
+        )
+        await interaction.response.defer(ephemeral=private)
+        try:
+            png = await asyncio.to_thread(grid.render_png)
+        except Exception as exc:
+            logger.error("collection image failed type=%s", exc.__class__.__name__)
+            await interaction.followup.send(
+                "Something went wrong. The details were not included here.",
+                ephemeral=True,
+            )
+            return
+        await interaction.followup.send(
+            grid.caption(),
+            file=discord.File(io.BytesIO(png), filename="collection.png"),
+            view=grid,
+            ephemeral=private,
+        )
+        grid.prewarm_soon()
 
     @app_commands.command(name="b40", description="Show your AH5 and B35 charts")
     @app_commands.allowed_installs(guilds=True, users=True)

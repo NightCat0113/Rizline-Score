@@ -88,6 +88,16 @@ def render_b40(
 
 _FILE_INDEX: dict[str, dict[str, str]] = {}
 _LAYOUT_FRAMES: dict[tuple[str, str], Image.Image | None] = {}
+_BUNDLE_TEXTURES: dict[tuple[str, str], Image.Image | None] = {}
+
+
+def load_bundle_texture(repo_root: Path, asset_id: str) -> Image.Image | None:
+    """Largest texture for a catalog asset, including special illustrations."""
+    key = (str(repo_root), asset_id.strip())
+    if key not in _BUNDLE_TEXTURES:
+        _BUNDLE_TEXTURES[key] = _read_bundle_texture(repo_root, asset_id)
+    image = _BUNDLE_TEXTURES[key]
+    return None if image is None else image.copy()
 
 
 def load_layout_frame(repo_root: Path, layout_id: str) -> Image.Image | None:
@@ -361,11 +371,16 @@ def _place_portrait(
 
 
 def _read_layout_frame(repo_root: Path, layout_id: str) -> Image.Image | None:
-    stem = layout_id.strip()
+    image = _read_bundle_texture(repo_root, layout_id if layout_id.strip().startswith("layout.") else f"layout.{layout_id.strip()}")
+    if image is None:
+        return None
+    return _crop_side_margins(image)
+
+
+def _read_bundle_texture(repo_root: Path, asset_id: str) -> Image.Image | None:
+    stem = asset_id.strip()
     if not stem:
         return None
-    if not stem.startswith("layout."):
-        stem = f"layout.{stem}"
     index = _bundle_index(repo_root)
     bundle_name = index.get(f"{stem}.HiRes") or index.get(stem)
     if not bundle_name:
@@ -399,7 +414,7 @@ def _read_layout_frame(repo_root: Path, layout_id: str) -> Image.Image | None:
             best_area = area
     if best is None:
         return None
-    return _crop_side_margins(best.convert("RGBA"))
+    return best.convert("RGBA")
 
 
 def _bundle_index(repo_root: Path) -> dict[str, str]:

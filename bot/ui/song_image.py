@@ -56,7 +56,7 @@ def render_song(
     for scale in _SCALES:
         image = _draw(
             song=song,
-            personal=personal or {},
+            personal=personal,
             highlight=highlight if highlight in _ORDER else None,
             artwork=artwork,
             font_path=font_path,
@@ -78,7 +78,7 @@ def _encode(image: Image.Image) -> bytes:
 def _draw(
     *,
     song: Song,
-    personal: dict[str, dict],
+    personal: dict[str, dict] | None,
     highlight: str | None,
     artwork: Image.Image | None,
     font_path: Path,
@@ -122,6 +122,8 @@ def _draw(
     if not charts:
         _empty_row(image, draw, text, fonts, scale, pad, width - pad, top, row_h)
         return image
+    catalog = personal is None
+    scores = personal or {}
     for index, (name, chart) in enumerate(charts):
         y = top + index * (row_h + gap)
         _chart_row(
@@ -129,7 +131,7 @@ def _draw(
             draw,
             name,
             chart,
-            personal.get(name),
+            None if catalog else scores.get(name),
             highlighted=name == highlight,
             text=text,
             fonts=fonts,
@@ -139,6 +141,7 @@ def _draw(
             top=y,
             height=row_h,
             border=border,
+            catalog=catalog,
         )
     return image
 
@@ -321,6 +324,7 @@ def _chart_row(
     top: int,
     height: int,
     border: tuple[int, int, int] = _BORDER_DEFAULT,
+    catalog: bool = False,
 ) -> None:
     _paste_panel(image, left, top, right - left, height, height // 2)
     circle = _px(scale, _ROW_CIRCLE)
@@ -347,33 +351,43 @@ def _chart_row(
     )
 
     max_rks = None if chart.level <= 0 else 11 * chart.level + 10.5
-    player = _player_score(best)
-    shown = f"{player:,}" if player is not None else "—"
-    chart_score = f"{chart.score:,}" if chart.score > 0 else "—"
-    score_text = f"{text['score']} {shown} / {chart_score}"
-    full = player is not None and chart.score > 0 and player >= chart.score - 1
-    rks_text, rks_full = _rks_line(best, max_rks)
     column_right = split - _px(scale, 14)
     column_w = column_right - text_x
-    lines = (
-        (
-            _clip(score_text, fonts["score"], column_w, draw),
-            fonts["score"],
-            (*_GOLD, 255) if full else (196, 154, 106, 255),
-        ),
-        (
-            _clip(_result_line(best, text), fonts["small"], column_w, draw),
-            fonts["small"],
-            (*_MUTED, 255),
-        ),
-        (
-            _clip(rks_text, fonts["small"], column_w, draw),
-            fonts["small"],
-            (*_GOLD, 255) if rks_full else (196, 154, 106, 255),
-        ),
-    )
+    accent = (196, 154, 106, 255)
+    if catalog:
+        chart_score = f"{chart.score:,}" if chart.score > 0 else "—"
+        score_text = f"{text['score']} {chart_score}"
+        rks_text = f"RKS {max_rks:.3f}" if max_rks is not None else "RKS"
+        lines = (
+            (_clip(score_text, fonts["score"], column_w, draw), fonts["score"], accent),
+            (_clip(rks_text, fonts["small"], column_w, draw), fonts["small"], accent),
+        )
+    else:
+        player = _player_score(best)
+        shown = f"{player:,}" if player is not None else "—"
+        chart_score = f"{chart.score:,}" if chart.score > 0 else "—"
+        score_text = f"{text['score']} {shown} / {chart_score}"
+        full = player is not None and chart.score > 0 and player >= chart.score - 1
+        rks_text, rks_full = _rks_line(best, max_rks)
+        lines = (
+            (
+                _clip(score_text, fonts["score"], column_w, draw),
+                fonts["score"],
+                (*_GOLD, 255) if full else accent,
+            ),
+            (
+                _clip(_result_line(best, text), fonts["small"], column_w, draw),
+                fonts["small"],
+                (*_MUTED, 255),
+            ),
+            (
+                _clip(rks_text, fonts["small"], column_w, draw),
+                fonts["small"],
+                (*_GOLD, 255) if rks_full else accent,
+            ),
+        )
     gap = _px(scale, 6)
-    block_w = max(draw.textlength(text, font=font) for text, font, _ in lines)
+    block_w = max(draw.textlength(line, font=font) for line, font, _ in lines)
     block_h = sum(getattr(font, "size", _px(scale, 14)) for _, font, _ in lines) + gap * (len(lines) - 1)
     line_x = text_x + max(0, (column_w - block_w) / 2)
     line_y = top + max(_px(scale, 8), (height - block_h) // 2)

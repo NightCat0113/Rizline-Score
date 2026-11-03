@@ -5,20 +5,24 @@ from __future__ import annotations
 import asyncio
 import io
 import logging
+import re
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 
 from bot.security.authz import dm_only
+from bot.services.collection import resolve_art_query, search_art_choices
 from bot.services.language import user_language
 from bot.services.rks import bests_for_song, chart_track_ids
 from bot.services.seriesdata import series_mark, series_tag
-from bot.services.songdata import attachment_name, illustration_path
+from bot.services.songdata import attachment_name, illustration_file, illustration_path
+from bot.ui.b40_image import load_bundle_texture
 from bot.ui.chart_list_view import ChartListView
 from bot.ui.series_image import open_series_art, render_series
 from bot.ui.texts import ambiguous_text, series_text, song_text
 from bot.ui.song_image import render_song
+from bot.ui.textfont import one_line
 
 
 logger = logging.getLogger("rizline.bot")
@@ -38,8 +42,8 @@ async def autocomplete_songs(
         return []
     choices = []
     for song in songs:
-        label = f"{song.title} — {song.artist}" if song.artist else song.title
-        value = song.asset_id if len(song.asset_id) <= 100 else song.title[:100]
+        label = one_line(f"{song.title} — {song.artist}" if song.artist else song.title)
+        value = song.asset_id if len(song.asset_id) <= 100 else one_line(song.title)[:100]
         choices.append(app_commands.Choice(name=label[:100], value=value))
     return choices
 
@@ -57,6 +61,22 @@ async def autocomplete_series(
         label = f"{series_mark(item.series_index)} · {item.name or 'Track Series'}"
         choices.append(app_commands.Choice(name=label[:100], value=f"i{item.series_index}"))
     return choices
+
+
+async def autocomplete_arts(
+    interaction: discord.Interaction,
+    current: str,
+) -> list[app_commands.Choice[str]]:
+    try:
+        found = search_art_choices(
+            interaction.client.songs,
+            interaction.client.settings.repo_root,
+            current,
+            limit=25,
+        )
+    except Exception:
+        return []
+    return [app_commands.Choice(name=label, value=value) for label, value in found]
 
 
 class SongsCog(commands.Cog):
@@ -124,6 +144,55 @@ class SongsCog(commands.Cog):
         song, chart = picked
         await self._reply_song(interaction, song, private=private, highlight=chart.difficulty)
 
+    @app_commands.command(name="arts", description="Show jacket arts for a song")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(query="Song title or Special art", private="Only you can see this reply")
+    @app_commands.autocomplete(query=autocomplete_arts)
+    @dm_only()
+    async def arts(
+        self,
+        interaction: discord.Interaction,
+        query: str,
+        private: bool = False,
+    ) -> None:
+        if not interaction.client.limiter.allow(f"lookup:{interaction.user.id}", 10, 30):
+            await interaction.response.send_message(
+                "Too many lookups. Wait a moment and try again.",
+                ephemeral=True,
+            )
+            return
+        rows, candidates = resolve_art_query(
+            interaction.client.songs,
+            interaction.client.settings.repo_root,
+            query,
+        )
+        if not rows:
+            message = ambiguous_text(candidates) if candidates else "No arts matched\nTry a song title or Special art."
+            await interaction.response.send_message(message, ephemeral=True)
+            return
+        await interaction.response.defer(ephemeral=private)
+        settings = interaction.client.settings
+        try:
+            files = await asyncio.to_thread(
+                _pure_art_files,
+                rows,
+                settings.illust_hires_dir,
+                settings.illust_dir,
+                settings.repo_root,
+            )
+        except Exception as exc:
+            logger.error("arts image failed type=%s", type(exc).__name__)
+            await interaction.followup.send(
+                "Something went wrong. The details were not included here.",
+                ephemeral=True,
+            )
+            return
+        if not files:
+            await interaction.followup.send("No arts found for that song.", ephemeral=True)
+            return
+        await interaction.followup.send(files=files, ephemeral=private)
+
     @app_commands.command(name="charts", description="List charts in a constant range")
     @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -179,7 +248,7 @@ class SongsCog(commands.Cog):
             png = await asyncio.to_thread(
                 render_song,
                 song=song,
-                personal=bests_for_song(cache, song.asset_id, chart_track_ids(song)) if cache else {},
+                personal=bests_for_song(cache, song.asset_id, chart_track_ids(song)) if cache else None,
                 highlight=highlight,
                 illust_hires_dir=settings.illust_hires_dir,
                 illust_dir=settings.illust_dir,
@@ -191,7 +260,7 @@ class SongsCog(commands.Cog):
             await _send_text_song(interaction, song, cache, private, highlight)
             return
         await interaction.followup.send(
-            f"**{song.title}**",
+            f"**{one_line(song.title)}**",
             file=discord.File(io.BytesIO(png), filename="song.png"),
             ephemeral=private,
         )
@@ -262,3 +331,44 @@ async def _send_text_song(interaction, song, cache, ephemeral: bool, difficulty:
     if image and filename:
         kwargs["file"] = discord.File(image, filename=filename)
     await interaction.followup.send(song_text(song, cache=cache, difficulty=difficulty), **kwargs)
+
+
+def _pure_art_files(
+    rows: list[dict[str, str]],
+    hires_dir,
+    low_dir,
+    repo_root,
+) -> list[discord.File]:
+    """Raw jacket PNGs only — no collage, caption, or ownership chrome."""
+    files: list[discord.File] = []
+    for row in rows[:10]:
+        asset_id = str(row.get("id") or "").strip()
+        if not asset_id:
+            continue
+        payload = _art_png_bytes(asset_id, hires_dir, low_dir, repo_root)
+        if payload is None:
+            continue
+        safe = re.sub(r"[^A-Za-z0-9._-]", "_", asset_id)[:80] or "art"
+        files.append(discord.File(io.BytesIO(payload), filename=f"{safe}.png"))
+    return files
+
+
+def _art_png_bytes(asset_id: str, hires_dir, low_dir, repo_root) -> bytes | None:
+    path = illustration_file(asset_id, hires_dir, low_dir, prefer_low=False)
+    if path is not None:
+        try:
+            return path.read_bytes()
+        except OSError:
+            pass
+    try:
+        texture = load_bundle_texture(repo_root, asset_id)
+    except Exception:
+        texture = None
+    if texture is None:
+        return None
+    try:
+        buffer = io.BytesIO()
+        texture.convert("RGBA").save(buffer, format="PNG", optimize=True)
+        return buffer.getvalue()
+    finally:
+        texture.close()

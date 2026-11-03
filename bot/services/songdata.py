@@ -261,7 +261,7 @@ def illustration_file(
     stem = illustration_id.strip()
     if not stem:
         return None
-    if not stem.startswith("illustration."):
+    if not stem.startswith(("illustration.", "altIllustration.")):
         stem = f"illustration.{stem}"
     low = [low_dir / f"{stem}.png", low_dir / f"{stem}_2.png"]
     high = [hires_dir / f"{stem}.HiRes.png", hires_dir / f"{stem}.HiRes_2.png"]

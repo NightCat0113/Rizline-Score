@@ -14,6 +14,7 @@ from bot.services.rks import bests_for_song, chart_track_ids, score_counts, top_
 from bot.services.songdata import SongIndex
 from bot.services.seriesdata import series_mark
 from bot.ui.series_image import chart_levels
+from bot.ui.textfont import one_line
 
 
 _ORDER = ("EZ", "HD", "IN", "AT", "SP")
@@ -71,7 +72,7 @@ def song_text(
     cache: dict | None = None,
     difficulty: str | None = None,
 ) -> str:
-    lines = [f"**{song.title}**"]
+    lines = [f"**{one_line(song.title)}**"]
     if song.artist:
         lines.append(song.artist)
     if song.disc_name:
@@ -136,11 +137,11 @@ def series_text(series: TrackSeries, songs: dict[str, Song], tag: str) -> str:
                 continue
             artist = f" — {song.artist}" if song.artist else ""
             levels = chart_levels(song)
-            lines.append(f"{song.title}{artist}" + (f"\n{levels}" if levels else ""))
+            lines.append(f"{one_line(song.title)}{artist}" + (f"\n{levels}" if levels else ""))
     return _limit("\n".join(lines))
 
 
 def ambiguous_text(candidates: list[Song]) -> str:
-    lines = [f"• {song.title} — {song.artist}".rstrip(" —") for song in candidates[:5]]
+    lines = [f"• {one_line(song.title)} — {song.artist}".rstrip(" —") for song in candidates[:5]]
     body = "\n".join(lines) or "Try a more specific title."
     return _limit(f"Several songs match\n{body}")

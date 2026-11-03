@@ -14,9 +14,9 @@ from bot.ui.b40_image import _load_font, _open_art, _player_header, _px
 
 _INK = (28, 32, 40)
 _MUTED = (120, 132, 146)
-_BLUE = (0, 163, 224)
-_BLUE_DEEP = (0, 132, 186)
-_PALE = (232, 246, 252)
+_GOLD = (232, 168, 16)
+_GOLD_DEEP = (156, 102, 0)
+_PALE = (255, 244, 210)
 _WHITE = (255, 255, 255)
 _WIDTH = 1620
 _PAD = 60
@@ -99,8 +99,8 @@ def _chip(base: Image.Image, text: str, right: int, top: int, font: ImageFont.Im
     chip = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     pen = ImageDraw.Draw(chip)
     pen.rounded_rectangle((0, 0, width - 1, height - 1), radius=height // 2, fill=(*_PALE, 255))
-    pen.ellipse((10, 12, 22, 24), fill=(*_BLUE, 255))
-    pen.text((28, height // 2), text, font=font, fill=(*_BLUE_DEEP, 255), anchor="lm")
+    pen.ellipse((10, 12, 22, 24), fill=(*_GOLD, 255))
+    pen.text((28, height // 2), text, font=font, fill=(*_GOLD_DEEP, 255), anchor="lm")
     base.alpha_composite(chip, (left, top))
 
 
@@ -138,18 +138,18 @@ def _song_circle(
     ox = oy = outer * scale
     r = radius * scale
     rim = max(3, radius // 10) * scale
-    ink = _WHITE if filled else _BLUE
+    ink = _INK if filled else _GOLD_DEEP
     if filled:
         _disk(pen, ox, oy, (radius + 5) * scale, (*_PALE, 255))
         _disk(pen, ox, oy, r, (*_WHITE, 255))
-        _disk(pen, ox, oy, max(1, r - rim), (*_BLUE, 255))
+        _disk(pen, ox, oy, max(1, r - rim), (*_GOLD, 255))
     else:
-        _disk(pen, ox, oy, r, (*_BLUE, 255))
+        _disk(pen, ox, oy, r, (*_GOLD, 255))
         _disk(pen, ox, oy, max(1, r - rim), (*_WHITE, 255))
     if emphasize:
         ring_outer = (radius + 8) * scale
         ring_inner = ring_outer - 3 * scale
-        band = Image.new("RGBA", (size, size), (*_BLUE, 255))
+        band = Image.new("RGBA", (size, size), (*_GOLD, 255))
         band.putalpha(_ring_mask(size, ring_outer, max(0, ring_inner)))
         tile.alpha_composite(band)
     smooth = tile.resize((outer * 2, outer * 2), Image.Resampling.LANCZOS)
@@ -161,8 +161,8 @@ def _journey(base: Image.Image, view: AsyncombatView, fonts: dict[str, ImageFont
     left, top, right, bottom = box
     card = Image.new("RGBA", (right - left, bottom - top), (0, 0, 0, 0))
     draw = ImageDraw.Draw(card)
-    _round_rect(draw, (0, 0, card.width - 1, card.height - 1), 28, fill=(255, 255, 255, 255), outline=(*_BLUE, 255), width=3)
-    draw.text((28, 22), "ASYNCOMBAT", font=fonts["kicker"], fill=(*_BLUE, 255))
+    _round_rect(draw, (0, 0, card.width - 1, card.height - 1), 28, fill=(255, 255, 255, 255), outline=(*_GOLD, 255), width=3)
+    draw.text((28, 22), "ASYNCOMBAT", font=fonts["kicker"], fill=(*_GOLD, 255))
     draw.text((28, 48), "Rank journey", font=fonts["heading"], fill=(*_INK, 255))
     current = view.current
     stars = "" if current.stars is None else f"{current.stars}{'+' if current.is_plus else ''}"
@@ -188,7 +188,7 @@ def _journey(base: Image.Image, view: AsyncombatView, fonts: dict[str, ImageFont
     centers2 = list(reversed(_row_centers(len(row2))))
     y1, y2 = _RAIL_ROW1_Y, _RAIL_ROW2_Y
     rail = ImageDraw.Draw(base)
-    stroke = (*_BLUE, 255)
+    stroke = (*_GOLD, 255)
     if len(centers1) > 1:
         rail.line((left + centers1[0], top + y1, left + centers1[-1], top + y1), fill=stroke, width=_RAIL_STROKE)
     if len(centers2) > 1:
@@ -225,7 +225,7 @@ def _journey(base: Image.Image, view: AsyncombatView, fonts: dict[str, ImageFont
     rail.text((left + 28, foot_y), "INITIAL", font=fonts["kicker"], fill=(*_MUTED, 255), anchor="lm")
     rail.text((left + 118, foot_y), view.initial.label, font=fonts["foot"], fill=(*_INK, 255), anchor="lm")
     status = "ALL RANKS UNLOCKED" if peak_i >= len(RAIL_LABELS) - 1 else "IN PROGRESS"
-    rail.text(((left + right) // 2, foot_y), status, font=fonts["kicker"], fill=(*_BLUE, 255), anchor="mm")
+    rail.text(((left + right) // 2, foot_y), status, font=fonts["kicker"], fill=(*_GOLD, 255), anchor="mm")
     peak_text = view.peak.label
     rail.text((right - 28, foot_y), peak_text, font=fonts["foot"], fill=(*_INK, 255), anchor="rm")
     rail.text((right - 28 - int(rail.textlength(peak_text, font=fonts["foot"])) - 12, foot_y), "PEAK", font=fonts["kicker"], fill=(*_MUTED, 255), anchor="rm")
@@ -246,13 +246,13 @@ def _stat_card(
     left, top, right, bottom = box
     card = Image.new("RGBA", (right - left, bottom - top), (0, 0, 0, 0))
     draw = ImageDraw.Draw(card)
-    _round_rect(draw, (0, 0, card.width - 1, card.height - 1), 40, fill=(255, 255, 255, 255), outline=(*_BLUE, 255), width=3)
+    _round_rect(draw, (0, 0, card.width - 1, card.height - 1), 40, fill=(255, 255, 255, 255), outline=(*_GOLD, 255), width=3)
     title_x, title_top = 28, 18
-    draw.text((title_x, title_top), title, font=fonts["kicker"], fill=(*_BLUE, 255))
+    draw.text((title_x, title_top), title, font=fonts["kicker"], fill=(*_GOLD, 255))
     title_box = draw.textbbox((title_x, title_top), title, font=fonts["kicker"])
     sub_top = title_box[3] + 4
     draw.text((title_x, sub_top), subtitle, font=fonts["sub"], fill=(*_MUTED, 255))
-    draw.text((card.width - 24, title_box[1] + (title_box[3] - title_box[1]) // 2), f"{rate}%", font=fonts["rate"], fill=(*_BLUE_DEEP, 255), anchor="rm")
+    draw.text((card.width - 24, title_box[1] + (title_box[3] - title_box[1]) // 2), f"{rate}%", font=fonts["rate"], fill=(*_GOLD_DEEP, 255), anchor="rm")
     draw.text((card.width - 24, sub_top), "WIN RATE", font=fonts["kicker"], fill=(*_MUTED, 255), anchor="rt")
     labels = (("MATCHES", matches), ("WINS", wins), ("STREAK", streak))
     bubble = _STAT_BUBBLE
@@ -317,7 +317,7 @@ def render_asyncombat(
         left = int(image.width * fx * aa)
         top_dot = int(image.height * fy * aa)
         size = int(image.width * fd * aa)
-        blob.ellipse((left, top_dot, left + size, top_dot + size), fill=(*_BLUE, alpha))
+        blob.ellipse((left, top_dot, left + size, top_dot + size), fill=(*_GOLD, alpha))
     image.alpha_composite(dots.resize(image.size, Image.Resampling.LANCZOS))
     if header is not None:
         image.alpha_composite(header, ((_WIDTH - header.width) // 2, top))

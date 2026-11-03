@@ -20,7 +20,7 @@ def help_text(command_ids: dict[str, int]) -> str:
         [
             "**Rizline Lookup**",
             "An unofficial fan Discord bot for Rizline. "
-            "It looks up songs, series, scores, Best 40, recommendations, achievements, Asyncombat, and weekly tasks. "
+            "It looks up songs, series, scores, Best 40, recommendations, achievements, collections, Asyncombat, and weekly tasks. "
             "It is not affiliated with the Rizline publisher or Discord.",
             "",
             "Commands work **anywhere** after you add the bot. "
@@ -31,9 +31,11 @@ def help_text(command_ids: dict[str, int]) -> str:
             "",
             "**Songs (no account needed)**",
             f"{mention('song')} `title` — Look up a song and its charts",
+            f"{mention('arts')} `title` — Pure jacket arts (includes Special)",
             f"{mention('series')} `name` — Look up a track series",
             f"{mention('random')} — Random chart",
             f"{mention('charts')} `min` `max` — Charts in a constant range",
+            f"{mention('collection')} — Bios, layouts, and arts",
             "",
             "**Your scores (bind first)**",
             f"{mention('bind')} — Bind your Rizline email",

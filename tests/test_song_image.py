@@ -125,6 +125,14 @@ def test_song_png_with_and_without_a_score_differ(tmp_path: Path):
     assert blank != played
 
 
+def test_unbound_song_card_omits_dash_placeholders(tmp_path: Path):
+    song = _song(1)
+    catalog = _draw(song=song, personal=None, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    bound_empty = _draw(song=song, personal={}, highlight=None, artwork=None, font_path=FONT, scale=1.0)
+    assert catalog.size == bound_empty.size
+    assert catalog.tobytes() != bound_empty.tobytes()
+
+
 def _grey_separator(image: Image.Image, *, bottom: int) -> tuple[int, int, int] | None:
     pixels = image.load()
     best: tuple[int, int, int] | None = None

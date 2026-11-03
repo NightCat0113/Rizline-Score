@@ -5,6 +5,7 @@ from __future__ import annotations
 import discord
 
 from bot.models import ChartInfo, Song
+from bot.ui.textfont import one_line
 
 
 _PAGE_SIZE = 15
@@ -44,7 +45,7 @@ class ChartListView(discord.ui.View):
             lines.append("No charts match that filter.")
         for song, chart in current:
             level = chart.level_text or f"{chart.level:g}"
-            lines.append(f"• **{song.title}** `{chart.difficulty}` {level}")
+            lines.append(f"• **{one_line(song.title)}** `{chart.difficulty}` {level}")
         lines.append(f"Page {self.page + 1}/{pages}")
         text = "\n".join(lines)
         if len(text) <= 2000:

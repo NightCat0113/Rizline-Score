@@ -47,6 +47,17 @@ def test_derive_drops_personal_save_fields():
         "userId": "user-id-value",
         "mails": [{"body": "secret-mail-body"}],
         "getProducts": ["sku"],
+        "getOwnProducts": [{"goodId": 1, "purchaseCount": 1}],
+        "getItems": [
+            {"amount": 1, "itemAssetId": "bio.exbio00007.1"},
+            {"amount": 1, "itemAssetId": "layout.00001"},
+            {"amount": 1, "itemAssetId": "illustration.Song.0"},
+            {"amount": 1, "itemAssetId": "illustration.Song.0"},
+            {"amount": 1, "itemAssetId": "mod.noBad"},
+            {"amount": 1, "itemAssetId": "altIllustration.Song.0.0"},
+            {"amount": 1, "itemAssetId": ""},
+            "not-a-row",
+        ],
         "myBest": [
             {
                 "trackAssetId": "track.Song.0",
@@ -80,4 +91,13 @@ def test_derive_drops_personal_save_fields():
     assert "user-id-value" not in rendered
     assert "secret-created-at" not in rendered
     assert "mails" not in cache
+    assert "getProducts" not in cache
+    assert "getOwnProducts" not in cache
+    assert cache["items"] == [
+        "bio.exbio00007.1",
+        "layout.00001",
+        "illustration.Song.0",
+        "altIllustration.Song.0.0",
+    ]
+    assert "mod.noBad" not in rendered
     assert save["mails"]
