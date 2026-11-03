@@ -731,6 +731,9 @@ CHART_MR_RE = re.compile(r"^chart\.([^\.]+)\.[^\.]+\.0\.mr\.([^\.]+)$")
 CHART_RE = re.compile(r"^chart\.([^\.]+)\.[^\.]+\.0\.([^\.]+)$")
 CHART_SP_RE = re.compile(r"^chart\.([^\.]+)\.[^\.]+\.1\.([^\.]+)$")
 ILLUST_RE = re.compile(r"^illustration\.([^\.]+)\.[^\.]+\.0(?:\.([^\.]+))?$")
+ALT_ILLUST_RE = re.compile(
+    r"^altIllustration\.(?P<body>.+?)\.0(?P<extra>\.0)?(?:\.(?P<region>cn))?(?:\.(?P<hires>HiRes))?$"
+)
 
 # -------------------------
 # JSON helpers (from riz_color)
@@ -1340,6 +1343,10 @@ def export_illustrations(filelist_path: Path,
         match = ILLUST_RE.match(key)
         if match:
             entries.append((key, entry[1].strip(), match.group(1), match.group(2)))
+            continue
+        alt = ALT_ILLUST_RE.fullmatch(key)
+        if alt and not alt.group("region"):
+            entries.append((key, entry[1].strip(), alt.group("body"), alt.group("hires")))
 
     if not entries:
         print("No illustration entries found in fileList.json")

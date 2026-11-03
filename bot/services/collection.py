@@ -251,16 +251,54 @@ def _illustration_rows(repo_root: Path, songs: SongIndex | None) -> list[dict[st
 
 
 def special_illustration_ids(repo_root: Path) -> list[str]:
-    """Every special illustration in the local file list, without HiRes or region copies."""
+    """Every special illustration, without HiRes or region copies."""
     return _special_illustration_ids(repo_root)
 
 
+def specials_catalog_path(repo_root: Path) -> Path:
+    return repo_root / "bot" / "static" / "special_illustrations.json"
+
+
+def write_special_illustrations(repo_root: Path) -> int:
+    """Refresh the committed special-art catalog from download/fileList.json."""
+    found = _specials_from_filelist(repo_root)
+    if not found:
+        return 0
+    path = specials_catalog_path(repo_root)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(found, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return len(found)
+
+
 def _special_illustration_ids(repo_root: Path) -> list[str]:
-    payload = _json_list(repo_root / "download" / "fileList.json")
+    listed = _specials_from_filelist(repo_root)
+    if listed:
+        return listed
+    return _specials_from_catalog(repo_root)
+
+
+def _specials_from_filelist(repo_root: Path) -> list[str]:
+    return _filter_special_keys(_json_list(repo_root / "download" / "fileList.json"))
+
+
+def _specials_from_catalog(repo_root: Path) -> list[str]:
+    path = specials_catalog_path(repo_root)
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    if not isinstance(payload, list):
+        return []
+    return _filter_special_keys([[item] for item in payload if isinstance(item, str)])
+
+
+def _filter_special_keys(payload: object) -> list[str]:
     found: list[str] = []
     seen: set[str] = set()
+    if not isinstance(payload, (list, tuple)):
+        return found
     for entry in payload:
-        if not (isinstance(entry, list) and entry and isinstance(entry[0], str)):
+        if not (isinstance(entry, (list, tuple)) and entry and isinstance(entry[0], str)):
             continue
         key = entry[0].strip()
         if not key.startswith("altIllustration.") or key.endswith(".HiRes") or ".cn" in key or key in seen:

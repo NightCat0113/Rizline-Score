@@ -156,6 +156,34 @@ def test_titles_stay_one_line_and_specials_are_catalogued(tmp_path: Path):
     assert len(layouts) > 20
 
 
+def test_specials_fall_back_to_committed_catalog(tmp_path: Path, monkeypatch):
+    from bot.services import collection as collection_service
+
+    catalog = tmp_path / "bot" / "static"
+    catalog.mkdir(parents=True)
+    special_id = "altIllustration.MilK.morimoriatsushi.0.0"
+    (catalog / "special_illustrations.json").write_text(
+        json.dumps([special_id, "altIllustration.MuseDashCollab.0.HiRes"]),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(collection_service, "specials_catalog_path", lambda _root: catalog / "special_illustrations.json")
+    songs = SongIndex(
+        [
+            Song(
+                asset_id="MilK.morimoriatsushi.0",
+                title="MilK",
+                artist="",
+                disc_name="",
+                illustration_id="illustration.MilK.morimoriatsushi.0",
+            )
+        ],
+        "test",
+    )
+    names = {row["id"]: row["name"] for row in collection_rows(tmp_path, "en", "illustration", songs)}
+    assert names[special_id] == "MilK (Special)"
+    assert "altIllustration.MuseDashCollab.0.HiRes" not in names
+
+
 def test_layouts_without_filelist_skip_placeholders(tmp_path: Path):
     locale = tmp_path / "locale"
     locale.mkdir()

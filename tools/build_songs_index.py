@@ -738,6 +738,11 @@ def main() -> int:
     }
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {len(built)} songs and {len(series)} series to {output_path.name}. Unmatched mapping rows: {missing_rows}.")
+    from bot.services.collection import write_special_illustrations
+
+    specials = write_special_illustrations(ROOT)
+    if specials:
+        print(f"Wrote {specials} special illustrations.")
     export_series_art(ROOT)
     return 0
 
