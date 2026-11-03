@@ -35,6 +35,7 @@ import tempfile
 import base64
 import hashlib
 import struct
+import threading
 import time
 from decimal import Decimal, InvalidOperation
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -81,7 +82,9 @@ LOCALE_API_JSON = {"bio", "achievement", "layout"}
 DOWNLOAD_DIR = REPO_ROOT / "download"
 CATALOG_PATH = DOWNLOAD_DIR / "catalog_catalog.json"
 DOWNLOAD_WORKERS = 16
-DOWNLOAD_TIMEOUT = 30
+# (connect, read). Read is idle time between chunks, not the whole file.
+DOWNLOAD_TIMEOUT = (30, 120)
+_DOWNLOAD_LOCAL = threading.local()
 
 
 def get_rizline_version() -> Dict[str, str]:
@@ -118,6 +121,19 @@ def get_rizline_version() -> Dict[str, str]:
     return result
 
 
+def _download_client() -> Any:
+    """One Session per worker. A shared Session deadlocks the connection pool."""
+    client = getattr(_DOWNLOAD_LOCAL, "session", None)
+    if client is not None:
+        return client
+    client = requests.Session()
+    adapter = requests.adapters.HTTPAdapter(pool_connections=4, pool_maxsize=4)
+    client.mount("https://", adapter)
+    client.mount("http://", adapter)
+    _DOWNLOAD_LOCAL.session = client
+    return client
+
+
 def download_resource(url: str, session: Any = None, force: bool = False) -> Tuple[bool, bool, float]:
     parsed_path = url.split("?", 1)[0]
     file_name = parsed_path.rsplit("/", 1)[-1]
@@ -141,7 +157,7 @@ def download_resource(url: str, session: Any = None, force: bool = False) -> Tup
         temporary_path = destination.with_name(destination.name + ".part")
         try:
             save_dir.mkdir(parents=True, exist_ok=True)
-            client = session or requests
+            client = _download_client() if session is None else session
             with client.get(url, timeout=DOWNLOAD_TIMEOUT, stream=True) as response:
                 response.raise_for_status()
                 with temporary_path.open("wb") as output:
@@ -607,17 +623,12 @@ def download_all_game_data(clear_existing: bool = False) -> None:
     ]
     print(f"Downloading {len(patch_urls)} patch files and {len(base_urls)} catalog resources")
 
-    session = requests.Session()
-    adapter = requests.adapters.HTTPAdapter(pool_connections=DOWNLOAD_WORKERS, pool_maxsize=DOWNLOAD_WORKERS)
-    session.mount("https://", adapter)
-    session.mount("http://", adapter)
-
     failures: List[str] = []
     missing_resources: List[str] = []
     completed = 0
     with ThreadPoolExecutor(max_workers=DOWNLOAD_WORKERS) as executor:
         futures = {
-            executor.submit(download_resource, url, session): url
+            executor.submit(download_resource, url, None): url
             for url in patch_urls
         }
         futures.update({
@@ -626,26 +637,45 @@ def download_all_game_data(clear_existing: bool = False) -> None:
                 url,
                 version_chain,
                 version_info["resourceBaseUrl"],
-                session,
+                None,
             ): url
             for url in base_urls
         })
+        pending = set(futures)
         for future in as_completed(futures):
+            pending.discard(future)
             url = futures[future]
             try:
                 succeeded, missing, elapsed = future.result()
             except Exception as exc:
                 succeeded, missing, elapsed = False, False, 0.0
-                print(f"Download error: {url}: {exc}")
+                print(f"Download error: {url}: {exc}", flush=True)
             completed += 1
             if succeeded:
-                print(f"Downloaded {completed}/{len(futures)} ({elapsed:.1f}s): {url.rsplit('/', 1)[-1]}")
+                print(
+                    f"Downloaded {completed}/{len(futures)} ({elapsed:.1f}s): {url.rsplit('/', 1)[-1]}",
+                    flush=True,
+                )
             elif missing:
                 missing_resources.append(url)
+                print(
+                    f"Skipped missing {completed}/{len(futures)}: {url.rsplit('/', 1)[-1]}",
+                    flush=True,
+                )
             else:
                 failures.append(url)
-            if completed % 50 == 0:
-                print(f"Download progress: {completed}/{len(futures)}; failed {len(failures)}")
+                print(
+                    f"Failed {completed}/{len(futures)}: {url.rsplit('/', 1)[-1]}",
+                    flush=True,
+                )
+            if completed % 50 == 0 or (pending and completed % 10 == 0 and len(pending) <= 40):
+                waiting = ", ".join(futures[item].rsplit("/", 1)[-1] for item in list(pending)[:6])
+                print(
+                    f"Download progress: {completed}/{len(futures)}; failed {len(failures)}; "
+                    f"still running {len(pending)}"
+                    + (f" ({waiting})" if waiting else ""),
+                    flush=True,
+                )
 
     if failures:
         print(f"Warning: {len(failures)} resources failed after retries; continuing with downloaded and cached resources.")

@@ -17,6 +17,8 @@ jobs:
     name: Download catalog, commit index, upload art
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    env:
+      PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
 
