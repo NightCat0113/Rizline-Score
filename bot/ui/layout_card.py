@@ -1212,7 +1212,7 @@ _LAYOUT_42_CAMERA_Z = 500.0
 _LAYOUT_42_CANVAS_SCALE = 0.27
 _LAYOUT_42_FOV = 60.0
 # Left, top, right, bottom of the card. The neon frame and the frost share this square.
-_LAYOUT_42_COVER_BOX = (0.189, 0.258, 0.811, 0.700)
+_LAYOUT_42_COVER_BOX = (0.189, 0.216, 0.811, 0.787)
 
 
 def _place_layout_42_panels(
