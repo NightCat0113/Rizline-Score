@@ -1587,6 +1587,69 @@ def _layout_42_panels(
     return panels
 
 
+def _neon_core_frac(image: Image.Image) -> tuple[float, float, float, float] | None:
+    """Bounding box of the solid neon lines, as fractions of the sprite.
+
+    The pink bloom is a low-alpha wash. The core is the near-white opaque stroke.
+    Returns (left, top, right, bottom) in image space, origin at the top-left.
+    """
+    pixels = image.convert("RGBA").load()
+    width, height = image.size
+    min_x, min_y = width, height
+    max_x, max_y = -1, -1
+    for y in range(height):
+        for x in range(width):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha < 200 or min(red, green, blue) < 200:
+                continue
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+    if max_x < 0:
+        return None
+    return (min_x / width, min_y / height, (max_x + 1) / width, (max_y + 1) / height)
+
+
+def _quad_matching_content(
+    corners: list[tuple[float, float, float]],
+    content: tuple[float, float, float, float],
+    target: tuple[float, float, float, float],
+) -> list[tuple[float, float, float]]:
+    """Scale a quad so one inner region lands on another.
+
+    ``content`` and ``target`` are (left, bottom, right, top) in 0–1 along the
+    quad, with Y growing upward. The content slice of the returned quad covers
+    the target slice of ``corners``.
+    """
+    bottom_left, bottom_right, _top_right, top_left = corners
+    content_left, content_bottom, content_right, content_top = content
+    target_left, target_bottom, target_right, target_top = target
+    span_u = content_right - content_left
+    span_v = content_top - content_bottom
+    if abs(span_u) < 1e-6 or abs(span_v) < 1e-6:
+        return corners
+    scale_u = (target_right - target_left) / span_u
+    scale_v = (target_top - target_bottom) / span_v
+    origin_u = target_left - content_left * scale_u
+    origin_v = target_bottom - content_bottom * scale_v
+
+    def point(u: float, v: float) -> tuple[float, float, float]:
+        return tuple(
+            bottom_left[index]
+            + (bottom_right[index] - bottom_left[index]) * u
+            + (top_left[index] - bottom_left[index]) * v
+            for index in range(3)
+        )
+
+    return [
+        point(origin_u, origin_v),
+        point(origin_u + scale_u, origin_v),
+        point(origin_u + scale_u, origin_v + scale_v),
+        point(origin_u, origin_v + scale_v),
+    ]
+
+
 def _fit_quad_to_sprite(
     corners: list[tuple[float, float, float]],
     sprite: Image.Image,
