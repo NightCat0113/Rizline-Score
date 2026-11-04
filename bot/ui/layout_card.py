@@ -10,12 +10,13 @@ from __future__ import annotations
 import base64
 import json
 import math
+import os
 import random
 import struct
 import threading
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 from bot.ui.b40_image import load_layout_frame
 
@@ -30,9 +31,11 @@ _ENV_FILL_READY = False
 # ShadowContainer / "shadow" are applied afterwards as a soft edge vignette — stamping
 # the raw sprite on top greys out pale cards like 00031.
 _SKIP_OBJECTS = {"cover", "name", "text", "shadowcontainer", "mask"}
-# Layout 00042: CoverOverlay is real chrome under Cover; CoverBG frosts over bg_00.
+# Layout 00042: CoverOverlay and CoverBG are real chrome. The flat composite
+# skips them; _place_layout_42_panels projects both onto the cover plane.
 _COVER_ART_SPRITES = {"coveroverlay"}
 # Player HUD roots (00042) sit on Y-rotated 3D panels — flat 2D stamps land off-card.
+# _place_layout_42_panels projects those panels (and the art window) after the composite.
 _PLAYER_CHROME_ROOTS = {"avatarcontainer", "namecontainer", "biocontainer"}
 # Full-card soft shadows are applied as a vignette after the base layers. Small
 # local shadows (layout 00036) still draw as normal sprites.
@@ -41,13 +44,12 @@ _FULL_SHADOW_SPRITES = {"shadow"}
 # When a real frame already carries chrome + env fill, only keep decorative extras.
 _ORNAMENT_OBJECTS = {
     "avatardecorative",
-    "biobg",
     "grad",
     "overlay",
     "particles",
     "textglow",
 }
-_ORNAMENT_SKIP_SPRITES = {"coverbg", "shadow", "默认头像", "空白卡"}
+_ORNAMENT_SKIP_SPRITES = {"biobg", "coverbg", "shadow", "默认头像", "空白卡"}
 # Own mid-art (36 character plate, 42 hallway+cover, 45 purple kalpa plate).
 _SKIP_ENV_LAYOUTS = {"00036", "00042", "00045"}
 # Drawn after the soft vignette so bottom chrome stays above the wash and the
@@ -144,22 +146,26 @@ def _render_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | 
         card = _with_env_arts(frame, env_fill) if use_env else frame.convert("RGBA")
         frame.close()
         if bundle is not None:
-            ornamented = _composite(bundle, card, deps, ornaments_only=True)
-            if ornamented is not None:
-                card.close()
-                card = ornamented
+            # Layout 00045's bio pillar is solid chrome. Particles sit behind it,
+            # otherwise the triangles read as the plate being see-through.
             if number == "00045":
                 particled = _stamp_kalpa_particles(card, bundle, deps)
                 if particled is not card:
                     card.close()
                     card = particled
-        return _open_avatar_ring(card, number)
+            ornamented = _composite(bundle, card, deps, ornaments_only=True)
+            if ornamented is not None:
+                card.close()
+                card = ornamented
+            if number == "00045":
+                _stamp_reference_biobg(card, repo_root)
+        return _finish_special_layout(card, number, bundle, deps)
     image = _composite(bundle, None, deps) if bundle is not None else None
     if image is not None and use_env and env_fill is not None:
         filled = _with_env_arts(image, env_fill)
         image.close()
         image = filled
-    return _open_avatar_ring(image, number)
+    return _finish_special_layout(image, number, bundle, deps)
 
 
 def _env_fill_texture(repo_root: Path) -> Image.Image | None:
@@ -239,6 +245,29 @@ def _cover_rgba(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     left = max(0, (resized.width - width) // 2)
     top = max(0, (resized.height - height) // 2)
     return resized.crop((left, top, left + width, top + height))
+
+
+def _stamp_reference_biobg(card: Image.Image, repo_root: Path) -> None:
+    """Place layout 00045's bio tag from the checked reference sprite.
+
+    The Unity sprite's alpha reads as a wash once it is resized. The reference
+    PNG is already the 622×204 tag, transparent outside the plate.
+    """
+    path = repo_root / "output" / "_cmp_00045_BioBG.png"
+    if not path.is_file():
+        return
+    try:
+        with Image.open(path) as opened:
+            art = opened.convert("RGBA")
+    except OSError:
+        return
+    # BioBG rect: size 622×204, pivot (0, 0.5), anchored (0, 160) on the card.
+    width, height = 622, 204
+    if art.size != (width, height):
+        art = art.resize((width, height), Image.Resampling.LANCZOS)
+    bottom = 160 - height / 2
+    paste_y = int(round(card.height - (bottom + height)))
+    _stamp(card, art, 0, paste_y)
 
 
 def _stamp_kalpa_particles(
@@ -552,6 +581,7 @@ def _composite(
     main_file = _main_serialized(env, bundle)
     main_name = str(getattr(main_file, "name", "") or "")
     sprites = _sprite_tables(env, main_file)
+    shapes: list[dict] = []
     for obj in env.objects:
         if obj.type.name == "GameObject":
             if not _same_assets(obj, main_file, main_name):
@@ -578,6 +608,8 @@ def _composite(
                 images.append(tree)
             if "radius" in tree and "thickness" in tree:
                 borders.append(tree)
+            elif "fill" in tree and "thickness" in tree and "m_Color" in tree:
+                shapes.append(tree)
     if not rects:
         return frame
     roots = [path_id for path_id, tree in rects.items() if _pointer(tree.get("m_Father")) not in rects]
@@ -593,7 +625,7 @@ def _composite(
         pasted = frame.convert("RGBA").resize((card_w, card_h), Image.Resampling.LANCZOS)
         canvas.alpha_composite(pasted)
     order = _child_order(rects)
-    front_queue: list[tuple[int, tuple[float, float], tuple[float, float], tuple[float, float]]] = []
+    front_queue: list[tuple[int, tuple[float, float], tuple[float, float], tuple[float, float], bool]] = []
     for root_id in roots:
         _draw_branch(
             canvas,
@@ -610,13 +642,14 @@ def _composite(
             root=True,
             ornaments_only=ornaments_only,
             front_queue=None if ornaments_only else front_queue,
+            shapes=shapes,
         )
     if canvas.getchannel("A").getextrema()[1] < 16:
         return frame
     if ornaments_only:
         return canvas
     canvas = _soft_shadow_vignette(canvas, sprites)
-    for path_id, parent_size, origin, parent_scale in front_queue:
+    for path_id, parent_size, origin, parent_scale, parent_flip_y in front_queue:
         _draw_branch(
             canvas,
             path_id,
@@ -631,6 +664,8 @@ def _composite(
             order,
             ornaments_only=False,
             front_queue=None,
+            parent_flip_y=parent_flip_y,
+            shapes=shapes,
         )
     return canvas
 
@@ -726,7 +761,9 @@ def _draw_branch(
     *,
     root: bool = False,
     ornaments_only: bool = False,
-    front_queue: list[tuple[int, tuple[float, float], tuple[float, float], tuple[float, float]]] | None = None,
+    front_queue: list[tuple[int, tuple[float, float], tuple[float, float], tuple[float, float], bool]] | None = None,
+    parent_flip_y: bool = False,
+    shapes: list[dict] | None = None,
 ) -> None:
     tree = rects[path_id]
     if root:
@@ -751,9 +788,16 @@ def _draw_branch(
     if _is_portrait_avatar(name, path_id, order, rects, names) or _hosts_portrait_avatar(
         path_id, order, rects, names
     ):
+        # Empty portrait slots (layout 00045) are a solid disk inside the ornament.
+        # Player photos stay out; white plates (layout 00036) stay out too.
+        fill = _solid_portrait_fill(path_id, order, rects, images) or _avatar_disk_fill(
+            path_id, order, rects, shapes
+        )
+        if fill is not None:
+            _stamp_ellipse(canvas, box, fill)
         return
     if front_queue is not None and _defer_until_after_shadow(name, path_id, order, rects, names):
-        front_queue.append((path_id, parent_size, origin, parent_scale))
+        front_queue.append((path_id, parent_size, origin, parent_scale, parent_flip_y))
         return
     # Layout 00036 Mask1/Mask2: Gardenofeden is a UI Mask graphic (ShowMaskGraphic).
     # Draw the grid on the canvas, but clip children to its alpha so their solid
@@ -776,9 +820,18 @@ def _draw_branch(
                     sprites,
                     ornaments_only=ornaments_only,
                     return_stencil=True,
+                    parent_flip_y=parent_flip_y,
                 )
             else:
-                _draw_image(canvas, image, tree, box, sprites, ornaments_only=ornaments_only)
+                _draw_image(
+                    canvas,
+                    image,
+                    tree,
+                    box,
+                    sprites,
+                    ornaments_only=ornaments_only,
+                    parent_flip_y=parent_flip_y,
+                )
         if not skip and not ornaments_only:
             for border in borders:
                 if _pointer(border.get("m_GameObject")) != go:
@@ -790,9 +843,9 @@ def _draw_branch(
         child_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
         child_canvas = child_layer
     kids = list(order.get(path_id, []))
-    # Official 00036: opaque white Gardenofeden tiles sit above debris + characters.
-    if name.strip().lower() == "mask":
-        kids = _draw_order_grid_on_top(kids, rects, names)
+    # 00036: debris, then the square tiles, then 00036_1 so the character stays in front.
+    own_flip_y = float((tree.get("m_LocalScale") or {}).get("y") or 1) < 0
+    child_flip_y = parent_flip_y or own_flip_y
     for child in kids:
         _draw_branch(
             child_canvas,
@@ -808,6 +861,8 @@ def _draw_branch(
             order,
             ornaments_only=ornaments_only,
             front_queue=front_queue,
+            parent_flip_y=child_flip_y,
+            shapes=shapes,
         )
     if mask_clip and child_layer is not None:
         _composite_with_stencil(canvas, child_layer, stencil)
@@ -822,6 +877,7 @@ def _draw_image(
     *,
     ornaments_only: bool = False,
     return_stencil: bool = False,
+    parent_flip_y: bool = False,
 ) -> Image.Image | None:
     _x, _y, width, height = box
     if width < 2 or height < 2:
@@ -855,7 +911,14 @@ def _draw_image(
                 # Layout-number sheet (00045, 00037, …) is chrome already on the frame.
                 if ornaments_only and sprite_name.isdigit():
                     return None
+                if sprite_name.lower() == "biobg":
+                    return None
                 art = data.image
+                if sprite_name in {"bg_00", "CoverBG"} and _layout_42_env_frame(sprites) is not None:
+                    # Layout 00042. A flat stamp uses the scaled rect and crops the
+                    # scene tight. _place_layout_42_panels projects the hallway and
+                    # the frosted CoverBG at their camera distances.
+                    return None
             except Exception:
                 art = None
     if art is None:
@@ -875,13 +938,21 @@ def _draw_image(
         _stamp(canvas, tile, int(_x), int(paste_y))
         return None
     art = art.convert("RGBA")
+    if sprite_name == "BioBG":
+        # Layout 00045's bio tag. Image color is already opaque; the sprite alpha
+        # is a fade, so the plate composites as a wash. The gold stroke stays.
+        art = _opaque_bio_plate(art)
     # 00036's Shadow is a pink TrueShadow plate — do not treat it as a red placeholder.
     if _placeholder(art) and sprite_name.lower() != "shadow":
         return None
     scale = tree.get("m_LocalScale") or {}
     if float(scale.get("x") or 1) < 0:
         art = art.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-    if float(scale.get("y") or 1) < 0:
+    # Mask1's negative scale mirrors the whole subtree. The grid sprite flips
+    # with that scale; the border sprite does not, so inherit the parent flip
+    # or its stroke lands off the squares and the mask clips it away.
+    flip_border = parent_flip_y and sprite_name == "Gardenofeden_boarder"
+    if float(scale.get("y") or 1) < 0 or flip_border:
         art = art.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
     # Official 00036 shows a soft white pad here, not the raw pink TrueShadow texture.
     if (
@@ -901,8 +972,16 @@ def _draw_image(
             "RGBA",
             (*Image.new("RGB", resized.size, (255, 255, 255)).split(), grid_alpha),
         )
+    elif sprite_name == "Gardenofeden_boarder":
+        # Same sampler as the tiles so a 1px stroke stays on the square edge.
+        resized = art.resize((max(1, int(width)), max(1, int(height))), Image.Resampling.NEAREST)
     else:
         resized = art.resize((max(1, int(width)), max(1, int(height))), Image.Resampling.LANCZOS)
+    if sprite_name == "BioBG":
+        # LANCZOS feathers the solid plate back toward ~128. Force the silhouette
+        # opaque again, and ignore Image color.a for this pillar only.
+        alpha = 1.0
+        resized.putalpha(resized.getchannel("A").point(lambda value: 255 if value > 0 else 0))
     color_r = float(color.get("r", 1) or 0)
     color_g = float(color.get("g", 1) or 0)
     color_b = float(color.get("b", 1) or 0)
@@ -998,23 +1077,29 @@ def _composite_with_stencil(
         canvas.alpha_composite(layer)
 
 
-def _draw_order_grid_on_top(
-    kids: list[int],
-    rects: dict[int, dict],
-    names: dict[int, str],
-) -> list[int]:
-    """Draw Masks after 00036 art so opaque white tiles block debris/characters."""
-    masks: list[int] = []
-    ordered: list[int] = []
-    for kid in kids:
-        go = _pointer(rects[kid].get("m_GameObject"))
-        child_name = names.get(go or -1, "").strip().lower()
-        if child_name == "masks":
-            masks.append(kid)
+def _layout_42_env_frame(sprites: dict[tuple[int, int], object]) -> Image.Image | None:
+    """Layout 00042's hallway loop. The still card uses bg_01, not the rest pose bg_00."""
+    frames: dict[str, Image.Image] = {}
+    seen: set[int] = set()
+    for obj in sprites.values():
+        marker = id(obj)
+        if marker in seen:
             continue
-        ordered.append(kid)
-    ordered.extend(masks)
-    return ordered
+        seen.add(marker)
+        try:
+            data = obj.read()
+            name = str(getattr(data, "m_Name", "") or "")
+            image = getattr(data, "image", None)
+        except Exception:
+            continue
+        if image is not None and name in {"bg_01", "bg_47"}:
+            frames[name] = image
+        if "bg_01" in frames and "bg_47" in frames:
+            break
+    frame = frames.get("bg_01")
+    if frame is None or "bg_47" not in frames:
+        return None
+    return frame
 
 
 def _defer_until_after_shadow(
@@ -1096,6 +1181,693 @@ def _scaled_box(
     drawn_x = world_x + world_w * pivot["x"] - drawn_w * pivot["x"]
     drawn_y = world_y + world_h * pivot["y"] - drawn_h * pivot["y"]
     return (drawn_x, drawn_y, drawn_w, drawn_h), (drawn_x, drawn_y), (parent_scale[0] * own_x, parent_scale[1] * own_y)
+
+
+def _finish_special_layout(
+    card: Image.Image | None,
+    number: str,
+    bundle: Path | None,
+    dependencies: tuple[Path, ...],
+) -> Image.Image | None:
+    card = _open_avatar_ring(card, number)
+    if card is not None and number == "00036":
+        _stamp_tone_sphere(card)
+    if card is None or number != "00042" or bundle is None:
+        return card
+    return _place_layout_42_panels(card, bundle, dependencies)
+
+
+def _stamp_tone_sphere(card: Image.Image) -> None:
+    """Layout 00036's footer label: '*      T o n e   S p h e r e'."""
+    # Prefab text is 28pt italic-looking grey, middle-left. The letters are
+    # already separated in the string: one space inside each word, three between
+    # Tone and Sphere. The black bar's top edge is y=261 on the 2078 card.
+    scale_x = card.width / 1488
+    scale_y = card.height / 2078
+    font_size = max(1, int(round(28 * scale_y)))
+    font = _ui_font(font_size, italic=True)
+    # ToneSphere is one name. Every letter is separated, and the join between
+    # Tone and Sphere is only a little wider than the other gaps.
+    letter_gap = int(round(font_size * 0.4))
+    word_gap = int(round(font_size * 1.05))
+    mark_gap = int(round(font_size * 1.45))
+    pieces = ["*"] + list("Tone") + list("Sphere")
+    gaps = [mark_gap] + [letter_gap] * 3 + [word_gap] + [letter_gap] * 5
+    probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
+    widths = []
+    tops = []
+    bottoms = []
+    for piece in pieces:
+        bounds = probe.textbbox((0, 0), piece, font=font)
+        widths.append(bounds[2] - bounds[0])
+        tops.append(bounds[1])
+        bottoms.append(bounds[3])
+    width = sum(widths) + sum(gaps) + 2
+    top = min(tops)
+    bottom = max(bottoms)
+    layer = Image.new("RGBA", (max(1, width), max(1, bottom - top + 2)), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(layer)
+    cursor = 1
+    fill = (142, 142, 142, 255)
+    for index, piece in enumerate(pieces):
+        draw.text((cursor, 1 - top), piece, font=font, fill=fill)
+        cursor += widths[index]
+        if index < len(gaps):
+            cursor += gaps[index]
+    paste_x = int(round(82 * scale_x))
+    bar_top = 261 * scale_y
+    paste_y = int(round(card.height - bar_top - layer.height - 6 * scale_y))
+    _stamp(card, layer, paste_x, paste_y)
+
+
+# World-space canvas for layout 00042: Card Camera sits at the origin, FOV 60°,
+# canvas center at z=500 with scale 0.27. Flat UI stamps ignore that yaw.
+_LAYOUT_42_CANVAS = (1488.0, 2078.0)
+_LAYOUT_42_CAMERA_Z = 500.0
+_LAYOUT_42_CANVAS_SCALE = 0.27
+_LAYOUT_42_FOV = 60.0
+
+
+def _place_layout_42_panels(
+    card: Image.Image,
+    bundle: Path,
+    dependencies: tuple[Path, ...],
+) -> Image.Image:
+    """Project layout 00042's tilted avatar, name, bio lines, and art window."""
+    scene = _layout_42_scene(bundle, dependencies)
+    if scene is None:
+        return card
+    rects, names, order, images, sprites = scene
+    canvas_id = _named_rect(rects, names, "canvas")
+    if canvas_id is None:
+        return card
+    sizes = _rect_sizes(canvas_id, rects, order)
+    panels = _layout_42_panels(rects, names, order, images, sprites, sizes)
+    scale_x = card.width / _LAYOUT_42_CANVAS[0]
+    scale_y = card.height / _LAYOUT_42_CANVAS[1]
+    for sprite, fill, corners in panels:
+        projected = []
+        for point in corners:
+            screen = _project_layout_42(point)
+            if screen is None:
+                projected = []
+                break
+            projected.append((screen[0] * scale_x, screen[1] * scale_y))
+        if len(projected) != 4:
+            continue
+        if sprite is not None:
+            layer = _warp_quad(sprite, projected, card.size)
+            if layer is not None:
+                card.alpha_composite(layer)
+                layer.close()
+        elif fill is not None:
+            overlay = Image.new("RGBA", card.size, (0, 0, 0, 0))
+            ImageDraw.Draw(overlay).polygon(projected, fill=fill)
+            card.alpha_composite(overlay)
+            overlay.close()
+    return card
+
+
+def _layout_42_scene(
+    bundle: Path,
+    dependencies: tuple[Path, ...],
+):
+    try:
+        import UnityPy
+    except ImportError:
+        return None
+    try:
+        env = UnityPy.Environment()
+        env.load_file(str(bundle))
+        for path in dependencies:
+            if path.resolve() == bundle.resolve():
+                continue
+            try:
+                env.load_file(str(path))
+            except Exception:
+                continue
+    except Exception:
+        return None
+    names: dict[int, str] = {}
+    rects: dict[int, dict] = {}
+    images: list[dict] = []
+    sprites: dict[str, Image.Image] = {}
+    sprite_names: dict[int, str] = {}
+    for obj in env.objects:
+        if obj.type.name == "GameObject":
+            try:
+                names[obj.path_id] = str(obj.read().m_Name)
+            except Exception:
+                continue
+        elif obj.type.name == "RectTransform":
+            try:
+                rects[obj.path_id] = obj.read_typetree()
+            except Exception:
+                continue
+        elif obj.type.name == "MonoBehaviour":
+            try:
+                tree = obj.read_typetree()
+            except Exception:
+                continue
+            if isinstance(tree.get("m_Sprite"), dict) or "m_FillCenter" in tree:
+                images.append(tree)
+        elif obj.type.name == "Sprite":
+            try:
+                data = obj.read()
+                name = str(getattr(data, "m_Name", "") or "")
+                image = data.image
+            except Exception:
+                continue
+            if not name or image is None:
+                continue
+            sprite_names[obj.path_id] = name
+            if name not in sprites:
+                sprites[name] = image.convert("RGBA")
+    for image in images:
+        pointer = image.get("m_Sprite") if isinstance(image.get("m_Sprite"), dict) else None
+        if pointer is not None:
+            image["_sprite_name"] = sprite_names.get(pointer.get("m_PathID"), "")
+    if not rects:
+        return None
+    return rects, names, _child_order(rects), images, sprites
+
+
+def _named_rect(rects: dict[int, dict], names: dict[int, str], wanted: str) -> int | None:
+    for path_id, tree in rects.items():
+        go = _pointer(tree.get("m_GameObject"))
+        if names.get(go or -1, "").strip().lower() == wanted:
+            return path_id
+    return None
+
+
+def _rect_sizes(
+    root_id: int,
+    rects: dict[int, dict],
+    order: dict[int, list[int]],
+) -> dict[int, tuple[float, float]]:
+    root = rects[root_id]
+    size = root.get("m_SizeDelta") or {}
+    sizes = {root_id: (abs(float(size.get("x") or 0)), abs(float(size.get("y") or 0)))}
+
+    def walk(path_id: int) -> None:
+        parent_w, parent_h = sizes[path_id]
+        for child in order.get(path_id, []):
+            _x, _y, width, height = _local_rect((parent_w, parent_h), rects[child])
+            sizes[child] = (abs(width), abs(height))
+            walk(child)
+
+    walk(root_id)
+    return sizes
+
+
+def _solid_portrait_fill(
+    path_id: int,
+    order: dict[int, list[int]],
+    rects: dict[int, dict],
+    images: list[dict],
+) -> tuple[int, int, int, int] | None:
+    """Color of an empty avatar disk. White or grey plates are not placeholders to draw."""
+    stack = [path_id]
+    while stack:
+        current = stack.pop()
+        go = _pointer(rects[current].get("m_GameObject"))
+        for image in images:
+            if _pointer(image.get("m_GameObject")) != go:
+                continue
+            sprite = image.get("m_Sprite") if isinstance(image.get("m_Sprite"), dict) else None
+            if sprite and sprite.get("m_PathID"):
+                continue
+            color = image.get("m_Color") or {}
+            red = float(color.get("r", 1) or 0)
+            green = float(color.get("g", 1) or 0)
+            blue = float(color.get("b", 1) or 0)
+            alpha = float(color.get("a", 1) or 0)
+            if alpha < 0.05:
+                continue
+            if max(red, green, blue) - min(red, green, blue) < 0.08 and min(red, green, blue) > 0.7:
+                continue
+            return (int(red * 255), int(green * 255), int(blue * 255), int(alpha * 255))
+        stack.extend(order.get(current, []))
+    return None
+
+
+def _avatar_disk_fill(
+    path_id: int,
+    order: dict[int, list[int]],
+    rects: dict[int, dict],
+    shapes: list[dict] | None,
+) -> tuple[int, int, int, int] | None:
+    """Filled avatar shape (layout 00045's purple disk). Stroke-only borders are not disks."""
+    if not shapes:
+        return None
+    stack = [path_id]
+    while stack:
+        current = stack.pop()
+        go = _pointer(rects[current].get("m_GameObject"))
+        for shape in shapes:
+            if _pointer(shape.get("m_GameObject")) != go:
+                continue
+            if float(shape.get("fill", 0) or 0) < 0.99:
+                continue
+            color = shape.get("m_Color") or {}
+            alpha = float(color.get("a", 1) or 0)
+            if alpha < 0.05:
+                continue
+            return (
+                int(float(color.get("r", 1) or 0) * 255),
+                int(float(color.get("g", 1) or 0) * 255),
+                int(float(color.get("b", 1) or 0) * 255),
+                int(alpha * 255),
+            )
+        stack.extend(order.get(current, []))
+    return None
+
+
+def _stamp_ellipse(
+    canvas: Image.Image,
+    box: tuple[float, float, float, float],
+    fill: tuple[int, int, int, int],
+) -> None:
+    _x, _y, width, height = box
+    if width < 4 or height < 4:
+        return
+    layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    left = int(_x)
+    top = int(canvas.height - (_y + height))
+    ImageDraw.Draw(layer).ellipse((left, top, left + int(width), top + int(height)), fill=fill)
+    canvas.alpha_composite(layer)
+
+
+def _opaque_bio_plate(art: Image.Image) -> Image.Image:
+    """Make layout 00045's BioBG tag solid while keeping its shaped silhouette.
+
+    The colored bar is already opaque. The surrounding texels are black with a
+    partial alpha (the texture has no color bleed), so raising that alpha alone
+    would paint a black slab. Those texels take the plate color, then the whole
+    silhouette becomes alpha 255. Fully clear pixels stay clear.
+    """
+    image = art.convert("RGBA").copy()
+    pixels = image.load()
+    width, height = image.size
+    total_r = total_g = total_b = 0
+    samples = 0
+    for y in range(height):
+        for x in range(width):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha == 255 and red < 80 and blue > red and blue > green:
+                total_r += red
+                total_g += green
+                total_b += blue
+                samples += 1
+    if samples:
+        plate = (total_r // samples, total_g // samples, total_b // samples)
+    else:
+        plate = (20, 16, 53)
+    for y in range(height):
+        for x in range(width):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha <= 0:
+                continue
+            if alpha >= 250:
+                pixels[x, y] = (red, green, blue, 255)
+            elif red + green + blue < 40:
+                pixels[x, y] = (*plate, 255)
+            else:
+                pixels[x, y] = (red, green, blue, 255)
+    return image
+
+
+def _ui_font(size: int, *, italic: bool = False) -> ImageFont.ImageFont:
+    fonts = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"
+    faces = ("ariali.ttf", "segoeuii.ttf", "calibrii.ttf") if italic else ("arial.ttf", "segoeui.ttf", "calibri.ttf")
+    for name in faces:
+        path = fonts / name
+        if path.is_file():
+            return ImageFont.truetype(str(path), size)
+    return ImageFont.load_default()
+
+
+def _layout_42_title_panel(
+    rects: dict[int, dict],
+    names: dict[int, str],
+    sizes: dict[int, tuple[float, float]],
+) -> tuple[Image.Image, None, list[tuple[float, float, float]]] | None:
+    """Username plate label. The Title text is the placeholder 'USER ID'."""
+    title_id = None
+    for path_id in rects:
+        if _rect_name(path_id, rects, names).strip().lower() != "title":
+            continue
+        parents = {_rect_name(parent, rects, names).strip().lower() for parent in _ancestors(path_id, rects, names)}
+        if "namecontainer" in parents:
+            title_id = path_id
+            break
+    if title_id is None:
+        return None
+    corners = _layout_42_corners(title_id, rects, names, sizes)
+    if corners is None:
+        return None
+    # Prefab: 160×30, font 16, upper-left, color (0.969, 0.792, 0.808).
+    scale = 4
+    image = Image.new("RGBA", (160 * scale, 30 * scale), (0, 0, 0, 0))
+    ImageDraw.Draw(image).text(
+        (2 * scale, 0),
+        "USER ID",
+        font=_ui_font(16 * scale),
+        fill=(247, 202, 206, 255),
+    )
+    return image, None, corners
+
+
+def _layout_42_panels(
+    rects: dict[int, dict],
+    names: dict[int, str],
+    order: dict[int, list[int]],
+    images: list[dict],
+    sprites: dict[str, Image.Image],
+    sizes: dict[int, tuple[float, float]],
+) -> list[tuple[Image.Image | None, tuple[int, int, int, int] | None, list[tuple[float, float, float]]]]:
+    """Draw list of (sprite, solid fill, canvas-space corners)."""
+    del order
+    found: dict[str, tuple] = {}
+    for path_id in rects:
+        label = _layout_42_role(path_id, rects, names)
+        if label is None or label in found:
+            continue
+        corners = _layout_42_corners(path_id, rects, names, sizes)
+        sprite, fill = _layout_42_paint(path_id, rects, names, images, sprites)
+        if label == "portrait" or corners is None or (sprite is None and fill is None):
+            continue
+        found[label] = (sprite, fill, corners)
+    # The inner cover quad is about twice the painted screen and would fog the
+    # hallway. The white screen in the env frame is the art slot; the overlay is its chrome.
+    # BG is the hallway plane (deeper than the canvas) and has to land behind that chrome.
+    panels = []
+    for label in ("bg", "coverbg", "overlay", "avatar", "name"):
+        panel = found.get(label)
+        if panel is None or len(panel[2]) != 4:
+            continue
+        sprite, fill, corners = panel
+        if label == "overlay" and sprite is not None:
+            # Cover is taller than CoverOverlay. Stretching the sprite pulls the
+            # neon bars apart. Keep the source aspect, centered inside the cover.
+            corners = _fit_quad_to_sprite(corners, sprite)
+        panels.append((sprite, fill, corners))
+    title = _layout_42_title_panel(rects, names, sizes)
+    if title is not None:
+        panels.append(title)
+    for path_id in rects:
+        if _rect_name(path_id, rects, names).strip().lower() not in {"lineu", "lined"}:
+            continue
+        corners = _layout_42_corners(path_id, rects, names, sizes)
+        if corners is None:
+            continue
+        _sprite, fill = _layout_42_paint(path_id, rects, names, images, sprites)
+        if fill is not None:
+            panels.append((None, fill, corners))
+    return panels
+
+
+def _fit_quad_to_sprite(
+    corners: list[tuple[float, float, float]],
+    sprite: Image.Image,
+) -> list[tuple[float, float, float]]:
+    """Shrink an axis-aligned quad so the sprite's aspect fits inside it."""
+    if sprite.width < 1 or sprite.height < 1:
+        return corners
+    bottom_left, bottom_right, top_right, top_left = corners
+    width = math.hypot(bottom_right[0] - bottom_left[0], bottom_right[1] - bottom_left[1])
+    height = math.hypot(top_left[0] - bottom_left[0], top_left[1] - bottom_left[1])
+    if width < 2 or height < 2:
+        return corners
+    target = sprite.width / sprite.height
+    current = width / height
+    if abs(current - target) < 0.02:
+        return corners
+
+    def mix(
+        start: tuple[float, float, float],
+        end: tuple[float, float, float],
+        amount: float,
+    ) -> tuple[float, float, float]:
+        return tuple(start[index] + (end[index] - start[index]) * amount for index in range(3))
+
+    if current < target:
+        inset = (1 - (width / target) / height) / 2
+        return [
+            mix(bottom_left, top_left, inset),
+            mix(bottom_right, top_right, inset),
+            mix(bottom_right, top_right, 1 - inset),
+            mix(bottom_left, top_left, 1 - inset),
+        ]
+    inset = (1 - (height * target) / width) / 2
+    return [
+        mix(bottom_left, bottom_right, inset),
+        mix(bottom_left, bottom_right, 1 - inset),
+        mix(top_left, top_right, 1 - inset),
+        mix(top_left, top_right, inset),
+    ]
+
+
+def _layout_42_role(
+    path_id: int,
+    rects: dict[int, dict],
+    names: dict[int, str],
+) -> str | None:
+    name = _rect_name(path_id, rects, names).strip().lower()
+    if name == "bg":
+        return "bg"
+    parents = {_rect_name(parent, rects, names).strip().lower() for parent in _ancestors(path_id, rects, names)}
+    if "avatarcontainer" in parents and name == "frame":
+        return "avatar"
+    if "avatarcontainer" in parents and name == "image":
+        return "portrait"
+    if "namecontainer" in parents and name == "frame":
+        return "name"
+    if "covermask" in parents and name == "cover":
+        return "art"
+    if name == "cover" and "covermask" not in parents:
+        return "coverbg"
+    if name == "overlay" and "cover" in parents:
+        return "overlay"
+    if name in {"lineu", "lined"}:
+        return "bio-line"
+    return None
+
+
+def _layout_42_paint(
+    path_id: int,
+    rects: dict[int, dict],
+    names: dict[int, str],
+    images: list[dict],
+    sprites: dict[str, Image.Image],
+) -> tuple[Image.Image | None, tuple[int, int, int, int] | None]:
+    go = _pointer(rects[path_id].get("m_GameObject"))
+    for image in images:
+        if _pointer(image.get("m_GameObject")) != go:
+            continue
+        color = image.get("m_Color") or {}
+        alpha = float(color.get("a", 1) or 0)
+        if alpha <= 0.01:
+            continue
+        sprite_name = _sprite_on(path_id, rects, names, images)
+        sprite = sprites.get(sprite_name) if sprite_name else None
+        if sprite is not None:
+            # Still card uses the hallway loop frame, not the rest pose.
+            if sprite_name == "bg_00" and "bg_01" in sprites and "bg_47" in sprites:
+                return sprites["bg_01"], None
+            return sprite, None
+        fill = (
+            int(float(color.get("r", 1) or 0) * 255),
+            int(float(color.get("g", 1) or 0) * 255),
+            int(float(color.get("b", 1) or 0) * 255),
+            int(alpha * 255),
+        )
+        return None, fill
+    return None, None
+
+
+def _sprite_on(
+    path_id: int,
+    rects: dict[int, dict],
+    names: dict[int, str],
+    images: list[dict],
+) -> str:
+    go = _pointer(rects[path_id].get("m_GameObject"))
+    for image in images:
+        if _pointer(image.get("m_GameObject")) != go:
+            continue
+        pointer = image.get("m_Sprite") if isinstance(image.get("m_Sprite"), dict) else None
+        if not pointer:
+            continue
+        # Resolved later by name via the sprite table stored on the image only as a path.
+        # The caller passes sprites keyed by name; look up through a side channel below.
+        return str(image.get("_sprite_name") or "")
+    return ""
+
+
+def _layout_42_corners(
+    path_id: int,
+    rects: dict[int, dict],
+    names: dict[int, str],
+    sizes: dict[int, tuple[float, float]],
+) -> list[tuple[float, float, float]] | None:
+    width, height = sizes.get(path_id, (0.0, 0.0))
+    if width < 2 or height < 2:
+        return None
+    tree = rects[path_id]
+    pivot = tree.get("m_Pivot") or {}
+    px = float(pivot.get("x") or 0.5)
+    py = float(pivot.get("y") or 0.5)
+    left, right = -px * width, (1 - px) * width
+    bottom, top = -py * height, (1 - py) * height
+    local = ((left, bottom, 0.0), (right, bottom, 0.0), (right, top, 0.0), (left, top, 0.0))
+    corners = [_to_canvas(path_id, point, rects, names, sizes) for point in local]
+    if any(corner is None for corner in corners):
+        return None
+    return corners
+
+
+def _to_canvas(
+    path_id: int,
+    point: tuple[float, float, float],
+    rects: dict[int, dict],
+    names: dict[int, str],
+    sizes: dict[int, tuple[float, float]],
+) -> tuple[float, float, float] | None:
+    current = path_id
+    while True:
+        tree = rects[current]
+        father = _pointer(tree.get("m_Father"))
+        if father not in rects or father not in sizes:
+            return None
+        scale = tree.get("m_LocalScale") or {}
+        scaled = (
+            point[0] * float(scale.get("x") or 1),
+            point[1] * float(scale.get("y") or 1),
+            point[2] * float(scale.get("z") or 1),
+        )
+        rotated = _quat_rotate(_quat(tree), scaled)
+        parent_w, parent_h = sizes[father]
+        offset = _pivot_offset(parent_w, parent_h, tree)
+        point = (rotated[0] + offset[0], rotated[1] + offset[1], rotated[2] + offset[2])
+        if _rect_name(father, rects, names).strip().lower() == "canvas":
+            return point
+        current = father
+
+
+def _pivot_offset(parent_w: float, parent_h: float, tree: dict) -> tuple[float, float, float]:
+    x, y, width, height = _local_rect((parent_w, parent_h), tree)
+    pivot = tree.get("m_Pivot") or {}
+    px = x + float(pivot.get("x") or 0) * width
+    py = y + float(pivot.get("y") or 0) * height
+    local = tree.get("m_LocalPosition") or {}
+    return px - parent_w / 2, py - parent_h / 2, float(local.get("z") or 0)
+
+
+def _project_layout_42(point: tuple[float, float, float]) -> tuple[float, float] | None:
+    width, height = _LAYOUT_42_CANVAS
+    scale = _LAYOUT_42_CANVAS_SCALE
+    camera_z = _LAYOUT_42_CAMERA_Z + point[2] * scale
+    if camera_z <= 1:
+        return None
+    half_v = math.tan(math.radians(_LAYOUT_42_FOV / 2))
+    half_h = half_v * (width / height)
+    nx = (point[0] * scale / camera_z) / half_h
+    ny = (point[1] * scale / camera_z) / half_v
+    return (nx * 0.5 + 0.5) * width, height - ((ny * 0.5 + 0.5) * height)
+
+
+def _warp_quad(
+    sprite: Image.Image,
+    corners: list[tuple[float, float]],
+    size: tuple[int, int],
+) -> Image.Image | None:
+    src = [(0, sprite.height), (sprite.width, sprite.height), (sprite.width, 0), (0, 0)]
+    coeffs = _perspective_coeffs(src, corners)
+    if coeffs is None:
+        return None
+    warped = sprite.transform(size, Image.Transform.PERSPECTIVE, coeffs, Image.Resampling.BICUBIC)
+    mask = Image.new("L", size, 0)
+    ImageDraw.Draw(mask).polygon(corners, fill=255)
+    warped.putalpha(ImageChops.multiply(warped.getchannel("A"), mask))
+    return warped
+
+
+def _perspective_coeffs(
+    src: list[tuple[float, float]],
+    dst: list[tuple[float, float]],
+) -> tuple[float, ...] | None:
+    """Map output pixels (dst) back to sprite pixels (src)."""
+    rows: list[list[float]] = []
+    for (x, y), (u, v) in zip(dst, src):
+        rows.append([x, y, 1, 0, 0, 0, -u * x, -u * y, u])
+        rows.append([0, 0, 0, x, y, 1, -v * x, -v * y, v])
+    solved = _solve_linear(rows)
+    if solved is None:
+        return None
+    return tuple(solved)
+
+
+def _solve_linear(rows: list[list[float]]) -> list[float] | None:
+    size = len(rows)
+    matrix = [list(row) for row in rows]
+    for col in range(size):
+        pivot = max(range(col, size), key=lambda row: abs(matrix[row][col]))
+        if abs(matrix[pivot][col]) < 1e-8:
+            return None
+        matrix[col], matrix[pivot] = matrix[pivot], matrix[col]
+        scale = matrix[col][col]
+        for col_index in range(col, size + 1):
+            matrix[col][col_index] /= scale
+        for row in range(size):
+            if row == col:
+                continue
+            factor = matrix[row][col]
+            if factor == 0:
+                continue
+            for col_index in range(col, size + 1):
+                matrix[row][col_index] -= factor * matrix[col][col_index]
+    return [matrix[row][size] for row in range(size)]
+
+
+def _quat(tree: dict) -> tuple[float, float, float, float]:
+    rotation = tree.get("m_LocalRotation") or {}
+    return (
+        float(rotation.get("x") or 0),
+        float(rotation.get("y") or 0),
+        float(rotation.get("z") or 0),
+        float(rotation.get("w") or 1),
+    )
+
+
+def _quat_rotate(
+    quat: tuple[float, float, float, float],
+    point: tuple[float, float, float],
+) -> tuple[float, float, float]:
+    x, y, z, w = quat
+    vx, vy, vz = point
+    tx = 2 * (y * vz - z * vy)
+    ty = 2 * (z * vx - x * vz)
+    tz = 2 * (x * vy - y * vx)
+    return (
+        vx + w * tx + (y * tz - z * ty),
+        vy + w * ty + (z * tx - x * tz),
+        vz + w * tz + (x * ty - y * tx),
+    )
+
+
+def _rect_name(path_id: int, rects: dict[int, dict], names: dict[int, str]) -> str:
+    go = _pointer(rects[path_id].get("m_GameObject"))
+    return names.get(go or -1, "")
+
+
+def _ancestors(path_id: int, rects: dict[int, dict], names: dict[int, str]) -> list[int]:
+    chain = []
+    current = _pointer(rects[path_id].get("m_Father"))
+    while current in rects:
+        chain.append(current)
+        current = _pointer(rects[current].get("m_Father"))
+    return chain
 
 
 def _open_avatar_ring(card: Image.Image | None, number: str) -> Image.Image | None:

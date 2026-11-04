@@ -359,8 +359,16 @@ def _chart_row(
         score_text = f"{text['score']} {chart_score}"
         rks_text = f"RKS {max_rks:.3f}" if max_rks is not None else "RKS"
         lines = (
-            (_clip(score_text, fonts["score"], column_w, draw), fonts["score"], accent),
-            (_clip(rks_text, fonts["small"], column_w, draw), fonts["small"], accent),
+            (
+                _clip(score_text, fonts["score"], column_w, draw),
+                fonts["score"],
+                (*_GOLD, 255) if chart.score > 0 else accent,
+            ),
+            (
+                _clip(rks_text, fonts["small"], column_w, draw),
+                fonts["small"],
+                (*_GOLD, 255) if max_rks is not None else accent,
+            ),
         )
     else:
         player = _player_score(best)
