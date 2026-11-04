@@ -44,12 +44,13 @@ _FULL_SHADOW_SPRITES = {"shadow"}
 # When a real frame already carries chrome + env fill, only keep decorative extras.
 _ORNAMENT_OBJECTS = {
     "avatardecorative",
+    "biobg",
     "grad",
     "overlay",
     "particles",
     "textglow",
 }
-_ORNAMENT_SKIP_SPRITES = {"biobg", "coverbg", "shadow", "默认头像", "空白卡"}
+_ORNAMENT_SKIP_SPRITES = {"coverbg", "shadow", "默认头像", "空白卡"}
 # Own mid-art (36 character plate, 42 hallway+cover, 45 purple kalpa plate).
 _SKIP_ENV_LAYOUTS = {"00036", "00042", "00045"}
 # Drawn after the soft vignette so bottom chrome stays above the wash and the
@@ -157,8 +158,6 @@ def _render_collection_layout(repo_root: Path, layout_id: str) -> Image.Image | 
             if ornamented is not None:
                 card.close()
                 card = ornamented
-            if number == "00045":
-                _stamp_reference_biobg(card, repo_root)
         return _finish_special_layout(card, number, bundle, deps)
     image = _composite(bundle, None, deps) if bundle is not None else None
     if image is not None and use_env and env_fill is not None:
@@ -245,29 +244,6 @@ def _cover_rgba(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     left = max(0, (resized.width - width) // 2)
     top = max(0, (resized.height - height) // 2)
     return resized.crop((left, top, left + width, top + height))
-
-
-def _stamp_reference_biobg(card: Image.Image, repo_root: Path) -> None:
-    """Place layout 00045's bio tag from the checked reference sprite.
-
-    The Unity sprite's alpha reads as a wash once it is resized. The reference
-    PNG is already the 622×204 tag, transparent outside the plate.
-    """
-    path = repo_root / "output" / "_cmp_00045_BioBG.png"
-    if not path.is_file():
-        return
-    try:
-        with Image.open(path) as opened:
-            art = opened.convert("RGBA")
-    except OSError:
-        return
-    # BioBG rect: size 622×204, pivot (0, 0.5), anchored (0, 160) on the card.
-    width, height = 622, 204
-    if art.size != (width, height):
-        art = art.resize((width, height), Image.Resampling.LANCZOS)
-    bottom = 160 - height / 2
-    paste_y = int(round(card.height - (bottom + height)))
-    _stamp(card, art, 0, paste_y)
 
 
 def _stamp_kalpa_particles(
@@ -911,8 +887,6 @@ def _draw_image(
                 # Layout-number sheet (00045, 00037, …) is chrome already on the frame.
                 if ornaments_only and sprite_name.isdigit():
                     return None
-                if sprite_name.lower() == "biobg":
-                    return None
                 art = data.image
                 if sprite_name in {"bg_00", "CoverBG"} and _layout_42_env_frame(sprites) is not None:
                     # Layout 00042. A flat stamp uses the scaled rect and crops the
@@ -938,10 +912,6 @@ def _draw_image(
         _stamp(canvas, tile, int(_x), int(paste_y))
         return None
     art = art.convert("RGBA")
-    if sprite_name == "BioBG":
-        # Layout 00045's bio tag. Image color is already opaque; the sprite alpha
-        # is a fade, so the plate composites as a wash. The gold stroke stays.
-        art = _opaque_bio_plate(art)
     # 00036's Shadow is a pink TrueShadow plate — do not treat it as a red placeholder.
     if _placeholder(art) and sprite_name.lower() != "shadow":
         return None
@@ -977,11 +947,6 @@ def _draw_image(
         resized = art.resize((max(1, int(width)), max(1, int(height))), Image.Resampling.NEAREST)
     else:
         resized = art.resize((max(1, int(width)), max(1, int(height))), Image.Resampling.LANCZOS)
-    if sprite_name == "BioBG":
-        # LANCZOS feathers the solid plate back toward ~128. Force the silhouette
-        # opaque again, and ignore Image color.a for this pillar only.
-        alpha = 1.0
-        resized.putalpha(resized.getchannel("A").point(lambda value: 255 if value > 0 else 0))
     color_r = float(color.get("r", 1) or 0)
     color_g = float(color.get("g", 1) or 0)
     color_b = float(color.get("b", 1) or 0)
@@ -1246,6 +1211,8 @@ _LAYOUT_42_CANVAS = (1488.0, 2078.0)
 _LAYOUT_42_CAMERA_Z = 500.0
 _LAYOUT_42_CANVAS_SCALE = 0.27
 _LAYOUT_42_FOV = 60.0
+# Left, top, right, bottom of the card. The neon frame and the frost share this square.
+_LAYOUT_42_COVER_BOX = (0.189, 0.258, 0.811, 0.700)
 
 
 def _place_layout_42_panels(
@@ -1265,14 +1232,23 @@ def _place_layout_42_panels(
     panels = _layout_42_panels(rects, names, order, images, sprites, sizes)
     scale_x = card.width / _LAYOUT_42_CANVAS[0]
     scale_y = card.height / _LAYOUT_42_CANVAS[1]
-    for sprite, fill, corners in panels:
-        projected = []
-        for point in corners:
-            screen = _project_layout_42(point)
-            if screen is None:
-                projected = []
-                break
-            projected.append((screen[0] * scale_x, screen[1] * scale_y))
+    for role, sprite, fill, corners in panels:
+        if role == "coverbg" and sprite is not None:
+            # Drop the faint halo so the solid grid ends on the neon line.
+            sprite = _crop_to_alpha(sprite, 80)
+            projected = _cover_box_quad(card)
+        elif role == "overlay":
+            projected = _layout_42_cover_quad(card, sprite)
+        else:
+            projected = None
+        if projected is None:
+            projected = []
+            for point in corners:
+                screen = _project_layout_42(point)
+                if screen is None:
+                    projected = []
+                    break
+                projected.append((screen[0] * scale_x, screen[1] * scale_y))
         if len(projected) != 4:
             continue
         if sprite is not None:
@@ -1286,6 +1262,50 @@ def _place_layout_42_panels(
             card.alpha_composite(overlay)
             overlay.close()
     return card
+
+
+def _cover_box_quad(card: Image.Image) -> list[tuple[float, float]]:
+    """The shared square: frost fills it, neon lines sit on its edges."""
+    box_left, box_top, box_right, box_bottom = _LAYOUT_42_COVER_BOX
+    left = box_left * card.width
+    top = box_top * card.height
+    right = box_right * card.width
+    bottom = box_bottom * card.height
+    return [(left, bottom), (right, bottom), (right, top), (left, top)]
+
+
+def _layout_42_cover_quad(
+    card: Image.Image,
+    sprite: Image.Image | None,
+) -> list[tuple[float, float]] | None:
+    """Screen quad for CoverBG or CoverOverlay, both locked to the same square.
+
+    The overlay's neon lines land on the square's edges. The frost's visible
+    pixels fill that same square, so the two meet.
+    """
+    if sprite is None:
+        return None
+    # The long white run is the line. The short runs at each end are dots.
+    content = _neon_line_frac(sprite)
+    if content is None:
+        return None
+    box_left, box_top, box_right, box_bottom = _LAYOUT_42_COVER_BOX
+    left = box_left * card.width
+    top = box_top * card.height
+    right = box_right * card.width
+    bottom = box_bottom * card.height
+    content_left, content_top, content_right, content_bottom = content
+    span_x = content_right - content_left
+    span_y = content_bottom - content_top
+    if abs(span_x) < 1e-6 or abs(span_y) < 1e-6:
+        return None
+    scale_x = (right - left) / span_x
+    scale_y = (bottom - top) / span_y
+    origin_x = left - content_left * scale_x
+    origin_y = top - content_top * scale_y
+    x1 = origin_x + scale_x
+    y1 = origin_y + scale_y
+    return [(origin_x, y1), (x1, y1), (x1, origin_y), (origin_x, origin_y)]
 
 
 def _layout_42_scene(
@@ -1498,10 +1518,24 @@ def _opaque_bio_plate(art: Image.Image) -> Image.Image:
 
 
 def _ui_font(size: int, *, italic: bool = False) -> ImageFont.ImageFont:
-    fonts = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"
-    faces = ("ariali.ttf", "segoeuii.ttf", "calibrii.ttf") if italic else ("arial.ttf", "segoeui.ttf", "calibri.ttf")
-    for name in faces:
-        path = fonts / name
+    windows = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"
+    if italic:
+        candidates = (
+            windows / "ariali.ttf",
+            windows / "segoeuii.ttf",
+            windows / "calibrii.ttf",
+            Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf"),
+            Path("/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf"),
+        )
+    else:
+        candidates = (
+            windows / "arial.ttf",
+            windows / "segoeui.ttf",
+            windows / "calibri.ttf",
+            Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+            Path("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"),
+        )
+    for path in candidates:
         if path.is_file():
             return ImageFont.truetype(str(path), size)
     return ImageFont.load_default()
@@ -1538,6 +1572,73 @@ def _layout_42_title_panel(
     return image, None, corners
 
 
+def _offset_in_ancestor(
+    child: int,
+    ancestor: int,
+    rects: dict[int, dict],
+) -> tuple[float, float, float, float] | None:
+    """Child rect in an ancestor's space, origin at the ancestor's bottom-left."""
+    chain: list[int] = []
+    current = child
+    while current != ancestor:
+        chain.append(current)
+        father = _pointer(rects[current].get("m_Father"))
+        if father not in rects:
+            return None
+        current = father
+    origin_x = origin_y = 0.0
+    parent_size = rects[ancestor].get("m_SizeDelta") or {}
+    parent_w = abs(float(parent_size.get("x") or 0))
+    parent_h = abs(float(parent_size.get("y") or 0))
+    for node in reversed(chain):
+        x, y, width, height = _local_rect((parent_w, parent_h), rects[node])
+        if node == child:
+            return origin_x + x, origin_y + y, width, height
+        origin_x += x
+        origin_y += y
+        parent_w, parent_h = abs(width), abs(height)
+    return None
+
+
+def _name_label_panel(
+    rects: dict[int, dict],
+    names: dict[int, str],
+    sizes: dict[int, tuple[float, float]],
+) -> tuple[Image.Image, None, list[tuple[float, float, float]]] | None:
+    """USER ID drawn on the name plate so it shares that plate's tilt."""
+    frame_id = title_id = None
+    for path_id in rects:
+        label = _rect_name(path_id, rects, names).strip().lower()
+        parents = {_rect_name(parent, rects, names).strip().lower() for parent in _ancestors(path_id, rects, names)}
+        if "namecontainer" not in parents:
+            continue
+        if label == "frame":
+            frame_id = path_id
+        elif label == "title":
+            title_id = path_id
+    if frame_id is None or title_id is None:
+        return None
+    corners = _layout_42_corners(frame_id, rects, names, sizes)
+    placed = _offset_in_ancestor(title_id, frame_id, rects)
+    if corners is None or placed is None:
+        return None
+    frame = rects[frame_id].get("m_SizeDelta") or {}
+    frame_w = abs(float(frame.get("x") or 0))
+    frame_h = abs(float(frame.get("y") or 0))
+    if frame_w < 2 or frame_h < 2:
+        return None
+    x, y, width, height = placed
+    scale = 4
+    image = Image.new("RGBA", (max(1, int(frame_w * scale)), max(1, int(frame_h * scale))), (0, 0, 0, 0))
+    ImageDraw.Draw(image).text(
+        (int(round(x * scale)), int(round((frame_h - (y + height)) * scale))),
+        "USER ID",
+        font=_ui_font(16 * scale),
+        fill=(247, 202, 206, 255),
+    )
+    return image, None, corners
+
+
 def _layout_42_panels(
     rects: dict[int, dict],
     names: dict[int, str],
@@ -1561,20 +1662,24 @@ def _layout_42_panels(
     # The inner cover quad is about twice the painted screen and would fog the
     # hallway. The white screen in the env frame is the art slot; the overlay is its chrome.
     # BG is the hallway plane (deeper than the canvas) and has to land behind that chrome.
+    overlay = found.get("overlay")
+    if overlay is not None and overlay[0] is not None:
+        sprite, fill, corners = overlay
+        corners = _fit_quad_to_sprite(corners, sprite)
+        found["overlay"] = (sprite, fill, corners)
+        coverbg = found.get("coverbg")
+        if coverbg is not None:
+            # Same quad as the neon frame so the frost meets CoverOverlay.
+            plate, plate_fill, _plate_corners = coverbg
+            found["coverbg"] = (plate, plate_fill, corners)
     panels = []
     for label in ("bg", "coverbg", "overlay", "avatar", "name"):
         panel = found.get(label)
-        if panel is None or len(panel[2]) != 4:
-            continue
-        sprite, fill, corners = panel
-        if label == "overlay" and sprite is not None:
-            # Cover is taller than CoverOverlay. Stretching the sprite pulls the
-            # neon bars apart. Keep the source aspect, centered inside the cover.
-            corners = _fit_quad_to_sprite(corners, sprite)
-        panels.append((sprite, fill, corners))
-    title = _layout_42_title_panel(rects, names, sizes)
-    if title is not None:
-        panels.append(title)
+        if panel is not None and len(panel[2]) == 4:
+            panels.append((label, *panel))
+    label = _name_label_panel(rects, names, sizes)
+    if label is not None:
+        panels.append(("userid", *label))
     for path_id in rects:
         if _rect_name(path_id, rects, names).strip().lower() not in {"lineu", "lined"}:
             continue
@@ -1583,8 +1688,111 @@ def _layout_42_panels(
             continue
         _sprite, fill = _layout_42_paint(path_id, rects, names, images, sprites)
         if fill is not None:
-            panels.append((None, fill, corners))
+            panels.append(("line", None, fill, corners))
     return panels
+
+
+def _overlay_frame_frac(image: Image.Image) -> tuple[float, float, float, float] | None:
+    """Neon-line bounds as (left, bottom, right, top), Y growing upward.
+
+    Falls back to any visible pixel when the sprite has no solid white core.
+    """
+    core = _neon_core_frac(image)
+    if core is not None:
+        left, top, right, bottom = core
+        return (left, 1 - bottom, right, 1 - top)
+    return _sprite_visible_frac(image)
+
+
+def _alpha_bounds_ydown(image: Image.Image, threshold: int) -> tuple[float, float, float, float] | None:
+    """Bounds of pixels at or above ``threshold`` alpha. Origin is the top-left."""
+    pixels = image.convert("RGBA").load()
+    width, height = image.size
+    min_x, min_y = width, height
+    max_x, max_y = -1, -1
+    for y in range(height):
+        for x in range(width):
+            if pixels[x, y][3] < threshold:
+                continue
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+    if max_x < 0 or width < 1 or height < 1:
+        return None
+    return (min_x / width, min_y / height, (max_x + 1) / width, (max_y + 1) / height)
+
+
+def _sprite_visible_frac(image: Image.Image) -> tuple[float, float, float, float] | None:
+    """Opaque bounds as (left, bottom, right, top), Y growing upward."""
+    pixels = image.convert("RGBA").load()
+    width, height = image.size
+    min_x, min_y = width, height
+    max_x, max_y = -1, -1
+    for y in range(height):
+        for x in range(width):
+            if pixels[x, y][3] < 12:
+                continue
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+    if max_x < 0 or width < 1 or height < 1:
+        return None
+    return (
+        min_x / width,
+        1 - (max_y + 1) / height,
+        (max_x + 1) / width,
+        1 - min_y / height,
+    )
+
+
+def _crop_to_alpha(image: Image.Image, threshold: int) -> Image.Image:
+    bounds = _alpha_bounds_ydown(image, threshold)
+    if bounds is None:
+        return image
+    left, top, right, bottom = bounds
+    width, height = image.size
+    box = (
+        int(left * width),
+        int(top * height),
+        max(int(left * width) + 1, int(right * width)),
+        max(int(top * height) + 1, int(bottom * height)),
+    )
+    return image.crop(box)
+
+
+def _neon_line_frac(image: Image.Image) -> tuple[float, float, float, float] | None:
+    """Bounds of the long neon bars, ignoring the dots at each end.
+
+    Returns (left, top, right, bottom) in image space, origin at the top-left.
+    """
+    pixels = image.convert("RGBA").load()
+    width, height = image.size
+    runs: list[tuple[int, int, int]] = []
+    for y in range(height):
+        white = [x for x in range(width) if pixels[x, y][3] > 200 and min(pixels[x, y][:3]) > 220]
+        if not white:
+            continue
+        start = previous = white[0]
+        best: tuple[int, int] | None = None
+        for x in white[1:]:
+            if x > previous + 2:
+                if best is None or previous - start > best[1] - best[0]:
+                    best = (start, previous)
+                start = x
+            previous = x
+        if best is None or previous - start > best[1] - best[0]:
+            best = (start, previous)
+        if best[1] - best[0] > width * 0.4:
+            runs.append((y, best[0], best[1]))
+    if not runs:
+        return _neon_core_frac(image)
+    top = runs[0][0]
+    bottom = runs[-1][0] + 1
+    left = min(item[1] for item in runs)
+    right = max(item[2] for item in runs) + 1
+    return (left / width, top / height, right / width, bottom / height)
 
 
 def _neon_core_frac(image: Image.Image) -> tuple[float, float, float, float] | None:
