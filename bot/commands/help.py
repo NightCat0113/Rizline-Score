@@ -82,10 +82,11 @@ def help_parts(command_ids: dict[str, int]) -> tuple[str, list[tuple[str, str]],
                 [
                     f"{mention('asyncombat')} — Your current Asyncombat ranks",
                     f"{mention('weekly')} — Your weekly tasks",
+                    f"{mention('rizcard')} — Your live Rizcard",
                     (
                         f"These use the login from {mention('bind')}. "
                         f"It lasts 14 days after a successful {mention('bind')}, {mention('refresh')}, "
-                        f"{mention('asyncombat')}, or {mention('weekly')}. "
+                        f"{mention('asyncombat')}, {mention('weekly')}, or {mention('rizcard')}. "
                         "It is stored encrypted and survives a restart. "
                         "Your password and email code are not saved."
                     ),

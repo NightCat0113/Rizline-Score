@@ -8,7 +8,7 @@ Asyncombat (Weekly Challenge), weekly tasks, and the live Rizcard are **not** in
 
 Socket.IO path used by this repo: `websocket/pigeongames.rizline/socket.io`. Transport is **websocket only**.
 
-Do not render Asyncombat from save `challenge` / `challengeProgress`. That array is the eight Starter courses. Do not render `/rizcard` from the `rn_login` / score-cache `rizcard` object. `/b40` still uses that cache and is unchanged.
+Do not render Asyncombat from save `challenge` / `challengeProgress`. That array is the eight Starter courses. `/rizcard` renders the equipped card from a fresh `rn_login` (`fetch_equipped_rizcard`). Do not use `SyncOwnRizcards` / `fetch_own_rizcard` for `/rizcard` — that list is exchanged cards from other players. Do not use the stale score-cache `rizcard` object either; `/b40` still uses that cache and is unchanged.
 
 ## Handshake (unauthenticated)
 
@@ -59,7 +59,7 @@ The first object ack is the payload. Secret keys are never written by the inspec
 | --- | --- |
 | `/asyncombat` | `EnsureWeeklyPlayerInfo`, `RefreshWeeklyPlayerInfo` (errors ignored), then `GetWeeklyRankInfo` |
 | `/weekly` | `GetWeeklyTasks` only. `ClaimWeeklyTaskReward` is not called. |
-| `/rizcard` | `SyncOwnRizcards`, then `FetchStaticRizcardProgress`, then `OnGetStaticCard`. First object ack wins. |
+| `/rizcard` | Fresh `game/rn_login` equipped `rizcard` via `fetch_equipped_rizcard`. Not `SyncOwnRizcards` (exchange inbox). |
 
 ## Weekly rank (`GetWeeklyRankInfo`)
 

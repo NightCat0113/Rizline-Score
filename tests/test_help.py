@@ -38,12 +38,11 @@ def test_help_text_lists_the_main_commands():
         "language",
     ):
         assert f"`/{name}`" in text
-    for name in ("recommend", "achievements", "asyncombat", "weekly"):
+    for name in ("recommend", "achievements", "asyncombat", "weekly", "rizcard"):
         assert f"`/{name}`" in text
     assert "encrypted" in text
     assert "password and email code are not saved" in text
     assert "`/score`" not in text
-    assert "`/rizcard`" not in text
     assert "`/whatif`" not in text
     assert "reload-data" not in text
 
@@ -65,6 +64,7 @@ def test_help_embed_fits_discord_even_with_command_mentions():
             "b40",
             "asyncombat",
             "weekly",
+            "rizcard",
             "refresh",
             "share",
             "unbind",

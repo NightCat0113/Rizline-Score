@@ -23,10 +23,11 @@ The Discord bot calls `rizline/client.py` only through `bot/services/rizline_api
 | `game/rn_login` | Score cache after login or `/refresh` | `{}` | `device_id`, `email`, `token` |
 | `game/async_battle/rank_info` and three alternate paths | `/asyncombat`, tried in order | `{}` | `device_id`, `email`, `token` |
 | `game/get_weekly_tasks` and `get_weekly_tasks` | `/weekly`, tried in order | `{}` | `device_id`, `email`, `token` |
+| `game/rn_login` | `/rizcard` (equipped card only; not the exchange list) | `{}` | `device_id`, `email`, `token` |
 
-If every HTTP path for `/asyncombat` or `/weekly` returns 404, the bot opens a Socket.IO connection to the same pinned host (`rizline/socket.py`). The handshake URL puts `email`, `token`, and `device_id` in the query string. TLS verification is on (`ssl_verify=True`). The socket URL is the constant `https://service.rhyths.net`.
+If every HTTP path for `/asyncombat` or `/weekly` returns 404, the bot opens a Socket.IO connection to the same pinned host (`rizline/socket.py`). `/rizcard` uses `rn_login` only. The handshake URL puts `email`, `token`, and `device_id` in the query string. TLS verification is on (`ssl_verify=True`). The socket URL is the constant `https://service.rhyths.net`.
 
-`fetch_own_rizcard` and `fetch_equipped_rizcard` exist in the client. No slash command calls them. `/rizcard` is not registered.
+`/rizcard` calls `fetch_equipped_rizcard` (a fresh `rn_login`) for the card you have equipped. It does not use `SyncOwnRizcards` / `fetch_own_rizcard`, which is the exchange inbox of other players’ cards. The image is sent through Discord and is not written into the score cache.
 
 The CLI (`rizline/login.py`) still accepts `--base-url` after an HTTPS check. The bot does not expose that option.
 
@@ -61,7 +62,7 @@ Verified by reading the current source, and by the tests named:
 - Structured logging redacts emails, passwords, verification codes, tokens, and device ids (`tests/test_redaction.py`).
 - `Session.__repr__` does not include the token or email.
 - Passwords and email codes are not written by `Database`. The session token is written only as Fernet ciphertext in `sessions`. A copy also lives in `bot/services/sessions.py` until `/unbind`, expiry, auth failure, or process exit.
-- Sessions last 14 days from the last successful `/bind`, `/refresh`, `/asyncombat`, or `/weekly` call. HTTP 401/403 clears the row. `/unbind` deletes it with the binding.
+- Sessions last 14 days from the last successful `/bind`, `/refresh`, `/asyncombat`, `/weekly`, or `/rizcard` call. HTTP 401/403 clears the row. `/unbind` deletes it with the binding.
 - There is no `on_message` handler. The process still requests the Message Content intent. Nothing in `bot/` reads message text.
 
 Residual: a secret shorter than 4 characters is not scrubbed out of free text, because that would corrupt unrelated log lines. The password field is still replaced by `redact()`.
@@ -87,7 +88,7 @@ The score cache built by `derive_minimal_cache` contains:
 - owned `bio.`, `layout.`, `illustration.`, and `altIllustration.` ids
 - a tutorial `challenge` / `challengeProgress` blob
 
-The challenge blob is copied with a denylist of credential-like key names, not an allowlist of known fields. Asyncombat match history is not part of this cache. `/asyncombat` and `/weekly` results are sent back through Discord and are not written into `score_cache`.
+The challenge blob is copied with a denylist of credential-like key names, not an allowlist of known fields. Asyncombat match history is not part of this cache. `/asyncombat`, `/weekly`, and `/rizcard` results are sent back through Discord and are not written into `score_cache`.
 
 `tests/fixtures/sanitized_save.json` is a cache-shaped fixture. A search of that file found no `mails`, `email`, `password`, or `token` keys. It does contain a username and chart results.
 
@@ -114,13 +115,13 @@ Implemented in `bot/security/authz.py`. `dm_only` is an allowlist check. It does
 - Open access lets a stranger spend Rizline API calls on this host through `/bind` and `/refresh`, and store an encrypted session here. The in-process rate limits below are the control. They reset when the process restarts. With a public invite, an empty allowlist is a public login proxy for the game API, not a private bot.
 - `/profile` for another user succeeds only when that user has a live cache and `/share on`. Otherwise the reply is exactly `That result is not available.` The same string is used when the target is unbound, expired, or sharing off (`tests/test_authz.py`). Bound status is not stated in that text.
 - Looking up yourself while unbound is a different message.
-- `/b40`, `/recommend`, `/achievements`, `/asyncombat`, and `/weekly` always use the caller’s own session or cache. Sharing does not grant them.
+- `/b40`, `/recommend`, `/achievements`, `/asyncombat`, `/weekly`, and `/rizcard` always use the caller’s own session or cache. Sharing does not grant them.
 - `/reload-data` and `/refresh-game-data` require `OWNER_ID` when set, otherwise the application owner when that owner is a user. A team-owned app must set `OWNER_ID`.
 - `/bind` opens a modal in the channel where it was invoked. The modal accepts a submit only from that interaction. Allowlist failures are rejected in the modal handler when a list is set.
 
 Residual side channel: `/profile` looks up the target row before choosing the message, so response timing can differ. The text does not. This was not closed with an artificial delay.
 
-**Channel visibility.** `private` defaults to off. `/song`, `/random`, `/profile`, `/b40`, `/recommend`, `/achievements`, `/collection`, `/asyncombat`, `/weekly`, and `/refresh` post in the channel unless the caller sets `private`. A bound user’s `/song` or `/random` card includes their chart results. `/bind`, `/unbind`, and `/help` are always ephemeral. `/share` and `/language` post their confirmation in the channel. Error replies are ephemeral.
+**Channel visibility.** `private` defaults to off. `/song`, `/random`, `/profile`, `/b40`, `/recommend`, `/achievements`, `/collection`, `/asyncombat`, `/weekly`, `/rizcard`, and `/refresh` post in the channel unless the caller sets `private`. A bound user’s `/song` or `/random` card includes their chart results. `/bind`, `/unbind`, and `/help` are always ephemeral. `/share` and `/language` post their confirmation in the channel. Error replies are ephemeral.
 
 The October note that “`/song` is ephemeral when the caller has a cache” is no longer what the source does.
 
@@ -131,7 +132,7 @@ Rate limits (in-process, per Discord user, reset on restart):
 | `/bind` starts | 3 per 10 minutes |
 | `/refresh` | 1 per 30 seconds |
 | Song, score, and collection lookups | 10 per 30 seconds |
-| `/asyncombat` and `/weekly` | 4 per 30 seconds |
+| `/asyncombat`, `/weekly`, and `/rizcard` | 4 per 30 seconds, shared |
 
 There is no separate limit for modal submits.
 

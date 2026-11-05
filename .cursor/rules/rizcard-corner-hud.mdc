@@ -1,0 +1,59 @@
+---
+description: Locked standard rizcard corner HUD pattern (layouts 1–4) — avatar/name/bio sizes and placement
+globs: bot/ui/b40_image.py, tools/rizcard_preview.py, output/_hud_*.png
+alwaysApply: true
+---
+
+# Rizcard standard corner HUD (layout 1 locked)
+
+Layout `00001` is the **reference** finish. Layouts `00002`–`00004` mirror the same metrics via `_stamp_standard_corner_hud` + `_STANDARD_CORNER_HUD` corner pairs. Prefer the named `_HUD_*` constants in `bot/ui/b40_image.py` over magic numbers.
+
+## Pattern
+
+- **Art**: normal colour illustration behind chrome (transparent frame preferred). Layout **37** filter / specials only when the user asks.
+- **Bio (1–4)**: text **centered** in the chrome bio pillar — no generated pill.
+- **Layouts 8–10 + 30** (`_NOTCH_SPLIT_HUD`): avatar **TL**, name **TR**, bio **BR** accent pill. Tuned; treat as locked unless asked.
+- **Layouts 5–7**: mirror — avatar **BR**, name **BL**, bio **TL**. Tuned; treat as locked unless asked.
+- **Layouts 11 + 20** (`_BAND_CENTER_HUD`): avatar on **top** banner seam (centered); name above **bottom** bio pill. Art-window silhouette fixed for open frames.
+- **Layouts 12 + 29**: vertical flip — bio in **top** pill, name below it; avatar on **bottom** banner seam.
+- **Layouts 13–15** (`_FOOTER_STACK_HUD`): BL avatar + name in wide footer bar + bio pill under the bar (same format, different accent colors).
+- **Layout 16**: same slots as **02** (avatar BL, name above the BR bio pill). Nudges: `_L16_AVATAR_X/Y_NUDGE`, `_L16_NAME_X/Y_NUDGE`.
+- **Layout 17**: same sizes and TR avatar as **03**, but the name sits **under** the bio pill. Nudges: `_L17_*`.
+- **Layout 18**: same footer metrics as **14**, name raised (`_L18_NAME_Y_NUDGE`, negative = higher). Plate is forced opaque.
+- **Layout 19**: layout 18 mirrored and moved to the top. Nudges: `_L19_*`. Plate is forced opaque.
+- `+X` on those nudges moves right, `+Y` moves down. They do not move the reference layout.
+- **Layouts 1–20 are temporarily locked.** Do not retune them while working on 21–28.
+- **Layouts 21–28** (`_WAVE_HUD`): colored banner. The avatar uses the circle already authored on that layout. 21–24 keep the bio in a far pill. 25–26 stack the name above the bio on the banner. 27–28 stack the bio above the name. Nudges live in `_WAVE_NUDGE` (`avatar`, `name`, `bio`; +X right, +Y down). Layouts 1–20 stay locked.
+- **Name**: white fill + thin layout-accent stroke; slight letter tracking; **always above** the bio pillar (including bottom-corner layouts 00002/00004); right-side names align near the pillar’s **true** rounded-cap right (expand pillar bbox beyond top/bottom arcs).
+- **Avatar**: circular portrait in the opposite corner from name+bio; tighter Y gap than X gap.
+
+## Corner map
+
+| Layout | Avatar | Name+bio |
+|--------|--------|----------|
+| 00001  | TL     | TR       |
+| 00002  | BL     | BR       |
+| 00003  | TR     | TL       |
+| 00004  | BR     | BL       |
+
+## Locked sizes @ 1468×2048 (layout.00001)
+
+| Element | Rule | ≈ px |
+|---------|------|------|
+| Avatar diameter | `max(151, int(w*0.195) - 1)` | **285** |
+| Avatar gap X | `max(30, w//48)` | ~30 |
+| Avatar gap Y | `max(16, w//72)` | ~20 |
+| Name size | `max(46, int(w*0.064))` | **93** |
+| Name stroke | `max(1, name_size//28)` | **3** |
+| Name tracking | `max(1, name_size//47)` | **1** |
+| Name clear above pillar | `max(10, pillar_gap + stroke + 23 - 3)` | ~34 |
+| Name flush (right) | `stroke_w - 9` | pulls slightly inside cap |
+| Bio size | `max(16, min(pill_h*0.42, w*0.028))`, shrink-to-fit ≥11 | **~37** before shrink |
+
+## Rebake snapshots
+
+`tools/rizcard_preview.py` does **not** write `output/_hud_*.png`. To update disk previews, call `render_rizcard` and `write_bytes` to `output/_hud_0000N.png`.
+
+## Next rizcards
+
+Reuse these `_HUD_*` ratios/sizes unless the user asks to retune. Special layouts keep their own path (e.g. layout 37).

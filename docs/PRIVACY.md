@@ -24,13 +24,13 @@ Data is kept only to do the thing you asked for: look up songs, render a card, r
 | Language preference | Render card and UI text in your language | Until you ask for deletion; **survives** `/unbind` |
 | Sharing flag (`/share`) | Decide whether other bot users may open your `/profile` | Until `/unbind` removes the binding |
 | Encrypted score cache | Answer score commands without logging in every time. The cache holds your Rizline username, RKS, per-chart scores, profile-card ids (avatar, bio, background, layout), achievement ids and unlock times, owned bio / layout / illustration ids, and tutorial challenge progress. It does not hold Asyncombat match history | Until the cache TTL expires (default 24 hours), you `/refresh` or `/bind` again, or you `/unbind` |
-| Rizline email, session token, and a device id the bot generates for that login | Keep a live session for `/refresh`, `/asyncombat`, `/weekly`, and related live calls | **Encrypted** in the bot database until `/unbind`, 14 days without a successful live call, or Rizline rejects the login. A successful `/bind`, `/refresh`, `/asyncombat`, or `/weekly` starts a new 14-day window. A copy also stays in the bot process until then |
+| Rizline email, session token, and a device id the bot generates for that login | Keep a live session for `/refresh`, `/asyncombat`, `/weekly`, `/rizcard`, and related live calls | **Encrypted** in the bot database until `/unbind`, 14 days without a successful live call, or Rizline rejects the login. A successful `/bind`, `/refresh`, `/asyncombat`, `/weekly`, or `/rizcard` starts a new 14-day window. A copy also stays in the bot process until then |
 | Rizline password or email verification code | Log in once during `/bind` | Used once, then discarded. **Not** written to the database. You enter it in a hidden form, not as a chat message |
 | Command interaction metadata that Discord delivers to the bot | Run slash commands and send replies | Handled in the bot process. Discord also keeps its own copies under Discord’s policies |
 
 Song, art, series, and catalog lookups do not require Rizline credentials. If you are already bound, `/song` and `/random` draw your chart results on the image they send.
 
-`/asyncombat` and `/weekly` ask the game for a fresh result and send it back through Discord. Those live payloads are not written into the score cache.
+`/asyncombat`, `/weekly`, and `/rizcard` ask the game for a fresh result and send it back through Discord. Those live payloads are not written into the score cache.
 
 ## 3. What we do not store
 
@@ -61,7 +61,7 @@ People who can see the channel can see a public reply, including a song card tha
 
 By default, other people who use this bot **cannot** see your scores.
 
-If you turn `/share on`, other users of this bot can open your scores with `/profile` while your encrypted cache is still valid. If the cache has expired, they still get an unavailable result until you `/refresh` or `/bind` again. Sharing does not let them run `/b40`, `/recommend`, `/achievements`, `/asyncombat`, or `/weekly` on your account.
+If you turn `/share on`, other users of this bot can open your scores with `/profile` while your encrypted cache is still valid. If the cache has expired, they still get an unavailable result until you `/refresh` or `/bind` again. Sharing does not let them run `/b40`, `/recommend`, `/achievements`, `/asyncombat`, `/weekly`, or `/rizcard` on your account.
 
 Turn `/share off` (or leave it off) to stop that lookup. `/unbind` also removes the binding that sharing depends on.
 

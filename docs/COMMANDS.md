@@ -43,11 +43,11 @@ Then:
 - `/recommend` suggests scores that would raise your RKS.
 - `/achievements` lists what you have unlocked.
 - `/collection` with **Owned** or **Missing** compares the catalog with what you have.
-- `/asyncombat` and `/weekly` ask the game for a live result. They need the saved login, not just the cache.
+- `/asyncombat`, `/weekly`, and `/rizcard` ask the game for a live result. They need the saved login, not just the cache.
 
 ### 4. After you play
 
-Run `/refresh` before you expect new numbers. The cache is kept for about 24 hours. The saved login lasts 14 days after a successful `/bind`, `/refresh`, `/asyncombat`, or `/weekly`. When it expires, `/bind` again.
+Run `/refresh` before you expect new numbers. The cache is kept for about 24 hours. The saved login lasts 14 days after a successful `/bind`, `/refresh`, `/asyncombat`, `/weekly`, or `/rizcard`. When it expires, `/bind` again.
 
 ### 5. Choose who can see the reply
 
@@ -55,7 +55,7 @@ A reply shows in the channel where you ran the command. Turn on `private` when o
 
 `/bind`, `/unbind`, and `/help` are always hidden. `/share` and `/language` post their confirmation in the channel.
 
-Other people who use this bot cannot open your `/profile` unless you run `/share` and choose `on`. Sharing stays off until you turn it on. `/b40`, `/recommend`, `/achievements`, `/asyncombat`, and `/weekly` stay yours either way.
+Other people who use this bot cannot open your `/profile` unless you run `/share` and choose `on`. Sharing stays off until you turn it on. `/b40`, `/recommend`, `/achievements`, `/asyncombat`, `/weekly`, and `/rizcard` stay yours either way.
 
 `/language` sets the words on the cards: English, 简体中文, 繁體中文, or 日本語.
 
@@ -81,6 +81,7 @@ Song lookups read a catalog stored with the bot. Score commands read the cache f
 | `/achievements` | Your cache | Achievement checklist |
 | `/asyncombat` | A saved login | Live Asyncombat ranks |
 | `/weekly` | A saved login | Live weekly tasks |
+| `/rizcard` | A saved login | Live Rizcard image |
 | `/share` | A binding | Sharing on or off |
 | `/language` | Nothing | Card language |
 | `/unbind` | Nothing | Deletes the binding, cache, and saved login |
@@ -205,6 +206,14 @@ A later `/bind` replaces the old login. If the password is rejected, the bot can
 **What it does.** Sends a paged list of this week’s tasks and how far you are. Buttons change the page. Only you can press them. Task text follows `/language`.
 
 **How it works.** Same live login as `/asyncombat`. The result is not written into the score cache. Set `private` to hide the reply.
+
+## `/rizcard`
+
+**Function.** Show your live Rizcard.
+
+**What it does.** Sends an image of the Rizcard you have equipped. The picture comes from the game at the moment you run the command. It is not read from the score cache, and it is not kept in the database after the reply is sent.
+
+**How it works.** Same live login as `/asyncombat`. A successful call extends that login by 14 days. If the session is missing or rejected, run `/bind` again. Set `private` to hide the image. Live lookups are rate-limited.
 
 ## `/share`
 

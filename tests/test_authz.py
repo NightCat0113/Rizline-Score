@@ -111,6 +111,7 @@ def test_slash_commands_register_without_network(tmp_path):
         "collection",
         "asyncombat",
         "weekly",
+        "rizcard",
         "reload-data",
         "refresh-game-data",
         "series",

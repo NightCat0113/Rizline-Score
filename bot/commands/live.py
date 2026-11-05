@@ -1,4 +1,4 @@
-"""Live commands: /asyncombat and /weekly. /rizcard is disabled."""
+"""Live commands: /asyncombat, /weekly, and /rizcard."""
 
 from __future__ import annotations
 
@@ -16,9 +16,11 @@ from bot.services import rizline_api
 from bot.services.asyncombat import map_weekly_rank
 from bot.services.language import user_language
 from bot.services.profile import local_profile
+from bot.services.rizcard import has_card_art
 from bot.services.weekly_tasks import map_weekly_tasks
 from bot.services.sessions import is_auth_failure
 from bot.ui.asyncombat_image import render_asyncombat
+from bot.ui.rizcard_image import render_live_rizcard
 from bot.ui.views import SESSION_EXPIRED
 from bot.ui.weekly_view import WeeklyTaskView
 from rizline.client import RizlineError
@@ -145,3 +147,54 @@ class LiveCog(commands.Cog):
             language=language,
         )
         await interaction.followup.send(view.render(), view=view, ephemeral=private)
+
+    @app_commands.command(name="rizcard", description="Show your live Rizcard")
+    @app_commands.allowed_installs(guilds=True, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(private="Only you can see this reply")
+    @dm_only()
+    async def rizcard(self, interaction: discord.Interaction, private: bool = False) -> None:
+        session = await self._session(interaction)
+        if session is None:
+            return
+        await interaction.response.defer(ephemeral=private)
+        secrets = (session.email, session.token, session.device_id)
+        try:
+            # Equipped card from a fresh rn_login — not SyncOwnRizcards (exchange inbox).
+            payload = await rizline_api.equipped_rizcard(session.email, session.token, session.device_id)
+            if not has_card_art(payload):
+                await interaction.followup.send(_FETCH_FAILED, ephemeral=True)
+                return
+            username, card = self._profile(interaction)
+            try:
+                live_rks = float(payload["totalRks"]) if payload.get("totalRks") is not None else float(card.get("totalRks") or 0)
+            except (TypeError, ValueError, KeyError):
+                live_rks = float(card.get("totalRks") or 0)
+            settings = interaction.client.settings
+            png = await asyncio.to_thread(
+                render_live_rizcard,
+                payload,
+                username=str(payload.get("username") or username),
+                total_rks=live_rks,
+                illust_hires_dir=settings.illust_hires_dir,
+                illust_dir=settings.illust_dir,
+                font_path=settings.font_path,
+                repo_root=settings.repo_root,
+                language=user_language(interaction.client.db, interaction.user.id),
+            )
+        except RizlineError as exc:
+            log_safe(logging.WARNING, "rizcard failed type=%s detail=%s", type(exc).__name__, str(exc), secrets=secrets)
+            await self._live_error(interaction, exc)
+            return
+        except Exception as exc:
+            logger.error("rizcard image failed type=%s", type(exc).__name__)
+            await interaction.followup.send(
+                "Something went wrong. The details were not included here.",
+                ephemeral=True,
+            )
+            return
+        interaction.client.sessions.touch(interaction.user.id)
+        await interaction.followup.send(
+            file=discord.File(io.BytesIO(png), filename="rizcard.png"),
+            ephemeral=private,
+        )

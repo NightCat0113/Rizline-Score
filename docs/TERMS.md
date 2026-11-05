@@ -12,7 +12,7 @@ By using Rizline Lookup (the “Service”), you agree to these terms and to the
 
 Rizline Lookup is an unofficial Discord bot for the rhythm game Rizline. You can use it in a server, a direct message, or a group chat after the bot is added there or installed on your Discord account.
 
-Without an account, it looks up songs, jacket art, track series, chart lists, and the bio, layout, and art catalogs. If you bind a Rizline account, it can also show your scores, Best 40, score targets, achievements, collection progress, Asyncombat ranks, and weekly tasks.
+Without an account, it looks up songs, jacket art, track series, chart lists, and the bio, layout, and art catalogs. If you bind a Rizline account, it can also show your scores, Best 40, score targets, achievements, collection progress, Asyncombat ranks, weekly tasks, and your Rizcard.
 
 It is a fan-made tool, run by one person. It is **not** affiliated with, endorsed by, or operated by Pigeon Games or by Discord.
 

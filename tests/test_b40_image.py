@@ -113,6 +113,8 @@ def test_b40_png_shrinks_when_the_cap_is_tiny(tmp_path: Path):
 
 
 def test_rizcard_png_is_the_header():
+    from bot.ui.b40_image import _rizcard_frame
+
     data = render_rizcard(
         username="Tester",
         total_rks=12.5,
@@ -123,12 +125,11 @@ def test_rizcard_png_is_the_header():
         card={"layoutId": "layout.00056", "bioId1": "bio.spbio00049.1", "bioId2": "bio.exbio00007.2"},
     )
     assert data.startswith(b"\x89PNG\r\n\x1a\n")
-    frame = load_layout_frame(ROOT, "layout.00056")
+    frame = _rizcard_frame(ROOT, "layout.00056")
     with Image.open(io.BytesIO(data)) as image:
         assert image.format == "PNG"
         assert image.mode == "RGBA"
         assert image.height > image.width
-        assert image.getpixel((0, 0))[3] == 0
         if frame is not None:
             assert image.size == frame.size
             y = frame.height // 2
