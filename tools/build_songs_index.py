@@ -86,6 +86,9 @@ ORIGINALS = {
     "FrozenHeart.A39沙包P.0": ("Rizline Original", ""),
     "8BLUE.ariiolPIKASONIC.0": ("Rizline Original", ""),
     "溶けてゆく.A39.0": ("Rizline Original", ""),
+    "WrittenLines.Iris.0": ("Rizline Original", ""),
+    "Ho[Riz]oN.Shiba.0": ("Rizline Original", ""),
+    "Con::neC.SaltySalt.0": ("Rizline Original", ""),
 }
 
 
