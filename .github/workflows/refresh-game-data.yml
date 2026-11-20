@@ -60,7 +60,21 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh Rizline song catalog from game data."
-          git push origin HEAD:main
+          # main may move while the long download/export step runs; rebase then push.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+            echo "Push race (attempt ${attempt}); retrying..."
+            sleep $((attempt * 5))
+          done
+          echo "Failed to push catalog commit after retries."
+          exit 1
 
       - name: Pack art
         run: python tools/pack_altare.py --art-only --out art.zip
