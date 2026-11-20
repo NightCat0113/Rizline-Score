@@ -77,14 +77,57 @@ jobs:
           fi
           API="https://panel.altare.global/api/client"
           AUTH=(-H "Authorization: Bearer ${ALTARE_API_KEY}" -H "Accept: application/json")
-          URL=$(curl -fsS "${API}/servers/${ALTARE_SERVER_ID}/files/upload" "${AUTH[@]}" | jq -r .attributes.url)
-          curl -fsS -X POST "${URL}&directory=%2F" -F "files=@deploy.zip"
-          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/decompress" \
+
+          # Altare/panel 502s are common; retry with backoff.
+          curl_retry() {
+            local label=$1
+            shift
+            local attempt=1 max=5 delay=5
+            while true; do
+              echo "${label} (attempt ${attempt}/${max})..."
+              if curl -fsS "$@"; then
+                return 0
+              fi
+              if (( attempt >= max )); then
+                echo "${label} failed after ${max} attempts."
+                return 1
+              fi
+              echo "${label} failed; retrying in ${delay}s..."
+              sleep "${delay}"
+              attempt=$((attempt + 1))
+              delay=$((delay * 2))
+            done
+          }
+
+          upload_deploy() {
+            local attempt=1 max=5 delay=5
+            while true; do
+              echo "Upload deploy.zip (attempt ${attempt}/${max})..."
+              # Signed upload URLs are one-shot; refresh on every attempt.
+              URL=$(curl -fsS "${API}/servers/${ALTARE_SERVER_ID}/files/upload" "${AUTH[@]}" | jq -r .attributes.url)
+              if [[ -z "${URL}" || "${URL}" == "null" ]]; then
+                echo "Upload URL missing from Altare response."
+              elif curl -fsS -X POST "${URL}&directory=%2F" -F "files=@deploy.zip"; then
+                return 0
+              fi
+              if (( attempt >= max )); then
+                echo "Upload deploy.zip failed after ${max} attempts."
+                return 1
+              fi
+              echo "Upload failed; retrying in ${delay}s..."
+              sleep "${delay}"
+              attempt=$((attempt + 1))
+              delay=$((delay * 2))
+            done
+          }
+
+          upload_deploy
+          curl_retry "Decompress deploy.zip" -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/decompress" \
             "${AUTH[@]}" -H "Content-Type: application/json" \
             -d '{"root":"/","file":"deploy.zip"}'
-          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/delete" \
+          curl_retry "Delete deploy.zip" -X POST "${API}/servers/${ALTARE_SERVER_ID}/files/delete" \
             "${AUTH[@]}" -H "Content-Type: application/json" \
             -d '{"root":"/","files":["deploy.zip"]}'
-          curl -fsS -X POST "${API}/servers/${ALTARE_SERVER_ID}/power" \
+          curl_retry "Restart server" -X POST "${API}/servers/${ALTARE_SERVER_ID}/power" \
             "${AUTH[@]}" -H "Content-Type: application/json" \
             -d '{"signal":"restart"}'
