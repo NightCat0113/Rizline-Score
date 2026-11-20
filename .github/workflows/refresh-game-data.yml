@@ -60,22 +60,42 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh Rizline song catalog from game data."
-          # Export leaves dirty/untracked working-tree files (art under output/).
-          # Stash them so rebase can run; main may also move during the long job.
+          # Export dirties the worktree (and ignored art under output/). Move art
+          # aside, hard-clean so rebase always works, then restore for pack/upload.
+          PRESERVE="${RUNNER_TEMP:-/tmp}/rizline-preserve-$$"
+          mkdir -p "${PRESERVE}"
+          for dir in output download; do
+            if [ -e "${dir}" ]; then
+              mv "${dir}" "${PRESERVE}/"
+            fi
+          done
+          git reset --hard HEAD
+          git clean -fd
+          git status --short || true
+
           for attempt in 1 2 3; do
             git fetch origin main
-            git stash push --include-untracked -m "refresh-game-data art/workdir" || true
             if git rebase origin/main; then
               if git push origin HEAD:main; then
-                git stash pop || true
+                for dir in output download; do
+                  if [ -e "${PRESERVE}/${dir}" ]; then
+                    rm -rf "${dir}"
+                    mv "${PRESERVE}/${dir}" "${dir}"
+                  fi
+                done
                 exit 0
               fi
             else
               git rebase --abort || true
             fi
-            git stash pop || true
             echo "Push race (attempt ${attempt}); retrying..."
             sleep $((attempt * 5))
+          done
+          for dir in output download; do
+            if [ -e "${PRESERVE}/${dir}" ]; then
+              rm -rf "${dir}"
+              mv "${PRESERVE}/${dir}" "${dir}"
+            fi
           done
           echo "Failed to push catalog commit after retries."
           exit 1
