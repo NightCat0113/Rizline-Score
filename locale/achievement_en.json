@@ -264,7 +264,7 @@
     "desc": "Complete a track with Bad more than Hit"
   },
   "8blue": {
-    "name": "Bubble o ·。·  O .",
+    "name": "Bubbles o ·。·  O .",
     "title1": "Not Really",
     "title2": "Bubble Machine",
     "desc": "Get a \"PERFECT\" grade in \"8BLUE\""
@@ -373,7 +373,7 @@
   },
   "never_say_goodbye": {
     "name": "Embrace in the colorful glow",
-    "title1": "Never-fading",
+    "title1": "Never-Fading",
     "title2": "Promise",
     "desc": "Get a \"PERFECT\" grade in \"Never Say Goodbye\""
   },
@@ -406,5 +406,29 @@
     "title1": "Realized",
     "title2": "Ideal",
     "desc": "Get a \"PERFECT\" grade in \"千星光輪依頼症\""
+  },
+  "written_lines": {
+    "name": "Who wrote the lines?",
+    "title1": "Between Worlds",
+    "title2": "Threads of Lines",
+    "desc": "Get a \"PERFECT\" grade in \"Written Lines\""
+  },
+  "horizon": {
+    "name": "Gazing at the edge of earth",
+    "title1": "Seem Like",
+    "title2": "Sea Level",
+    "desc": "Get a \"PERFECT\" grade in \"Ho(Riz)oN\""
+  },
+  "connec": {
+    "name": "Bridging the two worlds",
+    "title1": "Real-World",
+    "title2": "Virtual World",
+    "desc": "Get a \"PERFECT\" grade in \"Con::neC\""
+  },
+  "ap_connecat": {
+    "name": "Pulling me and the rhythms",
+    "title1": "Feel",
+    "title2": "Rhythm",
+    "desc": "Get a \"PERFECT\" grade in AT of \"Con::neC\""
   }
 }

@@ -5749,6 +5749,275 @@
       "bpm": 175.0,
       "length": 165.8,
       "illustrator": "23333喵 & X-Chalk & SiLENTORANGE"
+    },
+    {
+      "assetId": "WrittenLines.Iris.0",
+      "title": "Written Lines",
+      "artist": "Iris",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.WrittenLines.Iris.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 5.0,
+          "hit": 377,
+          "combo": 1484,
+          "score": 1016000,
+          "rizHit": 160,
+          "designer": "Written Shine"
+        },
+        "HD": {
+          "level": 9.5,
+          "hit": 718,
+          "combo": 2848,
+          "score": 1031500,
+          "rizHit": 315,
+          "designer": "Written Shine"
+        },
+        "IN": {
+          "level": 14.1,
+          "hit": 1118,
+          "combo": 4448,
+          "score": 1040300,
+          "rizHit": 403,
+          "designer": "百九十八"
+        }
+      },
+      "bpm": 165.0,
+      "length": 140.5,
+      "illustrator": "山山奇"
+    },
+    {
+      "assetId": "GardenofEdenfeatAKA.XinG.0",
+      "title": "Garden of Eden feat. AKA",
+      "artist": "XinG",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.GardenofEdenfeatAKA.XinG.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.0,
+          "hit": 260,
+          "combo": 1016,
+          "score": 1006100,
+          "rizHit": 61,
+          "designer": "MBZJ"
+        },
+        "HD": {
+          "level": 7.5,
+          "hit": 525,
+          "combo": 2076,
+          "score": 1012000,
+          "rizHit": 120,
+          "designer": "MBZJ"
+        },
+        "IN": {
+          "level": 13.5,
+          "hit": 1043,
+          "combo": 4148,
+          "score": 1017200,
+          "rizHit": 172,
+          "designer": "伊甸真月"
+        }
+      },
+      "bpm": 170.0,
+      "length": 156.7,
+      "illustrator": "群青kurara"
+    },
+    {
+      "assetId": "月下桜天国.ZuxinwithUtsuro.0",
+      "title": "月下桜天国",
+      "artist": "Zuxin with Utsuro",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.月下桜天国.ZuxinwithUtsuro.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 1.5,
+          "hit": 179,
+          "combo": 692,
+          "score": 1004400,
+          "rizHit": 44,
+          "designer": "霜炎酱"
+        },
+        "HD": {
+          "level": 6.5,
+          "hit": 383,
+          "combo": 1508,
+          "score": 1010400,
+          "rizHit": 104,
+          "designer": "霜炎酱"
+        },
+        "IN": {
+          "level": 11.8,
+          "hit": 702,
+          "combo": 2784,
+          "score": 1020000,
+          "rizHit": 200,
+          "designer": "月下叁玖柒"
+        }
+      },
+      "bpm": 138.0,
+      "length": 129.6,
+      "illustrator": "群青kurara feat. Jimwaz"
+    },
+    {
+      "assetId": "HoRizoN.ShiBa.0",
+      "title": "Ho(Riz)oN",
+      "artist": "ShiBa",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.HoRizoN.ShiBa.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 4.5,
+          "hit": 375,
+          "combo": 1476,
+          "score": 1012600,
+          "rizHit": 126,
+          "designer": "百九十八"
+        },
+        "HD": {
+          "level": 9.0,
+          "hit": 678,
+          "combo": 2688,
+          "score": 1018200,
+          "rizHit": 182,
+          "designer": "百九十八"
+        },
+        "IN": {
+          "level": 13.8,
+          "hit": 1173,
+          "combo": 4668,
+          "score": 1030600,
+          "rizHit": 306,
+          "designer": "Sh(I)nE"
+        }
+      },
+      "bpm": 123.0,
+      "length": 150.2,
+      "illustrator": "群青kurara feat. Jimwaz"
+    },
+    {
+      "assetId": "Daydream.RiraN.0",
+      "title": "Daydream",
+      "artist": "RiraN",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.Daydream.RiraN.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 3.5,
+          "hit": 356,
+          "combo": 1400,
+          "score": 1011000,
+          "rizHit": 110,
+          "designer": "真月"
+        },
+        "HD": {
+          "level": 8.0,
+          "hit": 607,
+          "combo": 2404,
+          "score": 1012800,
+          "rizHit": 128,
+          "designer": "真月"
+        },
+        "IN": {
+          "level": 13.3,
+          "hit": 1223,
+          "combo": 4868,
+          "score": 1033600,
+          "rizHit": 336,
+          "designer": ">>>"
+        },
+        "SP": {
+          "level": 0,
+          "levelText": "砖",
+          "trackId": "Daydream.RiraN.1",
+          "hit": 1848,
+          "combo": 7368,
+          "score": 1049200,
+          "rizHit": 492,
+          "designer": "Pat Brick Man Pro"
+        }
+      },
+      "bpm": 150.0,
+      "length": 144.4,
+      "illustrator": "Jimwaz"
+    },
+    {
+      "assetId": "conflict.siromarucranky.0",
+      "title": "conflict",
+      "artist": "siromaru + cranky",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.conflict.siromarucranky.0",
+      "aliases": [],
+      "charts": {
+        "EZ": {
+          "level": 6.0,
+          "hit": 465,
+          "combo": 1836,
+          "score": 1010200,
+          "rizHit": 102,
+          "designer": "Hi 小Abyss"
+        },
+        "HD": {
+          "level": 10.0,
+          "hit": 948,
+          "combo": 3768,
+          "score": 1026000,
+          "rizHit": 260,
+          "designer": "Hi 小Abyss"
+        },
+        "IN": {
+          "level": 14.4,
+          "hit": 1247,
+          "combo": 4964,
+          "score": 1026200,
+          "rizHit": 262,
+          "designer": "UMa-Δ + Megrez"
+        }
+      },
+      "bpm": 160.0,
+      "length": 137.6,
+      "illustrator": "iimo"
+    },
+    {
+      "assetId": "ConneC.SaltySalt.0",
+      "title": "Con::neC",
+      "artist": "Salty Salt",
+      "discName": "Disc Δ",
+      "illustrationId": "illustration.ConneC.SaltySalt.0",
+      "aliases": [],
+      "charts": {
+        "HD": {
+          "level": 8.5,
+          "hit": 782,
+          "combo": 3104,
+          "score": 1030300,
+          "rizHit": 303,
+          "designer": "现世::异世"
+        },
+        "IN": {
+          "level": 13.9,
+          "hit": 1161,
+          "combo": 4620,
+          "score": 1041500,
+          "rizHit": 415,
+          "designer": "我::你"
+        },
+        "AT": {
+          "level": 14.9,
+          "hit": 1360,
+          "combo": 5416,
+          "score": 1058000,
+          "rizHit": 580,
+          "designer": "律动::轨迹"
+        }
+      },
+      "bpm": 150.0,
+      "length": 2.1,
+      "illustrator": "群青kurara feat. Jimwaz"
     }
   ],
   "series": [

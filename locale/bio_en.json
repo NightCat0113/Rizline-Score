@@ -243,6 +243,162 @@
     "title1": "Eventually",
     "title2": "Bed"
   },
+  "exbio00062": {
+    "title1": "Glittering",
+    "title2": "Coffee Cup"
+  },
+  "exbio00063": {
+    "title1": "Ethereal",
+    "title2": "Cotton Candy"
+  },
+  "exbio00064": {
+    "title1": "Silent",
+    "title2": "Manatee"
+  },
+  "exbio00065": {
+    "title1": "Carnival",
+    "title2": "Volcano"
+  },
+  "exbio00066": {
+    "title1": "Intoxicated",
+    "title2": "Meat Bun"
+  },
+  "exbio00067": {
+    "title1": "Emotional",
+    "title2": "Crescent"
+  },
+  "exbio00068": {
+    "title1": "Taciturn",
+    "title2": "Courier"
+  },
+  "exbio00069": {
+    "title1": "Bright",
+    "title2": "Clockwork"
+  },
+  "exbio00070": {
+    "title1": "Belated",
+    "title2": "Awkwardness"
+  },
+  "exbio00071": {
+    "title1": "All-Night",
+    "title2": "Crayfish"
+  },
+  "exbio00072": {
+    "title1": "Angry",
+    "title2": "Brush"
+  },
+  "exbio00073": {
+    "title1": "Blazing",
+    "title2": "Magic Prop"
+  },
+  "exbio00074": {
+    "title1": "Elusive",
+    "title2": "Wheel"
+  },
+  "exbio00075": {
+    "title1": "Distant",
+    "title2": "Cheering Squad"
+  },
+  "exbio00076": {
+    "title1": "Azure",
+    "title2": "Sewing Box"
+  },
+  "exbio00077": {
+    "title1": "Refreshed",
+    "title2": "Light Bulb"
+  },
+  "exbio00078": {
+    "title1": "Hushed",
+    "title2": "Correction Fluid"
+  },
+  "exbio00079": {
+    "title1": "Inescapable",
+    "title2": "Trial Ground"
+  },
+  "exbio00080": {
+    "title1": "Chaotic",
+    "title2": "Exorcist"
+  },
+  "exbio00081": {
+    "title1": "Last",
+    "title2": "Marble"
+  },
+  "exbio00082": {
+    "title1": "Anti-Gravity",
+    "title2": "Drone"
+  },
+  "exbio00083": {
+    "title1": "Wandering",
+    "title2": "Tide"
+  },
+  "exbio00084": {
+    "title1": "Reunited",
+    "title2": "Market"
+  },
+  "exbio00085": {
+    "title1": "Miraculous",
+    "title2": "Pianist"
+  },
+  "exbio00086": {
+    "title1": "Regretful",
+    "title2": "Barrage"
+  },
+  "exbio00087": {
+    "title1": "Off-Beat",
+    "title2": "Choir"
+  },
+  "exbio00088": {
+    "title1": "Broken",
+    "title2": "Tuner"
+  },
+  "exbio00089": {
+    "title1": "Involuntary",
+    "title2": "Cauliflower"
+  },
+  "exbio00090": {
+    "title1": "Serial",
+    "title2": "Squid"
+  },
+  "exbio00091": {
+    "title1": "Surging",
+    "title2": "Wyvern"
+  },
+  "exbio00092": {
+    "title1": "Unforeseen",
+    "title2": "Damage"
+  },
+  "exbio00093": {
+    "title1": "Moonlit",
+    "title2": "Sword of Light"
+  },
+  "exbio00094": {
+    "title1": "Missed",
+    "title2": "Butter"
+  },
+  "exbio00095": {
+    "title1": "Delayed",
+    "title2": "Frequency"
+  },
+  "exbio00096": {
+    "title1": "Psychedelic",
+    "title2": "Miner"
+  },
+  "exbio00097": {
+    "title1": "Unprecedented",
+    "title2": "Radish Pulling"
+  },
+  "exbio00098": {
+    "title1": "Self-Soundtracked",
+    "title2": "Survivor"
+  },
+  "exbio00099": {
+    "title1": "Swaying-in-the-Wind",
+    "title2": "Wanderer"
+  },
+  "exbio00100": {
+    "title1": "Majestic",
+    "title2": "Fortune Teller"
+  },
   "spbio00024": {
     "title1": "Tune",
     "title2": "Explorer"
@@ -362,5 +518,13 @@
   "spbio00064": {
     "title1": "Everywhere",
     "title2": "Starlight"
+  },
+  "spbio00065": {
+    "title1": "Focused",
+    "title2": "Tester"
+  },
+  "spbio00066": {
+    "title1": "Sky-piercing",
+    "title2": "Paper Plane"
   }
 }

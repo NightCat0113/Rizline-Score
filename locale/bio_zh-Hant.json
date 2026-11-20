@@ -243,6 +243,162 @@
     "title1": "終究還是",
     "title2": "床"
   },
+  "exbio00062": {
+    "title1": "閃耀的",
+    "title2": "咖啡杯"
+  },
+  "exbio00063": {
+    "title1": "縹緲的",
+    "title2": "棉花糖"
+  },
+  "exbio00064": {
+    "title1": "寂靜無聲的",
+    "title2": "海牛"
+  },
+  "exbio00065": {
+    "title1": "狂歡的",
+    "title2": "火山"
+  },
+  "exbio00066": {
+    "title1": "沉醉中的",
+    "title2": "肉包子"
+  },
+  "exbio00067": {
+    "title1": "百感交集的",
+    "title2": "月牙"
+  },
+  "exbio00068": {
+    "title1": "沉默的",
+    "title2": "快遞員"
+  },
+  "exbio00069": {
+    "title1": "明亮的",
+    "title2": "明亮的"
+  },
+  "exbio00070": {
+    "title1": "遲來的",
+    "title2": "尷尬症"
+  },
+  "exbio00071": {
+    "title1": "徹夜未眠的",
+    "title2": "小龍蝦"
+  },
+  "exbio00072": {
+    "title1": "憤怒的",
+    "title2": "毛筆"
+  },
+  "exbio00073": {
+    "title1": "熾烈的",
+    "title2": "魔術道具"
+  },
+  "exbio00074": {
+    "title1": "若即若離的",
+    "title2": "車輪"
+  },
+  "exbio00075": {
+    "title1": "悠遠的",
+    "title2": "親友團"
+  },
+  "exbio00076": {
+    "title1": "蔚藍色的",
+    "title2": "針線盒"
+  },
+  "exbio00077": {
+    "title1": "舒暢的",
+    "title2": "電燈泡"
+  },
+  "exbio00078": {
+    "title1": "靜默的",
+    "title2": "塗改液"
+  },
+  "exbio00079": {
+    "title1": "無從逃離的",
+    "title2": "試煉場"
+  },
+  "exbio00080": {
+    "title1": "雜亂無章的",
+    "title2": "驅魔人"
+  },
+  "exbio00081": {
+    "title1": "最後的",
+    "title2": "彈珠"
+  },
+  "exbio00082": {
+    "title1": "反重力的",
+    "title2": "無人機"
+  },
+  "exbio00083": {
+    "title1": "在路上的",
+    "title2": "浪潮"
+  },
+  "exbio00084": {
+    "title1": "久別重逢的",
+    "title2": "集市"
+  },
+  "exbio00085": {
+    "title1": "奇蹟般的",
+    "title2": "鋼琴家"
+  },
+  "exbio00086": {
+    "title1": "抱憾的",
+    "title2": "彈幕"
+  },
+  "exbio00087": {
+    "title1": "節奏卡殼的",
+    "title2": "合唱團"
+  },
+  "exbio00088": {
+    "title1": "破碎的",
+    "title2": "調律師"
+  },
+  "exbio00089": {
+    "title1": "情不自禁的",
+    "title2": "花椰菜"
+  },
+  "exbio00090": {
+    "title1": "串聯式的",
+    "title2": "烏賊"
+  },
+  "exbio00091": {
+    "title1": "翻騰的",
+    "title2": "飛龍"
+  },
+  "exbio00092": {
+    "title1": "猝不及防的",
+    "title2": "傷害"
+  },
+  "exbio00093": {
+    "title1": "月光下的",
+    "title2": "光之劍"
+  },
+  "exbio00094": {
+    "title1": "錯過的",
+    "title2": "奶油"
+  },
+  "exbio00095": {
+    "title1": "遲到的",
+    "title2": "頻率"
+  },
+  "exbio00096": {
+    "title1": "迷幻的",
+    "title2": "礦工"
+  },
+  "exbio00097": {
+    "title1": "破天荒的",
+    "title2": "拔蘿蔔"
+  },
+  "exbio00098": {
+    "title1": "自帶音效的",
+    "title2": "倖存者"
+  },
+  "exbio00099": {
+    "title1": "風中搖曳的",
+    "title2": "迷路者"
+  },
+  "exbio00100": {
+    "title1": "磅礴的",
+    "title2": "占卜師"
+  },
   "spbio00024": {
     "title1": "音調的",
     "title2": "探秘者"
@@ -362,5 +518,13 @@
   "spbio00064": {
     "title1": "滿目皆是",
     "title2": "星光"
+  },
+  "spbio00065": {
+    "title1": "專心的",
+    "title2": "測試員"
+  },
+  "spbio00066": {
+    "title1": "劃破長空的",
+    "title2": "紙飛機"
   }
 }

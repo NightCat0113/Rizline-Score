@@ -406,5 +406,29 @@
     "title1": "現実になった",
     "title2": "理想",
     "desc": "「千星光輪依頼症」で「PERFECT」評価を獲得する"
+  },
+  "written_lines": {
+    "name": "誰が線を引いた？",
+    "title1": "世界間の",
+    "title2": "幾筋もの糸",
+    "desc": "「Written Lines」で「PERFECT」評価を獲得する"
+  },
+  "horizon": {
+    "name": "大地の果てを眺めれば",
+    "title1": "見えるのは",
+    "title2": "海面",
+    "desc": "「Ho(Riz)oN」で「PERFECT」評価を獲得する"
+  },
+  "connec": {
+    "name": "二つの世界を結び",
+    "title1": "現実の",
+    "title2": "仮想世界",
+    "desc": "「Con::neC」で「PERFECT」評価を獲得する"
+  },
+  "ap_connecat": {
+    "name": "私とリズムを揺さぶる",
+    "title1": "感じる",
+    "title2": "律動",
+    "desc": "「Con::neC」の AT 譜面で「PERFECT」評価を獲得する"
   }
 }

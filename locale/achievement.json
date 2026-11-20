@@ -406,5 +406,29 @@
     "title1": "化作现实的",
     "title2": "理想",
     "desc": "在 “千星光輪依頼症” 中获得 “PERFECT” 评价"
+  },
+  "written_lines": {
+    "name": "是谁画下了线？",
+    "title1": "世界间的",
+    "title2": "一缕缕线",
+    "desc": "在 “Written Lines” 中获得 “PERFECT” 评价"
+  },
+  "horizon": {
+    "name": "眺望天地的交界",
+    "title1": "看起来是",
+    "title2": "海平面",
+    "desc": "在 “Ho(Riz)oN” 中获得 “PERFECT” 评价"
+  },
+  "connec": {
+    "name": "联系着两个世界",
+    "title1": "现实中的",
+    "title2": "虚拟世界",
+    "desc": "在 “Con::neC” 中获得 “PERFECT” 评价"
+  },
+  "ap_connecat": {
+    "name": "牵动着我与音弦",
+    "title1": "感受",
+    "title2": "律动",
+    "desc": "在 “Con::neC” 的 AT 关卡中获得 “PERFECT” 评价"
   }
 }
