@@ -7,8 +7,8 @@ import math
 from bot.services.rks import (
     build_records,
     compute_h,
-    expected_rks_if_hit_full,
     get_acc_rks,
+    resolve_riz_quotient,
     score_riz_perfect,
     select_top40,
     strip_track_prefix,
@@ -35,6 +35,28 @@ def resolve_song_filter(index: SongIndex, raw: str | None) -> tuple[set[str], li
             continue
         selected.add(song.asset_id)
     return selected, errors
+
+
+def _chart_hits(chart) -> int:
+    riz_hit = chart.riz_hit
+    if riz_hit <= 0 and chart.score >= 1_000_000:
+        riz_hit = max(0, math.floor((chart.score - 1_000_000) / 100 + 0.5))
+    return compute_h(riz_hit, chart.difficulty)
+
+
+def _score_for_quotient(max_score: int, quotient: int) -> int:
+    return min(max_score, 1_000_000 + quotient * 100)
+
+
+def _plan_target(current_score: int, max_score: int, current_q: int, target_q: int, max_q: int) -> tuple[int, int]:
+    """Return a visible score target and the quotient it corresponds to."""
+    target_q = min(max_q, max(current_q, target_q))
+    target_score = _score_for_quotient(max_score, target_q)
+    if target_score > current_score or target_q >= max_q:
+        return target_score, target_q
+    # Score already covers this quotient; aim at the next score step that can move RKS.
+    bumped = min(max_q, max(target_q, int(score_riz_perfect(current_score)) + 1))
+    return _score_for_quotient(max_score, bumped), bumped
 
 
 def recommend_score_targets(
@@ -67,26 +89,21 @@ def recommend_score_targets(
         chart = song.charts.get(str(row.get("diff") or "")) if song else None
         if chart is None or chart.score <= 0 or chart.level <= 0:
             continue
-        riz_hit = chart.riz_hit
-        if riz_hit <= 0 and chart.score >= 1_000_000:
-            riz_hit = max(0, math.floor((chart.score - 1_000_000) / 100 + 0.5))
-        hits = compute_h(riz_hit, chart.difficulty)
+        hits = _chart_hits(chart)
         if hits <= 0:
             continue
         accuracy = get_acc_rks(float(row.get("completeRate") or 0))
         score = int(row.get("score") or 0)
         observed = float(row.get("rks") or 0)
-        current_q = min(hits, int(score_riz_perfect(score)))
         max_q = min(hits, int(score_riz_perfect(chart.score)))
-        _current_formula, known, matches = expected_rks_if_hit_full(
-            chart.level, hits, score, accuracy, observed
-        )
-        if not known or not matches or max_q <= current_q:
+        score_q = min(hits, int(score_riz_perfect(score)))
+        # Already at (or past) the score ceiling that can affect RKS.
+        if max_q <= score_q:
+            continue
+        current_q = resolve_riz_quotient(chart.level, hits, score, accuracy, observed)
+        if current_q is None or max_q <= current_q:
             continue
 
-        steps_available = max_q - current_q
-        if steps_available <= 0:
-            continue
         per_step = chart.level / hits
         candidates.append(
             {
@@ -119,8 +136,16 @@ def recommend_score_targets(
             if remaining <= 1e-9:
                 break
             steps = min(steps_available, math.ceil(remaining / item["per_step"]))
-        target_score = min(item["max_score"], 1_000_000 + (item["current_q"] + steps) * 100)
-        gain = steps * item["per_step"] / 40
+        target_score, target_q = _plan_target(
+            item["current_score"],
+            item["max_score"],
+            item["current_q"],
+            item["current_q"] + steps,
+            item["max_q"],
+        )
+        if target_score <= item["current_score"]:
+            continue
+        gain = (target_q - item["current_q"]) * item["per_step"] / 40
         plan.append(
             {
                 "title": item["title"],
@@ -132,7 +157,7 @@ def recommend_score_targets(
             }
         )
         if not want_all:
-            remaining -= steps * item["per_step"]
+            remaining -= (target_q - item["current_q"]) * item["per_step"]
 
     # Raise current Best 40 charts to their score-only maximum before finding
     # the replacement cutoffs for songs currently outside the list.
@@ -166,21 +191,18 @@ def recommend_score_targets(
         chart = song.charts.get(key[1]) if song else None
         if chart is None or chart.score <= 0 or chart.level <= 0:
             continue
-        riz_hit = chart.riz_hit
-        if riz_hit <= 0 and chart.score >= 1_000_000:
-            riz_hit = max(0, math.floor((chart.score - 1_000_000) / 100 + 0.5))
-        hits = compute_h(riz_hit, chart.difficulty)
+        hits = _chart_hits(chart)
         if hits <= 0:
             continue
         accuracy = get_acc_rks(float(row.get("completeRate") or 0))
         score = int(row.get("score") or 0)
         observed = float(row.get("rks") or 0)
-        current_q = min(hits, int(score_riz_perfect(score)))
         max_q = min(hits, int(score_riz_perfect(chart.score)))
-        _current_formula, known, matches = expected_rks_if_hit_full(
-            chart.level, hits, score, accuracy, observed
-        )
-        if not known or not matches or max_q <= current_q:
+        score_q = min(hits, int(score_riz_perfect(score)))
+        if max_q <= score_q:
+            continue
+        current_q = resolve_riz_quotient(chart.level, hits, score, accuracy, observed)
+        if current_q is None or max_q <= current_q:
             continue
         outside_candidates.append(
             {
@@ -254,8 +276,16 @@ def recommend_score_targets(
 
 def _append_outside(plan: list[dict], selected: list[dict]) -> None:
     for item in selected:
-        target_score = min(item["max_score"], 1_000_000 + item["target_q"] * 100)
-        target_rks = item["base_rks"] + item["target_q"] * item["per_step"]
+        target_score, target_q = _plan_target(
+            item["current_score"],
+            item["max_score"],
+            item["current_q"],
+            item["target_q"],
+            item["max_q"],
+        )
+        if target_score <= item["current_score"]:
+            continue
+        target_rks = item["base_rks"] + target_q * item["per_step"]
         plan.append(
             {
                 "title": item["title"],

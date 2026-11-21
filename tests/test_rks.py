@@ -5,6 +5,7 @@ from bot.services.rks import (
     build_records,
     compute_h,
     get_acc_rks,
+    resolve_riz_quotient,
     score_counts,
     select_top40,
     top_levels,
@@ -56,3 +57,8 @@ def test_b40_on_sanitized_fixture():
     counts = score_counts(cache)
     assert counts["records"] == len(cache["myBest"])
     assert top_levels(cache, index, limit=5)
+    nsg = next(row for row in records if row["title"] == "Never Say Goodbye" and row["diff"] == "AT")
+    assert nsg["ahStatus"] == 2
+    chart = index.by_asset["NeverSayGoodbye.黒魔.0"].charts["AT"]
+    hits = compute_h(chart.riz_hit, "AT")
+    assert resolve_riz_quotient(chart.level, hits, nsg["score"], get_acc_rks(nsg["completeRate"]), nsg["rks"]) == 935

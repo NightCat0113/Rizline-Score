@@ -122,3 +122,24 @@ def test_max_plan_header_and_shortfall_copy():
     assert "Max score-only gain is +0.030 RKS (requested +1.00)" in text
     assert "Score targets for +1.00" not in text
     assert "Combined plan" not in text
+
+
+def test_rks_inverted_quotient_still_gets_score_targets():
+    """When score-derived q does not float32-match RKS, invert RKS for headroom."""
+    import json
+    from pathlib import Path
+
+    from bot.services.songdata import SongIndex
+
+    root = Path(__file__).resolve().parents[1]
+    index = SongIndex.load(root / "bot" / "static" / "songs_index.json")
+    cache = json.loads((root / "tests" / "fixtures" / "sanitized_save.json").read_text(encoding="utf-8"))
+    plan, maximum = recommend_score_targets(cache, index, increase=None)
+    titles = {row["title"] for row in plan}
+    assert "Never Say Goodbye" in titles
+    assert "BRAVE：ROAD" in titles
+    assert maximum > 0.03
+    assert all(row["target_score"] > row["current_score"] for row in plan)
+    nsg = next(row for row in plan if row["title"] == "Never Say Goodbye")
+    assert nsg["target_score"] == 1_098_000
+    assert nsg["rks_gain"] > 0.01

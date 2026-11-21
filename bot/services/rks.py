@@ -119,6 +119,45 @@ def expected_rks_if_hit_full(
     return expected, True, rks_float32_matches(expected, observed)
 
 
+def _quotient_matches(
+    constant: float,
+    hits: int,
+    quotient: int,
+    accuracy: float,
+    observed: float,
+) -> bool:
+    if quotient < 0 or quotient > hits:
+        return False
+    expected = 10 * constant + accuracy + constant * quotient / hits
+    return rks_float32_matches(expected, observed)
+
+
+def resolve_riz_quotient(
+    constant: float,
+    hits: int,
+    score: int,
+    accuracy: float,
+    observed: float,
+) -> int | None:
+    """Return the Riz-perfect quotient that explains observed RKS.
+
+    Prefer the score-derived quotient when it float32-matches. Otherwise invert
+    the RKS formula. Score and RKS can disagree slightly in saves; inversion
+    still recovers usable score-only headroom for recommendations.
+    """
+    if constant <= 0 or hits <= 0:
+        return None
+    if score > 0:
+        score_q = min(hits, int(score_riz_perfect(score)))
+        if _quotient_matches(constant, hits, score_q, accuracy, observed):
+            return score_q
+    raw = hits * (observed - 10 * constant - accuracy) / constant
+    inverted = js_round(raw)
+    if _quotient_matches(constant, hits, inverted, accuracy, observed):
+        return int(inverted)
+    return None
+
+
 def build_records(
     cache: dict,
     index: SongIndex,
@@ -157,16 +196,18 @@ def build_records(
         hits = compute_h(riz_hit, difficulty)
         accuracy = get_acc_rks(float(best.get("completeRate") or 0))
         observed = float(level.get("rks") or 0)
+        score = int(best.get("score") or 0)
         _value, integral_ok = integrality(constant, hits, observed, accuracy)
         _expected, expected_known, expected_matches = expected_rks_if_hit_full(
             constant,
             hits,
-            int(best.get("score") or 0),
+            score,
             accuracy,
             observed,
         )
+        quotient = resolve_riz_quotient(constant, hits, score, accuracy, observed)
         confirmed = chart.hit > 0 and riz_hit == chart.hit
-        hit_full = integral_ok or (expected_known and expected_matches)
+        hit_full = integral_ok or (expected_known and expected_matches) or quotient is not None
         if confirmed:
             ah_status = 1
         elif hit_full:
@@ -181,7 +222,7 @@ def build_records(
                 "artist": song.artist,
                 "diff": difficulty,
                 "rks": observed,
-                "score": int(best.get("score") or 0),
+                "score": score,
                 "completeRate": float(best.get("completeRate") or 0),
                 "isFullCombo": bool(best.get("isFullCombo")),
                 "isClear": bool(best.get("isClear")),
