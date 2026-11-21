@@ -55,8 +55,8 @@ def test_pastel_lines_resolves_with_designer():
 def test_original_songs_are_flagged():
     index = _index()
     flagged = [song for song in index.songs if song.original]
-    assert len(flagged) == 28
-    assert sum(song.original == "Rizline Original" for song in flagged) == 23
+    assert len(flagged) == 31
+    assert sum(song.original == "Rizline Original" for song in flagged) == 26
     assert sum(song.original == "Pigeon Games Original" for song in flagged) == 4
     pastel = index.by_asset["PastelLines.RekuMochizuki.0"]
     assert pastel.original == "Rizline Original"
